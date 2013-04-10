@@ -1,0 +1,19 @@
+dependencies {
+    compile( project( ':hibernate-core' ) )
+    compile( project( ':hibernate-entitymanager' ) )
+    compile( "org.osgi:org.osgi.core:4.3.0" )
+}
+
+jar {
+    manifest {
+        instruction 'Bundle-Activator', 'org.hibernate.osgi.HibernateBundleActivator'
+        instruction 'Bundle-Description', 'Hibernate ORM OSGi'
+
+        instruction 'Import-Package',
+            // TODO: Shouldn't have to explicitly list this, but the plugin
+            // generates it with a [1.0,2) version.
+            'javax.persistence;version="2.1.0"',
+            'javax.persistence.spi;version="2.1.0"',
+            '*'
+    }
+}
