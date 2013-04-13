@@ -33,13 +33,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Describe an index column of a List.
  *
- * Prefer the standard {@link javax.persistence.OrderColumn} annotation.  Currently the only time to use
- * this annotation is to specify {@link #base()}.
- *
  * @author Matthew Inger
+ *
+ * @deprecated Prefer the standard JPA {@link javax.persistence.OrderColumn} annotation and the Hibernate specific
+ * {@link ListIndexBase} (for replacing {@link #base()}).
  */
 @Target({METHOD, FIELD})
 @Retention(RUNTIME)
+@Deprecated
 public @interface IndexColumn {
 	/**
 	 * The column name.
