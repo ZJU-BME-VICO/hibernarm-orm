@@ -71,6 +71,9 @@ import org.hibernate.testing.cache.CachingRegionFactory;
 import org.junit.After;
 import org.junit.Before;
 
+import se.acode.openehr.parser.ADLParser;
+import se.acode.openehr.parser.ParseException;
+
 /**
  * Applies functional testing logic for core Hibernate testing on top of {@link BaseUnitTestCase}
  *
@@ -239,6 +242,13 @@ public abstract class BaseCoreFunctionalTestCase extends BaseUnitTestCase {
 				configuration.addInputStream( is );
 			}
 		}
+		String[] adlFiles = getAdlFiles();
+		if (adlFiles != null) {
+			for (String adlFile : adlFiles) {
+				InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(adlFile);
+				configuration.addArchetype(is);
+			}
+		}
 	}
 
 	protected void addMappings(MetadataSources sources) {
@@ -292,6 +302,11 @@ public abstract class BaseCoreFunctionalTestCase extends BaseUnitTestCase {
 	}
 
 	protected String[] getXmlFiles() {
+		// todo : rename to getOrmXmlFiles()
+		return NO_MAPPINGS;
+	}
+
+	protected String[] getAdlFiles() {
 		// todo : rename to getOrmXmlFiles()
 		return NO_MAPPINGS;
 	}

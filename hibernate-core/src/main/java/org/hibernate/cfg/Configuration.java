@@ -148,8 +148,15 @@ import org.hibernate.type.TypeResolver;
 import org.hibernate.usertype.CompositeUserType;
 import org.hibernate.usertype.UserType;
 import org.jboss.logging.Logger;
+import org.openehr.am.archetype.Archetype;
+import org.openehr.build.RMObjectBuilder;
+import org.openehr.build.SystemValue;
+import org.openehr.rm.datatypes.text.CodePhrase;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
+
+import se.acode.openehr.parser.ADLParser;
+import se.acode.openehr.parser.ParseException;
 
 /**
  * An instance of <tt>Configuration</tt> allows the application
@@ -336,6 +343,23 @@ public class Configuration implements Serializable {
 		propertiesAnnotatedWithMapsId = new HashMap<XClass, Map<String, PropertyData>>();
 		propertiesAnnotatedWithIdAndToOne = new HashMap<XClass, Map<String, PropertyData>>();
 		specjProprietarySyntaxEnabled = System.getProperty( "hibernate.enable_specj_proprietary_syntax" ) != null;
+
+        Map<SystemValue, Object> values = new HashMap<SystemValue, Object>();
+        values.put(SystemValue.LANGUAGE, new CodePhrase("ISO_639-1", "en"));
+        values.put(SystemValue.ENCODING, new CodePhrase("IANA_character-sets", "UTF-8"));
+//        values.put(SystemValue.TERMINOLOGY_SERVICE, ts);
+//        values.put(SystemValue.SUBJECT, subject());
+//        values.put(SystemValue.PROVIDER, provider());
+//        values.put(SystemValue.COMPOSER, provider());
+//        
+//        CodePhrase territory = new CodePhrase("ISO_3166-1", "SE");
+//        values.put(SystemValue.TERRITORY, territory);
+//        values.put(SystemValue.CONTEXT, context());
+//        
+//        DvCodedText category = new DvCodedText("event", lang, charset, EVENT, ts);
+//        values.put(SystemValue.CATEGORY, category);
+
+        this.metadataSourceQueue.setRMObjectBuilder(new RMObjectBuilder(values));
 	}
 
 	public EntityTuplizerFactory getEntityTuplizerFactory() {
@@ -490,7 +514,11 @@ public class Configuration implements Serializable {
 
 	public void add(XmlDocument metadataXml) {
 		if ( inSecondPass || !isOrmXml( metadataXml ) ) {
-			metadataSourceQueue.add( metadataXml );
+			if (isArmXml(metadataXml)) {
+				metadataSourceQueue.addArm(metadataXml);
+			} else {
+				metadataSourceQueue.add( metadataXml );
+			}
 		}
 		else {
 			final MetadataProvider metadataProvider = ( (MetadataProviderInjector) reflectionManager ).getMetadataProvider();
@@ -506,11 +534,38 @@ public class Configuration implements Serializable {
 			}
 		}
 	}
+	
+	public void addArchetype(InputStream xmlInputStream) {
+		ADLParser parser = new ADLParser(xmlInputStream, "UTF-8");
+		try {
+			this.metadataSourceQueue.addArchetype(parser.parse());
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	private static boolean isOrmXml(XmlDocument xmlDocument) {
 		return "entity-mappings".equals( xmlDocument.getDocumentTree().getRootElement().getName() );
 	}
 
+	private static boolean isArmXml(XmlDocument xmlDocument) {
+		final Document document = xmlDocument.getDocumentTree();
+		final Element hmNode = document.getRootElement();
+		
+		Attribute packNode = hmNode.attribute( "package" );
+		String defaultPackage = packNode != null ? packNode.getValue() : "";
+
+		if (defaultPackage.equals("@openEHR")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	/**
 	 * Add a cached mapping file.  A cached file is a serialized representation
 	 * of the DOM structure of a particular mapping.  It is saved from a previous
@@ -3448,6 +3503,14 @@ public class Configuration implements Serializable {
 		private LinkedHashMap<XmlDocument, Set<String>> hbmMetadataToEntityNamesMap
 				= new LinkedHashMap<XmlDocument, Set<String>>();
 		private Map<String, XmlDocument> hbmMetadataByEntityNameXRef = new HashMap<String, XmlDocument>();
+		
+		private LinkedHashMap<XmlDocument, Set<String>> armMetadataToEntityNamesMap
+				= new LinkedHashMap<XmlDocument, Set<String>>();
+		private Map<String, XmlDocument> armMetadataByEntityNameXRef = new HashMap<String, XmlDocument>();
+		
+		private Map<String, Archetype> archetypes = new HashMap<String, Archetype>();
+		private RMObjectBuilder rmBuilder;
+		
 
 		//XClass are not serializable by default
 		private transient List<XClass> annotatedClasses = new ArrayList<XClass>();
@@ -3524,6 +3587,36 @@ public class Configuration implements Serializable {
 			return unqualifiedName;
 		}
 
+		public void addArm(XmlDocument metadataXml) {
+			final Document document = metadataXml.getDocumentTree();
+			final Element hmNode = document.getRootElement();
+			Set<String> entityNames = new HashSet<String>();
+			findArchetypeNames( null, hmNode, entityNames );
+			for ( String entity : entityNames ) {
+				armMetadataByEntityNameXRef.put( entity, metadataXml );
+			}
+			this.armMetadataToEntityNamesMap.put( metadataXml, entityNames );
+		}
+
+		private void findArchetypeNames(String defaultPackage, Element startNode, Set<String> names) {
+			Iterator[] classes = new Iterator[4];
+			classes[0] = startNode.elementIterator( "class" );
+			classes[1] = startNode.elementIterator( "subclass" );
+			classes[2] = startNode.elementIterator( "joined-subclass" );
+			classes[3] = startNode.elementIterator( "union-subclass" );
+
+			Iterator classIterator = new JoinedIterator( classes );
+			while ( classIterator.hasNext() ) {
+				Element element = ( Element ) classIterator.next();
+				String entityName = element.attributeValue( "entity-name" );
+				if ( entityName == null ) {
+					entityName = getClassName( element.attribute( "name" ), defaultPackage );
+				}
+				names.add( entityName );
+				findArchetypeNames( defaultPackage, element, names );
+			}
+		}
+
 		public void add(XClass annotatedClass) {
 			annotatedClasses.add( annotatedClass );
 		}
@@ -3553,7 +3646,41 @@ public class Configuration implements Serializable {
 				else if ( MetadataSourceType.CLASS.equals( type ) ) {
 					processAnnotatedClassesQueue();
 				}
+				else if (MetadataSourceType.ARM.equals(type)) {
+					processArmXmlQueue();
+				}
 			}
+		}
+
+		private void processArmXmlQueue() {
+			LOG.debug( "Processing arm.xml files" );
+			for ( Map.Entry<XmlDocument, Set<String>> entry : armMetadataToEntityNamesMap.entrySet() ) {
+				// Unfortunately we have to create a Mappings instance for each iteration here
+				processArmXml( entry.getKey(), entry.getValue() );
+			}
+			armMetadataToEntityNamesMap.clear();
+			armMetadataByEntityNameXRef.clear();
+		}
+
+		private void processArmXml(XmlDocument metadataXml, Set<String> entityNames) {
+			try {
+//				HbmBinder.bindRoot( metadataXml, createMappings(), Collections.EMPTY_MAP, entityNames );
+				ArmBinder.bindRoot(metadataXml, createMappings(), Collections.EMPTY_MAP, entityNames, archetypes, rmBuilder);
+			}
+			catch ( MappingException me ) {
+				throw new InvalidMappingException(
+						metadataXml.getOrigin().getType(),
+						metadataXml.getOrigin().getName(),
+						me
+				);
+			}
+
+//			for ( String entityName : entityNames ) {
+//				if ( annotatedClassesByEntityNameMap.containsKey( entityName ) ) {
+//					annotatedClasses.remove( annotatedClassesByEntityNameMap.get( entityName ) );
+//					annotatedClassesByEntityNameMap.remove( entityName );
+//				}
+//			}
 		}
 
 		private void processHbmXmlQueue() {
@@ -3655,12 +3782,24 @@ public class Configuration implements Serializable {
 		public boolean isEmpty() {
 			return hbmMetadataToEntityNamesMap.isEmpty() && annotatedClasses.isEmpty();
 		}
+		
+		public void addArchetype(Archetype archetype) {
+			if (archetype != null) {
+				String archetypeId = archetype.getArchetypeId().getValue();
+				this.archetypes.put(archetypeId, archetype);
+			}
+		}
+		
+		public void setRMObjectBuilder(RMObjectBuilder rmBuilder) {
+			this.rmBuilder = rmBuilder;
+		}
 
 	}
 
 
 	public static final MetadataSourceType[] DEFAULT_ARTEFACT_PROCESSING_ORDER = new MetadataSourceType[] {
 			MetadataSourceType.HBM,
+			MetadataSourceType.ARM,
 			MetadataSourceType.CLASS
 	};
 

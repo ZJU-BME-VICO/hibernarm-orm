@@ -2,6 +2,10 @@ apply plugin: 'antlr'
 apply plugin: org.hibernate.build.gradle.inject.InjectionPlugin
 apply plugin: org.hibernate.build.gradle.testing.matrix.MatrixTestingPlugin
 
+repositories {
+    mavenLocal()
+}
+
 dependencies {
     compile( libraries.jta )
     compile( libraries.dom4j )
@@ -10,6 +14,15 @@ dependencies {
     compile( libraries.javassist )
     compile( libraries.antlr )
     compile( libraries.jandex )
+    
+    compile 'openehr:measure-serv:1.0.3-SNAPSHOT'
+    compile 'openehr:mini-termserv:1.0.3-SNAPSHOT'
+    compile 'openehr:openehr-rm-core:1.0.3-SNAPSHOT'
+    compile 'openehr:openehr-rm-domain:1.0.3-SNAPSHOT'
+    compile 'openehr:openehr-aom:1.0.3-SNAPSHOT'
+    compile 'openehr:openehr-ap:1.0.3-SNAPSHOT'
+    compile 'openehr:adl-parser:1.0.3-SNAPSHOT'
+    compile 'openehr:rm-builder:1.0.3-SNAPSHOT'
 
     antlr( libraries.antlr )
 

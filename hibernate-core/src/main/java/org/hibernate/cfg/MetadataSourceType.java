@@ -36,6 +36,10 @@ public enum MetadataSourceType {
 	 */
 	HBM( "hbm" ),
 	/**
+	 * Indicates metadata coming from <tt>arm.xml</tt> files
+	 */
+	ARM( "arm" ),
+	/**
 	 * Indicates metadata coming from either annotations, <tt>orx.xml</tt> or a combination of the two.
 	 */
 	CLASS( "class" );
@@ -58,6 +62,10 @@ public enum MetadataSourceType {
 
 		if ( CLASS.name.equalsIgnoreCase( value ) ) {
 			return CLASS;
+		}
+		
+		if (ARM.name.equalsIgnoreCase(value)) {
+			return ARM;
 		}
 
 		throw new HibernateException( "Unknown metadata source type value [" + value + "]" );
