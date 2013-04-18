@@ -96,16 +96,8 @@
           </edges>
         </contents>
       </eAnnotations>
-      <ownedConnector xmi:id="_tpFdsKHsEeKs4tCFVpHj0A">
-        <end xmi:id="_tpGr0KHsEeKs4tCFVpHj0A" role="_r5ERkaHsEeKs4tCFVpHj0A"/>
-        <end xmi:id="_tpGr0aHsEeKs4tCFVpHj0A" role="_Ca-NsKHsEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_rfnZsKJCEeKs4tCFVpHj0A">
-        <end xmi:id="_rfnZsaJCEeKs4tCFVpHj0A" role="_r5ERkaHsEeKs4tCFVpHj0A"/>
-        <end xmi:id="_rfnZsqJCEeKs4tCFVpHj0A" role="_r5ERkaHsEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <lifeline xmi:id="_Ca7xcKHsEeKs4tCFVpHj0A" name="hbmTest" represents="_Ca-NsKHsEeKs4tCFVpHj0A" coveredBy="_GreZkKHsEeKs4tCFVpHj0A _GrluUKHsEeKs4tCFVpHj0A _GrluUaHsEeKs4tCFVpHj0A _Mb45AaHsEeKs4tCFVpHj0A _Mb5gEKHsEeKs4tCFVpHj0A _Mb5gEaHsEeKs4tCFVpHj0A _tpDogKHsEeKs4tCFVpHj0A _tpEPkqHsEeKs4tCFVpHj0A"/>
-      <lifeline xmi:id="_r5ERkKHsEeKs4tCFVpHj0A" name="baseCoreFunctionalTestCase" represents="_r5ERkaHsEeKs4tCFVpHj0A" coveredBy="_tpDogaHsEeKs4tCFVpHj0A _tpDogqHsEeKs4tCFVpHj0A _tpEPkKHsEeKs4tCFVpHj0A"/>
+      <lifeline xmi:id="_Ca7xcKHsEeKs4tCFVpHj0A" name="hbmTest" coveredBy="_GreZkKHsEeKs4tCFVpHj0A _GrluUKHsEeKs4tCFVpHj0A _GrluUaHsEeKs4tCFVpHj0A _Mb45AaHsEeKs4tCFVpHj0A _Mb5gEKHsEeKs4tCFVpHj0A _Mb5gEaHsEeKs4tCFVpHj0A _tpDogKHsEeKs4tCFVpHj0A _tpEPkqHsEeKs4tCFVpHj0A"/>
+      <lifeline xmi:id="_r5ERkKHsEeKs4tCFVpHj0A" name="baseCoreFunctionalTestCase" coveredBy="_tpDogaHsEeKs4tCFVpHj0A _tpDogqHsEeKs4tCFVpHj0A _tpEPkKHsEeKs4tCFVpHj0A"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_Mb45AaHsEeKs4tCFVpHj0A" covered="_Ca7xcKHsEeKs4tCFVpHj0A" message="_Mb45AKHsEeKs4tCFVpHj0A"/>
       <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_Mb5gEKHsEeKs4tCFVpHj0A" covered="_Ca7xcKHsEeKs4tCFVpHj0A" start="_Mb45AaHsEeKs4tCFVpHj0A" finish="_Mb5gEaHsEeKs4tCFVpHj0A"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_tpDogKHsEeKs4tCFVpHj0A" covered="_Ca7xcKHsEeKs4tCFVpHj0A" message="_tpDBcKHsEeKs4tCFVpHj0A"/>
@@ -119,15 +111,9 @@
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_GrluUaHsEeKs4tCFVpHj0A" covered="_Ca7xcKHsEeKs4tCFVpHj0A"/>
       <message xmi:id="_Grb9UKHsEeKs4tCFVpHj0A" name="testManyToMany" receiveEvent="_GreZkKHsEeKs4tCFVpHj0A"/>
       <message xmi:id="_Mb45AKHsEeKs4tCFVpHj0A" name="buildSessionFactory" receiveEvent="_Mb45AaHsEeKs4tCFVpHj0A"/>
-      <message xmi:id="_tpDBcKHsEeKs4tCFVpHj0A" name="buildSessionFactory" receiveEvent="_tpDogaHsEeKs4tCFVpHj0A" sendEvent="_tpDogKHsEeKs4tCFVpHj0A" connector="_tpFdsKHsEeKs4tCFVpHj0A"/>
-      <message xmi:id="_tpEPkaHsEeKs4tCFVpHj0A" name="buildSessionFactory" messageSort="reply" receiveEvent="_tpEPkqHsEeKs4tCFVpHj0A" sendEvent="_tpEPkKHsEeKs4tCFVpHj0A" connector="_tpFdsKHsEeKs4tCFVpHj0A"/>
+      <message xmi:id="_tpDBcKHsEeKs4tCFVpHj0A" name="buildSessionFactory" receiveEvent="_tpDogaHsEeKs4tCFVpHj0A" sendEvent="_tpDogKHsEeKs4tCFVpHj0A"/>
+      <message xmi:id="_tpEPkaHsEeKs4tCFVpHj0A" name="buildSessionFactory" messageSort="reply" receiveEvent="_tpEPkqHsEeKs4tCFVpHj0A" sendEvent="_tpEPkKHsEeKs4tCFVpHj0A"/>
     </ownedBehavior>
-    <ownedAttribute xmi:id="_Ca-NsKHsEeKs4tCFVpHj0A" name="hbmTest">
-      <type xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=HbmTest%5Bjcu%5Ename=HbmTest.java%5Bjpack%5Ename=org.hibernate.test.annotations.xml.hbm%5Bjsrcroot%5Esrcfolder=src/test/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D$uml.Class"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:id="_r5ERkaHsEeKs4tCFVpHj0A" name="baseCoreFunctionalTestCase">
-      <type xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=BaseCoreFunctionalTestCase%5Bjcu%5Ename=BaseCoreFunctionalTestCase.java%5Bjpack%5Ename=org.hibernate.testing.junit4%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-testing%5D%5D%5D%5D$uml.Class"/>
-    </ownedAttribute>
   </packagedElement>
   <profileApplication xmi:id="_D-Sh86HpEeKRUZyAU5Yukw">
     <eAnnotations xmi:id="_D-Sh9KHpEeKRUZyAU5Yukw" source="http://www.eclipse.org/uml2/2.0.0/UML">

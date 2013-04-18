@@ -63,12 +63,8 @@
           </edges>
         </contents>
       </eAnnotations>
-      <ownedConnector xmi:id="_52kC0qQ_EeKtv8N0DfnuwQ">
-        <end xmi:id="_52kC06Q_EeKtv8N0DfnuwQ" role="_gZRKIaNwEeKtv8N0DfnuwQ"/>
-        <end xmi:id="_52kp4KQ_EeKtv8N0DfnuwQ" role="_dlEkMaNwEeKtv8N0DfnuwQ"/>
-      </ownedConnector>
-      <lifeline xmi:id="_dlEkMKNwEeKtv8N0DfnuwQ" name="armTest" represents="_dlEkMaNwEeKtv8N0DfnuwQ" coveredBy="_qW-JYaNwEeKtv8N0DfnuwQ _qW-wcKNwEeKtv8N0DfnuwQ _qW-wcaNwEeKtv8N0DfnuwQ _52jbwKQ_EeKtv8N0DfnuwQ _52kC0aQ_EeKtv8N0DfnuwQ"/>
-      <lifeline xmi:id="_gZRKIKNwEeKtv8N0DfnuwQ" name="baseCoreFunctionalTestCase" represents="_gZRKIaNwEeKtv8N0DfnuwQ" coveredBy="_52jbwaQ_EeKtv8N0DfnuwQ _52jbwqQ_EeKtv8N0DfnuwQ _52jbw6Q_EeKtv8N0DfnuwQ"/>
+      <lifeline xmi:id="_dlEkMKNwEeKtv8N0DfnuwQ" name="armTest" coveredBy="_qW-JYaNwEeKtv8N0DfnuwQ _qW-wcKNwEeKtv8N0DfnuwQ _qW-wcaNwEeKtv8N0DfnuwQ _52jbwKQ_EeKtv8N0DfnuwQ _52kC0aQ_EeKtv8N0DfnuwQ"/>
+      <lifeline xmi:id="_gZRKIKNwEeKtv8N0DfnuwQ" name="baseCoreFunctionalTestCase" coveredBy="_52jbwaQ_EeKtv8N0DfnuwQ _52jbwqQ_EeKtv8N0DfnuwQ _52jbw6Q_EeKtv8N0DfnuwQ"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_qW-JYaNwEeKtv8N0DfnuwQ" covered="_dlEkMKNwEeKtv8N0DfnuwQ" message="_qW-JYKNwEeKtv8N0DfnuwQ"/>
       <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_qW-wcKNwEeKtv8N0DfnuwQ" covered="_dlEkMKNwEeKtv8N0DfnuwQ" start="_qW-JYaNwEeKtv8N0DfnuwQ" finish="_qW-wcaNwEeKtv8N0DfnuwQ"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_52jbwKQ_EeKtv8N0DfnuwQ" covered="_dlEkMKNwEeKtv8N0DfnuwQ" message="_52i0sKQ_EeKtv8N0DfnuwQ"/>
@@ -78,15 +74,9 @@
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_52kC0aQ_EeKtv8N0DfnuwQ" covered="_dlEkMKNwEeKtv8N0DfnuwQ" message="_52kC0KQ_EeKtv8N0DfnuwQ"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_qW-wcaNwEeKtv8N0DfnuwQ" covered="_dlEkMKNwEeKtv8N0DfnuwQ"/>
       <message xmi:id="_qW-JYKNwEeKtv8N0DfnuwQ" name="testManyToMany" receiveEvent="_qW-JYaNwEeKtv8N0DfnuwQ"/>
-      <message xmi:id="_52i0sKQ_EeKtv8N0DfnuwQ" name="buildSessionFactory" receiveEvent="_52jbwaQ_EeKtv8N0DfnuwQ" sendEvent="_52jbwKQ_EeKtv8N0DfnuwQ" connector="_52kC0qQ_EeKtv8N0DfnuwQ"/>
-      <message xmi:id="_52kC0KQ_EeKtv8N0DfnuwQ" name="buildSessionFactory" messageSort="reply" receiveEvent="_52kC0aQ_EeKtv8N0DfnuwQ" sendEvent="_52jbw6Q_EeKtv8N0DfnuwQ" connector="_52kC0qQ_EeKtv8N0DfnuwQ"/>
+      <message xmi:id="_52i0sKQ_EeKtv8N0DfnuwQ" name="buildSessionFactory" receiveEvent="_52jbwaQ_EeKtv8N0DfnuwQ" sendEvent="_52jbwKQ_EeKtv8N0DfnuwQ"/>
+      <message xmi:id="_52kC0KQ_EeKtv8N0DfnuwQ" name="buildSessionFactory" messageSort="reply" receiveEvent="_52kC0aQ_EeKtv8N0DfnuwQ" sendEvent="_52jbw6Q_EeKtv8N0DfnuwQ"/>
     </ownedBehavior>
-    <ownedAttribute xmi:id="_dlEkMaNwEeKtv8N0DfnuwQ" name="armTest">
-      <type xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=ArmTest%5Bjcu%5Ename=ArmTest.java%5Bjpack%5Ename=org.hibernate.test.annotations.xml.arm%5Bjsrcroot%5Esrcfolder=src/test/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D$uml.Class"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:id="_gZRKIaNwEeKtv8N0DfnuwQ" name="baseCoreFunctionalTestCase">
-      <type xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=BaseCoreFunctionalTestCase%5Bjcu%5Ename=BaseCoreFunctionalTestCase.java%5Bjpack%5Ename=org.hibernate.testing.junit4%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-testing%5D%5D%5D%5D$uml.Class"/>
-    </ownedAttribute>
   </packagedElement>
   <profileApplication xmi:id="_LFdOQ6NwEeKtv8N0DfnuwQ">
     <eAnnotations xmi:id="_LFdORKNwEeKtv8N0DfnuwQ" source="http://www.eclipse.org/uml2/2.0.0/UML">

@@ -67,23 +67,7 @@
           </edges>
         </contents>
       </eAnnotations>
-      <ownedConnector xmi:id="_xB5VsqJyEeKs4tCFVpHj0A">
-        <end xmi:id="_xB5Vs6JyEeKs4tCFVpHj0A" role="_sk2ioaJyEeKs4tCFVpHj0A"/>
-        <end xmi:id="_xB5VtKJyEeKs4tCFVpHj0A" role="_sk2ioaJyEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_u3Wy9KKBEeKs4tCFVpHj0A">
-        <end xmi:id="_u3XaAKKBEeKs4tCFVpHj0A" role="_tR4C4aKBEeKs4tCFVpHj0A"/>
-        <end xmi:id="_u3XaAaKBEeKs4tCFVpHj0A" role="_sk2ioaJyEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_Ckfr8aKCEeKs4tCFVpHj0A">
-        <end xmi:id="_Ckfr8qKCEeKs4tCFVpHj0A" role="_tR4C4aKBEeKs4tCFVpHj0A"/>
-        <end xmi:id="_Ckfr86KCEeKs4tCFVpHj0A" role="_tR4C4aKBEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_KJRE8qKCEeKs4tCFVpHj0A">
-        <end xmi:id="_KJRE86KCEeKs4tCFVpHj0A" role="_IjgoEKKCEeKs4tCFVpHj0A"/>
-        <end xmi:id="_KJRE9KKCEeKs4tCFVpHj0A" role="_tR4C4aKBEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <lifeline xmi:id="_sk2ioKJyEeKs4tCFVpHj0A" name="configuration" represents="_sk2ioaJyEeKs4tCFVpHj0A" coveredBy="_tkuEMaJyEeKs4tCFVpHj0A _tkuEMqJyEeKs4tCFVpHj0A _tkurQKJyEeKs4tCFVpHj0A _xB4uoKJyEeKs4tCFVpHj0A _xB4uoaJyEeKs4tCFVpHj0A _xB4uoqJyEeKs4tCFVpHj0A _xB4uo6JyEeKs4tCFVpHj0A _xB5VsaJyEeKs4tCFVpHj0A"/>
+      <lifeline xmi:id="_sk2ioKJyEeKs4tCFVpHj0A" name="configuration" coveredBy="_tkuEMaJyEeKs4tCFVpHj0A _tkuEMqJyEeKs4tCFVpHj0A _tkurQKJyEeKs4tCFVpHj0A _xB4uoKJyEeKs4tCFVpHj0A _xB4uoaJyEeKs4tCFVpHj0A _xB4uoqJyEeKs4tCFVpHj0A _xB4uo6JyEeKs4tCFVpHj0A _xB5VsaJyEeKs4tCFVpHj0A"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_tkuEMaJyEeKs4tCFVpHj0A" covered="_sk2ioKJyEeKs4tCFVpHj0A" message="_tkuEMKJyEeKs4tCFVpHj0A"/>
       <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_tkuEMqJyEeKs4tCFVpHj0A" covered="_sk2ioKJyEeKs4tCFVpHj0A" start="_tkuEMaJyEeKs4tCFVpHj0A" finish="_tkurQKJyEeKs4tCFVpHj0A"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_xB4uoKJyEeKs4tCFVpHj0A" covered="_sk2ioKJyEeKs4tCFVpHj0A" message="_xB4HkKJyEeKs4tCFVpHj0A"/>
@@ -93,8 +77,8 @@
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_xB5VsaJyEeKs4tCFVpHj0A" covered="_sk2ioKJyEeKs4tCFVpHj0A" message="_xB5VsKJyEeKs4tCFVpHj0A"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_tkurQKJyEeKs4tCFVpHj0A" covered="_sk2ioKJyEeKs4tCFVpHj0A"/>
       <message xmi:id="_tkuEMKJyEeKs4tCFVpHj0A" name="buildMappings" receiveEvent="_tkuEMaJyEeKs4tCFVpHj0A"/>
-      <message xmi:id="_xB4HkKJyEeKs4tCFVpHj0A" name="secondPassCompile" receiveEvent="_xB4uoaJyEeKs4tCFVpHj0A" sendEvent="_xB4uoKJyEeKs4tCFVpHj0A" connector="_xB5VsqJyEeKs4tCFVpHj0A"/>
-      <message xmi:id="_xB5VsKJyEeKs4tCFVpHj0A" name="secondPassCompile" messageSort="reply" receiveEvent="_xB5VsaJyEeKs4tCFVpHj0A" sendEvent="_xB4uo6JyEeKs4tCFVpHj0A" connector="_xB5VsqJyEeKs4tCFVpHj0A"/>
+      <message xmi:id="_xB4HkKJyEeKs4tCFVpHj0A" name="secondPassCompile" receiveEvent="_xB4uoaJyEeKs4tCFVpHj0A" sendEvent="_xB4uoKJyEeKs4tCFVpHj0A"/>
+      <message xmi:id="_xB5VsKJyEeKs4tCFVpHj0A" name="secondPassCompile" messageSort="reply" receiveEvent="_xB5VsaJyEeKs4tCFVpHj0A" sendEvent="_xB4uo6JyEeKs4tCFVpHj0A"/>
     </ownedBehavior>
     <ownedBehavior xmi:type="uml:Interaction" xmi:id="_duni0KKhEeKs4tCFVpHj0A" name="buildSessionFactory">
       <eAnnotations xmi:id="_duni0aKhEeKs4tCFVpHj0A" source="uml2.diagrams">
@@ -601,78 +585,14 @@
           </edges>
         </contents>
       </eAnnotations>
-      <ownedConnector xmi:id="_dunjR6KhEeKs4tCFVpHj0A">
-        <end xmi:id="_dunjSKKhEeKs4tCFVpHj0A" role="_sk2ioaJyEeKs4tCFVpHj0A"/>
-        <end xmi:id="_dunjSaKhEeKs4tCFVpHj0A" role="_sk2ioaJyEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_dunjSqKhEeKs4tCFVpHj0A">
-        <end xmi:id="_dunjS6KhEeKs4tCFVpHj0A" role="_tR4C4aKBEeKs4tCFVpHj0A"/>
-        <end xmi:id="_dunjTKKhEeKs4tCFVpHj0A" role="_sk2ioaJyEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_duoJ4KKhEeKs4tCFVpHj0A">
-        <end xmi:id="_duoJ4aKhEeKs4tCFVpHj0A" role="_tR4C4aKBEeKs4tCFVpHj0A"/>
-        <end xmi:id="_duoJ4qKhEeKs4tCFVpHj0A" role="_tR4C4aKBEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_duoJ46KhEeKs4tCFVpHj0A">
-        <end xmi:id="_duoJ5KKhEeKs4tCFVpHj0A" role="_IjgoEKKCEeKs4tCFVpHj0A"/>
-        <end xmi:id="_duoJ5aKhEeKs4tCFVpHj0A" role="_tR4C4aKBEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_uuiyMKKiEeKs4tCFVpHj0A">
-        <end xmi:id="_uuiyMaKiEeKs4tCFVpHj0A" role="_sk2ioaJyEeKs4tCFVpHj0A"/>
-        <end xmi:id="_uuiyMqKiEeKs4tCFVpHj0A" role="_Mbk4QaKiEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_6My-MqKiEeKs4tCFVpHj0A">
-        <end xmi:id="_6My-M6KiEeKs4tCFVpHj0A" role="_3VO7MaKiEeKs4tCFVpHj0A"/>
-        <end xmi:id="_6My-NKKiEeKs4tCFVpHj0A" role="_Mbk4QaKiEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_OIf3o6KjEeKs4tCFVpHj0A">
-        <end xmi:id="_OIf3pKKjEeKs4tCFVpHj0A" role="_3VO7MaKiEeKs4tCFVpHj0A"/>
-        <end xmi:id="_OIgesKKjEeKs4tCFVpHj0A" role="_3VO7MaKiEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_dzhmFaKjEeKs4tCFVpHj0A">
-        <end xmi:id="_dziNIKKjEeKs4tCFVpHj0A" role="_anJwsaKjEeKs4tCFVpHj0A"/>
-        <end xmi:id="_dziNIaKjEeKs4tCFVpHj0A" role="_3VO7MaKiEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_MeqWkqKkEeKs4tCFVpHj0A">
-        <end xmi:id="_MeqWk6KkEeKs4tCFVpHj0A" role="_FPVpIaKkEeKs4tCFVpHj0A"/>
-        <end xmi:id="_MeqWlKKkEeKs4tCFVpHj0A" role="_Mbk4QaKiEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_eJ_TYKKlEeKs4tCFVpHj0A">
-        <end xmi:id="_eJ_TYaKlEeKs4tCFVpHj0A" role="_bghMMaKkEeKs4tCFVpHj0A"/>
-        <end xmi:id="_eJ_TYqKlEeKs4tCFVpHj0A" role="_FPVpIaKkEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_pHWY06KlEeKs4tCFVpHj0A">
-        <end xmi:id="_pHWY1KKlEeKs4tCFVpHj0A" role="_FPVpIaKkEeKs4tCFVpHj0A"/>
-        <end xmi:id="_pHWY1aKlEeKs4tCFVpHj0A" role="_FPVpIaKkEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_xU_6QKKmEeKs4tCFVpHj0A">
-        <end xmi:id="_xU_6QaKmEeKs4tCFVpHj0A" role="_qtwggaKmEeKs4tCFVpHj0A"/>
-        <end xmi:id="_xU_6QqKmEeKs4tCFVpHj0A" role="_Mbk4QaKiEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_5sa4NKKmEeKs4tCFVpHj0A">
-        <end xmi:id="_5sbfQKKmEeKs4tCFVpHj0A" role="_Mbk4QaKiEeKs4tCFVpHj0A"/>
-        <end xmi:id="_5sbfQaKmEeKs4tCFVpHj0A" role="_Mbk4QaKiEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_RcqvYaKpEeKs4tCFVpHj0A">
-        <end xmi:id="_RcqvYqKpEeKs4tCFVpHj0A" role="_Mbk4QaKiEeKs4tCFVpHj0A"/>
-        <end xmi:id="_RcqvY6KpEeKs4tCFVpHj0A" role="_MXSxAKKpEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_j-Wh4aKpEeKs4tCFVpHj0A">
-        <end xmi:id="_j-Wh4qKpEeKs4tCFVpHj0A" role="_sk2ioaJyEeKs4tCFVpHj0A"/>
-        <end xmi:id="_j-Wh46KpEeKs4tCFVpHj0A" role="_MXSxAKKpEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_tXErsKMgEeKFgqEdTHM95Q">
-        <end xmi:id="_tXErsaMgEeKFgqEdTHM95Q" role="_MXSxAKKpEeKs4tCFVpHj0A"/>
-        <end xmi:id="_tXErsqMgEeKFgqEdTHM95Q" role="_MXSxAKKpEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <lifeline xmi:id="_duoJ5qKhEeKs4tCFVpHj0A" name="configuration" represents="_sk2ioaJyEeKs4tCFVpHj0A" coveredBy="_duoJ6aKhEeKs4tCFVpHj0A _duoJ6qKhEeKs4tCFVpHj0A _duoKBKKhEeKs4tCFVpHj0A _duoJ66KhEeKs4tCFVpHj0A _duoJ7KKhEeKs4tCFVpHj0A _duoJ7aKhEeKs4tCFVpHj0A _duoKAqKhEeKs4tCFVpHj0A _duoKA6KhEeKs4tCFVpHj0A _9-C3saKhEeKs4tCFVpHj0A _9-C3sqKhEeKs4tCFVpHj0A _9-C3s6KhEeKs4tCFVpHj0A _9-DewKKhEeKs4tCFVpHj0A _9-DewqKhEeKs4tCFVpHj0A _uuiLIKKiEeKs4tCFVpHj0A _wPbWIaKiEeKs4tCFVpHj0A _wPbWIqKiEeKs4tCFVpHj0A _wPbWI6KiEeKs4tCFVpHj0A _S1nmsKKmEeKs4tCFVpHj0A _S1nmsaKmEeKs4tCFVpHj0A _S1nmsqKmEeKs4tCFVpHj0A _j-V60aKpEeKs4tCFVpHj0A _j-V60qKpEeKs4tCFVpHj0A _j-V606KpEeKs4tCFVpHj0A _qTAW0qKpEeKs4tCFVpHj0A _qTAW06KpEeKs4tCFVpHj0A _qTAW1KKpEeKs4tCFVpHj0A _nph6EaMgEeKFgqEdTHM95Q _npjIMKMgEeKFgqEdTHM95Q"/>
-      <lifeline xmi:id="_Mbk4QKKiEeKs4tCFVpHj0A" name="sessionFactoryImpl" represents="_Mbk4QaKiEeKs4tCFVpHj0A" coveredBy="_uuiLIaKiEeKs4tCFVpHj0A _wPbWIKKiEeKs4tCFVpHj0A _wPb9MKKiEeKs4tCFVpHj0A _6MyXIKKiEeKs4tCFVpHj0A _6My-MaKiEeKs4tCFVpHj0A _MepvgKKkEeKs4tCFVpHj0A _MeqWkaKkEeKs4tCFVpHj0A _S1m_oaKmEeKs4tCFVpHj0A _S1nmtKKmEeKs4tCFVpHj0A _xU-sIaKmEeKs4tCFVpHj0A _xU_TNKKmEeKs4tCFVpHj0A _5saRIaKmEeKs4tCFVpHj0A _5saRIqKmEeKs4tCFVpHj0A _5sa4MKKmEeKs4tCFVpHj0A _5sa4MaKmEeKs4tCFVpHj0A _5sa4M6KmEeKs4tCFVpHj0A _RcqIUaKpEeKs4tCFVpHj0A _Ccci8aMhEeKFgqEdTHM95Q _CcdKAKMhEeKFgqEdTHM95Q _CcdKAaMhEeKFgqEdTHM95Q _CcdKAqMhEeKFgqEdTHM95Q _CcdxEKMhEeKFgqEdTHM95Q"/>
-      <lifeline xmi:id="_3VO7MKKiEeKs4tCFVpHj0A" name="simpleValue" represents="_3VO7MaKiEeKs4tCFVpHj0A" coveredBy="_6MyXIaKiEeKs4tCFVpHj0A _6MyXIqKiEeKs4tCFVpHj0A _6MyXI6KiEeKs4tCFVpHj0A _OIfQkaKjEeKs4tCFVpHj0A _OIfQkqKjEeKs4tCFVpHj0A _OIfQk6KjEeKs4tCFVpHj0A _OIf3oKKjEeKs4tCFVpHj0A _OIf3oqKjEeKs4tCFVpHj0A _dzg_AaKjEeKs4tCFVpHj0A _dzhmFKKjEeKs4tCFVpHj0A"/>
-      <lifeline xmi:id="_anJwsKKjEeKs4tCFVpHj0A" name="defaultIdentifierGeneratorFactory" represents="_anJwsaKjEeKs4tCFVpHj0A" coveredBy="_dzhmEKKjEeKs4tCFVpHj0A _dzhmEaKjEeKs4tCFVpHj0A _dzhmEqKjEeKs4tCFVpHj0A"/>
-      <lifeline xmi:id="_FPVpIKKkEeKs4tCFVpHj0A" name="persisterFactoryImpl" represents="_FPVpIaKkEeKs4tCFVpHj0A" coveredBy="_MepvgaKkEeKs4tCFVpHj0A _MepvgqKkEeKs4tCFVpHj0A _Mepvg6KkEeKs4tCFVpHj0A _eJ-FQaKlEeKs4tCFVpHj0A _eJ-sVKKlEeKs4tCFVpHj0A _pHVxwaKlEeKs4tCFVpHj0A _pHVxwqKlEeKs4tCFVpHj0A _pHVxw6KlEeKs4tCFVpHj0A _pHWY0KKlEeKs4tCFVpHj0A _pHWY0qKlEeKs4tCFVpHj0A"/>
-      <lifeline xmi:id="_bghMMKKkEeKs4tCFVpHj0A" name="persistentClass" represents="_bghMMaKkEeKs4tCFVpHj0A" coveredBy="_eJ-sUKKlEeKs4tCFVpHj0A _eJ-sUaKlEeKs4tCFVpHj0A _eJ-sUqKlEeKs4tCFVpHj0A"/>
-      <lifeline xmi:id="_qtwggKKmEeKs4tCFVpHj0A" name="singleTableEntityPersister" represents="_qtwggaKmEeKs4tCFVpHj0A" coveredBy="_xU_TMKKmEeKs4tCFVpHj0A _xU_TMaKmEeKs4tCFVpHj0A _xU_TMqKmEeKs4tCFVpHj0A"/>
-      <lifeline xmi:id="_MXSJ8KKpEeKs4tCFVpHj0A" name="schemaExport" represents="_MXSxAKKpEeKs4tCFVpHj0A" coveredBy="_RcqIUqKpEeKs4tCFVpHj0A _j-V60KKpEeKs4tCFVpHj0A _j-Wh4KKpEeKs4tCFVpHj0A _qTAW0aKpEeKs4tCFVpHj0A _qTA94aKpEeKs4tCFVpHj0A _npihIKMgEeKFgqEdTHM95Q _npihIaMgEeKFgqEdTHM95Q _npihIqMgEeKFgqEdTHM95Q _tXDdkaMgEeKFgqEdTHM95Q _tXDdkqMgEeKFgqEdTHM95Q _tXEEoKMgEeKFgqEdTHM95Q _tXEEoaMgEeKFgqEdTHM95Q _tXEEo6MgEeKFgqEdTHM95Q _wFn8oKMgEeKFgqEdTHM95Q _wFn8oaMgEeKFgqEdTHM95Q _wFn8oqMgEeKFgqEdTHM95Q _wFn8o6MgEeKFgqEdTHM95Q _wFpKwKMgEeKFgqEdTHM95Q"/>
+      <lifeline xmi:id="_duoJ5qKhEeKs4tCFVpHj0A" name="configuration" coveredBy="_duoJ6aKhEeKs4tCFVpHj0A _duoJ6qKhEeKs4tCFVpHj0A _duoKBKKhEeKs4tCFVpHj0A _duoJ66KhEeKs4tCFVpHj0A _duoJ7KKhEeKs4tCFVpHj0A _duoJ7aKhEeKs4tCFVpHj0A _duoKAqKhEeKs4tCFVpHj0A _duoKA6KhEeKs4tCFVpHj0A _9-C3saKhEeKs4tCFVpHj0A _9-C3sqKhEeKs4tCFVpHj0A _9-C3s6KhEeKs4tCFVpHj0A _9-DewKKhEeKs4tCFVpHj0A _9-DewqKhEeKs4tCFVpHj0A _uuiLIKKiEeKs4tCFVpHj0A _wPbWIaKiEeKs4tCFVpHj0A _wPbWIqKiEeKs4tCFVpHj0A _wPbWI6KiEeKs4tCFVpHj0A _S1nmsKKmEeKs4tCFVpHj0A _S1nmsaKmEeKs4tCFVpHj0A _S1nmsqKmEeKs4tCFVpHj0A _j-V60aKpEeKs4tCFVpHj0A _j-V60qKpEeKs4tCFVpHj0A _j-V606KpEeKs4tCFVpHj0A _qTAW0qKpEeKs4tCFVpHj0A _qTAW06KpEeKs4tCFVpHj0A _qTAW1KKpEeKs4tCFVpHj0A _nph6EaMgEeKFgqEdTHM95Q _npjIMKMgEeKFgqEdTHM95Q"/>
+      <lifeline xmi:id="_Mbk4QKKiEeKs4tCFVpHj0A" name="sessionFactoryImpl" coveredBy="_uuiLIaKiEeKs4tCFVpHj0A _wPbWIKKiEeKs4tCFVpHj0A _wPb9MKKiEeKs4tCFVpHj0A _6MyXIKKiEeKs4tCFVpHj0A _6My-MaKiEeKs4tCFVpHj0A _MepvgKKkEeKs4tCFVpHj0A _MeqWkaKkEeKs4tCFVpHj0A _S1m_oaKmEeKs4tCFVpHj0A _S1nmtKKmEeKs4tCFVpHj0A _xU-sIaKmEeKs4tCFVpHj0A _xU_TNKKmEeKs4tCFVpHj0A _5saRIaKmEeKs4tCFVpHj0A _5saRIqKmEeKs4tCFVpHj0A _5sa4MKKmEeKs4tCFVpHj0A _5sa4MaKmEeKs4tCFVpHj0A _5sa4M6KmEeKs4tCFVpHj0A _RcqIUaKpEeKs4tCFVpHj0A _Ccci8aMhEeKFgqEdTHM95Q _CcdKAKMhEeKFgqEdTHM95Q _CcdKAaMhEeKFgqEdTHM95Q _CcdKAqMhEeKFgqEdTHM95Q _CcdxEKMhEeKFgqEdTHM95Q"/>
+      <lifeline xmi:id="_3VO7MKKiEeKs4tCFVpHj0A" name="simpleValue" coveredBy="_6MyXIaKiEeKs4tCFVpHj0A _6MyXIqKiEeKs4tCFVpHj0A _6MyXI6KiEeKs4tCFVpHj0A _OIfQkaKjEeKs4tCFVpHj0A _OIfQkqKjEeKs4tCFVpHj0A _OIfQk6KjEeKs4tCFVpHj0A _OIf3oKKjEeKs4tCFVpHj0A _OIf3oqKjEeKs4tCFVpHj0A _dzg_AaKjEeKs4tCFVpHj0A _dzhmFKKjEeKs4tCFVpHj0A"/>
+      <lifeline xmi:id="_anJwsKKjEeKs4tCFVpHj0A" name="defaultIdentifierGeneratorFactory" coveredBy="_dzhmEKKjEeKs4tCFVpHj0A _dzhmEaKjEeKs4tCFVpHj0A _dzhmEqKjEeKs4tCFVpHj0A"/>
+      <lifeline xmi:id="_FPVpIKKkEeKs4tCFVpHj0A" name="persisterFactoryImpl" coveredBy="_MepvgaKkEeKs4tCFVpHj0A _MepvgqKkEeKs4tCFVpHj0A _Mepvg6KkEeKs4tCFVpHj0A _eJ-FQaKlEeKs4tCFVpHj0A _eJ-sVKKlEeKs4tCFVpHj0A _pHVxwaKlEeKs4tCFVpHj0A _pHVxwqKlEeKs4tCFVpHj0A _pHVxw6KlEeKs4tCFVpHj0A _pHWY0KKlEeKs4tCFVpHj0A _pHWY0qKlEeKs4tCFVpHj0A"/>
+      <lifeline xmi:id="_bghMMKKkEeKs4tCFVpHj0A" name="persistentClass" coveredBy="_eJ-sUKKlEeKs4tCFVpHj0A _eJ-sUaKlEeKs4tCFVpHj0A _eJ-sUqKlEeKs4tCFVpHj0A"/>
+      <lifeline xmi:id="_qtwggKKmEeKs4tCFVpHj0A" name="singleTableEntityPersister" coveredBy="_xU_TMKKmEeKs4tCFVpHj0A _xU_TMaKmEeKs4tCFVpHj0A _xU_TMqKmEeKs4tCFVpHj0A"/>
+      <lifeline xmi:id="_MXSJ8KKpEeKs4tCFVpHj0A" name="schemaExport" coveredBy="_RcqIUqKpEeKs4tCFVpHj0A _j-V60KKpEeKs4tCFVpHj0A _j-Wh4KKpEeKs4tCFVpHj0A _qTAW0aKpEeKs4tCFVpHj0A _qTA94aKpEeKs4tCFVpHj0A _npihIKMgEeKFgqEdTHM95Q _npihIaMgEeKFgqEdTHM95Q _npihIqMgEeKFgqEdTHM95Q _tXDdkaMgEeKFgqEdTHM95Q _tXDdkqMgEeKFgqEdTHM95Q _tXEEoKMgEeKFgqEdTHM95Q _tXEEoaMgEeKFgqEdTHM95Q _tXEEo6MgEeKFgqEdTHM95Q _wFn8oKMgEeKFgqEdTHM95Q _wFn8oaMgEeKFgqEdTHM95Q _wFn8oqMgEeKFgqEdTHM95Q _wFn8o6MgEeKFgqEdTHM95Q _wFpKwKMgEeKFgqEdTHM95Q"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_duoJ6aKhEeKs4tCFVpHj0A" covered="_duoJ5qKhEeKs4tCFVpHj0A" message="_duoKBaKhEeKs4tCFVpHj0A"/>
       <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_duoJ6qKhEeKs4tCFVpHj0A" covered="_duoJ5qKhEeKs4tCFVpHj0A" start="_duoJ6aKhEeKs4tCFVpHj0A" finish="_duoKBKKhEeKs4tCFVpHj0A"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_duoJ66KhEeKs4tCFVpHj0A" covered="_duoJ5qKhEeKs4tCFVpHj0A" message="_duoKBqKhEeKs4tCFVpHj0A"/>
@@ -771,44 +691,44 @@
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_CcdKAqMhEeKFgqEdTHM95Q" covered="_Mbk4QKKiEeKs4tCFVpHj0A" message="_CcdKA6MhEeKFgqEdTHM95Q"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_CcdxEKMhEeKFgqEdTHM95Q" covered="_Mbk4QKKiEeKs4tCFVpHj0A" message="_CcdKA6MhEeKFgqEdTHM95Q"/>
       <message xmi:id="_duoKBaKhEeKs4tCFVpHj0A" name="buildSessionFactory" receiveEvent="_duoJ6aKhEeKs4tCFVpHj0A"/>
-      <message xmi:id="_duoKBqKhEeKs4tCFVpHj0A" name="secondPassCompile" receiveEvent="_duoJ7KKhEeKs4tCFVpHj0A" sendEvent="_duoJ66KhEeKs4tCFVpHj0A" connector="_dunjR6KhEeKs4tCFVpHj0A"/>
-      <message xmi:id="_duoKB6KhEeKs4tCFVpHj0A" name="secondPassCompile" messageSort="reply" receiveEvent="_duoKA6KhEeKs4tCFVpHj0A" sendEvent="_duoKAqKhEeKs4tCFVpHj0A" connector="_dunjR6KhEeKs4tCFVpHj0A"/>
-      <message xmi:id="_9-C3sKKhEeKs4tCFVpHj0A" name="validate" receiveEvent="_9-C3sqKhEeKs4tCFVpHj0A" sendEvent="_9-C3saKhEeKs4tCFVpHj0A" connector="_dunjR6KhEeKs4tCFVpHj0A"/>
-      <message xmi:id="_9-DewaKhEeKs4tCFVpHj0A" name="validate" messageSort="reply" receiveEvent="_9-DewqKhEeKs4tCFVpHj0A" sendEvent="_9-DewKKhEeKs4tCFVpHj0A" connector="_dunjR6KhEeKs4tCFVpHj0A"/>
-      <message xmi:id="_uuhkEKKiEeKs4tCFVpHj0A" name="SessionFactoryImpl" messageSort="createMessage" receiveEvent="_uuiLIaKiEeKs4tCFVpHj0A" sendEvent="_uuiLIKKiEeKs4tCFVpHj0A" connector="_uuiyMKKiEeKs4tCFVpHj0A"/>
-      <message xmi:id="_wPavEKKiEeKs4tCFVpHj0A" name="getClassMappings" receiveEvent="_wPbWIaKiEeKs4tCFVpHj0A" sendEvent="_wPbWIKKiEeKs4tCFVpHj0A" connector="_uuiyMKKiEeKs4tCFVpHj0A"/>
-      <message xmi:id="_wPbWJKKiEeKs4tCFVpHj0A" name="getClassMappings" messageSort="reply" receiveEvent="_wPb9MKKiEeKs4tCFVpHj0A" sendEvent="_wPbWI6KiEeKs4tCFVpHj0A" connector="_uuiyMKKiEeKs4tCFVpHj0A"/>
-      <message xmi:id="_6MxwEKKiEeKs4tCFVpHj0A" name="createIdentifierGenerator" receiveEvent="_6MyXIaKiEeKs4tCFVpHj0A" sendEvent="_6MyXIKKiEeKs4tCFVpHj0A" connector="_6My-MqKiEeKs4tCFVpHj0A"/>
-      <message xmi:id="_6My-MKKiEeKs4tCFVpHj0A" name="createIdentifierGenerator" messageSort="reply" receiveEvent="_6My-MaKiEeKs4tCFVpHj0A" sendEvent="_6MyXI6KiEeKs4tCFVpHj0A" connector="_6My-MqKiEeKs4tCFVpHj0A"/>
-      <message xmi:id="_OIfQkKKjEeKs4tCFVpHj0A" name="getType" receiveEvent="_OIfQkqKjEeKs4tCFVpHj0A" sendEvent="_OIfQkaKjEeKs4tCFVpHj0A" connector="_OIf3o6KjEeKs4tCFVpHj0A"/>
-      <message xmi:id="_OIf3oaKjEeKs4tCFVpHj0A" name="getType" messageSort="reply" receiveEvent="_OIf3oqKjEeKs4tCFVpHj0A" sendEvent="_OIf3oKKjEeKs4tCFVpHj0A" connector="_OIf3o6KjEeKs4tCFVpHj0A"/>
-      <message xmi:id="_dzg_AKKjEeKs4tCFVpHj0A" name="createIdentifierGenerator" receiveEvent="_dzhmEKKjEeKs4tCFVpHj0A" sendEvent="_dzg_AaKjEeKs4tCFVpHj0A" connector="_dzhmFaKjEeKs4tCFVpHj0A"/>
-      <message xmi:id="_dzhmE6KjEeKs4tCFVpHj0A" name="createIdentifierGenerator" messageSort="reply" receiveEvent="_dzhmFKKjEeKs4tCFVpHj0A" sendEvent="_dzhmEqKjEeKs4tCFVpHj0A" connector="_dzhmFaKjEeKs4tCFVpHj0A"/>
-      <message xmi:id="_MepIcKKkEeKs4tCFVpHj0A" name="createEntityPersister" receiveEvent="_MepvgaKkEeKs4tCFVpHj0A" sendEvent="_MepvgKKkEeKs4tCFVpHj0A" connector="_MeqWkqKkEeKs4tCFVpHj0A"/>
-      <message xmi:id="_MeqWkKKkEeKs4tCFVpHj0A" name="createEntityPersister" messageSort="reply" receiveEvent="_MeqWkaKkEeKs4tCFVpHj0A" sendEvent="_Mepvg6KkEeKs4tCFVpHj0A" connector="_MeqWkqKkEeKs4tCFVpHj0A"/>
-      <message xmi:id="_eJ-FQKKlEeKs4tCFVpHj0A" name="getEntityPersisterClass" receiveEvent="_eJ-sUKKlEeKs4tCFVpHj0A" sendEvent="_eJ-FQaKlEeKs4tCFVpHj0A" connector="_eJ_TYKKlEeKs4tCFVpHj0A"/>
-      <message xmi:id="_eJ-sU6KlEeKs4tCFVpHj0A" name="getEntityPersisterClass" messageSort="reply" receiveEvent="_eJ-sVKKlEeKs4tCFVpHj0A" sendEvent="_eJ-sUqKlEeKs4tCFVpHj0A" connector="_eJ_TYKKlEeKs4tCFVpHj0A"/>
-      <message xmi:id="_pHVxwKKlEeKs4tCFVpHj0A" name="create" receiveEvent="_pHVxwqKlEeKs4tCFVpHj0A" sendEvent="_pHVxwaKlEeKs4tCFVpHj0A" connector="_pHWY06KlEeKs4tCFVpHj0A"/>
-      <message xmi:id="_pHWY0aKlEeKs4tCFVpHj0A" name="create" messageSort="reply" receiveEvent="_pHWY0qKlEeKs4tCFVpHj0A" sendEvent="_pHWY0KKlEeKs4tCFVpHj0A" connector="_pHWY06KlEeKs4tCFVpHj0A"/>
-      <message xmi:id="_S1m_oKKmEeKs4tCFVpHj0A" name="getCollectionMappings" receiveEvent="_S1nmsKKmEeKs4tCFVpHj0A" sendEvent="_S1m_oaKmEeKs4tCFVpHj0A" connector="_uuiyMKKiEeKs4tCFVpHj0A"/>
-      <message xmi:id="_S1nms6KmEeKs4tCFVpHj0A" name="getCollectionMappings" messageSort="reply" receiveEvent="_S1nmtKKmEeKs4tCFVpHj0A" sendEvent="_S1nmsqKmEeKs4tCFVpHj0A" connector="_uuiyMKKiEeKs4tCFVpHj0A"/>
-      <message xmi:id="_xU-sIKKmEeKs4tCFVpHj0A" name="postInstantiate" receiveEvent="_xU_TMKKmEeKs4tCFVpHj0A" sendEvent="_xU-sIaKmEeKs4tCFVpHj0A" connector="_xU_6QKKmEeKs4tCFVpHj0A"/>
-      <message xmi:id="_xU_TM6KmEeKs4tCFVpHj0A" name="postInstantiate" messageSort="reply" receiveEvent="_xU_TNKKmEeKs4tCFVpHj0A" sendEvent="_xU_TMqKmEeKs4tCFVpHj0A" connector="_xU_6QKKmEeKs4tCFVpHj0A"/>
-      <message xmi:id="_5saRIKKmEeKs4tCFVpHj0A" name="registerEntityNameResolvers" receiveEvent="_5saRIqKmEeKs4tCFVpHj0A" sendEvent="_5saRIaKmEeKs4tCFVpHj0A" connector="_5sa4NKKmEeKs4tCFVpHj0A"/>
-      <message xmi:id="_5sa4MqKmEeKs4tCFVpHj0A" name="registerEntityNameResolvers" messageSort="reply" receiveEvent="_5sa4M6KmEeKs4tCFVpHj0A" sendEvent="_5sa4MaKmEeKs4tCFVpHj0A" connector="_5sa4NKKmEeKs4tCFVpHj0A"/>
-      <message xmi:id="_RcqIUKKpEeKs4tCFVpHj0A" name="SchemaExport" messageSort="createMessage" receiveEvent="_RcqIUqKpEeKs4tCFVpHj0A" sendEvent="_RcqIUaKpEeKs4tCFVpHj0A" connector="_RcqvYaKpEeKs4tCFVpHj0A"/>
-      <message xmi:id="_j-VTwKKpEeKs4tCFVpHj0A" name="generateDropSchemaScript" receiveEvent="_j-V60aKpEeKs4tCFVpHj0A" sendEvent="_j-V60KKpEeKs4tCFVpHj0A" connector="_j-Wh4aKpEeKs4tCFVpHj0A"/>
-      <message xmi:id="_j-V61KKpEeKs4tCFVpHj0A" name="generateDropSchemaScript" messageSort="reply" receiveEvent="_j-Wh4KKpEeKs4tCFVpHj0A" sendEvent="_j-V606KpEeKs4tCFVpHj0A" connector="_j-Wh4aKpEeKs4tCFVpHj0A"/>
-      <message xmi:id="_qTAW0KKpEeKs4tCFVpHj0A" name="generateSchemaCreationScript" receiveEvent="_qTAW0qKpEeKs4tCFVpHj0A" sendEvent="_qTAW0aKpEeKs4tCFVpHj0A" connector="_j-Wh4aKpEeKs4tCFVpHj0A"/>
-      <message xmi:id="_qTA94KKpEeKs4tCFVpHj0A" name="generateSchemaCreationScript" messageSort="reply" receiveEvent="_qTA94aKpEeKs4tCFVpHj0A" sendEvent="_qTAW1KKpEeKs4tCFVpHj0A" connector="_j-Wh4aKpEeKs4tCFVpHj0A"/>
-      <message xmi:id="_nph6EKMgEeKFgqEdTHM95Q" name="create" receiveEvent="_npihIKMgEeKFgqEdTHM95Q" sendEvent="_nph6EaMgEeKFgqEdTHM95Q" connector="_j-Wh4aKpEeKs4tCFVpHj0A"/>
-      <message xmi:id="_npihI6MgEeKFgqEdTHM95Q" name="create" messageSort="reply" receiveEvent="_npjIMKMgEeKFgqEdTHM95Q" sendEvent="_npihIqMgEeKFgqEdTHM95Q" connector="_j-Wh4aKpEeKs4tCFVpHj0A"/>
-      <message xmi:id="_tXDdkKMgEeKFgqEdTHM95Q" name="create" receiveEvent="_tXDdkqMgEeKFgqEdTHM95Q" sendEvent="_tXDdkaMgEeKFgqEdTHM95Q" connector="_tXErsKMgEeKFgqEdTHM95Q"/>
-      <message xmi:id="_tXEEoqMgEeKFgqEdTHM95Q" name="create" messageSort="reply" receiveEvent="_tXEEo6MgEeKFgqEdTHM95Q" sendEvent="_tXEEoaMgEeKFgqEdTHM95Q" connector="_tXErsKMgEeKFgqEdTHM95Q"/>
-      <message xmi:id="_wFnVkKMgEeKFgqEdTHM95Q" name="execute" receiveEvent="_wFn8oaMgEeKFgqEdTHM95Q" sendEvent="_wFn8oKMgEeKFgqEdTHM95Q" connector="_tXErsKMgEeKFgqEdTHM95Q"/>
-      <message xmi:id="_wFojsKMgEeKFgqEdTHM95Q" name="execute" messageSort="reply" receiveEvent="_wFpKwKMgEeKFgqEdTHM95Q" sendEvent="_wFn8o6MgEeKFgqEdTHM95Q" connector="_tXErsKMgEeKFgqEdTHM95Q"/>
-      <message xmi:id="_Ccci8KMhEeKFgqEdTHM95Q" name="buildCurrentSessionContext" receiveEvent="_CcdKAKMhEeKFgqEdTHM95Q" sendEvent="_Ccci8aMhEeKFgqEdTHM95Q" connector="_5sa4NKKmEeKs4tCFVpHj0A"/>
-      <message xmi:id="_CcdKA6MhEeKFgqEdTHM95Q" name="buildCurrentSessionContext" messageSort="reply" receiveEvent="_CcdxEKMhEeKFgqEdTHM95Q" sendEvent="_CcdKAqMhEeKFgqEdTHM95Q" connector="_5sa4NKKmEeKs4tCFVpHj0A"/>
+      <message xmi:id="_duoKBqKhEeKs4tCFVpHj0A" name="secondPassCompile" receiveEvent="_duoJ7KKhEeKs4tCFVpHj0A" sendEvent="_duoJ66KhEeKs4tCFVpHj0A"/>
+      <message xmi:id="_duoKB6KhEeKs4tCFVpHj0A" name="secondPassCompile" messageSort="reply" receiveEvent="_duoKA6KhEeKs4tCFVpHj0A" sendEvent="_duoKAqKhEeKs4tCFVpHj0A"/>
+      <message xmi:id="_9-C3sKKhEeKs4tCFVpHj0A" name="validate" receiveEvent="_9-C3sqKhEeKs4tCFVpHj0A" sendEvent="_9-C3saKhEeKs4tCFVpHj0A"/>
+      <message xmi:id="_9-DewaKhEeKs4tCFVpHj0A" name="validate" messageSort="reply" receiveEvent="_9-DewqKhEeKs4tCFVpHj0A" sendEvent="_9-DewKKhEeKs4tCFVpHj0A"/>
+      <message xmi:id="_uuhkEKKiEeKs4tCFVpHj0A" name="SessionFactoryImpl" messageSort="createMessage" receiveEvent="_uuiLIaKiEeKs4tCFVpHj0A" sendEvent="_uuiLIKKiEeKs4tCFVpHj0A"/>
+      <message xmi:id="_wPavEKKiEeKs4tCFVpHj0A" name="getClassMappings" receiveEvent="_wPbWIaKiEeKs4tCFVpHj0A" sendEvent="_wPbWIKKiEeKs4tCFVpHj0A"/>
+      <message xmi:id="_wPbWJKKiEeKs4tCFVpHj0A" name="getClassMappings" messageSort="reply" receiveEvent="_wPb9MKKiEeKs4tCFVpHj0A" sendEvent="_wPbWI6KiEeKs4tCFVpHj0A"/>
+      <message xmi:id="_6MxwEKKiEeKs4tCFVpHj0A" name="createIdentifierGenerator" receiveEvent="_6MyXIaKiEeKs4tCFVpHj0A" sendEvent="_6MyXIKKiEeKs4tCFVpHj0A"/>
+      <message xmi:id="_6My-MKKiEeKs4tCFVpHj0A" name="createIdentifierGenerator" messageSort="reply" receiveEvent="_6My-MaKiEeKs4tCFVpHj0A" sendEvent="_6MyXI6KiEeKs4tCFVpHj0A"/>
+      <message xmi:id="_OIfQkKKjEeKs4tCFVpHj0A" name="getType" receiveEvent="_OIfQkqKjEeKs4tCFVpHj0A" sendEvent="_OIfQkaKjEeKs4tCFVpHj0A"/>
+      <message xmi:id="_OIf3oaKjEeKs4tCFVpHj0A" name="getType" messageSort="reply" receiveEvent="_OIf3oqKjEeKs4tCFVpHj0A" sendEvent="_OIf3oKKjEeKs4tCFVpHj0A"/>
+      <message xmi:id="_dzg_AKKjEeKs4tCFVpHj0A" name="createIdentifierGenerator" receiveEvent="_dzhmEKKjEeKs4tCFVpHj0A" sendEvent="_dzg_AaKjEeKs4tCFVpHj0A"/>
+      <message xmi:id="_dzhmE6KjEeKs4tCFVpHj0A" name="createIdentifierGenerator" messageSort="reply" receiveEvent="_dzhmFKKjEeKs4tCFVpHj0A" sendEvent="_dzhmEqKjEeKs4tCFVpHj0A"/>
+      <message xmi:id="_MepIcKKkEeKs4tCFVpHj0A" name="createEntityPersister" receiveEvent="_MepvgaKkEeKs4tCFVpHj0A" sendEvent="_MepvgKKkEeKs4tCFVpHj0A"/>
+      <message xmi:id="_MeqWkKKkEeKs4tCFVpHj0A" name="createEntityPersister" messageSort="reply" receiveEvent="_MeqWkaKkEeKs4tCFVpHj0A" sendEvent="_Mepvg6KkEeKs4tCFVpHj0A"/>
+      <message xmi:id="_eJ-FQKKlEeKs4tCFVpHj0A" name="getEntityPersisterClass" receiveEvent="_eJ-sUKKlEeKs4tCFVpHj0A" sendEvent="_eJ-FQaKlEeKs4tCFVpHj0A"/>
+      <message xmi:id="_eJ-sU6KlEeKs4tCFVpHj0A" name="getEntityPersisterClass" messageSort="reply" receiveEvent="_eJ-sVKKlEeKs4tCFVpHj0A" sendEvent="_eJ-sUqKlEeKs4tCFVpHj0A"/>
+      <message xmi:id="_pHVxwKKlEeKs4tCFVpHj0A" name="create" receiveEvent="_pHVxwqKlEeKs4tCFVpHj0A" sendEvent="_pHVxwaKlEeKs4tCFVpHj0A"/>
+      <message xmi:id="_pHWY0aKlEeKs4tCFVpHj0A" name="create" messageSort="reply" receiveEvent="_pHWY0qKlEeKs4tCFVpHj0A" sendEvent="_pHWY0KKlEeKs4tCFVpHj0A"/>
+      <message xmi:id="_S1m_oKKmEeKs4tCFVpHj0A" name="getCollectionMappings" receiveEvent="_S1nmsKKmEeKs4tCFVpHj0A" sendEvent="_S1m_oaKmEeKs4tCFVpHj0A"/>
+      <message xmi:id="_S1nms6KmEeKs4tCFVpHj0A" name="getCollectionMappings" messageSort="reply" receiveEvent="_S1nmtKKmEeKs4tCFVpHj0A" sendEvent="_S1nmsqKmEeKs4tCFVpHj0A"/>
+      <message xmi:id="_xU-sIKKmEeKs4tCFVpHj0A" name="postInstantiate" receiveEvent="_xU_TMKKmEeKs4tCFVpHj0A" sendEvent="_xU-sIaKmEeKs4tCFVpHj0A"/>
+      <message xmi:id="_xU_TM6KmEeKs4tCFVpHj0A" name="postInstantiate" messageSort="reply" receiveEvent="_xU_TNKKmEeKs4tCFVpHj0A" sendEvent="_xU_TMqKmEeKs4tCFVpHj0A"/>
+      <message xmi:id="_5saRIKKmEeKs4tCFVpHj0A" name="registerEntityNameResolvers" receiveEvent="_5saRIqKmEeKs4tCFVpHj0A" sendEvent="_5saRIaKmEeKs4tCFVpHj0A"/>
+      <message xmi:id="_5sa4MqKmEeKs4tCFVpHj0A" name="registerEntityNameResolvers" messageSort="reply" receiveEvent="_5sa4M6KmEeKs4tCFVpHj0A" sendEvent="_5sa4MaKmEeKs4tCFVpHj0A"/>
+      <message xmi:id="_RcqIUKKpEeKs4tCFVpHj0A" name="SchemaExport" messageSort="createMessage" receiveEvent="_RcqIUqKpEeKs4tCFVpHj0A" sendEvent="_RcqIUaKpEeKs4tCFVpHj0A"/>
+      <message xmi:id="_j-VTwKKpEeKs4tCFVpHj0A" name="generateDropSchemaScript" receiveEvent="_j-V60aKpEeKs4tCFVpHj0A" sendEvent="_j-V60KKpEeKs4tCFVpHj0A"/>
+      <message xmi:id="_j-V61KKpEeKs4tCFVpHj0A" name="generateDropSchemaScript" messageSort="reply" receiveEvent="_j-Wh4KKpEeKs4tCFVpHj0A" sendEvent="_j-V606KpEeKs4tCFVpHj0A"/>
+      <message xmi:id="_qTAW0KKpEeKs4tCFVpHj0A" name="generateSchemaCreationScript" receiveEvent="_qTAW0qKpEeKs4tCFVpHj0A" sendEvent="_qTAW0aKpEeKs4tCFVpHj0A"/>
+      <message xmi:id="_qTA94KKpEeKs4tCFVpHj0A" name="generateSchemaCreationScript" messageSort="reply" receiveEvent="_qTA94aKpEeKs4tCFVpHj0A" sendEvent="_qTAW1KKpEeKs4tCFVpHj0A"/>
+      <message xmi:id="_nph6EKMgEeKFgqEdTHM95Q" name="create" receiveEvent="_npihIKMgEeKFgqEdTHM95Q" sendEvent="_nph6EaMgEeKFgqEdTHM95Q"/>
+      <message xmi:id="_npihI6MgEeKFgqEdTHM95Q" name="create" messageSort="reply" receiveEvent="_npjIMKMgEeKFgqEdTHM95Q" sendEvent="_npihIqMgEeKFgqEdTHM95Q"/>
+      <message xmi:id="_tXDdkKMgEeKFgqEdTHM95Q" name="create" receiveEvent="_tXDdkqMgEeKFgqEdTHM95Q" sendEvent="_tXDdkaMgEeKFgqEdTHM95Q"/>
+      <message xmi:id="_tXEEoqMgEeKFgqEdTHM95Q" name="create" messageSort="reply" receiveEvent="_tXEEo6MgEeKFgqEdTHM95Q" sendEvent="_tXEEoaMgEeKFgqEdTHM95Q"/>
+      <message xmi:id="_wFnVkKMgEeKFgqEdTHM95Q" name="execute" receiveEvent="_wFn8oaMgEeKFgqEdTHM95Q" sendEvent="_wFn8oKMgEeKFgqEdTHM95Q"/>
+      <message xmi:id="_wFojsKMgEeKFgqEdTHM95Q" name="execute" messageSort="reply" receiveEvent="_wFpKwKMgEeKFgqEdTHM95Q" sendEvent="_wFn8o6MgEeKFgqEdTHM95Q"/>
+      <message xmi:id="_Ccci8KMhEeKFgqEdTHM95Q" name="buildCurrentSessionContext" receiveEvent="_CcdKAKMhEeKFgqEdTHM95Q" sendEvent="_Ccci8aMhEeKFgqEdTHM95Q"/>
+      <message xmi:id="_CcdKA6MhEeKFgqEdTHM95Q" name="buildCurrentSessionContext" messageSort="reply" receiveEvent="_CcdxEKMhEeKFgqEdTHM95Q" sendEvent="_CcdKAqMhEeKFgqEdTHM95Q"/>
     </ownedBehavior>
     <ownedBehavior xmi:type="uml:Interaction" xmi:id="_w7tCwKKhEeKs4tCFVpHj0A" name="secondPassCompile">
       <eAnnotations xmi:id="_w7tCwaKhEeKs4tCFVpHj0A" source="uml2.diagrams">
@@ -998,30 +918,10 @@
           </edges>
         </contents>
       </eAnnotations>
-      <ownedConnector xmi:id="_w7tDN6KhEeKs4tCFVpHj0A">
-        <end xmi:id="_w7tDOKKhEeKs4tCFVpHj0A" role="_sk2ioaJyEeKs4tCFVpHj0A"/>
-        <end xmi:id="_w7tDOaKhEeKs4tCFVpHj0A" role="_sk2ioaJyEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_w7tDOqKhEeKs4tCFVpHj0A">
-        <end xmi:id="_w7tDO6KhEeKs4tCFVpHj0A" role="_tR4C4aKBEeKs4tCFVpHj0A"/>
-        <end xmi:id="_w7tDPKKhEeKs4tCFVpHj0A" role="_sk2ioaJyEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_w7tDPaKhEeKs4tCFVpHj0A">
-        <end xmi:id="_w7tDPqKhEeKs4tCFVpHj0A" role="_tR4C4aKBEeKs4tCFVpHj0A"/>
-        <end xmi:id="_w7tDP6KhEeKs4tCFVpHj0A" role="_tR4C4aKBEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_w7tDQKKhEeKs4tCFVpHj0A">
-        <end xmi:id="_w7tDQaKhEeKs4tCFVpHj0A" role="_IjgoEKKCEeKs4tCFVpHj0A"/>
-        <end xmi:id="_w7tDQqKhEeKs4tCFVpHj0A" role="_tR4C4aKBEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_qjgTsKWYEeKGhpvYuT8g0A">
-        <end xmi:id="_qjgTsaWYEeKGhpvYuT8g0A" role="_oCjZ4aWYEeKGhpvYuT8g0A"/>
-        <end xmi:id="_qjgTsqWYEeKGhpvYuT8g0A" role="_tR4C4aKBEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <lifeline xmi:id="_w7tDQ6KhEeKs4tCFVpHj0A" name="configuration" represents="_sk2ioaJyEeKs4tCFVpHj0A" coveredBy="_w7tDRqKhEeKs4tCFVpHj0A _w7tDR6KhEeKs4tCFVpHj0A _w7tp4aKhEeKs4tCFVpHj0A _w7tDS6KhEeKs4tCFVpHj0A _w7tp3qKhEeKs4tCFVpHj0A"/>
-      <lifeline xmi:id="_w7tDRKKhEeKs4tCFVpHj0A" name="metadataSourceQueue" represents="_tR4C4aKBEeKs4tCFVpHj0A" coveredBy="_w7tDTKKhEeKs4tCFVpHj0A _w7tDTaKhEeKs4tCFVpHj0A _w7tp3aKhEeKs4tCFVpHj0A _w7tDTqKhEeKs4tCFVpHj0A _w7tDT6KhEeKs4tCFVpHj0A _w7tp0KKhEeKs4tCFVpHj0A _w7tp26KhEeKs4tCFVpHj0A _w7tp3KKhEeKs4tCFVpHj0A _w7tp0aKhEeKs4tCFVpHj0A _w7tp0qKhEeKs4tCFVpHj0A _w7tp06KhEeKs4tCFVpHj0A _w7tp2aKhEeKs4tCFVpHj0A _w7tp2qKhEeKs4tCFVpHj0A _w7tp1KKhEeKs4tCFVpHj0A _w7tp2KKhEeKs4tCFVpHj0A _Wm40QKWYEeKGhpvYuT8g0A _Wm40QaWYEeKGhpvYuT8g0A _Wm5bUKWYEeKGhpvYuT8g0A _Wm5bUaWYEeKGhpvYuT8g0A _Wm6CYKWYEeKGhpvYuT8g0A _qjfFkaWYEeKGhpvYuT8g0A _qjfso6WYEeKGhpvYuT8g0A"/>
-      <lifeline xmi:id="_w7tDRaKhEeKs4tCFVpHj0A" name="hbmBinder" represents="_IjgoEKKCEeKs4tCFVpHj0A" coveredBy="_w7tp1aKhEeKs4tCFVpHj0A _w7tp1qKhEeKs4tCFVpHj0A _w7tp16KhEeKs4tCFVpHj0A"/>
-      <lifeline xmi:id="_oCjZ4KWYEeKGhpvYuT8g0A" name="armBinder" represents="_oCjZ4aWYEeKGhpvYuT8g0A" coveredBy="_qjfFkqWYEeKGhpvYuT8g0A _qjfsoKWYEeKGhpvYuT8g0A _qjfsoaWYEeKGhpvYuT8g0A"/>
+      <lifeline xmi:id="_w7tDQ6KhEeKs4tCFVpHj0A" name="configuration" coveredBy="_w7tDRqKhEeKs4tCFVpHj0A _w7tDR6KhEeKs4tCFVpHj0A _w7tp4aKhEeKs4tCFVpHj0A _w7tDS6KhEeKs4tCFVpHj0A _w7tp3qKhEeKs4tCFVpHj0A"/>
+      <lifeline xmi:id="_w7tDRKKhEeKs4tCFVpHj0A" name="metadataSourceQueue" coveredBy="_w7tDTKKhEeKs4tCFVpHj0A _w7tDTaKhEeKs4tCFVpHj0A _w7tp3aKhEeKs4tCFVpHj0A _w7tDTqKhEeKs4tCFVpHj0A _w7tDT6KhEeKs4tCFVpHj0A _w7tp0KKhEeKs4tCFVpHj0A _w7tp26KhEeKs4tCFVpHj0A _w7tp3KKhEeKs4tCFVpHj0A _w7tp0aKhEeKs4tCFVpHj0A _w7tp0qKhEeKs4tCFVpHj0A _w7tp06KhEeKs4tCFVpHj0A _w7tp2aKhEeKs4tCFVpHj0A _w7tp2qKhEeKs4tCFVpHj0A _w7tp1KKhEeKs4tCFVpHj0A _w7tp2KKhEeKs4tCFVpHj0A _Wm40QKWYEeKGhpvYuT8g0A _Wm40QaWYEeKGhpvYuT8g0A _Wm5bUKWYEeKGhpvYuT8g0A _Wm5bUaWYEeKGhpvYuT8g0A _Wm6CYKWYEeKGhpvYuT8g0A _qjfFkaWYEeKGhpvYuT8g0A _qjfso6WYEeKGhpvYuT8g0A"/>
+      <lifeline xmi:id="_w7tDRaKhEeKs4tCFVpHj0A" name="hbmBinder" coveredBy="_w7tp1aKhEeKs4tCFVpHj0A _w7tp1qKhEeKs4tCFVpHj0A _w7tp16KhEeKs4tCFVpHj0A"/>
+      <lifeline xmi:id="_oCjZ4KWYEeKGhpvYuT8g0A" name="armBinder" coveredBy="_qjfFkqWYEeKGhpvYuT8g0A _qjfsoKWYEeKGhpvYuT8g0A _qjfsoaWYEeKGhpvYuT8g0A"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_w7tDRqKhEeKs4tCFVpHj0A" covered="_w7tDQ6KhEeKs4tCFVpHj0A" message="_w7tp4qKhEeKs4tCFVpHj0A"/>
       <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_w7tDR6KhEeKs4tCFVpHj0A" covered="_w7tDQ6KhEeKs4tCFVpHj0A" start="_w7tDRqKhEeKs4tCFVpHj0A" finish="_w7tp4aKhEeKs4tCFVpHj0A"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_w7tDS6KhEeKs4tCFVpHj0A" covered="_w7tDQ6KhEeKs4tCFVpHj0A" message="_w7tp5aKhEeKs4tCFVpHj0A"/>
@@ -1042,32 +942,32 @@
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_w7tp2qKhEeKs4tCFVpHj0A" covered="_w7tDRKKhEeKs4tCFVpHj0A" message="_w7tp6qKhEeKs4tCFVpHj0A"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_w7tp26KhEeKs4tCFVpHj0A" covered="_w7tDRKKhEeKs4tCFVpHj0A" message="_w7tp6KKhEeKs4tCFVpHj0A"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_w7tp3KKhEeKs4tCFVpHj0A" covered="_w7tDRKKhEeKs4tCFVpHj0A" message="_w7tp6KKhEeKs4tCFVpHj0A"/>
-      <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_Wm40QKWYEeKGhpvYuT8g0A" covered="_w7tDRKKhEeKs4tCFVpHj0A" event="_XhqacKWYEeKGhpvYuT8g0A" message="_Wm2_EKWYEeKGhpvYuT8g0A"/>
-      <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_Wm40QaWYEeKGhpvYuT8g0A" covered="_w7tDRKKhEeKs4tCFVpHj0A" event="_XiEqIKWYEeKGhpvYuT8g0A" message="_Wm2_EKWYEeKGhpvYuT8g0A"/>
+      <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_Wm40QKWYEeKGhpvYuT8g0A" covered="_w7tDRKKhEeKs4tCFVpHj0A" message="_Wm2_EKWYEeKGhpvYuT8g0A"/>
+      <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_Wm40QaWYEeKGhpvYuT8g0A" covered="_w7tDRKKhEeKs4tCFVpHj0A" message="_Wm2_EKWYEeKGhpvYuT8g0A"/>
       <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_Wm5bUKWYEeKGhpvYuT8g0A" covered="_w7tDRKKhEeKs4tCFVpHj0A" start="_Wm40QaWYEeKGhpvYuT8g0A" finish="_Wm5bUaWYEeKGhpvYuT8g0A"/>
-      <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_qjfFkaWYEeKGhpvYuT8g0A" covered="_w7tDRKKhEeKs4tCFVpHj0A" event="_sFE0IKWYEeKGhpvYuT8g0A" message="_qjfFkKWYEeKGhpvYuT8g0A"/>
-      <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_qjfFkqWYEeKGhpvYuT8g0A" covered="_oCjZ4KWYEeKGhpvYuT8g0A" event="_sFFbMKWYEeKGhpvYuT8g0A" message="_qjfFkKWYEeKGhpvYuT8g0A"/>
+      <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_qjfFkaWYEeKGhpvYuT8g0A" covered="_w7tDRKKhEeKs4tCFVpHj0A" message="_qjfFkKWYEeKGhpvYuT8g0A"/>
+      <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_qjfFkqWYEeKGhpvYuT8g0A" covered="_oCjZ4KWYEeKGhpvYuT8g0A" message="_qjfFkKWYEeKGhpvYuT8g0A"/>
       <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_qjfsoKWYEeKGhpvYuT8g0A" covered="_oCjZ4KWYEeKGhpvYuT8g0A" start="_qjfFkqWYEeKGhpvYuT8g0A" finish="_qjfsoaWYEeKGhpvYuT8g0A"/>
-      <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_qjfsoaWYEeKGhpvYuT8g0A" covered="_oCjZ4KWYEeKGhpvYuT8g0A" event="_sFE0IKWYEeKGhpvYuT8g0A" message="_qjfsoqWYEeKGhpvYuT8g0A"/>
-      <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_qjfso6WYEeKGhpvYuT8g0A" covered="_w7tDRKKhEeKs4tCFVpHj0A" event="_sFFbMKWYEeKGhpvYuT8g0A" message="_qjfsoqWYEeKGhpvYuT8g0A"/>
-      <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_Wm5bUaWYEeKGhpvYuT8g0A" covered="_w7tDRKKhEeKs4tCFVpHj0A" event="_XhqacKWYEeKGhpvYuT8g0A" message="_Wm5bUqWYEeKGhpvYuT8g0A"/>
-      <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_Wm6CYKWYEeKGhpvYuT8g0A" covered="_w7tDRKKhEeKs4tCFVpHj0A" event="_XiEqIKWYEeKGhpvYuT8g0A" message="_Wm5bUqWYEeKGhpvYuT8g0A"/>
+      <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_qjfsoaWYEeKGhpvYuT8g0A" covered="_oCjZ4KWYEeKGhpvYuT8g0A" message="_qjfsoqWYEeKGhpvYuT8g0A"/>
+      <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_qjfso6WYEeKGhpvYuT8g0A" covered="_w7tDRKKhEeKs4tCFVpHj0A" message="_qjfsoqWYEeKGhpvYuT8g0A"/>
+      <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_Wm5bUaWYEeKGhpvYuT8g0A" covered="_w7tDRKKhEeKs4tCFVpHj0A" message="_Wm5bUqWYEeKGhpvYuT8g0A"/>
+      <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_Wm6CYKWYEeKGhpvYuT8g0A" covered="_w7tDRKKhEeKs4tCFVpHj0A" message="_Wm5bUqWYEeKGhpvYuT8g0A"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_w7tp3aKhEeKs4tCFVpHj0A" covered="_w7tDRKKhEeKs4tCFVpHj0A" message="_w7tp5qKhEeKs4tCFVpHj0A"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_w7tp3qKhEeKs4tCFVpHj0A" covered="_w7tDQ6KhEeKs4tCFVpHj0A" message="_w7tp5qKhEeKs4tCFVpHj0A"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_w7tp4aKhEeKs4tCFVpHj0A" covered="_w7tDQ6KhEeKs4tCFVpHj0A"/>
       <message xmi:id="_w7tp4qKhEeKs4tCFVpHj0A" name="secondPassCompile" receiveEvent="_w7tDRqKhEeKs4tCFVpHj0A"/>
-      <message xmi:id="_w7tp5aKhEeKs4tCFVpHj0A" name="processMetadata" receiveEvent="_w7tDTKKhEeKs4tCFVpHj0A" sendEvent="_w7tDS6KhEeKs4tCFVpHj0A" connector="_w7tDOqKhEeKs4tCFVpHj0A"/>
-      <message xmi:id="_w7tp5qKhEeKs4tCFVpHj0A" name="processMetadata" messageSort="reply" receiveEvent="_w7tp3qKhEeKs4tCFVpHj0A" sendEvent="_w7tp3aKhEeKs4tCFVpHj0A" connector="_w7tDOqKhEeKs4tCFVpHj0A"/>
-      <message xmi:id="_w7tp56KhEeKs4tCFVpHj0A" name="processHbmXmlQueue" receiveEvent="_w7tDT6KhEeKs4tCFVpHj0A" sendEvent="_w7tDTqKhEeKs4tCFVpHj0A" connector="_w7tDPaKhEeKs4tCFVpHj0A"/>
-      <message xmi:id="_w7tp6KKhEeKs4tCFVpHj0A" name="processHbmXmlQueue" messageSort="reply" receiveEvent="_w7tp3KKhEeKs4tCFVpHj0A" sendEvent="_w7tp26KhEeKs4tCFVpHj0A" connector="_w7tDPaKhEeKs4tCFVpHj0A"/>
-      <message xmi:id="_w7tp6aKhEeKs4tCFVpHj0A" name="processHbmXml" receiveEvent="_w7tp0qKhEeKs4tCFVpHj0A" sendEvent="_w7tp0aKhEeKs4tCFVpHj0A" connector="_w7tDPaKhEeKs4tCFVpHj0A"/>
-      <message xmi:id="_w7tp6qKhEeKs4tCFVpHj0A" name="processHbmXml" messageSort="reply" receiveEvent="_w7tp2qKhEeKs4tCFVpHj0A" sendEvent="_w7tp2aKhEeKs4tCFVpHj0A" connector="_w7tDPaKhEeKs4tCFVpHj0A"/>
-      <message xmi:id="_w7tp66KhEeKs4tCFVpHj0A" name="bindRoot" receiveEvent="_w7tp1aKhEeKs4tCFVpHj0A" sendEvent="_w7tp1KKhEeKs4tCFVpHj0A" connector="_w7tDQKKhEeKs4tCFVpHj0A"/>
-      <message xmi:id="_w7tp7KKhEeKs4tCFVpHj0A" name="bindRoot" messageSort="reply" receiveEvent="_w7tp2KKhEeKs4tCFVpHj0A" sendEvent="_w7tp16KhEeKs4tCFVpHj0A" connector="_w7tDQKKhEeKs4tCFVpHj0A"/>
-      <message xmi:id="_Wm2_EKWYEeKGhpvYuT8g0A" name="processArmXmlQueue" receiveEvent="_Wm40QaWYEeKGhpvYuT8g0A" sendEvent="_Wm40QKWYEeKGhpvYuT8g0A" connector="_w7tDPaKhEeKs4tCFVpHj0A"/>
-      <message xmi:id="_Wm5bUqWYEeKGhpvYuT8g0A" name="processArmXmlQueue" messageSort="reply" receiveEvent="_Wm6CYKWYEeKGhpvYuT8g0A" sendEvent="_Wm5bUaWYEeKGhpvYuT8g0A" connector="_w7tDPaKhEeKs4tCFVpHj0A"/>
-      <message xmi:id="_qjfFkKWYEeKGhpvYuT8g0A" name="bindRoot" receiveEvent="_qjfFkqWYEeKGhpvYuT8g0A" sendEvent="_qjfFkaWYEeKGhpvYuT8g0A" connector="_qjgTsKWYEeKGhpvYuT8g0A"/>
-      <message xmi:id="_qjfsoqWYEeKGhpvYuT8g0A" name="bindRoot" messageSort="reply" receiveEvent="_qjfso6WYEeKGhpvYuT8g0A" sendEvent="_qjfsoaWYEeKGhpvYuT8g0A" connector="_qjgTsKWYEeKGhpvYuT8g0A"/>
+      <message xmi:id="_w7tp5aKhEeKs4tCFVpHj0A" name="processMetadata" receiveEvent="_w7tDTKKhEeKs4tCFVpHj0A" sendEvent="_w7tDS6KhEeKs4tCFVpHj0A"/>
+      <message xmi:id="_w7tp5qKhEeKs4tCFVpHj0A" name="processMetadata" messageSort="reply" receiveEvent="_w7tp3qKhEeKs4tCFVpHj0A" sendEvent="_w7tp3aKhEeKs4tCFVpHj0A"/>
+      <message xmi:id="_w7tp56KhEeKs4tCFVpHj0A" name="processHbmXmlQueue" receiveEvent="_w7tDT6KhEeKs4tCFVpHj0A" sendEvent="_w7tDTqKhEeKs4tCFVpHj0A"/>
+      <message xmi:id="_w7tp6KKhEeKs4tCFVpHj0A" name="processHbmXmlQueue" messageSort="reply" receiveEvent="_w7tp3KKhEeKs4tCFVpHj0A" sendEvent="_w7tp26KhEeKs4tCFVpHj0A"/>
+      <message xmi:id="_w7tp6aKhEeKs4tCFVpHj0A" name="processHbmXml" receiveEvent="_w7tp0qKhEeKs4tCFVpHj0A" sendEvent="_w7tp0aKhEeKs4tCFVpHj0A"/>
+      <message xmi:id="_w7tp6qKhEeKs4tCFVpHj0A" name="processHbmXml" messageSort="reply" receiveEvent="_w7tp2qKhEeKs4tCFVpHj0A" sendEvent="_w7tp2aKhEeKs4tCFVpHj0A"/>
+      <message xmi:id="_w7tp66KhEeKs4tCFVpHj0A" name="bindRoot" receiveEvent="_w7tp1aKhEeKs4tCFVpHj0A" sendEvent="_w7tp1KKhEeKs4tCFVpHj0A"/>
+      <message xmi:id="_w7tp7KKhEeKs4tCFVpHj0A" name="bindRoot" messageSort="reply" receiveEvent="_w7tp2KKhEeKs4tCFVpHj0A" sendEvent="_w7tp16KhEeKs4tCFVpHj0A"/>
+      <message xmi:id="_Wm2_EKWYEeKGhpvYuT8g0A" name="processArmXmlQueue" receiveEvent="_Wm40QaWYEeKGhpvYuT8g0A" sendEvent="_Wm40QKWYEeKGhpvYuT8g0A"/>
+      <message xmi:id="_Wm5bUqWYEeKGhpvYuT8g0A" name="processArmXmlQueue" messageSort="reply" receiveEvent="_Wm6CYKWYEeKGhpvYuT8g0A" sendEvent="_Wm5bUaWYEeKGhpvYuT8g0A"/>
+      <message xmi:id="_qjfFkKWYEeKGhpvYuT8g0A" name="bindRoot" receiveEvent="_qjfFkqWYEeKGhpvYuT8g0A" sendEvent="_qjfFkaWYEeKGhpvYuT8g0A"/>
+      <message xmi:id="_qjfsoqWYEeKGhpvYuT8g0A" name="bindRoot" messageSort="reply" receiveEvent="_qjfso6WYEeKGhpvYuT8g0A" sendEvent="_qjfsoaWYEeKGhpvYuT8g0A"/>
     </ownedBehavior>
     <ownedBehavior xmi:type="uml:Interaction" xmi:id="_vUuB8KMREeKFgqEdTHM95Q" name="generateDropSchemaScript">
       <eAnnotations xmi:id="_vWJlUKMREeKFgqEdTHM95Q" source="uml2.diagrams">
@@ -1332,35 +1232,11 @@
           </edges>
         </contents>
       </eAnnotations>
-      <ownedConnector xmi:id="_BSyxEKMSEeKFgqEdTHM95Q">
-        <end xmi:id="_BSyxEaMSEeKFgqEdTHM95Q" role="_sk2ioaJyEeKs4tCFVpHj0A"/>
-        <end xmi:id="_BSyxEqMSEeKFgqEdTHM95Q" role="_sk2ioaJyEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_geFvcaMSEeKFgqEdTHM95Q">
-        <end xmi:id="_geFvcqMSEeKFgqEdTHM95Q" role="_fIjf4aMSEeKFgqEdTHM95Q"/>
-        <end xmi:id="_geFvc6MSEeKFgqEdTHM95Q" role="_sk2ioaJyEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_v_IbcaMSEeKFgqEdTHM95Q">
-        <end xmi:id="_v_IbcqMSEeKFgqEdTHM95Q" role="_uCE44aMSEeKFgqEdTHM95Q"/>
-        <end xmi:id="_v_Ibc6MSEeKFgqEdTHM95Q" role="_fIjf4aMSEeKFgqEdTHM95Q"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_P-15U6MTEeKFgqEdTHM95Q">
-        <end xmi:id="_P-15VKMTEeKFgqEdTHM95Q" role="_N8JBwaMTEeKFgqEdTHM95Q"/>
-        <end xmi:id="_P-2gYKMTEeKFgqEdTHM95Q" role="_sk2ioaJyEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_cSk70qMTEeKFgqEdTHM95Q">
-        <end xmi:id="_cSk706MTEeKFgqEdTHM95Q" role="_Y1KZwaMTEeKFgqEdTHM95Q"/>
-        <end xmi:id="_cSk71KMTEeKFgqEdTHM95Q" role="_N8JBwaMTEeKFgqEdTHM95Q"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_lKCrwaMTEeKFgqEdTHM95Q">
-        <end xmi:id="_lKCrwqMTEeKFgqEdTHM95Q" role="_uCE44aMSEeKFgqEdTHM95Q"/>
-        <end xmi:id="_lKCrw6MTEeKFgqEdTHM95Q" role="_Y1KZwaMTEeKFgqEdTHM95Q"/>
-      </ownedConnector>
-      <lifeline xmi:id="_4QLhEKMREeKFgqEdTHM95Q" name="configuration" represents="_sk2ioaJyEeKs4tCFVpHj0A" coveredBy="_5DU1QaMREeKFgqEdTHM95Q _5DVcUKMREeKFgqEdTHM95Q _5DVcUaMREeKFgqEdTHM95Q _BSxi8KMSEeKFgqEdTHM95Q _BSxi8aMSEeKFgqEdTHM95Q _BSyKAKMSEeKFgqEdTHM95Q _BSyKAaMSEeKFgqEdTHM95Q _BSyKA6MSEeKFgqEdTHM95Q _LkH28KMSEeKFgqEdTHM95Q _LkH28aMSEeKFgqEdTHM95Q _LkH28qMSEeKFgqEdTHM95Q _LkIeAKMSEeKFgqEdTHM95Q _LkIeAqMSEeKFgqEdTHM95Q _geEhUaMSEeKFgqEdTHM95Q _geFvcKMSEeKFgqEdTHM95Q _52W_QKMSEeKFgqEdTHM95Q _52XmU6MSEeKFgqEdTHM95Q _I0OswaMTEeKFgqEdTHM95Q _I0PT0KMTEeKFgqEdTHM95Q _I0PT0aMTEeKFgqEdTHM95Q _I0PT0qMTEeKFgqEdTHM95Q _I0P64KMTEeKFgqEdTHM95Q _P-1SQKMTEeKFgqEdTHM95Q _P-15UqMTEeKFgqEdTHM95Q"/>
-      <lifeline xmi:id="_fIjf4KMSEeKFgqEdTHM95Q" name="table" represents="_fIjf4aMSEeKFgqEdTHM95Q" coveredBy="_geEhUqMSEeKFgqEdTHM95Q _geFIYKMSEeKFgqEdTHM95Q _geFIYaMSEeKFgqEdTHM95Q _v_HNUaMSEeKFgqEdTHM95Q _v_IbcKMSEeKFgqEdTHM95Q _52W_QaMSEeKFgqEdTHM95Q _52XmUKMSEeKFgqEdTHM95Q _52XmUaMSEeKFgqEdTHM95Q"/>
-      <lifeline xmi:id="_uCE44KMSEeKFgqEdTHM95Q" name="dialect" represents="_uCE44aMSEeKFgqEdTHM95Q" coveredBy="_v_HNUqMSEeKFgqEdTHM95Q _v_H0YKMSEeKFgqEdTHM95Q _v_H0YaMSEeKFgqEdTHM95Q _lKCEsKMTEeKFgqEdTHM95Q _lKCEsaMTEeKFgqEdTHM95Q _lKCEsqMTEeKFgqEdTHM95Q"/>
-      <lifeline xmi:id="_N8JBwKMTEeKFgqEdTHM95Q" name="sequenceStyleGenerator" represents="_N8JBwaMTEeKFgqEdTHM95Q" coveredBy="_P-1SQaMTEeKFgqEdTHM95Q _P-1SQqMTEeKFgqEdTHM95Q _P-15UKMTEeKFgqEdTHM95Q _cSkUwKMTEeKFgqEdTHM95Q _cSk70aMTEeKFgqEdTHM95Q"/>
-      <lifeline xmi:id="_Y1KZwKMTEeKFgqEdTHM95Q" name="sequenceStructure" represents="_Y1KZwaMTEeKFgqEdTHM95Q" coveredBy="_cSkUwaMTEeKFgqEdTHM95Q _cSkUwqMTEeKFgqEdTHM95Q _cSkUw6MTEeKFgqEdTHM95Q _lKBdoaMTEeKFgqEdTHM95Q _lKCrwKMTEeKFgqEdTHM95Q"/>
+      <lifeline xmi:id="_4QLhEKMREeKFgqEdTHM95Q" name="configuration" coveredBy="_5DU1QaMREeKFgqEdTHM95Q _5DVcUKMREeKFgqEdTHM95Q _5DVcUaMREeKFgqEdTHM95Q _BSxi8KMSEeKFgqEdTHM95Q _BSxi8aMSEeKFgqEdTHM95Q _BSyKAKMSEeKFgqEdTHM95Q _BSyKAaMSEeKFgqEdTHM95Q _BSyKA6MSEeKFgqEdTHM95Q _LkH28KMSEeKFgqEdTHM95Q _LkH28aMSEeKFgqEdTHM95Q _LkH28qMSEeKFgqEdTHM95Q _LkIeAKMSEeKFgqEdTHM95Q _LkIeAqMSEeKFgqEdTHM95Q _geEhUaMSEeKFgqEdTHM95Q _geFvcKMSEeKFgqEdTHM95Q _52W_QKMSEeKFgqEdTHM95Q _52XmU6MSEeKFgqEdTHM95Q _I0OswaMTEeKFgqEdTHM95Q _I0PT0KMTEeKFgqEdTHM95Q _I0PT0aMTEeKFgqEdTHM95Q _I0PT0qMTEeKFgqEdTHM95Q _I0P64KMTEeKFgqEdTHM95Q _P-1SQKMTEeKFgqEdTHM95Q _P-15UqMTEeKFgqEdTHM95Q"/>
+      <lifeline xmi:id="_fIjf4KMSEeKFgqEdTHM95Q" name="table" coveredBy="_geEhUqMSEeKFgqEdTHM95Q _geFIYKMSEeKFgqEdTHM95Q _geFIYaMSEeKFgqEdTHM95Q _v_HNUaMSEeKFgqEdTHM95Q _v_IbcKMSEeKFgqEdTHM95Q _52W_QaMSEeKFgqEdTHM95Q _52XmUKMSEeKFgqEdTHM95Q _52XmUaMSEeKFgqEdTHM95Q"/>
+      <lifeline xmi:id="_uCE44KMSEeKFgqEdTHM95Q" name="dialect" coveredBy="_v_HNUqMSEeKFgqEdTHM95Q _v_H0YKMSEeKFgqEdTHM95Q _v_H0YaMSEeKFgqEdTHM95Q _lKCEsKMTEeKFgqEdTHM95Q _lKCEsaMTEeKFgqEdTHM95Q _lKCEsqMTEeKFgqEdTHM95Q"/>
+      <lifeline xmi:id="_N8JBwKMTEeKFgqEdTHM95Q" name="sequenceStyleGenerator" coveredBy="_P-1SQaMTEeKFgqEdTHM95Q _P-1SQqMTEeKFgqEdTHM95Q _P-15UKMTEeKFgqEdTHM95Q _cSkUwKMTEeKFgqEdTHM95Q _cSk70aMTEeKFgqEdTHM95Q"/>
+      <lifeline xmi:id="_Y1KZwKMTEeKFgqEdTHM95Q" name="sequenceStructure" coveredBy="_cSkUwaMTEeKFgqEdTHM95Q _cSkUwqMTEeKFgqEdTHM95Q _cSkUw6MTEeKFgqEdTHM95Q _lKBdoaMTEeKFgqEdTHM95Q _lKCrwKMTEeKFgqEdTHM95Q"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_5DU1QaMREeKFgqEdTHM95Q" covered="_4QLhEKMREeKFgqEdTHM95Q" message="_5DU1QKMREeKFgqEdTHM95Q"/>
       <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_5DVcUKMREeKFgqEdTHM95Q" covered="_4QLhEKMREeKFgqEdTHM95Q" start="_5DU1QaMREeKFgqEdTHM95Q" finish="_5DVcUaMREeKFgqEdTHM95Q"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_BSxi8KMSEeKFgqEdTHM95Q" covered="_4QLhEKMREeKFgqEdTHM95Q" message="_BSw74KMSEeKFgqEdTHM95Q"/>
@@ -1410,24 +1286,24 @@
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_I0PT0qMTEeKFgqEdTHM95Q" covered="_4QLhEKMREeKFgqEdTHM95Q" message="_I0PT06MTEeKFgqEdTHM95Q"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_I0P64KMTEeKFgqEdTHM95Q" covered="_4QLhEKMREeKFgqEdTHM95Q" message="_I0PT06MTEeKFgqEdTHM95Q"/>
       <message xmi:id="_5DU1QKMREeKFgqEdTHM95Q" name="generateDropSchemaScript" receiveEvent="_5DU1QaMREeKFgqEdTHM95Q"/>
-      <message xmi:id="_BSw74KMSEeKFgqEdTHM95Q" name="secondPassCompile" receiveEvent="_BSxi8aMSEeKFgqEdTHM95Q" sendEvent="_BSxi8KMSEeKFgqEdTHM95Q" connector="_BSyxEKMSEeKFgqEdTHM95Q"/>
-      <message xmi:id="_BSyKAqMSEeKFgqEdTHM95Q" name="secondPassCompile" messageSort="reply" receiveEvent="_BSyKA6MSEeKFgqEdTHM95Q" sendEvent="_BSyKAaMSEeKFgqEdTHM95Q" connector="_BSyxEKMSEeKFgqEdTHM95Q"/>
-      <message xmi:id="_LkHP4KMSEeKFgqEdTHM95Q" name="getTableMappings" receiveEvent="_LkH28aMSEeKFgqEdTHM95Q" sendEvent="_LkH28KMSEeKFgqEdTHM95Q" connector="_BSyxEKMSEeKFgqEdTHM95Q"/>
-      <message xmi:id="_LkIeAaMSEeKFgqEdTHM95Q" name="getTableMappings" messageSort="reply" receiveEvent="_LkIeAqMSEeKFgqEdTHM95Q" sendEvent="_LkIeAKMSEeKFgqEdTHM95Q" connector="_BSyxEKMSEeKFgqEdTHM95Q"/>
-      <message xmi:id="_geEhUKMSEeKFgqEdTHM95Q" name="sqlDropString" receiveEvent="_geEhUqMSEeKFgqEdTHM95Q" sendEvent="_geEhUaMSEeKFgqEdTHM95Q" connector="_geFvcaMSEeKFgqEdTHM95Q"/>
-      <message xmi:id="_geFIYqMSEeKFgqEdTHM95Q" name="sqlDropString" messageSort="reply" receiveEvent="_geFvcKMSEeKFgqEdTHM95Q" sendEvent="_geFIYaMSEeKFgqEdTHM95Q" connector="_geFvcaMSEeKFgqEdTHM95Q"/>
-      <message xmi:id="_v_HNUKMSEeKFgqEdTHM95Q" name="getDropTableString" receiveEvent="_v_HNUqMSEeKFgqEdTHM95Q" sendEvent="_v_HNUaMSEeKFgqEdTHM95Q" connector="_v_IbcaMSEeKFgqEdTHM95Q"/>
-      <message xmi:id="_v_H0YqMSEeKFgqEdTHM95Q" name="getDropTableString" messageSort="reply" receiveEvent="_v_IbcKMSEeKFgqEdTHM95Q" sendEvent="_v_H0YaMSEeKFgqEdTHM95Q" connector="_v_IbcaMSEeKFgqEdTHM95Q"/>
-      <message xmi:id="_52WYMKMSEeKFgqEdTHM95Q" name="isPhysicalTable" receiveEvent="_52W_QaMSEeKFgqEdTHM95Q" sendEvent="_52W_QKMSEeKFgqEdTHM95Q" connector="_geFvcaMSEeKFgqEdTHM95Q"/>
-      <message xmi:id="_52XmUqMSEeKFgqEdTHM95Q" name="isPhysicalTable" messageSort="reply" receiveEvent="_52XmU6MSEeKFgqEdTHM95Q" sendEvent="_52XmUaMSEeKFgqEdTHM95Q" connector="_geFvcaMSEeKFgqEdTHM95Q"/>
-      <message xmi:id="_I0OswKMTEeKFgqEdTHM95Q" name="iterateGenerators" receiveEvent="_I0PT0KMTEeKFgqEdTHM95Q" sendEvent="_I0OswaMTEeKFgqEdTHM95Q" connector="_BSyxEKMSEeKFgqEdTHM95Q"/>
-      <message xmi:id="_I0PT06MTEeKFgqEdTHM95Q" name="iterateGenerators" messageSort="reply" receiveEvent="_I0P64KMTEeKFgqEdTHM95Q" sendEvent="_I0PT0qMTEeKFgqEdTHM95Q" connector="_BSyxEKMSEeKFgqEdTHM95Q"/>
-      <message xmi:id="_P-0rMKMTEeKFgqEdTHM95Q" name="sqlDropStrings" receiveEvent="_P-1SQaMTEeKFgqEdTHM95Q" sendEvent="_P-1SQKMTEeKFgqEdTHM95Q" connector="_P-15U6MTEeKFgqEdTHM95Q"/>
-      <message xmi:id="_P-15UaMTEeKFgqEdTHM95Q" name="sqlDropStrings" messageSort="reply" receiveEvent="_P-15UqMTEeKFgqEdTHM95Q" sendEvent="_P-15UKMTEeKFgqEdTHM95Q" connector="_P-15U6MTEeKFgqEdTHM95Q"/>
-      <message xmi:id="_cSjtsKMTEeKFgqEdTHM95Q" name="sqlDropStrings" receiveEvent="_cSkUwaMTEeKFgqEdTHM95Q" sendEvent="_cSkUwKMTEeKFgqEdTHM95Q" connector="_cSk70qMTEeKFgqEdTHM95Q"/>
-      <message xmi:id="_cSk70KMTEeKFgqEdTHM95Q" name="sqlDropStrings" messageSort="reply" receiveEvent="_cSk70aMTEeKFgqEdTHM95Q" sendEvent="_cSkUw6MTEeKFgqEdTHM95Q" connector="_cSk70qMTEeKFgqEdTHM95Q"/>
-      <message xmi:id="_lKBdoKMTEeKFgqEdTHM95Q" name="getDropSequenceStrings" receiveEvent="_lKCEsKMTEeKFgqEdTHM95Q" sendEvent="_lKBdoaMTEeKFgqEdTHM95Q" connector="_lKCrwaMTEeKFgqEdTHM95Q"/>
-      <message xmi:id="_lKCEs6MTEeKFgqEdTHM95Q" name="getDropSequenceStrings" messageSort="reply" receiveEvent="_lKCrwKMTEeKFgqEdTHM95Q" sendEvent="_lKCEsqMTEeKFgqEdTHM95Q" connector="_lKCrwaMTEeKFgqEdTHM95Q"/>
+      <message xmi:id="_BSw74KMSEeKFgqEdTHM95Q" name="secondPassCompile" receiveEvent="_BSxi8aMSEeKFgqEdTHM95Q" sendEvent="_BSxi8KMSEeKFgqEdTHM95Q"/>
+      <message xmi:id="_BSyKAqMSEeKFgqEdTHM95Q" name="secondPassCompile" messageSort="reply" receiveEvent="_BSyKA6MSEeKFgqEdTHM95Q" sendEvent="_BSyKAaMSEeKFgqEdTHM95Q"/>
+      <message xmi:id="_LkHP4KMSEeKFgqEdTHM95Q" name="getTableMappings" receiveEvent="_LkH28aMSEeKFgqEdTHM95Q" sendEvent="_LkH28KMSEeKFgqEdTHM95Q"/>
+      <message xmi:id="_LkIeAaMSEeKFgqEdTHM95Q" name="getTableMappings" messageSort="reply" receiveEvent="_LkIeAqMSEeKFgqEdTHM95Q" sendEvent="_LkIeAKMSEeKFgqEdTHM95Q"/>
+      <message xmi:id="_geEhUKMSEeKFgqEdTHM95Q" name="sqlDropString" receiveEvent="_geEhUqMSEeKFgqEdTHM95Q" sendEvent="_geEhUaMSEeKFgqEdTHM95Q"/>
+      <message xmi:id="_geFIYqMSEeKFgqEdTHM95Q" name="sqlDropString" messageSort="reply" receiveEvent="_geFvcKMSEeKFgqEdTHM95Q" sendEvent="_geFIYaMSEeKFgqEdTHM95Q"/>
+      <message xmi:id="_v_HNUKMSEeKFgqEdTHM95Q" name="getDropTableString" receiveEvent="_v_HNUqMSEeKFgqEdTHM95Q" sendEvent="_v_HNUaMSEeKFgqEdTHM95Q"/>
+      <message xmi:id="_v_H0YqMSEeKFgqEdTHM95Q" name="getDropTableString" messageSort="reply" receiveEvent="_v_IbcKMSEeKFgqEdTHM95Q" sendEvent="_v_H0YaMSEeKFgqEdTHM95Q"/>
+      <message xmi:id="_52WYMKMSEeKFgqEdTHM95Q" name="isPhysicalTable" receiveEvent="_52W_QaMSEeKFgqEdTHM95Q" sendEvent="_52W_QKMSEeKFgqEdTHM95Q"/>
+      <message xmi:id="_52XmUqMSEeKFgqEdTHM95Q" name="isPhysicalTable" messageSort="reply" receiveEvent="_52XmU6MSEeKFgqEdTHM95Q" sendEvent="_52XmUaMSEeKFgqEdTHM95Q"/>
+      <message xmi:id="_I0OswKMTEeKFgqEdTHM95Q" name="iterateGenerators" receiveEvent="_I0PT0KMTEeKFgqEdTHM95Q" sendEvent="_I0OswaMTEeKFgqEdTHM95Q"/>
+      <message xmi:id="_I0PT06MTEeKFgqEdTHM95Q" name="iterateGenerators" messageSort="reply" receiveEvent="_I0P64KMTEeKFgqEdTHM95Q" sendEvent="_I0PT0qMTEeKFgqEdTHM95Q"/>
+      <message xmi:id="_P-0rMKMTEeKFgqEdTHM95Q" name="sqlDropStrings" receiveEvent="_P-1SQaMTEeKFgqEdTHM95Q" sendEvent="_P-1SQKMTEeKFgqEdTHM95Q"/>
+      <message xmi:id="_P-15UaMTEeKFgqEdTHM95Q" name="sqlDropStrings" messageSort="reply" receiveEvent="_P-15UqMTEeKFgqEdTHM95Q" sendEvent="_P-15UKMTEeKFgqEdTHM95Q"/>
+      <message xmi:id="_cSjtsKMTEeKFgqEdTHM95Q" name="sqlDropStrings" receiveEvent="_cSkUwaMTEeKFgqEdTHM95Q" sendEvent="_cSkUwKMTEeKFgqEdTHM95Q"/>
+      <message xmi:id="_cSk70KMTEeKFgqEdTHM95Q" name="sqlDropStrings" messageSort="reply" receiveEvent="_cSk70aMTEeKFgqEdTHM95Q" sendEvent="_cSkUw6MTEeKFgqEdTHM95Q"/>
+      <message xmi:id="_lKBdoKMTEeKFgqEdTHM95Q" name="getDropSequenceStrings" receiveEvent="_lKCEsKMTEeKFgqEdTHM95Q" sendEvent="_lKBdoaMTEeKFgqEdTHM95Q"/>
+      <message xmi:id="_lKCEs6MTEeKFgqEdTHM95Q" name="getDropSequenceStrings" messageSort="reply" receiveEvent="_lKCrwKMTEeKFgqEdTHM95Q" sendEvent="_lKCEsqMTEeKFgqEdTHM95Q"/>
     </ownedBehavior>
     <ownedBehavior xmi:type="uml:Interaction" xmi:id="_01AIwKMTEeKFgqEdTHM95Q" name="generateSchemaCreationScript">
       <eAnnotations xmi:id="_01BW4KMTEeKFgqEdTHM95Q" source="uml2.diagrams">
@@ -1753,44 +1629,12 @@
           </edges>
         </contents>
       </eAnnotations>
-      <ownedConnector xmi:id="_XIteAqMeEeKFgqEdTHM95Q">
-        <end xmi:id="_XIteA6MeEeKFgqEdTHM95Q" role="_sk2ioaJyEeKs4tCFVpHj0A"/>
-        <end xmi:id="_XIteBKMeEeKFgqEdTHM95Q" role="_sk2ioaJyEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_gf_9g6MeEeKFgqEdTHM95Q">
-        <end xmi:id="_gf_9hKMeEeKFgqEdTHM95Q" role="_fIjf4aMSEeKFgqEdTHM95Q"/>
-        <end xmi:id="_gf_9haMeEeKFgqEdTHM95Q" role="_sk2ioaJyEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_nQHmdKMeEeKFgqEdTHM95Q">
-        <end xmi:id="_nQINgKMeEeKFgqEdTHM95Q" role="_fIjf4aMSEeKFgqEdTHM95Q"/>
-        <end xmi:id="_nQINgaMeEeKFgqEdTHM95Q" role="_fIjf4aMSEeKFgqEdTHM95Q"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_uQ46gaMeEeKFgqEdTHM95Q">
-        <end xmi:id="_uQ46gqMeEeKFgqEdTHM95Q" role="_uCE44aMSEeKFgqEdTHM95Q"/>
-        <end xmi:id="_uQ46g6MeEeKFgqEdTHM95Q" role="_fIjf4aMSEeKFgqEdTHM95Q"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_LDI946MfEeKFgqEdTHM95Q">
-        <end xmi:id="_LDI95KMfEeKFgqEdTHM95Q" role="_IRR6QaMfEeKFgqEdTHM95Q"/>
-        <end xmi:id="_LDI95aMfEeKFgqEdTHM95Q" role="_fIjf4aMSEeKFgqEdTHM95Q"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_H5OxM6MgEeKFgqEdTHM95Q">
-        <end xmi:id="_H5OxNKMgEeKFgqEdTHM95Q" role="_N8JBwaMTEeKFgqEdTHM95Q"/>
-        <end xmi:id="_H5PYQKMgEeKFgqEdTHM95Q" role="_sk2ioaJyEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_NZQENKMgEeKFgqEdTHM95Q">
-        <end xmi:id="_NZQrQKMgEeKFgqEdTHM95Q" role="_Y1KZwaMTEeKFgqEdTHM95Q"/>
-        <end xmi:id="_NZQrQaMgEeKFgqEdTHM95Q" role="_N8JBwaMTEeKFgqEdTHM95Q"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_UTnOQaMgEeKFgqEdTHM95Q">
-        <end xmi:id="_UTnOQqMgEeKFgqEdTHM95Q" role="_uCE44aMSEeKFgqEdTHM95Q"/>
-        <end xmi:id="_UTnOQ6MgEeKFgqEdTHM95Q" role="_Y1KZwaMTEeKFgqEdTHM95Q"/>
-      </ownedConnector>
-      <lifeline xmi:id="_TsX6AKMeEeKFgqEdTHM95Q" name="configuration" represents="_sk2ioaJyEeKs4tCFVpHj0A" coveredBy="_UlcQAKMeEeKFgqEdTHM95Q _UlcQAaMeEeKFgqEdTHM95Q _UlcQAqMeEeKFgqEdTHM95Q _XIs28KMeEeKFgqEdTHM95Q _XIs28aMeEeKFgqEdTHM95Q _XIs28qMeEeKFgqEdTHM95Q _XIs286MeEeKFgqEdTHM95Q _XIteAaMeEeKFgqEdTHM95Q _Z3fYcaMeEeKFgqEdTHM95Q _Z3f_gKMeEeKFgqEdTHM95Q _Z3f_gaMeEeKFgqEdTHM95Q _Z3f_gqMeEeKFgqEdTHM95Q _Z3gmkKMeEeKFgqEdTHM95Q _gf_WcKMeEeKFgqEdTHM95Q _gf_9gqMeEeKFgqEdTHM95Q _BHf-saMgEeKFgqEdTHM95Q _BHf-sqMgEeKFgqEdTHM95Q _BHglwKMgEeKFgqEdTHM95Q _BHglwaMgEeKFgqEdTHM95Q _BHglw6MgEeKFgqEdTHM95Q _H5OKIKMgEeKFgqEdTHM95Q _H5OxMqMgEeKFgqEdTHM95Q"/>
-      <lifeline xmi:id="_fXqccKMeEeKFgqEdTHM95Q" name="table" represents="_fIjf4aMSEeKFgqEdTHM95Q" coveredBy="_gf_WcaMeEeKFgqEdTHM95Q _gf_WcqMeEeKFgqEdTHM95Q _gf_9gKMeEeKFgqEdTHM95Q _uQ3sYaMeEeKFgqEdTHM95Q _uQ46gKMeEeKFgqEdTHM95Q _LDIW0KMfEeKFgqEdTHM95Q _LDI94qMfEeKFgqEdTHM95Q _M1CZUaMfEeKFgqEdTHM95Q _M1CZUqMfEeKFgqEdTHM95Q _M1DAYKMfEeKFgqEdTHM95Q _M1DAYaMfEeKFgqEdTHM95Q _M1DAY6MfEeKFgqEdTHM95Q _SBcMwaMfEeKFgqEdTHM95Q _SBcz0KMfEeKFgqEdTHM95Q _SBcz0aMfEeKFgqEdTHM95Q _SBcz0qMfEeKFgqEdTHM95Q _SBda4KMfEeKFgqEdTHM95Q"/>
-      <lifeline xmi:id="_sciA8KMeEeKFgqEdTHM95Q" name="dialect" represents="_uCE44aMSEeKFgqEdTHM95Q" coveredBy="_uQ4TcKMeEeKFgqEdTHM95Q _uQ4TcaMeEeKFgqEdTHM95Q _uQ4TcqMeEeKFgqEdTHM95Q _UTmnMKMgEeKFgqEdTHM95Q _UTmnMaMgEeKFgqEdTHM95Q _UTmnMqMgEeKFgqEdTHM95Q"/>
-      <lifeline xmi:id="_IRR6QKMfEeKFgqEdTHM95Q" name="primaryKey" represents="_IRR6QaMfEeKFgqEdTHM95Q" coveredBy="_LDIW0aMfEeKFgqEdTHM95Q _LDIW0qMfEeKFgqEdTHM95Q _LDI94KMfEeKFgqEdTHM95Q"/>
-      <lifeline xmi:id="_FpfjMKMgEeKFgqEdTHM95Q" name="sequenceStyleGenerator" represents="_N8JBwaMTEeKFgqEdTHM95Q" coveredBy="_H5OKIaMgEeKFgqEdTHM95Q _H5OKIqMgEeKFgqEdTHM95Q _H5OxMKMgEeKFgqEdTHM95Q _NZPdIaMgEeKFgqEdTHM95Q _NZQEM6MgEeKFgqEdTHM95Q"/>
-      <lifeline xmi:id="_LqUdMKMgEeKFgqEdTHM95Q" name="sequenceStructure" represents="_Y1KZwaMTEeKFgqEdTHM95Q" coveredBy="_NZPdIqMgEeKFgqEdTHM95Q _NZQEMKMgEeKFgqEdTHM95Q _NZQEMaMgEeKFgqEdTHM95Q _UTmAIaMgEeKFgqEdTHM95Q _UTnOQKMgEeKFgqEdTHM95Q"/>
+      <lifeline xmi:id="_TsX6AKMeEeKFgqEdTHM95Q" name="configuration" coveredBy="_UlcQAKMeEeKFgqEdTHM95Q _UlcQAaMeEeKFgqEdTHM95Q _UlcQAqMeEeKFgqEdTHM95Q _XIs28KMeEeKFgqEdTHM95Q _XIs28aMeEeKFgqEdTHM95Q _XIs28qMeEeKFgqEdTHM95Q _XIs286MeEeKFgqEdTHM95Q _XIteAaMeEeKFgqEdTHM95Q _Z3fYcaMeEeKFgqEdTHM95Q _Z3f_gKMeEeKFgqEdTHM95Q _Z3f_gaMeEeKFgqEdTHM95Q _Z3f_gqMeEeKFgqEdTHM95Q _Z3gmkKMeEeKFgqEdTHM95Q _gf_WcKMeEeKFgqEdTHM95Q _gf_9gqMeEeKFgqEdTHM95Q _BHf-saMgEeKFgqEdTHM95Q _BHf-sqMgEeKFgqEdTHM95Q _BHglwKMgEeKFgqEdTHM95Q _BHglwaMgEeKFgqEdTHM95Q _BHglw6MgEeKFgqEdTHM95Q _H5OKIKMgEeKFgqEdTHM95Q _H5OxMqMgEeKFgqEdTHM95Q"/>
+      <lifeline xmi:id="_fXqccKMeEeKFgqEdTHM95Q" name="table" coveredBy="_gf_WcaMeEeKFgqEdTHM95Q _gf_WcqMeEeKFgqEdTHM95Q _gf_9gKMeEeKFgqEdTHM95Q _uQ3sYaMeEeKFgqEdTHM95Q _uQ46gKMeEeKFgqEdTHM95Q _LDIW0KMfEeKFgqEdTHM95Q _LDI94qMfEeKFgqEdTHM95Q _M1CZUaMfEeKFgqEdTHM95Q _M1CZUqMfEeKFgqEdTHM95Q _M1DAYKMfEeKFgqEdTHM95Q _M1DAYaMfEeKFgqEdTHM95Q _M1DAY6MfEeKFgqEdTHM95Q _SBcMwaMfEeKFgqEdTHM95Q _SBcz0KMfEeKFgqEdTHM95Q _SBcz0aMfEeKFgqEdTHM95Q _SBcz0qMfEeKFgqEdTHM95Q _SBda4KMfEeKFgqEdTHM95Q"/>
+      <lifeline xmi:id="_sciA8KMeEeKFgqEdTHM95Q" name="dialect" coveredBy="_uQ4TcKMeEeKFgqEdTHM95Q _uQ4TcaMeEeKFgqEdTHM95Q _uQ4TcqMeEeKFgqEdTHM95Q _UTmnMKMgEeKFgqEdTHM95Q _UTmnMaMgEeKFgqEdTHM95Q _UTmnMqMgEeKFgqEdTHM95Q"/>
+      <lifeline xmi:id="_IRR6QKMfEeKFgqEdTHM95Q" name="primaryKey" coveredBy="_LDIW0aMfEeKFgqEdTHM95Q _LDIW0qMfEeKFgqEdTHM95Q _LDI94KMfEeKFgqEdTHM95Q"/>
+      <lifeline xmi:id="_FpfjMKMgEeKFgqEdTHM95Q" name="sequenceStyleGenerator" coveredBy="_H5OKIaMgEeKFgqEdTHM95Q _H5OKIqMgEeKFgqEdTHM95Q _H5OxMKMgEeKFgqEdTHM95Q _NZPdIaMgEeKFgqEdTHM95Q _NZQEM6MgEeKFgqEdTHM95Q"/>
+      <lifeline xmi:id="_LqUdMKMgEeKFgqEdTHM95Q" name="sequenceStructure" coveredBy="_NZPdIqMgEeKFgqEdTHM95Q _NZQEMKMgEeKFgqEdTHM95Q _NZQEMaMgEeKFgqEdTHM95Q _UTmAIaMgEeKFgqEdTHM95Q _UTnOQKMgEeKFgqEdTHM95Q"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_UlcQAKMeEeKFgqEdTHM95Q" covered="_TsX6AKMeEeKFgqEdTHM95Q" message="_Ulbo8KMeEeKFgqEdTHM95Q"/>
       <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_UlcQAaMeEeKFgqEdTHM95Q" covered="_TsX6AKMeEeKFgqEdTHM95Q" start="_UlcQAKMeEeKFgqEdTHM95Q" finish="_UlcQAqMeEeKFgqEdTHM95Q"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_XIs28KMeEeKFgqEdTHM95Q" covered="_TsX6AKMeEeKFgqEdTHM95Q" message="_XIsP4KMeEeKFgqEdTHM95Q"/>
@@ -1850,28 +1694,28 @@
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_BHglwaMgEeKFgqEdTHM95Q" covered="_TsX6AKMeEeKFgqEdTHM95Q" message="_BHglwqMgEeKFgqEdTHM95Q"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_BHglw6MgEeKFgqEdTHM95Q" covered="_TsX6AKMeEeKFgqEdTHM95Q" message="_BHglwqMgEeKFgqEdTHM95Q"/>
       <message xmi:id="_Ulbo8KMeEeKFgqEdTHM95Q" name="generateSchemaCreationScript" receiveEvent="_UlcQAKMeEeKFgqEdTHM95Q"/>
-      <message xmi:id="_XIsP4KMeEeKFgqEdTHM95Q" name="secondPassCompile" receiveEvent="_XIs28aMeEeKFgqEdTHM95Q" sendEvent="_XIs28KMeEeKFgqEdTHM95Q" connector="_XIteAqMeEeKFgqEdTHM95Q"/>
-      <message xmi:id="_XIteAKMeEeKFgqEdTHM95Q" name="secondPassCompile" messageSort="reply" receiveEvent="_XIteAaMeEeKFgqEdTHM95Q" sendEvent="_XIs286MeEeKFgqEdTHM95Q" connector="_XIteAqMeEeKFgqEdTHM95Q"/>
-      <message xmi:id="_Z3fYcKMeEeKFgqEdTHM95Q" name="getTableMappings" receiveEvent="_Z3f_gKMeEeKFgqEdTHM95Q" sendEvent="_Z3fYcaMeEeKFgqEdTHM95Q" connector="_XIteAqMeEeKFgqEdTHM95Q"/>
-      <message xmi:id="_Z3f_g6MeEeKFgqEdTHM95Q" name="getTableMappings" messageSort="reply" receiveEvent="_Z3gmkKMeEeKFgqEdTHM95Q" sendEvent="_Z3f_gqMeEeKFgqEdTHM95Q" connector="_XIteAqMeEeKFgqEdTHM95Q"/>
-      <message xmi:id="_gf-vYKMeEeKFgqEdTHM95Q" name="sqlCreateString" receiveEvent="_gf_WcaMeEeKFgqEdTHM95Q" sendEvent="_gf_WcKMeEeKFgqEdTHM95Q" connector="_gf_9g6MeEeKFgqEdTHM95Q"/>
-      <message xmi:id="_gf_9gaMeEeKFgqEdTHM95Q" name="sqlCreateString" messageSort="reply" receiveEvent="_gf_9gqMeEeKFgqEdTHM95Q" sendEvent="_gf_9gKMeEeKFgqEdTHM95Q" connector="_gf_9g6MeEeKFgqEdTHM95Q"/>
-      <message xmi:id="_uQ3sYKMeEeKFgqEdTHM95Q" name="getCreateTableString" receiveEvent="_uQ4TcKMeEeKFgqEdTHM95Q" sendEvent="_uQ3sYaMeEeKFgqEdTHM95Q" connector="_uQ46gaMeEeKFgqEdTHM95Q"/>
-      <message xmi:id="_uQ4Tc6MeEeKFgqEdTHM95Q" name="getCreateTableString" messageSort="reply" receiveEvent="_uQ46gKMeEeKFgqEdTHM95Q" sendEvent="_uQ4TcqMeEeKFgqEdTHM95Q" connector="_uQ46gaMeEeKFgqEdTHM95Q"/>
-      <message xmi:id="_LDHvwKMfEeKFgqEdTHM95Q" name="getColumnIterator" receiveEvent="_LDIW0aMfEeKFgqEdTHM95Q" sendEvent="_LDIW0KMfEeKFgqEdTHM95Q" connector="_LDI946MfEeKFgqEdTHM95Q"/>
-      <message xmi:id="_LDI94aMfEeKFgqEdTHM95Q" name="getColumnIterator" messageSort="reply" receiveEvent="_LDI94qMfEeKFgqEdTHM95Q" sendEvent="_LDI94KMfEeKFgqEdTHM95Q" connector="_LDI946MfEeKFgqEdTHM95Q"/>
-      <message xmi:id="_M1CZUKMfEeKFgqEdTHM95Q" name="getPrimaryKey" receiveEvent="_M1CZUqMfEeKFgqEdTHM95Q" sendEvent="_M1CZUaMfEeKFgqEdTHM95Q" connector="_nQHmdKMeEeKFgqEdTHM95Q"/>
-      <message xmi:id="_M1DAYqMfEeKFgqEdTHM95Q" name="getPrimaryKey" messageSort="reply" receiveEvent="_M1DAY6MfEeKFgqEdTHM95Q" sendEvent="_M1DAYaMfEeKFgqEdTHM95Q" connector="_nQHmdKMeEeKFgqEdTHM95Q"/>
-      <message xmi:id="_SBcMwKMfEeKFgqEdTHM95Q" name="getColumnIterator" receiveEvent="_SBcz0KMfEeKFgqEdTHM95Q" sendEvent="_SBcMwaMfEeKFgqEdTHM95Q" connector="_nQHmdKMeEeKFgqEdTHM95Q"/>
-      <message xmi:id="_SBcz06MfEeKFgqEdTHM95Q" name="getColumnIterator" messageSort="reply" receiveEvent="_SBda4KMfEeKFgqEdTHM95Q" sendEvent="_SBcz0qMfEeKFgqEdTHM95Q" connector="_nQHmdKMeEeKFgqEdTHM95Q"/>
-      <message xmi:id="_BHf-sKMgEeKFgqEdTHM95Q" name="iterateGenerators" receiveEvent="_BHf-sqMgEeKFgqEdTHM95Q" sendEvent="_BHf-saMgEeKFgqEdTHM95Q" connector="_XIteAqMeEeKFgqEdTHM95Q"/>
-      <message xmi:id="_BHglwqMgEeKFgqEdTHM95Q" name="iterateGenerators" messageSort="reply" receiveEvent="_BHglw6MgEeKFgqEdTHM95Q" sendEvent="_BHglwaMgEeKFgqEdTHM95Q" connector="_XIteAqMeEeKFgqEdTHM95Q"/>
-      <message xmi:id="_H5NjEKMgEeKFgqEdTHM95Q" name="sqlCreateStrings" receiveEvent="_H5OKIaMgEeKFgqEdTHM95Q" sendEvent="_H5OKIKMgEeKFgqEdTHM95Q" connector="_H5OxM6MgEeKFgqEdTHM95Q"/>
-      <message xmi:id="_H5OxMaMgEeKFgqEdTHM95Q" name="sqlCreateStrings" messageSort="reply" receiveEvent="_H5OxMqMgEeKFgqEdTHM95Q" sendEvent="_H5OxMKMgEeKFgqEdTHM95Q" connector="_H5OxM6MgEeKFgqEdTHM95Q"/>
-      <message xmi:id="_NZPdIKMgEeKFgqEdTHM95Q" name="sqlCreateStrings" receiveEvent="_NZPdIqMgEeKFgqEdTHM95Q" sendEvent="_NZPdIaMgEeKFgqEdTHM95Q" connector="_NZQENKMgEeKFgqEdTHM95Q"/>
-      <message xmi:id="_NZQEMqMgEeKFgqEdTHM95Q" name="sqlCreateStrings" messageSort="reply" receiveEvent="_NZQEM6MgEeKFgqEdTHM95Q" sendEvent="_NZQEMaMgEeKFgqEdTHM95Q" connector="_NZQENKMgEeKFgqEdTHM95Q"/>
-      <message xmi:id="_UTmAIKMgEeKFgqEdTHM95Q" name="getCreateSequenceStrings" receiveEvent="_UTmnMKMgEeKFgqEdTHM95Q" sendEvent="_UTmAIaMgEeKFgqEdTHM95Q" connector="_UTnOQaMgEeKFgqEdTHM95Q"/>
-      <message xmi:id="_UTmnM6MgEeKFgqEdTHM95Q" name="getCreateSequenceStrings" messageSort="reply" receiveEvent="_UTnOQKMgEeKFgqEdTHM95Q" sendEvent="_UTmnMqMgEeKFgqEdTHM95Q" connector="_UTnOQaMgEeKFgqEdTHM95Q"/>
+      <message xmi:id="_XIsP4KMeEeKFgqEdTHM95Q" name="secondPassCompile" receiveEvent="_XIs28aMeEeKFgqEdTHM95Q" sendEvent="_XIs28KMeEeKFgqEdTHM95Q"/>
+      <message xmi:id="_XIteAKMeEeKFgqEdTHM95Q" name="secondPassCompile" messageSort="reply" receiveEvent="_XIteAaMeEeKFgqEdTHM95Q" sendEvent="_XIs286MeEeKFgqEdTHM95Q"/>
+      <message xmi:id="_Z3fYcKMeEeKFgqEdTHM95Q" name="getTableMappings" receiveEvent="_Z3f_gKMeEeKFgqEdTHM95Q" sendEvent="_Z3fYcaMeEeKFgqEdTHM95Q"/>
+      <message xmi:id="_Z3f_g6MeEeKFgqEdTHM95Q" name="getTableMappings" messageSort="reply" receiveEvent="_Z3gmkKMeEeKFgqEdTHM95Q" sendEvent="_Z3f_gqMeEeKFgqEdTHM95Q"/>
+      <message xmi:id="_gf-vYKMeEeKFgqEdTHM95Q" name="sqlCreateString" receiveEvent="_gf_WcaMeEeKFgqEdTHM95Q" sendEvent="_gf_WcKMeEeKFgqEdTHM95Q"/>
+      <message xmi:id="_gf_9gaMeEeKFgqEdTHM95Q" name="sqlCreateString" messageSort="reply" receiveEvent="_gf_9gqMeEeKFgqEdTHM95Q" sendEvent="_gf_9gKMeEeKFgqEdTHM95Q"/>
+      <message xmi:id="_uQ3sYKMeEeKFgqEdTHM95Q" name="getCreateTableString" receiveEvent="_uQ4TcKMeEeKFgqEdTHM95Q" sendEvent="_uQ3sYaMeEeKFgqEdTHM95Q"/>
+      <message xmi:id="_uQ4Tc6MeEeKFgqEdTHM95Q" name="getCreateTableString" messageSort="reply" receiveEvent="_uQ46gKMeEeKFgqEdTHM95Q" sendEvent="_uQ4TcqMeEeKFgqEdTHM95Q"/>
+      <message xmi:id="_LDHvwKMfEeKFgqEdTHM95Q" name="getColumnIterator" receiveEvent="_LDIW0aMfEeKFgqEdTHM95Q" sendEvent="_LDIW0KMfEeKFgqEdTHM95Q"/>
+      <message xmi:id="_LDI94aMfEeKFgqEdTHM95Q" name="getColumnIterator" messageSort="reply" receiveEvent="_LDI94qMfEeKFgqEdTHM95Q" sendEvent="_LDI94KMfEeKFgqEdTHM95Q"/>
+      <message xmi:id="_M1CZUKMfEeKFgqEdTHM95Q" name="getPrimaryKey" receiveEvent="_M1CZUqMfEeKFgqEdTHM95Q" sendEvent="_M1CZUaMfEeKFgqEdTHM95Q"/>
+      <message xmi:id="_M1DAYqMfEeKFgqEdTHM95Q" name="getPrimaryKey" messageSort="reply" receiveEvent="_M1DAY6MfEeKFgqEdTHM95Q" sendEvent="_M1DAYaMfEeKFgqEdTHM95Q"/>
+      <message xmi:id="_SBcMwKMfEeKFgqEdTHM95Q" name="getColumnIterator" receiveEvent="_SBcz0KMfEeKFgqEdTHM95Q" sendEvent="_SBcMwaMfEeKFgqEdTHM95Q"/>
+      <message xmi:id="_SBcz06MfEeKFgqEdTHM95Q" name="getColumnIterator" messageSort="reply" receiveEvent="_SBda4KMfEeKFgqEdTHM95Q" sendEvent="_SBcz0qMfEeKFgqEdTHM95Q"/>
+      <message xmi:id="_BHf-sKMgEeKFgqEdTHM95Q" name="iterateGenerators" receiveEvent="_BHf-sqMgEeKFgqEdTHM95Q" sendEvent="_BHf-saMgEeKFgqEdTHM95Q"/>
+      <message xmi:id="_BHglwqMgEeKFgqEdTHM95Q" name="iterateGenerators" messageSort="reply" receiveEvent="_BHglw6MgEeKFgqEdTHM95Q" sendEvent="_BHglwaMgEeKFgqEdTHM95Q"/>
+      <message xmi:id="_H5NjEKMgEeKFgqEdTHM95Q" name="sqlCreateStrings" receiveEvent="_H5OKIaMgEeKFgqEdTHM95Q" sendEvent="_H5OKIKMgEeKFgqEdTHM95Q"/>
+      <message xmi:id="_H5OxMaMgEeKFgqEdTHM95Q" name="sqlCreateStrings" messageSort="reply" receiveEvent="_H5OxMqMgEeKFgqEdTHM95Q" sendEvent="_H5OxMKMgEeKFgqEdTHM95Q"/>
+      <message xmi:id="_NZPdIKMgEeKFgqEdTHM95Q" name="sqlCreateStrings" receiveEvent="_NZPdIqMgEeKFgqEdTHM95Q" sendEvent="_NZPdIaMgEeKFgqEdTHM95Q"/>
+      <message xmi:id="_NZQEMqMgEeKFgqEdTHM95Q" name="sqlCreateStrings" messageSort="reply" receiveEvent="_NZQEM6MgEeKFgqEdTHM95Q" sendEvent="_NZQEMaMgEeKFgqEdTHM95Q"/>
+      <message xmi:id="_UTmAIKMgEeKFgqEdTHM95Q" name="getCreateSequenceStrings" receiveEvent="_UTmnMKMgEeKFgqEdTHM95Q" sendEvent="_UTmAIaMgEeKFgqEdTHM95Q"/>
+      <message xmi:id="_UTmnM6MgEeKFgqEdTHM95Q" name="getCreateSequenceStrings" messageSort="reply" receiveEvent="_UTnOQKMgEeKFgqEdTHM95Q" sendEvent="_UTmnMqMgEeKFgqEdTHM95Q"/>
     </ownedBehavior>
     <ownedBehavior xmi:type="uml:Interaction" xmi:id="_cspQ4KRAEeKtv8N0DfnuwQ" name="addInputStream">
       <eAnnotations xmi:id="_csp38KRAEeKtv8N0DfnuwQ" source="uml2.diagrams">
@@ -2091,21 +1935,9 @@
           </edges>
         </contents>
       </eAnnotations>
-      <ownedConnector xmi:id="_oUgE0KRAEeKtv8N0DfnuwQ">
-        <end xmi:id="_oUgE0aRAEeKtv8N0DfnuwQ" role="_sk2ioaJyEeKs4tCFVpHj0A"/>
-        <end xmi:id="_oUgr4KRAEeKtv8N0DfnuwQ" role="_sk2ioaJyEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_3HNrMqRAEeKtv8N0DfnuwQ">
-        <end xmi:id="_3HNrM6RAEeKtv8N0DfnuwQ" role="_0vQ8YaRAEeKtv8N0DfnuwQ"/>
-        <end xmi:id="_3HNrNKRAEeKtv8N0DfnuwQ" role="_sk2ioaJyEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_xFvbhKRBEeKtv8N0DfnuwQ">
-        <end xmi:id="_xFwCkKRBEeKtv8N0DfnuwQ" role="_tR4C4aKBEeKs4tCFVpHj0A"/>
-        <end xmi:id="_xFwCkaRBEeKtv8N0DfnuwQ" role="_sk2ioaJyEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <lifeline xmi:id="_hlWFMKRAEeKtv8N0DfnuwQ" name="configuration" represents="_sk2ioaJyEeKs4tCFVpHj0A" coveredBy="_iS5uwaRAEeKtv8N0DfnuwQ _iS5uwqRAEeKtv8N0DfnuwQ _iS5uw6RAEeKtv8N0DfnuwQ _oUe2sKRAEeKtv8N0DfnuwQ _oUe2saRAEeKtv8N0DfnuwQ _oUe2sqRAEeKtv8N0DfnuwQ _oUfdwKRAEeKtv8N0DfnuwQ _oUfdwqRAEeKtv8N0DfnuwQ _pbSGsaRAEeKtv8N0DfnuwQ _pbSGsqRAEeKtv8N0DfnuwQ _pbStwKRAEeKtv8N0DfnuwQ _pbStwaRAEeKtv8N0DfnuwQ _pbStw6RAEeKtv8N0DfnuwQ _rxMOIaRAEeKtv8N0DfnuwQ _rxMOIqRAEeKtv8N0DfnuwQ _rxMOI6RAEeKtv8N0DfnuwQ _rxM1MKRAEeKtv8N0DfnuwQ _rxM1MqRAEeKtv8N0DfnuwQ _3HNEIKRAEeKtv8N0DfnuwQ _3HNrMaRAEeKtv8N0DfnuwQ _5MLMkaRAEeKtv8N0DfnuwQ _5MLMkqRAEeKtv8N0DfnuwQ _5MLzoKRAEeKtv8N0DfnuwQ _5MLzoaRAEeKtv8N0DfnuwQ _5MLzo6RAEeKtv8N0DfnuwQ _mbgGYKRBEeKtv8N0DfnuwQ _xFu0caRBEeKtv8N0DfnuwQ _xFvbg6RBEeKtv8N0DfnuwQ _yDEmcaRBEeKtv8N0DfnuwQ _yDF0kKRBEeKtv8N0DfnuwQ"/>
-      <lifeline xmi:id="_0vQ8YKRAEeKtv8N0DfnuwQ" name="mappingReader" represents="_0vQ8YaRAEeKtv8N0DfnuwQ" coveredBy="_3HNEIaRAEeKtv8N0DfnuwQ _3HNEIqRAEeKtv8N0DfnuwQ _3HNEI6RAEeKtv8N0DfnuwQ"/>
-      <lifeline xmi:id="_ZGyvEKRBEeKtv8N0DfnuwQ" name="metadataSourceQueue" represents="_tR4C4aKBEeKs4tCFVpHj0A" coveredBy="_mbgGYKRBEeKtv8N0DfnuwQ _xFu0cqRBEeKtv8N0DfnuwQ _xFvbgKRBEeKtv8N0DfnuwQ _xFvbgaRBEeKtv8N0DfnuwQ _yDFNgKRBEeKtv8N0DfnuwQ _yDFNgaRBEeKtv8N0DfnuwQ _yDFNgqRBEeKtv8N0DfnuwQ"/>
+      <lifeline xmi:id="_hlWFMKRAEeKtv8N0DfnuwQ" name="configuration" coveredBy="_iS5uwaRAEeKtv8N0DfnuwQ _iS5uwqRAEeKtv8N0DfnuwQ _iS5uw6RAEeKtv8N0DfnuwQ _oUe2sKRAEeKtv8N0DfnuwQ _oUe2saRAEeKtv8N0DfnuwQ _oUe2sqRAEeKtv8N0DfnuwQ _oUfdwKRAEeKtv8N0DfnuwQ _oUfdwqRAEeKtv8N0DfnuwQ _pbSGsaRAEeKtv8N0DfnuwQ _pbSGsqRAEeKtv8N0DfnuwQ _pbStwKRAEeKtv8N0DfnuwQ _pbStwaRAEeKtv8N0DfnuwQ _pbStw6RAEeKtv8N0DfnuwQ _rxMOIaRAEeKtv8N0DfnuwQ _rxMOIqRAEeKtv8N0DfnuwQ _rxMOI6RAEeKtv8N0DfnuwQ _rxM1MKRAEeKtv8N0DfnuwQ _rxM1MqRAEeKtv8N0DfnuwQ _3HNEIKRAEeKtv8N0DfnuwQ _3HNrMaRAEeKtv8N0DfnuwQ _5MLMkaRAEeKtv8N0DfnuwQ _5MLMkqRAEeKtv8N0DfnuwQ _5MLzoKRAEeKtv8N0DfnuwQ _5MLzoaRAEeKtv8N0DfnuwQ _5MLzo6RAEeKtv8N0DfnuwQ _mbgGYKRBEeKtv8N0DfnuwQ _xFu0caRBEeKtv8N0DfnuwQ _xFvbg6RBEeKtv8N0DfnuwQ _yDEmcaRBEeKtv8N0DfnuwQ _yDF0kKRBEeKtv8N0DfnuwQ"/>
+      <lifeline xmi:id="_0vQ8YKRAEeKtv8N0DfnuwQ" name="mappingReader" coveredBy="_3HNEIaRAEeKtv8N0DfnuwQ _3HNEIqRAEeKtv8N0DfnuwQ _3HNEI6RAEeKtv8N0DfnuwQ"/>
+      <lifeline xmi:id="_ZGyvEKRBEeKtv8N0DfnuwQ" name="metadataSourceQueue" coveredBy="_mbgGYKRBEeKtv8N0DfnuwQ _xFu0cqRBEeKtv8N0DfnuwQ _xFvbgKRBEeKtv8N0DfnuwQ _xFvbgaRBEeKtv8N0DfnuwQ _yDFNgKRBEeKtv8N0DfnuwQ _yDFNgaRBEeKtv8N0DfnuwQ _yDFNgqRBEeKtv8N0DfnuwQ"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_iS5uwaRAEeKtv8N0DfnuwQ" covered="_hlWFMKRAEeKtv8N0DfnuwQ" message="_iS5uwKRAEeKtv8N0DfnuwQ"/>
       <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_iS5uwqRAEeKtv8N0DfnuwQ" covered="_hlWFMKRAEeKtv8N0DfnuwQ" start="_iS5uwaRAEeKtv8N0DfnuwQ" finish="_iS5uw6RAEeKtv8N0DfnuwQ"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_oUe2sKRAEeKtv8N0DfnuwQ" covered="_hlWFMKRAEeKtv8N0DfnuwQ" message="_oUePoKRAEeKtv8N0DfnuwQ"/>
@@ -2163,20 +1995,20 @@
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_oUfdwqRAEeKtv8N0DfnuwQ" covered="_hlWFMKRAEeKtv8N0DfnuwQ" message="_oUfdwaRAEeKtv8N0DfnuwQ"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_iS5uw6RAEeKtv8N0DfnuwQ" covered="_hlWFMKRAEeKtv8N0DfnuwQ"/>
       <message xmi:id="_iS5uwKRAEeKtv8N0DfnuwQ" name="addInputStream" receiveEvent="_iS5uwaRAEeKtv8N0DfnuwQ"/>
-      <message xmi:id="_oUePoKRAEeKtv8N0DfnuwQ" name="add" receiveEvent="_oUe2saRAEeKtv8N0DfnuwQ" sendEvent="_oUe2sKRAEeKtv8N0DfnuwQ" connector="_oUgE0KRAEeKtv8N0DfnuwQ"/>
-      <message xmi:id="_oUfdwaRAEeKtv8N0DfnuwQ" name="add" messageSort="reply" receiveEvent="_oUfdwqRAEeKtv8N0DfnuwQ" sendEvent="_oUfdwKRAEeKtv8N0DfnuwQ" connector="_oUgE0KRAEeKtv8N0DfnuwQ"/>
-      <message xmi:id="_pbSGsKRAEeKtv8N0DfnuwQ" name="add" receiveEvent="_pbSGsqRAEeKtv8N0DfnuwQ" sendEvent="_pbSGsaRAEeKtv8N0DfnuwQ" connector="_oUgE0KRAEeKtv8N0DfnuwQ"/>
-      <message xmi:id="_pbStwqRAEeKtv8N0DfnuwQ" name="add" messageSort="reply" receiveEvent="_pbStw6RAEeKtv8N0DfnuwQ" sendEvent="_pbStwaRAEeKtv8N0DfnuwQ" connector="_oUgE0KRAEeKtv8N0DfnuwQ"/>
-      <message xmi:id="_rxMOIKRAEeKtv8N0DfnuwQ" name="add" receiveEvent="_rxMOIqRAEeKtv8N0DfnuwQ" sendEvent="_rxMOIaRAEeKtv8N0DfnuwQ" connector="_oUgE0KRAEeKtv8N0DfnuwQ"/>
-      <message xmi:id="_rxM1MaRAEeKtv8N0DfnuwQ" name="add" messageSort="reply" receiveEvent="_rxM1MqRAEeKtv8N0DfnuwQ" sendEvent="_rxM1MKRAEeKtv8N0DfnuwQ" connector="_oUgE0KRAEeKtv8N0DfnuwQ"/>
-      <message xmi:id="_3HMdEKRAEeKtv8N0DfnuwQ" name="readMappingDocument" receiveEvent="_3HNEIaRAEeKtv8N0DfnuwQ" sendEvent="_3HNEIKRAEeKtv8N0DfnuwQ" connector="_3HNrMqRAEeKtv8N0DfnuwQ"/>
-      <message xmi:id="_3HNrMKRAEeKtv8N0DfnuwQ" name="readMappingDocument" messageSort="reply" receiveEvent="_3HNrMaRAEeKtv8N0DfnuwQ" sendEvent="_3HNEI6RAEeKtv8N0DfnuwQ" connector="_3HNrMqRAEeKtv8N0DfnuwQ"/>
-      <message xmi:id="_5MLMkKRAEeKtv8N0DfnuwQ" name="add" receiveEvent="_5MLMkqRAEeKtv8N0DfnuwQ" sendEvent="_5MLMkaRAEeKtv8N0DfnuwQ" connector="_oUgE0KRAEeKtv8N0DfnuwQ"/>
-      <message xmi:id="_5MLzoqRAEeKtv8N0DfnuwQ" name="add" messageSort="reply" receiveEvent="_5MLzo6RAEeKtv8N0DfnuwQ" sendEvent="_5MLzoaRAEeKtv8N0DfnuwQ" connector="_oUgE0KRAEeKtv8N0DfnuwQ"/>
-      <message xmi:id="_xFu0cKRBEeKtv8N0DfnuwQ" name="addArm" receiveEvent="_xFu0cqRBEeKtv8N0DfnuwQ" sendEvent="_xFu0caRBEeKtv8N0DfnuwQ" connector="_xFvbhKRBEeKtv8N0DfnuwQ"/>
-      <message xmi:id="_xFvbgqRBEeKtv8N0DfnuwQ" name="addArm" messageSort="reply" receiveEvent="_xFvbg6RBEeKtv8N0DfnuwQ" sendEvent="_xFvbgaRBEeKtv8N0DfnuwQ" connector="_xFvbhKRBEeKtv8N0DfnuwQ"/>
-      <message xmi:id="_yDEmcKRBEeKtv8N0DfnuwQ" name="add" receiveEvent="_yDFNgKRBEeKtv8N0DfnuwQ" sendEvent="_yDEmcaRBEeKtv8N0DfnuwQ" connector="_xFvbhKRBEeKtv8N0DfnuwQ"/>
-      <message xmi:id="_yDFNg6RBEeKtv8N0DfnuwQ" name="add" messageSort="reply" receiveEvent="_yDF0kKRBEeKtv8N0DfnuwQ" sendEvent="_yDFNgqRBEeKtv8N0DfnuwQ" connector="_xFvbhKRBEeKtv8N0DfnuwQ"/>
+      <message xmi:id="_oUePoKRAEeKtv8N0DfnuwQ" name="add" receiveEvent="_oUe2saRAEeKtv8N0DfnuwQ" sendEvent="_oUe2sKRAEeKtv8N0DfnuwQ"/>
+      <message xmi:id="_oUfdwaRAEeKtv8N0DfnuwQ" name="add" messageSort="reply" receiveEvent="_oUfdwqRAEeKtv8N0DfnuwQ" sendEvent="_oUfdwKRAEeKtv8N0DfnuwQ"/>
+      <message xmi:id="_pbSGsKRAEeKtv8N0DfnuwQ" name="add" receiveEvent="_pbSGsqRAEeKtv8N0DfnuwQ" sendEvent="_pbSGsaRAEeKtv8N0DfnuwQ"/>
+      <message xmi:id="_pbStwqRAEeKtv8N0DfnuwQ" name="add" messageSort="reply" receiveEvent="_pbStw6RAEeKtv8N0DfnuwQ" sendEvent="_pbStwaRAEeKtv8N0DfnuwQ"/>
+      <message xmi:id="_rxMOIKRAEeKtv8N0DfnuwQ" name="add" receiveEvent="_rxMOIqRAEeKtv8N0DfnuwQ" sendEvent="_rxMOIaRAEeKtv8N0DfnuwQ"/>
+      <message xmi:id="_rxM1MaRAEeKtv8N0DfnuwQ" name="add" messageSort="reply" receiveEvent="_rxM1MqRAEeKtv8N0DfnuwQ" sendEvent="_rxM1MKRAEeKtv8N0DfnuwQ"/>
+      <message xmi:id="_3HMdEKRAEeKtv8N0DfnuwQ" name="readMappingDocument" receiveEvent="_3HNEIaRAEeKtv8N0DfnuwQ" sendEvent="_3HNEIKRAEeKtv8N0DfnuwQ"/>
+      <message xmi:id="_3HNrMKRAEeKtv8N0DfnuwQ" name="readMappingDocument" messageSort="reply" receiveEvent="_3HNrMaRAEeKtv8N0DfnuwQ" sendEvent="_3HNEI6RAEeKtv8N0DfnuwQ"/>
+      <message xmi:id="_5MLMkKRAEeKtv8N0DfnuwQ" name="add" receiveEvent="_5MLMkqRAEeKtv8N0DfnuwQ" sendEvent="_5MLMkaRAEeKtv8N0DfnuwQ"/>
+      <message xmi:id="_5MLzoqRAEeKtv8N0DfnuwQ" name="add" messageSort="reply" receiveEvent="_5MLzo6RAEeKtv8N0DfnuwQ" sendEvent="_5MLzoaRAEeKtv8N0DfnuwQ"/>
+      <message xmi:id="_xFu0cKRBEeKtv8N0DfnuwQ" name="addArm" receiveEvent="_xFu0cqRBEeKtv8N0DfnuwQ" sendEvent="_xFu0caRBEeKtv8N0DfnuwQ"/>
+      <message xmi:id="_xFvbgqRBEeKtv8N0DfnuwQ" name="addArm" messageSort="reply" receiveEvent="_xFvbg6RBEeKtv8N0DfnuwQ" sendEvent="_xFvbgaRBEeKtv8N0DfnuwQ"/>
+      <message xmi:id="_yDEmcKRBEeKtv8N0DfnuwQ" name="add" receiveEvent="_yDFNgKRBEeKtv8N0DfnuwQ" sendEvent="_yDEmcaRBEeKtv8N0DfnuwQ"/>
+      <message xmi:id="_yDFNg6RBEeKtv8N0DfnuwQ" name="add" messageSort="reply" receiveEvent="_yDF0kKRBEeKtv8N0DfnuwQ" sendEvent="_yDFNgqRBEeKtv8N0DfnuwQ"/>
     </ownedBehavior>
     <ownedBehavior xmi:type="uml:Interaction" xmi:id="_SRfVEKRKEeKtLp7vRPQoIg" name="addArchetype">
       <eAnnotations xmi:id="_SR6y4KRKEeKtLp7vRPQoIg" source="uml2.diagrams">
@@ -2275,17 +2107,9 @@
           </edges>
         </contents>
       </eAnnotations>
-      <ownedConnector xmi:id="_ccLncKRKEeKtLp7vRPQoIg">
-        <end xmi:id="_ccLncaRKEeKtLp7vRPQoIg" role="_sk2ioaJyEeKs4tCFVpHj0A"/>
-        <end xmi:id="_ccLncqRKEeKtLp7vRPQoIg" role="_bBoVAaRKEeKtLp7vRPQoIg"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_lolsoKRKEeKtLp7vRPQoIg">
-        <end xmi:id="_lolsoaRKEeKtLp7vRPQoIg" role="_tR4C4aKBEeKs4tCFVpHj0A"/>
-        <end xmi:id="_lolsoqRKEeKtLp7vRPQoIg" role="_sk2ioaJyEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <lifeline xmi:id="_U98UQKRKEeKtLp7vRPQoIg" name="configuration" represents="_sk2ioaJyEeKs4tCFVpHj0A" coveredBy="_VyXa0KRKEeKtLp7vRPQoIg _VyXa0aRKEeKtLp7vRPQoIg _VyXa0qRKEeKtLp7vRPQoIg _cb9lAaRKEeKtLp7vRPQoIg _gD1DkaRKEeKtLp7vRPQoIg _gD2RsKRKEeKtLp7vRPQoIg _lokegaRKEeKtLp7vRPQoIg _lolFk6RKEeKtLp7vRPQoIg"/>
-      <lifeline xmi:id="_bBoVAKRKEeKtLp7vRPQoIg" name="aDLParser" represents="_bBoVAaRKEeKtLp7vRPQoIg" coveredBy="_cb9lAqRKEeKtLp7vRPQoIg _gD1qoKRKEeKtLp7vRPQoIg _gD1qoaRKEeKtLp7vRPQoIg _gD1qoqRKEeKtLp7vRPQoIg"/>
-      <lifeline xmi:id="_kgQLkKRKEeKtLp7vRPQoIg" name="metadataSourceQueue" represents="_tR4C4aKBEeKs4tCFVpHj0A" coveredBy="_lokegqRKEeKtLp7vRPQoIg _lolFkKRKEeKtLp7vRPQoIg _lolFkaRKEeKtLp7vRPQoIg"/>
+      <lifeline xmi:id="_U98UQKRKEeKtLp7vRPQoIg" name="configuration" coveredBy="_VyXa0KRKEeKtLp7vRPQoIg _VyXa0aRKEeKtLp7vRPQoIg _VyXa0qRKEeKtLp7vRPQoIg _cb9lAaRKEeKtLp7vRPQoIg _gD1DkaRKEeKtLp7vRPQoIg _gD2RsKRKEeKtLp7vRPQoIg _lokegaRKEeKtLp7vRPQoIg _lolFk6RKEeKtLp7vRPQoIg"/>
+      <lifeline xmi:id="_bBoVAKRKEeKtLp7vRPQoIg" name="aDLParser" coveredBy="_cb9lAqRKEeKtLp7vRPQoIg _gD1qoKRKEeKtLp7vRPQoIg _gD1qoaRKEeKtLp7vRPQoIg _gD1qoqRKEeKtLp7vRPQoIg"/>
+      <lifeline xmi:id="_kgQLkKRKEeKtLp7vRPQoIg" name="metadataSourceQueue" coveredBy="_lokegqRKEeKtLp7vRPQoIg _lolFkKRKEeKtLp7vRPQoIg _lolFkaRKEeKtLp7vRPQoIg"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_VyXa0KRKEeKtLp7vRPQoIg" covered="_U98UQKRKEeKtLp7vRPQoIg" message="_VyWzwKRKEeKtLp7vRPQoIg"/>
       <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_VyXa0aRKEeKtLp7vRPQoIg" covered="_U98UQKRKEeKtLp7vRPQoIg" start="_VyXa0KRKEeKtLp7vRPQoIg" finish="_VyXa0qRKEeKtLp7vRPQoIg"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_cb9lAaRKEeKtLp7vRPQoIg" covered="_U98UQKRKEeKtLp7vRPQoIg" message="_cb9lAKRKEeKtLp7vRPQoIg"/>
@@ -2302,66 +2126,12 @@
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_lolFk6RKEeKtLp7vRPQoIg" covered="_U98UQKRKEeKtLp7vRPQoIg" message="_lolFkqRKEeKtLp7vRPQoIg"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_VyXa0qRKEeKtLp7vRPQoIg" covered="_U98UQKRKEeKtLp7vRPQoIg"/>
       <message xmi:id="_VyWzwKRKEeKtLp7vRPQoIg" name="addArchetype" receiveEvent="_VyXa0KRKEeKtLp7vRPQoIg"/>
-      <message xmi:id="_cb9lAKRKEeKtLp7vRPQoIg" name="ADLParser" messageSort="createMessage" receiveEvent="_cb9lAqRKEeKtLp7vRPQoIg" sendEvent="_cb9lAaRKEeKtLp7vRPQoIg" connector="_ccLncKRKEeKtLp7vRPQoIg"/>
-      <message xmi:id="_gD1DkKRKEeKtLp7vRPQoIg" name="parse" receiveEvent="_gD1qoKRKEeKtLp7vRPQoIg" sendEvent="_gD1DkaRKEeKtLp7vRPQoIg" connector="_ccLncKRKEeKtLp7vRPQoIg"/>
-      <message xmi:id="_gD1qo6RKEeKtLp7vRPQoIg" name="parse" messageSort="reply" receiveEvent="_gD2RsKRKEeKtLp7vRPQoIg" sendEvent="_gD1qoqRKEeKtLp7vRPQoIg" connector="_ccLncKRKEeKtLp7vRPQoIg"/>
-      <message xmi:id="_lokegKRKEeKtLp7vRPQoIg" name="addArchetype" receiveEvent="_lokegqRKEeKtLp7vRPQoIg" sendEvent="_lokegaRKEeKtLp7vRPQoIg" connector="_lolsoKRKEeKtLp7vRPQoIg"/>
-      <message xmi:id="_lolFkqRKEeKtLp7vRPQoIg" name="addArchetype" messageSort="reply" receiveEvent="_lolFk6RKEeKtLp7vRPQoIg" sendEvent="_lolFkaRKEeKtLp7vRPQoIg" connector="_lolsoKRKEeKtLp7vRPQoIg"/>
+      <message xmi:id="_cb9lAKRKEeKtLp7vRPQoIg" name="ADLParser" messageSort="createMessage" receiveEvent="_cb9lAqRKEeKtLp7vRPQoIg" sendEvent="_cb9lAaRKEeKtLp7vRPQoIg"/>
+      <message xmi:id="_gD1DkKRKEeKtLp7vRPQoIg" name="parse" receiveEvent="_gD1qoKRKEeKtLp7vRPQoIg" sendEvent="_gD1DkaRKEeKtLp7vRPQoIg"/>
+      <message xmi:id="_gD1qo6RKEeKtLp7vRPQoIg" name="parse" messageSort="reply" receiveEvent="_gD2RsKRKEeKtLp7vRPQoIg" sendEvent="_gD1qoqRKEeKtLp7vRPQoIg"/>
+      <message xmi:id="_lokegKRKEeKtLp7vRPQoIg" name="addArchetype" receiveEvent="_lokegqRKEeKtLp7vRPQoIg" sendEvent="_lokegaRKEeKtLp7vRPQoIg"/>
+      <message xmi:id="_lolFkqRKEeKtLp7vRPQoIg" name="addArchetype" messageSort="reply" receiveEvent="_lolFk6RKEeKtLp7vRPQoIg" sendEvent="_lolFkaRKEeKtLp7vRPQoIg"/>
     </ownedBehavior>
-    <ownedAttribute xmi:id="_sk2ioaJyEeKs4tCFVpHj0A" name="configuration">
-      <type xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=Configuration%5Bjcu%5Ename=Configuration.java%5Bjpack%5Ename=org.hibernate.cfg%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D$uml.Class"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:id="_tR4C4aKBEeKs4tCFVpHj0A" name="metadataSourceQueue">
-      <type xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=MetadataSourceQueue%5Bjsrctype%5Ename=Configuration%5Bjcu%5Ename=Configuration.java%5Bjpack%5Ename=org.hibernate.cfg%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D%5D$uml.Class"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:id="_IjgoEKKCEeKs4tCFVpHj0A" name="hbmBinder">
-      <type xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=HbmBinder%5Bjcu%5Ename=HbmBinder.java%5Bjpack%5Ename=org.hibernate.cfg%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D$uml.Class"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:id="_Mbk4QaKiEeKs4tCFVpHj0A" name="sessionFactoryImpl">
-      <type xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=SessionFactoryImpl%5Bjcu%5Ename=SessionFactoryImpl.java%5Bjpack%5Ename=org.hibernate.internal%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D$uml.Class"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:id="_3VO7MaKiEeKs4tCFVpHj0A" name="simpleValue">
-      <type xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=SimpleValue%5Bjcu%5Ename=SimpleValue.java%5Bjpack%5Ename=org.hibernate.mapping%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D$uml.Class"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:id="_anJwsaKjEeKs4tCFVpHj0A" name="defaultIdentifierGeneratorFactory">
-      <type xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=DefaultIdentifierGeneratorFactory%5Bjcu%5Ename=DefaultIdentifierGeneratorFactory.java%5Bjpack%5Ename=org.hibernate.id.factory.internal%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D$uml.Class"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:id="_FPVpIaKkEeKs4tCFVpHj0A" name="persisterFactoryImpl">
-      <type xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=PersisterFactoryImpl%5Bjcu%5Ename=PersisterFactoryImpl.java%5Bjpack%5Ename=org.hibernate.persister.internal%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D$uml.Class"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:id="_bghMMaKkEeKs4tCFVpHj0A" name="persistentClass">
-      <type xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=PersistentClass%5Bjcu%5Ename=PersistentClass.java%5Bjpack%5Ename=org.hibernate.mapping%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D$uml.Class"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:id="_qtwggaKmEeKs4tCFVpHj0A" name="singleTableEntityPersister">
-      <type xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=SingleTableEntityPersister%5Bjcu%5Ename=SingleTableEntityPersister.java%5Bjpack%5Ename=org.hibernate.persister.entity%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D$uml.Class"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:id="_MXSxAKKpEeKs4tCFVpHj0A" name="schemaExport">
-      <type xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=SchemaExport%5Bjcu%5Ename=SchemaExport.java%5Bjpack%5Ename=org.hibernate.tool.hbm2ddl%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D$uml.Class"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:id="_fIjf4aMSEeKFgqEdTHM95Q" name="table">
-      <type xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=Table%5Bjcu%5Ename=Table.java%5Bjpack%5Ename=org.hibernate.mapping%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D$uml.Class"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:id="_uCE44aMSEeKFgqEdTHM95Q" name="dialect">
-      <type xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=Dialect%5Bjcu%5Ename=Dialect.java%5Bjpack%5Ename=org.hibernate.dialect%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D$uml.Class"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:id="_N8JBwaMTEeKFgqEdTHM95Q" name="sequenceStyleGenerator">
-      <type xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=SequenceStyleGenerator%5Bjcu%5Ename=SequenceStyleGenerator.java%5Bjpack%5Ename=org.hibernate.id.enhanced%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D$uml.Class"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:id="_Y1KZwaMTEeKFgqEdTHM95Q" name="sequenceStructure">
-      <type xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=SequenceStructure%5Bjcu%5Ename=SequenceStructure.java%5Bjpack%5Ename=org.hibernate.id.enhanced%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D$uml.Class"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:id="_IRR6QaMfEeKFgqEdTHM95Q" name="primaryKey">
-      <type xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=PrimaryKey%5Bjcu%5Ename=PrimaryKey.java%5Bjpack%5Ename=org.hibernate.mapping%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D$uml.Class"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:id="_0vQ8YaRAEeKtv8N0DfnuwQ" name="mappingReader">
-      <type xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=MappingReader%5Bjcu%5Ename=MappingReader.java%5Bjpack%5Ename=org.hibernate.internal.util.xml%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D$uml.Class"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:id="_bBoVAaRKEeKtLp7vRPQoIg" name="aDLParser">
-      <type xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=ADLParser%5Bjcu%5Ename=ADLParser.java%5Bjpack%5Ename=se.acode.openehr.parser%5Bjsrcroot%5Esrcfolder=target/generated-sources/javacc%5Bproject%5Eid=adl-parser%5D%5D%5D%5D$uml.Class"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:id="_oCjZ4aWYEeKGhpvYuT8g0A" name="armBinder">
-      <type xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=ArmBinder%5Bjcu%5Ename=ArmBinder.java%5Bjpack%5Ename=org.hibernate.cfg%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D$uml.Class"/>
-    </ownedAttribute>
   </packagedElement>
   <packagedElement xmi:type="uml:Collaboration" xmi:id="_RiWyYKKCEeKs4tCFVpHj0A" name="HbmBinder">
     <ownedBehavior xmi:type="uml:Interaction" xmi:id="_RiYAgKKCEeKs4tCFVpHj0A" name="bindRoot">
@@ -3455,44 +3225,12 @@
           </edges>
         </contents>
       </eAnnotations>
-      <ownedConnector xmi:id="_mTFPVKKCEeKs4tCFVpHj0A">
-        <end xmi:id="_mTF2YKKCEeKs4tCFVpHj0A" role="_ZYKRAKKCEeKs4tCFVpHj0A"/>
-        <end xmi:id="_mTF2YaKCEeKs4tCFVpHj0A" role="_ZYKRAKKCEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_97YWUKKCEeKs4tCFVpHj0A">
-        <end xmi:id="_97YWUaKCEeKs4tCFVpHj0A" role="_2luXYaKCEeKs4tCFVpHj0A"/>
-        <end xmi:id="_97YWUqKCEeKs4tCFVpHj0A" role="_ZYKRAKKCEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_kzcWoKKEEeKs4tCFVpHj0A">
-        <end xmi:id="_kzcWoaKEEeKs4tCFVpHj0A" role="_ge-QwKKEEeKs4tCFVpHj0A"/>
-        <end xmi:id="_kzcWoqKEEeKs4tCFVpHj0A" role="_ZYKRAKKCEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_5ruScaKXEeKs4tCFVpHj0A">
-        <end xmi:id="_5ruScqKXEeKs4tCFVpHj0A" role="_1MP2caKXEeKs4tCFVpHj0A"/>
-        <end xmi:id="_5ruSc6KXEeKs4tCFVpHj0A" role="_ge-QwKKEEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_NnUowaKZEeKs4tCFVpHj0A">
-        <end xmi:id="_NnUowqKZEeKs4tCFVpHj0A" role="_KBTkUaKZEeKs4tCFVpHj0A"/>
-        <end xmi:id="_NnUow6KZEeKs4tCFVpHj0A" role="_ZYKRAKKCEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_eVyUsqKaEeKs4tCFVpHj0A">
-        <end xmi:id="_eVyUs6KaEeKs4tCFVpHj0A" role="_1MP2caKXEeKs4tCFVpHj0A"/>
-        <end xmi:id="_eVyUtKKaEeKs4tCFVpHj0A" role="_ZYKRAKKCEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_gKl6MaKaEeKs4tCFVpHj0A">
-        <end xmi:id="_gKl6MqKaEeKs4tCFVpHj0A" role="_W4HCMKKaEeKs4tCFVpHj0A"/>
-        <end xmi:id="_gKl6M6KaEeKs4tCFVpHj0A" role="_ZYKRAKKCEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_UEZvBKKbEeKs4tCFVpHj0A">
-        <end xmi:id="_UEZvBaKbEeKs4tCFVpHj0A" role="_Od5ZgaKbEeKs4tCFVpHj0A"/>
-        <end xmi:id="_UEaWEKKbEeKs4tCFVpHj0A" role="_ZYKRAKKCEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <lifeline xmi:id="_ZYJp8KKCEeKs4tCFVpHj0A" name="hbmBinder" represents="_ZYKRAKKCEeKs4tCFVpHj0A" coveredBy="_aMLH4aKCEeKs4tCFVpHj0A _aMLH4qKCEeKs4tCFVpHj0A _aMLu8KKCEeKs4tCFVpHj0A _mTEoQaKCEeKs4tCFVpHj0A _mTEoQqKCEeKs4tCFVpHj0A _mTFPUKKCEeKs4tCFVpHj0A _mTFPUaKCEeKs4tCFVpHj0A _mTFPU6KCEeKs4tCFVpHj0A _qXF3UKKCEeKs4tCFVpHj0A _qXF3UaKCEeKs4tCFVpHj0A _qXF3UqKCEeKs4tCFVpHj0A _qXF3U6KCEeKs4tCFVpHj0A _qXGeYaKCEeKs4tCFVpHj0A _97XIMaKCEeKs4tCFVpHj0A _97XvRKKCEeKs4tCFVpHj0A _FRkgwKKDEeKs4tCFVpHj0A _FRlH0qKDEeKs4tCFVpHj0A _NGcLQKKDEeKs4tCFVpHj0A _NGcyUaKDEeKs4tCFVpHj0A _XXUlMaKDEeKs4tCFVpHj0A _XXVMQKKDEeKs4tCFVpHj0A _XXVMQaKDEeKs4tCFVpHj0A _XXVMQqKDEeKs4tCFVpHj0A _XXVMRKKDEeKs4tCFVpHj0A _bgmHsaKDEeKs4tCFVpHj0A _bgmuw6KDEeKs4tCFVpHj0A _iwAUsaKDEeKs4tCFVpHj0A _iwA7w6KDEeKs4tCFVpHj0A _xDXsoaKDEeKs4tCFVpHj0A _xDXsoqKDEeKs4tCFVpHj0A _xDXso6KDEeKs4tCFVpHj0A _xDYTsKKDEeKs4tCFVpHj0A _xDYTsqKDEeKs4tCFVpHj0A _14IcIaKDEeKs4tCFVpHj0A _14JDMqKDEeKs4tCFVpHj0A _5YqjoaKDEeKs4tCFVpHj0A _5YqjoqKDEeKs4tCFVpHj0A _5YrKsKKDEeKs4tCFVpHj0A _5YrKsaKDEeKs4tCFVpHj0A _5YrKs6KDEeKs4tCFVpHj0A _DBzoIKKEEeKs4tCFVpHj0A _DBzoIaKEEeKs4tCFVpHj0A _DBzoIqKEEeKs4tCFVpHj0A _DBzoI6KEEeKs4tCFVpHj0A _DB0PMKKEEeKs4tCFVpHj0A _kzbIgaKEEeKs4tCFVpHj0A _kzbvlKKEEeKs4tCFVpHj0A _yjeYAaKEEeKs4tCFVpHj0A _yje_E6KEEeKs4tCFVpHj0A _8HbagKKEEeKs4tCFVpHj0A _8HbagaKEEeKs4tCFVpHj0A _8HbagqKEEeKs4tCFVpHj0A _8Hbag6KEEeKs4tCFVpHj0A _8HcBkaKEEeKs4tCFVpHj0A _G1m0caKFEeKs4tCFVpHj0A _G1nbg6KFEeKs4tCFVpHj0A _L7dT8aKFEeKs4tCFVpHj0A _L7d7AKKFEeKs4tCFVpHj0A _L7d7AaKFEeKs4tCFVpHj0A _L7d7AqKFEeKs4tCFVpHj0A _L7d7BKKFEeKs4tCFVpHj0A _cCkhcKKFEeKs4tCFVpHj0A _cClIgKKFEeKs4tCFVpHj0A _DdZA0aKYEeKs4tCFVpHj0A _DdZn46KYEeKs4tCFVpHj0A _LEhKQaKYEeKs4tCFVpHj0A _LEhKQqKYEeKs4tCFVpHj0A _LEhxUKKYEeKs4tCFVpHj0A _LEhxUaKYEeKs4tCFVpHj0A _LEhxU6KYEeKs4tCFVpHj0A _Sr5yYKKYEeKs4tCFVpHj0A _Sr5yYaKYEeKs4tCFVpHj0A _Sr5yYqKYEeKs4tCFVpHj0A _Sr6ZcKKYEeKs4tCFVpHj0A _Sr6ZcqKYEeKs4tCFVpHj0A _ao_kwaKYEeKs4tCFVpHj0A _apAL1KKYEeKs4tCFVpHj0A _flsvUaKYEeKs4tCFVpHj0A _flsvUqKYEeKs4tCFVpHj0A _flsvU6KYEeKs4tCFVpHj0A _fltWYKKYEeKs4tCFVpHj0A _fltWYqKYEeKs4tCFVpHj0A _GR_IAaKbEeKs4tCFVpHj0A _GR_vE6KbEeKs4tCFVpHj0A _UEZH8aKbEeKs4tCFVpHj0A _UEZvA6KbEeKs4tCFVpHj0A _XR7a8aKbEeKs4tCFVpHj0A _XR7a8qKbEeKs4tCFVpHj0A _XR8CAKKbEeKs4tCFVpHj0A _XR8CAaKbEeKs4tCFVpHj0A _XR8CA6KbEeKs4tCFVpHj0A _2kamcaKbEeKs4tCFVpHj0A _2kbNg6KbEeKs4tCFVpHj0A _8M-KYaKbEeKs4tCFVpHj0A _8M-xc6KbEeKs4tCFVpHj0A _A8KdYaKcEeKs4tCFVpHj0A _A8KdYqKcEeKs4tCFVpHj0A _A8LEcKKcEeKs4tCFVpHj0A _A8LEcaKcEeKs4tCFVpHj0A _A8LEc6KcEeKs4tCFVpHj0A _U1WOUaKcEeKs4tCFVpHj0A _U1W1YqKcEeKs4tCFVpHj0A _bFIKUKKcEeKs4tCFVpHj0A _bFIxYaKcEeKs4tCFVpHj0A _gzuE0KKcEeKs4tCFVpHj0A _gzur4qKcEeKs4tCFVpHj0A _n9aEUaKcEeKs4tCFVpHj0A _n9arY6KcEeKs4tCFVpHj0A _xC1XwaKcEeKs4tCFVpHj0A _xC1-0qKcEeKs4tCFVpHj0A _7TgWUKKcEeKs4tCFVpHj0A _7TgWUaKcEeKs4tCFVpHj0A _7TgWUqKcEeKs4tCFVpHj0A _7TgWU6KcEeKs4tCFVpHj0A _7Tg9YKKcEeKs4tCFVpHj0A _9OjtwaKcEeKs4tCFVpHj0A _9OjtwqKcEeKs4tCFVpHj0A _9OkU0KKcEeKs4tCFVpHj0A _9OkU0aKcEeKs4tCFVpHj0A _9OkU06KcEeKs4tCFVpHj0A _MKwAQaKdEeKs4tCFVpHj0A _MKwAQqKdEeKs4tCFVpHj0A _MKwAQ6KdEeKs4tCFVpHj0A _MKwnUKKdEeKs4tCFVpHj0A _MKwnUqKdEeKs4tCFVpHj0A _49AHEKKeEeKs4tCFVpHj0A _49AHEaKeEeKs4tCFVpHj0A _49AHEqKeEeKs4tCFVpHj0A _49AHE6KeEeKs4tCFVpHj0A _49AuIKKeEeKs4tCFVpHj0A __2MzgKKeEeKs4tCFVpHj0A __2NakKKeEeKs4tCFVpHj0A _DXzSAaKfEeKs4tCFVpHj0A _DXz5EqKfEeKs4tCFVpHj0A _IyQIgKKfEeKs4tCFVpHj0A _IyQvkaKfEeKs4tCFVpHj0A _NyOCcaKfEeKs4tCFVpHj0A _NyOCcqKfEeKs4tCFVpHj0A _NyOCc6KfEeKs4tCFVpHj0A _NyOpgKKfEeKs4tCFVpHj0A _NyOpgqKfEeKs4tCFVpHj0A __J7t8aKfEeKs4tCFVpHj0A __J8VA6KfEeKs4tCFVpHj0A"/>
-      <lifeline xmi:id="_2luXYKKCEeKs4tCFVpHj0A" name="rootClass" represents="_2luXYaKCEeKs4tCFVpHj0A" coveredBy="_97XvQKKCEeKs4tCFVpHj0A _97XvQaKCEeKs4tCFVpHj0A _97XvQqKCEeKs4tCFVpHj0A _FRkgwaKDEeKs4tCFVpHj0A _FRkgwqKDEeKs4tCFVpHj0A _FRlH0KKDEeKs4tCFVpHj0A _NGcLQaKDEeKs4tCFVpHj0A _NGcLQqKDEeKs4tCFVpHj0A _NGcLQ6KDEeKs4tCFVpHj0A _bgmHsqKDEeKs4tCFVpHj0A _bgmuwKKDEeKs4tCFVpHj0A _bgmuwaKDEeKs4tCFVpHj0A _iwAUsqKDEeKs4tCFVpHj0A _iwA7wKKDEeKs4tCFVpHj0A _iwA7waKDEeKs4tCFVpHj0A _14IcIqKDEeKs4tCFVpHj0A _14IcI6KDEeKs4tCFVpHj0A _14JDMKKDEeKs4tCFVpHj0A _yjeYAqKEEeKs4tCFVpHj0A _yje_EKKEEeKs4tCFVpHj0A _yje_EaKEEeKs4tCFVpHj0A _DdZA0qKYEeKs4tCFVpHj0A _DdZn4KKYEeKs4tCFVpHj0A _DdZn4aKYEeKs4tCFVpHj0A _apAL0KKYEeKs4tCFVpHj0A _apAL0aKYEeKs4tCFVpHj0A _apAL0qKYEeKs4tCFVpHj0A _2kamcqKbEeKs4tCFVpHj0A _2kbNgKKbEeKs4tCFVpHj0A _2kbNgaKbEeKs4tCFVpHj0A _8M-KYqKbEeKs4tCFVpHj0A _8M-xcKKbEeKs4tCFVpHj0A _8M-xcaKbEeKs4tCFVpHj0A _xC1XwqKcEeKs4tCFVpHj0A _xC1Xw6KcEeKs4tCFVpHj0A _xC1-0KKcEeKs4tCFVpHj0A __J7t8qKfEeKs4tCFVpHj0A __J8VAKKfEeKs4tCFVpHj0A __J8VAaKfEeKs4tCFVpHj0A"/>
-      <lifeline xmi:id="_ge9psKKEEeKs4tCFVpHj0A" name="mappingsImpl" represents="_ge-QwKKEEeKs4tCFVpHj0A" coveredBy="_kzbvkKKEEeKs4tCFVpHj0A _kzbvkaKEEeKs4tCFVpHj0A _kzbvkqKEEeKs4tCFVpHj0A _G1m0cqKFEeKs4tCFVpHj0A _G1nbgKKFEeKs4tCFVpHj0A _G1nbgaKFEeKs4tCFVpHj0A _cCkhcaKFEeKs4tCFVpHj0A _cCkhcqKFEeKs4tCFVpHj0A _cCkhc6KFEeKs4tCFVpHj0A _5rtrYKKXEeKs4tCFVpHj0A _5ruScKKXEeKs4tCFVpHj0A _-FiLUaKXEeKs4tCFVpHj0A _-FjZcKKXEeKs4tCFVpHj0A"/>
-      <lifeline xmi:id="_1MP2cKKXEeKs4tCFVpHj0A" name="table" represents="_1MP2caKXEeKs4tCFVpHj0A" coveredBy="_5rtrYaKXEeKs4tCFVpHj0A _5rtrYqKXEeKs4tCFVpHj0A _5rtrY6KXEeKs4tCFVpHj0A _-FiyYKKXEeKs4tCFVpHj0A _-FiyYaKXEeKs4tCFVpHj0A _-FiyYqKXEeKs4tCFVpHj0A _gzuE0aKcEeKs4tCFVpHj0A _gzuE0qKcEeKs4tCFVpHj0A _gzur4KKcEeKs4tCFVpHj0A"/>
-      <lifeline xmi:id="_W4GbIKKaEeKs4tCFVpHj0A" name="simpleValue" represents="_W4HCMKKaEeKs4tCFVpHj0A" coveredBy="_GR_IAqKbEeKs4tCFVpHj0A _GR_vEKKbEeKs4tCFVpHj0A _GR_vEaKbEeKs4tCFVpHj0A _U1WOUqKcEeKs4tCFVpHj0A _U1WOU6KcEeKs4tCFVpHj0A _U1W1YKKcEeKs4tCFVpHj0A _bFIKUaKcEeKs4tCFVpHj0A _bFIKUqKcEeKs4tCFVpHj0A _bFIKU6KcEeKs4tCFVpHj0A _n9aEUqKcEeKs4tCFVpHj0A _n9arYKKcEeKs4tCFVpHj0A _n9arYaKcEeKs4tCFVpHj0A __2MzgaKeEeKs4tCFVpHj0A __2MzgqKeEeKs4tCFVpHj0A __2Mzg6KeEeKs4tCFVpHj0A _DXzSAqKfEeKs4tCFVpHj0A _DXzSA6KfEeKs4tCFVpHj0A _DXz5EKKfEeKs4tCFVpHj0A"/>
-      <lifeline xmi:id="_Od5ZgKKbEeKs4tCFVpHj0A" name="property" represents="_Od5ZgaKbEeKs4tCFVpHj0A" coveredBy="_UEZH8qKbEeKs4tCFVpHj0A _UEZvAKKbEeKs4tCFVpHj0A _UEZvAaKbEeKs4tCFVpHj0A _IyQIgaKfEeKs4tCFVpHj0A _IyQIgqKfEeKs4tCFVpHj0A _IyQIg6KfEeKs4tCFVpHj0A"/>
+      <lifeline xmi:id="_ZYJp8KKCEeKs4tCFVpHj0A" name="hbmBinder" coveredBy="_aMLH4aKCEeKs4tCFVpHj0A _aMLH4qKCEeKs4tCFVpHj0A _aMLu8KKCEeKs4tCFVpHj0A _mTEoQaKCEeKs4tCFVpHj0A _mTEoQqKCEeKs4tCFVpHj0A _mTFPUKKCEeKs4tCFVpHj0A _mTFPUaKCEeKs4tCFVpHj0A _mTFPU6KCEeKs4tCFVpHj0A _qXF3UKKCEeKs4tCFVpHj0A _qXF3UaKCEeKs4tCFVpHj0A _qXF3UqKCEeKs4tCFVpHj0A _qXF3U6KCEeKs4tCFVpHj0A _qXGeYaKCEeKs4tCFVpHj0A _97XIMaKCEeKs4tCFVpHj0A _97XvRKKCEeKs4tCFVpHj0A _FRkgwKKDEeKs4tCFVpHj0A _FRlH0qKDEeKs4tCFVpHj0A _NGcLQKKDEeKs4tCFVpHj0A _NGcyUaKDEeKs4tCFVpHj0A _XXUlMaKDEeKs4tCFVpHj0A _XXVMQKKDEeKs4tCFVpHj0A _XXVMQaKDEeKs4tCFVpHj0A _XXVMQqKDEeKs4tCFVpHj0A _XXVMRKKDEeKs4tCFVpHj0A _bgmHsaKDEeKs4tCFVpHj0A _bgmuw6KDEeKs4tCFVpHj0A _iwAUsaKDEeKs4tCFVpHj0A _iwA7w6KDEeKs4tCFVpHj0A _xDXsoaKDEeKs4tCFVpHj0A _xDXsoqKDEeKs4tCFVpHj0A _xDXso6KDEeKs4tCFVpHj0A _xDYTsKKDEeKs4tCFVpHj0A _xDYTsqKDEeKs4tCFVpHj0A _14IcIaKDEeKs4tCFVpHj0A _14JDMqKDEeKs4tCFVpHj0A _5YqjoaKDEeKs4tCFVpHj0A _5YqjoqKDEeKs4tCFVpHj0A _5YrKsKKDEeKs4tCFVpHj0A _5YrKsaKDEeKs4tCFVpHj0A _5YrKs6KDEeKs4tCFVpHj0A _DBzoIKKEEeKs4tCFVpHj0A _DBzoIaKEEeKs4tCFVpHj0A _DBzoIqKEEeKs4tCFVpHj0A _DBzoI6KEEeKs4tCFVpHj0A _DB0PMKKEEeKs4tCFVpHj0A _kzbIgaKEEeKs4tCFVpHj0A _kzbvlKKEEeKs4tCFVpHj0A _yjeYAaKEEeKs4tCFVpHj0A _yje_E6KEEeKs4tCFVpHj0A _8HbagKKEEeKs4tCFVpHj0A _8HbagaKEEeKs4tCFVpHj0A _8HbagqKEEeKs4tCFVpHj0A _8Hbag6KEEeKs4tCFVpHj0A _8HcBkaKEEeKs4tCFVpHj0A _G1m0caKFEeKs4tCFVpHj0A _G1nbg6KFEeKs4tCFVpHj0A _L7dT8aKFEeKs4tCFVpHj0A _L7d7AKKFEeKs4tCFVpHj0A _L7d7AaKFEeKs4tCFVpHj0A _L7d7AqKFEeKs4tCFVpHj0A _L7d7BKKFEeKs4tCFVpHj0A _cCkhcKKFEeKs4tCFVpHj0A _cClIgKKFEeKs4tCFVpHj0A _DdZA0aKYEeKs4tCFVpHj0A _DdZn46KYEeKs4tCFVpHj0A _LEhKQaKYEeKs4tCFVpHj0A _LEhKQqKYEeKs4tCFVpHj0A _LEhxUKKYEeKs4tCFVpHj0A _LEhxUaKYEeKs4tCFVpHj0A _LEhxU6KYEeKs4tCFVpHj0A _Sr5yYKKYEeKs4tCFVpHj0A _Sr5yYaKYEeKs4tCFVpHj0A _Sr5yYqKYEeKs4tCFVpHj0A _Sr6ZcKKYEeKs4tCFVpHj0A _Sr6ZcqKYEeKs4tCFVpHj0A _ao_kwaKYEeKs4tCFVpHj0A _apAL1KKYEeKs4tCFVpHj0A _flsvUaKYEeKs4tCFVpHj0A _flsvUqKYEeKs4tCFVpHj0A _flsvU6KYEeKs4tCFVpHj0A _fltWYKKYEeKs4tCFVpHj0A _fltWYqKYEeKs4tCFVpHj0A _GR_IAaKbEeKs4tCFVpHj0A _GR_vE6KbEeKs4tCFVpHj0A _UEZH8aKbEeKs4tCFVpHj0A _UEZvA6KbEeKs4tCFVpHj0A _XR7a8aKbEeKs4tCFVpHj0A _XR7a8qKbEeKs4tCFVpHj0A _XR8CAKKbEeKs4tCFVpHj0A _XR8CAaKbEeKs4tCFVpHj0A _XR8CA6KbEeKs4tCFVpHj0A _2kamcaKbEeKs4tCFVpHj0A _2kbNg6KbEeKs4tCFVpHj0A _8M-KYaKbEeKs4tCFVpHj0A _8M-xc6KbEeKs4tCFVpHj0A _A8KdYaKcEeKs4tCFVpHj0A _A8KdYqKcEeKs4tCFVpHj0A _A8LEcKKcEeKs4tCFVpHj0A _A8LEcaKcEeKs4tCFVpHj0A _A8LEc6KcEeKs4tCFVpHj0A _U1WOUaKcEeKs4tCFVpHj0A _U1W1YqKcEeKs4tCFVpHj0A _bFIKUKKcEeKs4tCFVpHj0A _bFIxYaKcEeKs4tCFVpHj0A _gzuE0KKcEeKs4tCFVpHj0A _gzur4qKcEeKs4tCFVpHj0A _n9aEUaKcEeKs4tCFVpHj0A _n9arY6KcEeKs4tCFVpHj0A _xC1XwaKcEeKs4tCFVpHj0A _xC1-0qKcEeKs4tCFVpHj0A _7TgWUKKcEeKs4tCFVpHj0A _7TgWUaKcEeKs4tCFVpHj0A _7TgWUqKcEeKs4tCFVpHj0A _7TgWU6KcEeKs4tCFVpHj0A _7Tg9YKKcEeKs4tCFVpHj0A _9OjtwaKcEeKs4tCFVpHj0A _9OjtwqKcEeKs4tCFVpHj0A _9OkU0KKcEeKs4tCFVpHj0A _9OkU0aKcEeKs4tCFVpHj0A _9OkU06KcEeKs4tCFVpHj0A _MKwAQaKdEeKs4tCFVpHj0A _MKwAQqKdEeKs4tCFVpHj0A _MKwAQ6KdEeKs4tCFVpHj0A _MKwnUKKdEeKs4tCFVpHj0A _MKwnUqKdEeKs4tCFVpHj0A _49AHEKKeEeKs4tCFVpHj0A _49AHEaKeEeKs4tCFVpHj0A _49AHEqKeEeKs4tCFVpHj0A _49AHE6KeEeKs4tCFVpHj0A _49AuIKKeEeKs4tCFVpHj0A __2MzgKKeEeKs4tCFVpHj0A __2NakKKeEeKs4tCFVpHj0A _DXzSAaKfEeKs4tCFVpHj0A _DXz5EqKfEeKs4tCFVpHj0A _IyQIgKKfEeKs4tCFVpHj0A _IyQvkaKfEeKs4tCFVpHj0A _NyOCcaKfEeKs4tCFVpHj0A _NyOCcqKfEeKs4tCFVpHj0A _NyOCc6KfEeKs4tCFVpHj0A _NyOpgKKfEeKs4tCFVpHj0A _NyOpgqKfEeKs4tCFVpHj0A __J7t8aKfEeKs4tCFVpHj0A __J8VA6KfEeKs4tCFVpHj0A"/>
+      <lifeline xmi:id="_2luXYKKCEeKs4tCFVpHj0A" name="rootClass" coveredBy="_97XvQKKCEeKs4tCFVpHj0A _97XvQaKCEeKs4tCFVpHj0A _97XvQqKCEeKs4tCFVpHj0A _FRkgwaKDEeKs4tCFVpHj0A _FRkgwqKDEeKs4tCFVpHj0A _FRlH0KKDEeKs4tCFVpHj0A _NGcLQaKDEeKs4tCFVpHj0A _NGcLQqKDEeKs4tCFVpHj0A _NGcLQ6KDEeKs4tCFVpHj0A _bgmHsqKDEeKs4tCFVpHj0A _bgmuwKKDEeKs4tCFVpHj0A _bgmuwaKDEeKs4tCFVpHj0A _iwAUsqKDEeKs4tCFVpHj0A _iwA7wKKDEeKs4tCFVpHj0A _iwA7waKDEeKs4tCFVpHj0A _14IcIqKDEeKs4tCFVpHj0A _14IcI6KDEeKs4tCFVpHj0A _14JDMKKDEeKs4tCFVpHj0A _yjeYAqKEEeKs4tCFVpHj0A _yje_EKKEEeKs4tCFVpHj0A _yje_EaKEEeKs4tCFVpHj0A _DdZA0qKYEeKs4tCFVpHj0A _DdZn4KKYEeKs4tCFVpHj0A _DdZn4aKYEeKs4tCFVpHj0A _apAL0KKYEeKs4tCFVpHj0A _apAL0aKYEeKs4tCFVpHj0A _apAL0qKYEeKs4tCFVpHj0A _2kamcqKbEeKs4tCFVpHj0A _2kbNgKKbEeKs4tCFVpHj0A _2kbNgaKbEeKs4tCFVpHj0A _8M-KYqKbEeKs4tCFVpHj0A _8M-xcKKbEeKs4tCFVpHj0A _8M-xcaKbEeKs4tCFVpHj0A _xC1XwqKcEeKs4tCFVpHj0A _xC1Xw6KcEeKs4tCFVpHj0A _xC1-0KKcEeKs4tCFVpHj0A __J7t8qKfEeKs4tCFVpHj0A __J8VAKKfEeKs4tCFVpHj0A __J8VAaKfEeKs4tCFVpHj0A"/>
+      <lifeline xmi:id="_ge9psKKEEeKs4tCFVpHj0A" name="mappingsImpl" coveredBy="_kzbvkKKEEeKs4tCFVpHj0A _kzbvkaKEEeKs4tCFVpHj0A _kzbvkqKEEeKs4tCFVpHj0A _G1m0cqKFEeKs4tCFVpHj0A _G1nbgKKFEeKs4tCFVpHj0A _G1nbgaKFEeKs4tCFVpHj0A _cCkhcaKFEeKs4tCFVpHj0A _cCkhcqKFEeKs4tCFVpHj0A _cCkhc6KFEeKs4tCFVpHj0A _5rtrYKKXEeKs4tCFVpHj0A _5ruScKKXEeKs4tCFVpHj0A _-FiLUaKXEeKs4tCFVpHj0A _-FjZcKKXEeKs4tCFVpHj0A"/>
+      <lifeline xmi:id="_1MP2cKKXEeKs4tCFVpHj0A" name="table" coveredBy="_5rtrYaKXEeKs4tCFVpHj0A _5rtrYqKXEeKs4tCFVpHj0A _5rtrY6KXEeKs4tCFVpHj0A _-FiyYKKXEeKs4tCFVpHj0A _-FiyYaKXEeKs4tCFVpHj0A _-FiyYqKXEeKs4tCFVpHj0A _gzuE0aKcEeKs4tCFVpHj0A _gzuE0qKcEeKs4tCFVpHj0A _gzur4KKcEeKs4tCFVpHj0A"/>
+      <lifeline xmi:id="_W4GbIKKaEeKs4tCFVpHj0A" name="simpleValue" coveredBy="_GR_IAqKbEeKs4tCFVpHj0A _GR_vEKKbEeKs4tCFVpHj0A _GR_vEaKbEeKs4tCFVpHj0A _U1WOUqKcEeKs4tCFVpHj0A _U1WOU6KcEeKs4tCFVpHj0A _U1W1YKKcEeKs4tCFVpHj0A _bFIKUaKcEeKs4tCFVpHj0A _bFIKUqKcEeKs4tCFVpHj0A _bFIKU6KcEeKs4tCFVpHj0A _n9aEUqKcEeKs4tCFVpHj0A _n9arYKKcEeKs4tCFVpHj0A _n9arYaKcEeKs4tCFVpHj0A __2MzgaKeEeKs4tCFVpHj0A __2MzgqKeEeKs4tCFVpHj0A __2Mzg6KeEeKs4tCFVpHj0A _DXzSAqKfEeKs4tCFVpHj0A _DXzSA6KfEeKs4tCFVpHj0A _DXz5EKKfEeKs4tCFVpHj0A"/>
+      <lifeline xmi:id="_Od5ZgKKbEeKs4tCFVpHj0A" name="property" coveredBy="_UEZH8qKbEeKs4tCFVpHj0A _UEZvAKKbEeKs4tCFVpHj0A _UEZvAaKbEeKs4tCFVpHj0A _IyQIgaKfEeKs4tCFVpHj0A _IyQIgqKfEeKs4tCFVpHj0A _IyQIg6KfEeKs4tCFVpHj0A"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_aMLH4aKCEeKs4tCFVpHj0A" covered="_ZYJp8KKCEeKs4tCFVpHj0A" message="_aMLH4KKCEeKs4tCFVpHj0A"/>
       <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_aMLH4qKCEeKs4tCFVpHj0A" covered="_ZYJp8KKCEeKs4tCFVpHj0A" start="_aMLH4aKCEeKs4tCFVpHj0A" finish="_aMLu8KKCEeKs4tCFVpHj0A"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_mTEoQaKCEeKs4tCFVpHj0A" covered="_ZYJp8KKCEeKs4tCFVpHj0A" message="_mTEoQKKCEeKs4tCFVpHj0A"/>
@@ -3722,96 +3460,96 @@
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_mTFPU6KCEeKs4tCFVpHj0A" covered="_ZYJp8KKCEeKs4tCFVpHj0A" message="_mTFPUqKCEeKs4tCFVpHj0A"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_aMLu8KKCEeKs4tCFVpHj0A" covered="_ZYJp8KKCEeKs4tCFVpHj0A"/>
       <message xmi:id="_aMLH4KKCEeKs4tCFVpHj0A" name="bindRoot" receiveEvent="_aMLH4aKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_mTEoQKKCEeKs4tCFVpHj0A" name="bindRootClass" receiveEvent="_mTEoQqKCEeKs4tCFVpHj0A" sendEvent="_mTEoQaKCEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_mTFPUqKCEeKs4tCFVpHj0A" name="bindRootClass" messageSort="reply" receiveEvent="_mTFPU6KCEeKs4tCFVpHj0A" sendEvent="_mTFPUaKCEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_qXFQQKKCEeKs4tCFVpHj0A" name="bindClass" receiveEvent="_qXF3UaKCEeKs4tCFVpHj0A" sendEvent="_qXF3UKKCEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_qXGeYKKCEeKs4tCFVpHj0A" name="bindClass" messageSort="reply" receiveEvent="_qXGeYaKCEeKs4tCFVpHj0A" sendEvent="_qXF3U6KCEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_97XIMKKCEeKs4tCFVpHj0A" name="setLazy" receiveEvent="_97XvQKKCEeKs4tCFVpHj0A" sendEvent="_97XIMaKCEeKs4tCFVpHj0A" connector="_97YWUKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_97XvQ6KCEeKs4tCFVpHj0A" name="setLazy" messageSort="reply" receiveEvent="_97XvRKKCEeKs4tCFVpHj0A" sendEvent="_97XvQqKCEeKs4tCFVpHj0A" connector="_97YWUKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_FRj5sKKDEeKs4tCFVpHj0A" name="setEntityName" receiveEvent="_FRkgwaKDEeKs4tCFVpHj0A" sendEvent="_FRkgwKKDEeKs4tCFVpHj0A" connector="_97YWUKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_FRlH0aKDEeKs4tCFVpHj0A" name="setEntityName" messageSort="reply" receiveEvent="_FRlH0qKDEeKs4tCFVpHj0A" sendEvent="_FRlH0KKDEeKs4tCFVpHj0A" connector="_97YWUKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_NGbkMKKDEeKs4tCFVpHj0A" name="setJpaEntityName" receiveEvent="_NGcLQaKDEeKs4tCFVpHj0A" sendEvent="_NGcLQKKDEeKs4tCFVpHj0A" connector="_97YWUKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_NGcyUKKDEeKs4tCFVpHj0A" name="setJpaEntityName" messageSort="reply" receiveEvent="_NGcyUaKDEeKs4tCFVpHj0A" sendEvent="_NGcLQ6KDEeKs4tCFVpHj0A" connector="_97YWUKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_XXUlMKKDEeKs4tCFVpHj0A" name="bindPojoRepresentation" receiveEvent="_XXVMQKKDEeKs4tCFVpHj0A" sendEvent="_XXUlMaKDEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_XXVMQ6KDEeKs4tCFVpHj0A" name="bindPojoRepresentation" messageSort="reply" receiveEvent="_XXVMRKKDEeKs4tCFVpHj0A" sendEvent="_XXVMQqKDEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_bgmHsKKDEeKs4tCFVpHj0A" name="setClassName" receiveEvent="_bgmHsqKDEeKs4tCFVpHj0A" sendEvent="_bgmHsaKDEeKs4tCFVpHj0A" connector="_97YWUKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_bgmuwqKDEeKs4tCFVpHj0A" name="setClassName" messageSort="reply" receiveEvent="_bgmuw6KDEeKs4tCFVpHj0A" sendEvent="_bgmuwaKDEeKs4tCFVpHj0A" connector="_97YWUKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_iwAUsKKDEeKs4tCFVpHj0A" name="setProxyInterfaceName" receiveEvent="_iwAUsqKDEeKs4tCFVpHj0A" sendEvent="_iwAUsaKDEeKs4tCFVpHj0A" connector="_97YWUKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_iwA7wqKDEeKs4tCFVpHj0A" name="setProxyInterfaceName" messageSort="reply" receiveEvent="_iwA7w6KDEeKs4tCFVpHj0A" sendEvent="_iwA7waKDEeKs4tCFVpHj0A" connector="_97YWUKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_xDXsoKKDEeKs4tCFVpHj0A" name="bindDom4jRepresentation" receiveEvent="_xDXsoqKDEeKs4tCFVpHj0A" sendEvent="_xDXsoaKDEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_xDYTsaKDEeKs4tCFVpHj0A" name="bindDom4jRepresentation" messageSort="reply" receiveEvent="_xDYTsqKDEeKs4tCFVpHj0A" sendEvent="_xDYTsKKDEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_14IcIKKDEeKs4tCFVpHj0A" name="setNodeName" receiveEvent="_14IcIqKDEeKs4tCFVpHj0A" sendEvent="_14IcIaKDEeKs4tCFVpHj0A" connector="_97YWUKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_14JDMaKDEeKs4tCFVpHj0A" name="setNodeName" messageSort="reply" receiveEvent="_14JDMqKDEeKs4tCFVpHj0A" sendEvent="_14JDMKKDEeKs4tCFVpHj0A" connector="_97YWUKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_5YqjoKKDEeKs4tCFVpHj0A" name="bindMapRepresentation" receiveEvent="_5YqjoqKDEeKs4tCFVpHj0A" sendEvent="_5YqjoaKDEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_5YrKsqKDEeKs4tCFVpHj0A" name="bindMapRepresentation" messageSort="reply" receiveEvent="_5YrKs6KDEeKs4tCFVpHj0A" sendEvent="_5YrKsaKDEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_DBzBEKKEEeKs4tCFVpHj0A" name="bindPersistentClassCommonValues" receiveEvent="_DBzoIaKEEeKs4tCFVpHj0A" sendEvent="_DBzoIKKEEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_DBzoJKKEEeKs4tCFVpHj0A" name="bindPersistentClassCommonValues" messageSort="reply" receiveEvent="_DB0PMKKEEeKs4tCFVpHj0A" sendEvent="_DBzoI6KEEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_kzbIgKKEEeKs4tCFVpHj0A" name="addImport" receiveEvent="_kzbvkKKEEeKs4tCFVpHj0A" sendEvent="_kzbIgaKEEeKs4tCFVpHj0A" connector="_kzcWoKKEEeKs4tCFVpHj0A"/>
-      <message xmi:id="_kzbvk6KEEeKs4tCFVpHj0A" name="addImport" messageSort="reply" receiveEvent="_kzbvlKKEEeKs4tCFVpHj0A" sendEvent="_kzbvkqKEEeKs4tCFVpHj0A" connector="_kzcWoKKEEeKs4tCFVpHj0A"/>
-      <message xmi:id="_yjeYAKKEEeKs4tCFVpHj0A" name="setAbstract" receiveEvent="_yjeYAqKEEeKs4tCFVpHj0A" sendEvent="_yjeYAaKEEeKs4tCFVpHj0A" connector="_97YWUKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_yje_EqKEEeKs4tCFVpHj0A" name="setAbstract" messageSort="reply" receiveEvent="_yje_E6KEEeKs4tCFVpHj0A" sendEvent="_yje_EaKEEeKs4tCFVpHj0A" connector="_97YWUKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_8HazcKKEEeKs4tCFVpHj0A" name="bindRootPersistentClassCommonValues" receiveEvent="_8HbagaKEEeKs4tCFVpHj0A" sendEvent="_8HbagKKEEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_8HcBkKKEEeKs4tCFVpHj0A" name="bindRootPersistentClassCommonValues" messageSort="reply" receiveEvent="_8HcBkaKEEeKs4tCFVpHj0A" sendEvent="_8Hbag6KEEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_G1m0cKKFEeKs4tCFVpHj0A" name="addTable" receiveEvent="_G1m0cqKFEeKs4tCFVpHj0A" sendEvent="_G1m0caKFEeKs4tCFVpHj0A" connector="_kzcWoKKEEeKs4tCFVpHj0A"/>
-      <message xmi:id="_G1nbgqKFEeKs4tCFVpHj0A" name="addTable" messageSort="reply" receiveEvent="_G1nbg6KFEeKs4tCFVpHj0A" sendEvent="_G1nbgaKFEeKs4tCFVpHj0A" connector="_kzcWoKKEEeKs4tCFVpHj0A"/>
-      <message xmi:id="_L7dT8KKFEeKs4tCFVpHj0A" name="getClassTableName" receiveEvent="_L7d7AKKFEeKs4tCFVpHj0A" sendEvent="_L7dT8aKFEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_L7d7A6KFEeKs4tCFVpHj0A" name="getClassTableName" messageSort="reply" receiveEvent="_L7d7BKKFEeKs4tCFVpHj0A" sendEvent="_L7d7AqKFEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_cCj6YKKFEeKs4tCFVpHj0A" name="addTableBinding" receiveEvent="_cCkhcaKFEeKs4tCFVpHj0A" sendEvent="_cCkhcKKFEeKs4tCFVpHj0A" connector="_kzcWoKKEEeKs4tCFVpHj0A"/>
-      <message xmi:id="_cCkhdKKFEeKs4tCFVpHj0A" name="addTableBinding" messageSort="reply" receiveEvent="_cClIgKKFEeKs4tCFVpHj0A" sendEvent="_cCkhc6KFEeKs4tCFVpHj0A" connector="_kzcWoKKEEeKs4tCFVpHj0A"/>
-      <message xmi:id="_5rtEUKKXEeKs4tCFVpHj0A" name="setAbstract" receiveEvent="_5rtrYaKXEeKs4tCFVpHj0A" sendEvent="_5rtrYKKXEeKs4tCFVpHj0A" connector="_5ruScaKXEeKs4tCFVpHj0A"/>
-      <message xmi:id="_5rtrZKKXEeKs4tCFVpHj0A" name="setAbstract" messageSort="reply" receiveEvent="_5ruScKKXEeKs4tCFVpHj0A" sendEvent="_5rtrY6KXEeKs4tCFVpHj0A" connector="_5ruScaKXEeKs4tCFVpHj0A"/>
-      <message xmi:id="_-FiLUKKXEeKs4tCFVpHj0A" name="setName" receiveEvent="_-FiyYKKXEeKs4tCFVpHj0A" sendEvent="_-FiLUaKXEeKs4tCFVpHj0A" connector="_5ruScaKXEeKs4tCFVpHj0A"/>
-      <message xmi:id="_-FiyY6KXEeKs4tCFVpHj0A" name="setName" messageSort="reply" receiveEvent="_-FjZcKKXEeKs4tCFVpHj0A" sendEvent="_-FiyYqKXEeKs4tCFVpHj0A" connector="_5ruScaKXEeKs4tCFVpHj0A"/>
-      <message xmi:id="_DdZA0KKYEeKs4tCFVpHj0A" name="setTable" receiveEvent="_DdZA0qKYEeKs4tCFVpHj0A" sendEvent="_DdZA0aKYEeKs4tCFVpHj0A" connector="_97YWUKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_DdZn4qKYEeKs4tCFVpHj0A" name="setTable" messageSort="reply" receiveEvent="_DdZn46KYEeKs4tCFVpHj0A" sendEvent="_DdZn4aKYEeKs4tCFVpHj0A" connector="_97YWUKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_LEhKQKKYEeKs4tCFVpHj0A" name="bindComment" receiveEvent="_LEhKQqKYEeKs4tCFVpHj0A" sendEvent="_LEhKQaKYEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_LEhxUqKYEeKs4tCFVpHj0A" name="bindComment" messageSort="reply" receiveEvent="_LEhxU6KYEeKs4tCFVpHj0A" sendEvent="_LEhxUaKYEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_Sr5LUKKYEeKs4tCFVpHj0A" name="bindSimpleId" receiveEvent="_Sr5yYaKYEeKs4tCFVpHj0A" sendEvent="_Sr5yYKKYEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_Sr6ZcaKYEeKs4tCFVpHj0A" name="bindSimpleId" messageSort="reply" receiveEvent="_Sr6ZcqKYEeKs4tCFVpHj0A" sendEvent="_Sr6ZcKKYEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_ao_kwKKYEeKs4tCFVpHj0A" name="setIdentifier" receiveEvent="_apAL0KKYEeKs4tCFVpHj0A" sendEvent="_ao_kwaKYEeKs4tCFVpHj0A" connector="_97YWUKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_apAL06KYEeKs4tCFVpHj0A" name="setIdentifier" messageSort="reply" receiveEvent="_apAL1KKYEeKs4tCFVpHj0A" sendEvent="_apAL0qKYEeKs4tCFVpHj0A" connector="_97YWUKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_flsvUKKYEeKs4tCFVpHj0A" name="bindSimpleValue" receiveEvent="_flsvUqKYEeKs4tCFVpHj0A" sendEvent="_flsvUaKYEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_fltWYaKYEeKs4tCFVpHj0A" name="bindSimpleValue" messageSort="reply" receiveEvent="_fltWYqKYEeKs4tCFVpHj0A" sendEvent="_fltWYKKYEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_GR_IAKKbEeKs4tCFVpHj0A" name="setTypeUsingReflection" receiveEvent="_GR_IAqKbEeKs4tCFVpHj0A" sendEvent="_GR_IAaKbEeKs4tCFVpHj0A" connector="_gKl6MaKaEeKs4tCFVpHj0A"/>
-      <message xmi:id="_GR_vEqKbEeKs4tCFVpHj0A" name="setTypeUsingReflection" messageSort="reply" receiveEvent="_GR_vE6KbEeKs4tCFVpHj0A" sendEvent="_GR_vEaKbEeKs4tCFVpHj0A" connector="_gKl6MaKaEeKs4tCFVpHj0A"/>
-      <message xmi:id="_UEZH8KKbEeKs4tCFVpHj0A" name="setValue" receiveEvent="_UEZH8qKbEeKs4tCFVpHj0A" sendEvent="_UEZH8aKbEeKs4tCFVpHj0A" connector="_UEZvBKKbEeKs4tCFVpHj0A"/>
-      <message xmi:id="_UEZvAqKbEeKs4tCFVpHj0A" name="setValue" messageSort="reply" receiveEvent="_UEZvA6KbEeKs4tCFVpHj0A" sendEvent="_UEZvAaKbEeKs4tCFVpHj0A" connector="_UEZvBKKbEeKs4tCFVpHj0A"/>
-      <message xmi:id="_XR7a8KKbEeKs4tCFVpHj0A" name="bindProperty" receiveEvent="_XR7a8qKbEeKs4tCFVpHj0A" sendEvent="_XR7a8aKbEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_XR8CAqKbEeKs4tCFVpHj0A" name="bindProperty" messageSort="reply" receiveEvent="_XR8CA6KbEeKs4tCFVpHj0A" sendEvent="_XR8CAaKbEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_2kamcKKbEeKs4tCFVpHj0A" name="setIdentifierProperty" receiveEvent="_2kamcqKbEeKs4tCFVpHj0A" sendEvent="_2kamcaKbEeKs4tCFVpHj0A" connector="_97YWUKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_2kbNgqKbEeKs4tCFVpHj0A" name="setIdentifierProperty" messageSort="reply" receiveEvent="_2kbNg6KbEeKs4tCFVpHj0A" sendEvent="_2kbNgaKbEeKs4tCFVpHj0A" connector="_97YWUKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_8M-KYKKbEeKs4tCFVpHj0A" name="setDeclaredIdentifierProperty" receiveEvent="_8M-KYqKbEeKs4tCFVpHj0A" sendEvent="_8M-KYaKbEeKs4tCFVpHj0A" connector="_97YWUKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_8M-xcqKbEeKs4tCFVpHj0A" name="setDeclaredIdentifierProperty" messageSort="reply" receiveEvent="_8M-xc6KbEeKs4tCFVpHj0A" sendEvent="_8M-xcaKbEeKs4tCFVpHj0A" connector="_97YWUKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_A8KdYKKcEeKs4tCFVpHj0A" name="makeIdentifier" receiveEvent="_A8KdYqKcEeKs4tCFVpHj0A" sendEvent="_A8KdYaKcEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_A8LEcqKcEeKs4tCFVpHj0A" name="makeIdentifier" messageSort="reply" receiveEvent="_A8LEc6KcEeKs4tCFVpHj0A" sendEvent="_A8LEcaKcEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_U1WOUKKcEeKs4tCFVpHj0A" name="setIdentifierGeneratorStrategy" receiveEvent="_U1WOUqKcEeKs4tCFVpHj0A" sendEvent="_U1WOUaKcEeKs4tCFVpHj0A" connector="_gKl6MaKaEeKs4tCFVpHj0A"/>
-      <message xmi:id="_U1W1YaKcEeKs4tCFVpHj0A" name="setIdentifierGeneratorStrategy" messageSort="reply" receiveEvent="_U1W1YqKcEeKs4tCFVpHj0A" sendEvent="_U1W1YKKcEeKs4tCFVpHj0A" connector="_gKl6MaKaEeKs4tCFVpHj0A"/>
-      <message xmi:id="_bFHjQKKcEeKs4tCFVpHj0A" name="setIdentifierGeneratorProperties" receiveEvent="_bFIKUaKcEeKs4tCFVpHj0A" sendEvent="_bFIKUKKcEeKs4tCFVpHj0A" connector="_gKl6MaKaEeKs4tCFVpHj0A"/>
-      <message xmi:id="_bFIxYKKcEeKs4tCFVpHj0A" name="setIdentifierGeneratorProperties" messageSort="reply" receiveEvent="_bFIxYaKcEeKs4tCFVpHj0A" sendEvent="_bFIKU6KcEeKs4tCFVpHj0A" connector="_gKl6MaKaEeKs4tCFVpHj0A"/>
-      <message xmi:id="_gztdwKKcEeKs4tCFVpHj0A" name="setIdentifierValue" receiveEvent="_gzuE0aKcEeKs4tCFVpHj0A" sendEvent="_gzuE0KKcEeKs4tCFVpHj0A" connector="_eVyUsqKaEeKs4tCFVpHj0A"/>
-      <message xmi:id="_gzur4aKcEeKs4tCFVpHj0A" name="setIdentifierValue" messageSort="reply" receiveEvent="_gzur4qKcEeKs4tCFVpHj0A" sendEvent="_gzur4KKcEeKs4tCFVpHj0A" connector="_eVyUsqKaEeKs4tCFVpHj0A"/>
-      <message xmi:id="_n9aEUKKcEeKs4tCFVpHj0A" name="setNullValue" receiveEvent="_n9aEUqKcEeKs4tCFVpHj0A" sendEvent="_n9aEUaKcEeKs4tCFVpHj0A" connector="_gKl6MaKaEeKs4tCFVpHj0A"/>
-      <message xmi:id="_n9arYqKcEeKs4tCFVpHj0A" name="setNullValue" messageSort="reply" receiveEvent="_n9arY6KcEeKs4tCFVpHj0A" sendEvent="_n9arYaKcEeKs4tCFVpHj0A" connector="_gKl6MaKaEeKs4tCFVpHj0A"/>
-      <message xmi:id="_xC1XwKKcEeKs4tCFVpHj0A" name="createPrimaryKey" receiveEvent="_xC1XwqKcEeKs4tCFVpHj0A" sendEvent="_xC1XwaKcEeKs4tCFVpHj0A" connector="_97YWUKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_xC1-0aKcEeKs4tCFVpHj0A" name="createPrimaryKey" messageSort="reply" receiveEvent="_xC1-0qKcEeKs4tCFVpHj0A" sendEvent="_xC1-0KKcEeKs4tCFVpHj0A" connector="_97YWUKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_7TfvQKKcEeKs4tCFVpHj0A" name="createClassProperties" receiveEvent="_7TgWUaKcEeKs4tCFVpHj0A" sendEvent="_7TgWUKKcEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_7TgWVKKcEeKs4tCFVpHj0A" name="createClassProperties" messageSort="reply" receiveEvent="_7Tg9YKKcEeKs4tCFVpHj0A" sendEvent="_7TgWU6KcEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_9OjtwKKcEeKs4tCFVpHj0A" name="createClassProperties" receiveEvent="_9OjtwqKcEeKs4tCFVpHj0A" sendEvent="_9OjtwaKcEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_9OkU0qKcEeKs4tCFVpHj0A" name="createClassProperties" messageSort="reply" receiveEvent="_9OkU06KcEeKs4tCFVpHj0A" sendEvent="_9OkU0aKcEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_MKwAQKKdEeKs4tCFVpHj0A" name="bindSimpleValue" receiveEvent="_MKwAQqKdEeKs4tCFVpHj0A" sendEvent="_MKwAQaKdEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_MKwnUaKdEeKs4tCFVpHj0A" name="bindSimpleValue" messageSort="reply" receiveEvent="_MKwnUqKdEeKs4tCFVpHj0A" sendEvent="_MKwnUKKdEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_48_gAKKeEeKs4tCFVpHj0A" name="createProperty" receiveEvent="_49AHEaKeEeKs4tCFVpHj0A" sendEvent="_49AHEKKeEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_49AHFKKeEeKs4tCFVpHj0A" name="createProperty" messageSort="reply" receiveEvent="_49AuIKKeEeKs4tCFVpHj0A" sendEvent="_49AHE6KeEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="__2MMcKKeEeKs4tCFVpHj0A" name="setTypeUsingReflection" receiveEvent="__2MzgaKeEeKs4tCFVpHj0A" sendEvent="__2MzgKKeEeKs4tCFVpHj0A" connector="_gKl6MaKaEeKs4tCFVpHj0A"/>
-      <message xmi:id="__2MzhKKeEeKs4tCFVpHj0A" name="setTypeUsingReflection" messageSort="reply" receiveEvent="__2NakKKeEeKs4tCFVpHj0A" sendEvent="__2Mzg6KeEeKs4tCFVpHj0A" connector="_gKl6MaKaEeKs4tCFVpHj0A"/>
-      <message xmi:id="_DXzSAKKfEeKs4tCFVpHj0A" name="createForeignKey" receiveEvent="_DXzSAqKfEeKs4tCFVpHj0A" sendEvent="_DXzSAaKfEeKs4tCFVpHj0A" connector="_gKl6MaKaEeKs4tCFVpHj0A"/>
-      <message xmi:id="_DXz5EaKfEeKs4tCFVpHj0A" name="createForeignKey" messageSort="reply" receiveEvent="_DXz5EqKfEeKs4tCFVpHj0A" sendEvent="_DXz5EKKfEeKs4tCFVpHj0A" connector="_gKl6MaKaEeKs4tCFVpHj0A"/>
-      <message xmi:id="_IyPhcKKfEeKs4tCFVpHj0A" name="setValue" receiveEvent="_IyQIgaKfEeKs4tCFVpHj0A" sendEvent="_IyQIgKKfEeKs4tCFVpHj0A" connector="_UEZvBKKbEeKs4tCFVpHj0A"/>
-      <message xmi:id="_IyQvkKKfEeKs4tCFVpHj0A" name="setValue" messageSort="reply" receiveEvent="_IyQvkaKfEeKs4tCFVpHj0A" sendEvent="_IyQIg6KfEeKs4tCFVpHj0A" connector="_UEZvBKKbEeKs4tCFVpHj0A"/>
-      <message xmi:id="_NyOCcKKfEeKs4tCFVpHj0A" name="bindProperty" receiveEvent="_NyOCcqKfEeKs4tCFVpHj0A" sendEvent="_NyOCcaKfEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="_NyOpgaKfEeKs4tCFVpHj0A" name="bindProperty" messageSort="reply" receiveEvent="_NyOpgqKfEeKs4tCFVpHj0A" sendEvent="_NyOpgKKfEeKs4tCFVpHj0A" connector="_mTFPVKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="__J7t8KKfEeKs4tCFVpHj0A" name="addProperty" receiveEvent="__J7t8qKfEeKs4tCFVpHj0A" sendEvent="__J7t8aKfEeKs4tCFVpHj0A" connector="_97YWUKKCEeKs4tCFVpHj0A"/>
-      <message xmi:id="__J8VAqKfEeKs4tCFVpHj0A" name="addProperty" messageSort="reply" receiveEvent="__J8VA6KfEeKs4tCFVpHj0A" sendEvent="__J8VAaKfEeKs4tCFVpHj0A" connector="_97YWUKKCEeKs4tCFVpHj0A"/>
+      <message xmi:id="_mTEoQKKCEeKs4tCFVpHj0A" name="bindRootClass" receiveEvent="_mTEoQqKCEeKs4tCFVpHj0A" sendEvent="_mTEoQaKCEeKs4tCFVpHj0A"/>
+      <message xmi:id="_mTFPUqKCEeKs4tCFVpHj0A" name="bindRootClass" messageSort="reply" receiveEvent="_mTFPU6KCEeKs4tCFVpHj0A" sendEvent="_mTFPUaKCEeKs4tCFVpHj0A"/>
+      <message xmi:id="_qXFQQKKCEeKs4tCFVpHj0A" name="bindClass" receiveEvent="_qXF3UaKCEeKs4tCFVpHj0A" sendEvent="_qXF3UKKCEeKs4tCFVpHj0A"/>
+      <message xmi:id="_qXGeYKKCEeKs4tCFVpHj0A" name="bindClass" messageSort="reply" receiveEvent="_qXGeYaKCEeKs4tCFVpHj0A" sendEvent="_qXF3U6KCEeKs4tCFVpHj0A"/>
+      <message xmi:id="_97XIMKKCEeKs4tCFVpHj0A" name="setLazy" receiveEvent="_97XvQKKCEeKs4tCFVpHj0A" sendEvent="_97XIMaKCEeKs4tCFVpHj0A"/>
+      <message xmi:id="_97XvQ6KCEeKs4tCFVpHj0A" name="setLazy" messageSort="reply" receiveEvent="_97XvRKKCEeKs4tCFVpHj0A" sendEvent="_97XvQqKCEeKs4tCFVpHj0A"/>
+      <message xmi:id="_FRj5sKKDEeKs4tCFVpHj0A" name="setEntityName" receiveEvent="_FRkgwaKDEeKs4tCFVpHj0A" sendEvent="_FRkgwKKDEeKs4tCFVpHj0A"/>
+      <message xmi:id="_FRlH0aKDEeKs4tCFVpHj0A" name="setEntityName" messageSort="reply" receiveEvent="_FRlH0qKDEeKs4tCFVpHj0A" sendEvent="_FRlH0KKDEeKs4tCFVpHj0A"/>
+      <message xmi:id="_NGbkMKKDEeKs4tCFVpHj0A" name="setJpaEntityName" receiveEvent="_NGcLQaKDEeKs4tCFVpHj0A" sendEvent="_NGcLQKKDEeKs4tCFVpHj0A"/>
+      <message xmi:id="_NGcyUKKDEeKs4tCFVpHj0A" name="setJpaEntityName" messageSort="reply" receiveEvent="_NGcyUaKDEeKs4tCFVpHj0A" sendEvent="_NGcLQ6KDEeKs4tCFVpHj0A"/>
+      <message xmi:id="_XXUlMKKDEeKs4tCFVpHj0A" name="bindPojoRepresentation" receiveEvent="_XXVMQKKDEeKs4tCFVpHj0A" sendEvent="_XXUlMaKDEeKs4tCFVpHj0A"/>
+      <message xmi:id="_XXVMQ6KDEeKs4tCFVpHj0A" name="bindPojoRepresentation" messageSort="reply" receiveEvent="_XXVMRKKDEeKs4tCFVpHj0A" sendEvent="_XXVMQqKDEeKs4tCFVpHj0A"/>
+      <message xmi:id="_bgmHsKKDEeKs4tCFVpHj0A" name="setClassName" receiveEvent="_bgmHsqKDEeKs4tCFVpHj0A" sendEvent="_bgmHsaKDEeKs4tCFVpHj0A"/>
+      <message xmi:id="_bgmuwqKDEeKs4tCFVpHj0A" name="setClassName" messageSort="reply" receiveEvent="_bgmuw6KDEeKs4tCFVpHj0A" sendEvent="_bgmuwaKDEeKs4tCFVpHj0A"/>
+      <message xmi:id="_iwAUsKKDEeKs4tCFVpHj0A" name="setProxyInterfaceName" receiveEvent="_iwAUsqKDEeKs4tCFVpHj0A" sendEvent="_iwAUsaKDEeKs4tCFVpHj0A"/>
+      <message xmi:id="_iwA7wqKDEeKs4tCFVpHj0A" name="setProxyInterfaceName" messageSort="reply" receiveEvent="_iwA7w6KDEeKs4tCFVpHj0A" sendEvent="_iwA7waKDEeKs4tCFVpHj0A"/>
+      <message xmi:id="_xDXsoKKDEeKs4tCFVpHj0A" name="bindDom4jRepresentation" receiveEvent="_xDXsoqKDEeKs4tCFVpHj0A" sendEvent="_xDXsoaKDEeKs4tCFVpHj0A"/>
+      <message xmi:id="_xDYTsaKDEeKs4tCFVpHj0A" name="bindDom4jRepresentation" messageSort="reply" receiveEvent="_xDYTsqKDEeKs4tCFVpHj0A" sendEvent="_xDYTsKKDEeKs4tCFVpHj0A"/>
+      <message xmi:id="_14IcIKKDEeKs4tCFVpHj0A" name="setNodeName" receiveEvent="_14IcIqKDEeKs4tCFVpHj0A" sendEvent="_14IcIaKDEeKs4tCFVpHj0A"/>
+      <message xmi:id="_14JDMaKDEeKs4tCFVpHj0A" name="setNodeName" messageSort="reply" receiveEvent="_14JDMqKDEeKs4tCFVpHj0A" sendEvent="_14JDMKKDEeKs4tCFVpHj0A"/>
+      <message xmi:id="_5YqjoKKDEeKs4tCFVpHj0A" name="bindMapRepresentation" receiveEvent="_5YqjoqKDEeKs4tCFVpHj0A" sendEvent="_5YqjoaKDEeKs4tCFVpHj0A"/>
+      <message xmi:id="_5YrKsqKDEeKs4tCFVpHj0A" name="bindMapRepresentation" messageSort="reply" receiveEvent="_5YrKs6KDEeKs4tCFVpHj0A" sendEvent="_5YrKsaKDEeKs4tCFVpHj0A"/>
+      <message xmi:id="_DBzBEKKEEeKs4tCFVpHj0A" name="bindPersistentClassCommonValues" receiveEvent="_DBzoIaKEEeKs4tCFVpHj0A" sendEvent="_DBzoIKKEEeKs4tCFVpHj0A"/>
+      <message xmi:id="_DBzoJKKEEeKs4tCFVpHj0A" name="bindPersistentClassCommonValues" messageSort="reply" receiveEvent="_DB0PMKKEEeKs4tCFVpHj0A" sendEvent="_DBzoI6KEEeKs4tCFVpHj0A"/>
+      <message xmi:id="_kzbIgKKEEeKs4tCFVpHj0A" name="addImport" receiveEvent="_kzbvkKKEEeKs4tCFVpHj0A" sendEvent="_kzbIgaKEEeKs4tCFVpHj0A"/>
+      <message xmi:id="_kzbvk6KEEeKs4tCFVpHj0A" name="addImport" messageSort="reply" receiveEvent="_kzbvlKKEEeKs4tCFVpHj0A" sendEvent="_kzbvkqKEEeKs4tCFVpHj0A"/>
+      <message xmi:id="_yjeYAKKEEeKs4tCFVpHj0A" name="setAbstract" receiveEvent="_yjeYAqKEEeKs4tCFVpHj0A" sendEvent="_yjeYAaKEEeKs4tCFVpHj0A"/>
+      <message xmi:id="_yje_EqKEEeKs4tCFVpHj0A" name="setAbstract" messageSort="reply" receiveEvent="_yje_E6KEEeKs4tCFVpHj0A" sendEvent="_yje_EaKEEeKs4tCFVpHj0A"/>
+      <message xmi:id="_8HazcKKEEeKs4tCFVpHj0A" name="bindRootPersistentClassCommonValues" receiveEvent="_8HbagaKEEeKs4tCFVpHj0A" sendEvent="_8HbagKKEEeKs4tCFVpHj0A"/>
+      <message xmi:id="_8HcBkKKEEeKs4tCFVpHj0A" name="bindRootPersistentClassCommonValues" messageSort="reply" receiveEvent="_8HcBkaKEEeKs4tCFVpHj0A" sendEvent="_8Hbag6KEEeKs4tCFVpHj0A"/>
+      <message xmi:id="_G1m0cKKFEeKs4tCFVpHj0A" name="addTable" receiveEvent="_G1m0cqKFEeKs4tCFVpHj0A" sendEvent="_G1m0caKFEeKs4tCFVpHj0A"/>
+      <message xmi:id="_G1nbgqKFEeKs4tCFVpHj0A" name="addTable" messageSort="reply" receiveEvent="_G1nbg6KFEeKs4tCFVpHj0A" sendEvent="_G1nbgaKFEeKs4tCFVpHj0A"/>
+      <message xmi:id="_L7dT8KKFEeKs4tCFVpHj0A" name="getClassTableName" receiveEvent="_L7d7AKKFEeKs4tCFVpHj0A" sendEvent="_L7dT8aKFEeKs4tCFVpHj0A"/>
+      <message xmi:id="_L7d7A6KFEeKs4tCFVpHj0A" name="getClassTableName" messageSort="reply" receiveEvent="_L7d7BKKFEeKs4tCFVpHj0A" sendEvent="_L7d7AqKFEeKs4tCFVpHj0A"/>
+      <message xmi:id="_cCj6YKKFEeKs4tCFVpHj0A" name="addTableBinding" receiveEvent="_cCkhcaKFEeKs4tCFVpHj0A" sendEvent="_cCkhcKKFEeKs4tCFVpHj0A"/>
+      <message xmi:id="_cCkhdKKFEeKs4tCFVpHj0A" name="addTableBinding" messageSort="reply" receiveEvent="_cClIgKKFEeKs4tCFVpHj0A" sendEvent="_cCkhc6KFEeKs4tCFVpHj0A"/>
+      <message xmi:id="_5rtEUKKXEeKs4tCFVpHj0A" name="setAbstract" receiveEvent="_5rtrYaKXEeKs4tCFVpHj0A" sendEvent="_5rtrYKKXEeKs4tCFVpHj0A"/>
+      <message xmi:id="_5rtrZKKXEeKs4tCFVpHj0A" name="setAbstract" messageSort="reply" receiveEvent="_5ruScKKXEeKs4tCFVpHj0A" sendEvent="_5rtrY6KXEeKs4tCFVpHj0A"/>
+      <message xmi:id="_-FiLUKKXEeKs4tCFVpHj0A" name="setName" receiveEvent="_-FiyYKKXEeKs4tCFVpHj0A" sendEvent="_-FiLUaKXEeKs4tCFVpHj0A"/>
+      <message xmi:id="_-FiyY6KXEeKs4tCFVpHj0A" name="setName" messageSort="reply" receiveEvent="_-FjZcKKXEeKs4tCFVpHj0A" sendEvent="_-FiyYqKXEeKs4tCFVpHj0A"/>
+      <message xmi:id="_DdZA0KKYEeKs4tCFVpHj0A" name="setTable" receiveEvent="_DdZA0qKYEeKs4tCFVpHj0A" sendEvent="_DdZA0aKYEeKs4tCFVpHj0A"/>
+      <message xmi:id="_DdZn4qKYEeKs4tCFVpHj0A" name="setTable" messageSort="reply" receiveEvent="_DdZn46KYEeKs4tCFVpHj0A" sendEvent="_DdZn4aKYEeKs4tCFVpHj0A"/>
+      <message xmi:id="_LEhKQKKYEeKs4tCFVpHj0A" name="bindComment" receiveEvent="_LEhKQqKYEeKs4tCFVpHj0A" sendEvent="_LEhKQaKYEeKs4tCFVpHj0A"/>
+      <message xmi:id="_LEhxUqKYEeKs4tCFVpHj0A" name="bindComment" messageSort="reply" receiveEvent="_LEhxU6KYEeKs4tCFVpHj0A" sendEvent="_LEhxUaKYEeKs4tCFVpHj0A"/>
+      <message xmi:id="_Sr5LUKKYEeKs4tCFVpHj0A" name="bindSimpleId" receiveEvent="_Sr5yYaKYEeKs4tCFVpHj0A" sendEvent="_Sr5yYKKYEeKs4tCFVpHj0A"/>
+      <message xmi:id="_Sr6ZcaKYEeKs4tCFVpHj0A" name="bindSimpleId" messageSort="reply" receiveEvent="_Sr6ZcqKYEeKs4tCFVpHj0A" sendEvent="_Sr6ZcKKYEeKs4tCFVpHj0A"/>
+      <message xmi:id="_ao_kwKKYEeKs4tCFVpHj0A" name="setIdentifier" receiveEvent="_apAL0KKYEeKs4tCFVpHj0A" sendEvent="_ao_kwaKYEeKs4tCFVpHj0A"/>
+      <message xmi:id="_apAL06KYEeKs4tCFVpHj0A" name="setIdentifier" messageSort="reply" receiveEvent="_apAL1KKYEeKs4tCFVpHj0A" sendEvent="_apAL0qKYEeKs4tCFVpHj0A"/>
+      <message xmi:id="_flsvUKKYEeKs4tCFVpHj0A" name="bindSimpleValue" receiveEvent="_flsvUqKYEeKs4tCFVpHj0A" sendEvent="_flsvUaKYEeKs4tCFVpHj0A"/>
+      <message xmi:id="_fltWYaKYEeKs4tCFVpHj0A" name="bindSimpleValue" messageSort="reply" receiveEvent="_fltWYqKYEeKs4tCFVpHj0A" sendEvent="_fltWYKKYEeKs4tCFVpHj0A"/>
+      <message xmi:id="_GR_IAKKbEeKs4tCFVpHj0A" name="setTypeUsingReflection" receiveEvent="_GR_IAqKbEeKs4tCFVpHj0A" sendEvent="_GR_IAaKbEeKs4tCFVpHj0A"/>
+      <message xmi:id="_GR_vEqKbEeKs4tCFVpHj0A" name="setTypeUsingReflection" messageSort="reply" receiveEvent="_GR_vE6KbEeKs4tCFVpHj0A" sendEvent="_GR_vEaKbEeKs4tCFVpHj0A"/>
+      <message xmi:id="_UEZH8KKbEeKs4tCFVpHj0A" name="setValue" receiveEvent="_UEZH8qKbEeKs4tCFVpHj0A" sendEvent="_UEZH8aKbEeKs4tCFVpHj0A"/>
+      <message xmi:id="_UEZvAqKbEeKs4tCFVpHj0A" name="setValue" messageSort="reply" receiveEvent="_UEZvA6KbEeKs4tCFVpHj0A" sendEvent="_UEZvAaKbEeKs4tCFVpHj0A"/>
+      <message xmi:id="_XR7a8KKbEeKs4tCFVpHj0A" name="bindProperty" receiveEvent="_XR7a8qKbEeKs4tCFVpHj0A" sendEvent="_XR7a8aKbEeKs4tCFVpHj0A"/>
+      <message xmi:id="_XR8CAqKbEeKs4tCFVpHj0A" name="bindProperty" messageSort="reply" receiveEvent="_XR8CA6KbEeKs4tCFVpHj0A" sendEvent="_XR8CAaKbEeKs4tCFVpHj0A"/>
+      <message xmi:id="_2kamcKKbEeKs4tCFVpHj0A" name="setIdentifierProperty" receiveEvent="_2kamcqKbEeKs4tCFVpHj0A" sendEvent="_2kamcaKbEeKs4tCFVpHj0A"/>
+      <message xmi:id="_2kbNgqKbEeKs4tCFVpHj0A" name="setIdentifierProperty" messageSort="reply" receiveEvent="_2kbNg6KbEeKs4tCFVpHj0A" sendEvent="_2kbNgaKbEeKs4tCFVpHj0A"/>
+      <message xmi:id="_8M-KYKKbEeKs4tCFVpHj0A" name="setDeclaredIdentifierProperty" receiveEvent="_8M-KYqKbEeKs4tCFVpHj0A" sendEvent="_8M-KYaKbEeKs4tCFVpHj0A"/>
+      <message xmi:id="_8M-xcqKbEeKs4tCFVpHj0A" name="setDeclaredIdentifierProperty" messageSort="reply" receiveEvent="_8M-xc6KbEeKs4tCFVpHj0A" sendEvent="_8M-xcaKbEeKs4tCFVpHj0A"/>
+      <message xmi:id="_A8KdYKKcEeKs4tCFVpHj0A" name="makeIdentifier" receiveEvent="_A8KdYqKcEeKs4tCFVpHj0A" sendEvent="_A8KdYaKcEeKs4tCFVpHj0A"/>
+      <message xmi:id="_A8LEcqKcEeKs4tCFVpHj0A" name="makeIdentifier" messageSort="reply" receiveEvent="_A8LEc6KcEeKs4tCFVpHj0A" sendEvent="_A8LEcaKcEeKs4tCFVpHj0A"/>
+      <message xmi:id="_U1WOUKKcEeKs4tCFVpHj0A" name="setIdentifierGeneratorStrategy" receiveEvent="_U1WOUqKcEeKs4tCFVpHj0A" sendEvent="_U1WOUaKcEeKs4tCFVpHj0A"/>
+      <message xmi:id="_U1W1YaKcEeKs4tCFVpHj0A" name="setIdentifierGeneratorStrategy" messageSort="reply" receiveEvent="_U1W1YqKcEeKs4tCFVpHj0A" sendEvent="_U1W1YKKcEeKs4tCFVpHj0A"/>
+      <message xmi:id="_bFHjQKKcEeKs4tCFVpHj0A" name="setIdentifierGeneratorProperties" receiveEvent="_bFIKUaKcEeKs4tCFVpHj0A" sendEvent="_bFIKUKKcEeKs4tCFVpHj0A"/>
+      <message xmi:id="_bFIxYKKcEeKs4tCFVpHj0A" name="setIdentifierGeneratorProperties" messageSort="reply" receiveEvent="_bFIxYaKcEeKs4tCFVpHj0A" sendEvent="_bFIKU6KcEeKs4tCFVpHj0A"/>
+      <message xmi:id="_gztdwKKcEeKs4tCFVpHj0A" name="setIdentifierValue" receiveEvent="_gzuE0aKcEeKs4tCFVpHj0A" sendEvent="_gzuE0KKcEeKs4tCFVpHj0A"/>
+      <message xmi:id="_gzur4aKcEeKs4tCFVpHj0A" name="setIdentifierValue" messageSort="reply" receiveEvent="_gzur4qKcEeKs4tCFVpHj0A" sendEvent="_gzur4KKcEeKs4tCFVpHj0A"/>
+      <message xmi:id="_n9aEUKKcEeKs4tCFVpHj0A" name="setNullValue" receiveEvent="_n9aEUqKcEeKs4tCFVpHj0A" sendEvent="_n9aEUaKcEeKs4tCFVpHj0A"/>
+      <message xmi:id="_n9arYqKcEeKs4tCFVpHj0A" name="setNullValue" messageSort="reply" receiveEvent="_n9arY6KcEeKs4tCFVpHj0A" sendEvent="_n9arYaKcEeKs4tCFVpHj0A"/>
+      <message xmi:id="_xC1XwKKcEeKs4tCFVpHj0A" name="createPrimaryKey" receiveEvent="_xC1XwqKcEeKs4tCFVpHj0A" sendEvent="_xC1XwaKcEeKs4tCFVpHj0A"/>
+      <message xmi:id="_xC1-0aKcEeKs4tCFVpHj0A" name="createPrimaryKey" messageSort="reply" receiveEvent="_xC1-0qKcEeKs4tCFVpHj0A" sendEvent="_xC1-0KKcEeKs4tCFVpHj0A"/>
+      <message xmi:id="_7TfvQKKcEeKs4tCFVpHj0A" name="createClassProperties" receiveEvent="_7TgWUaKcEeKs4tCFVpHj0A" sendEvent="_7TgWUKKcEeKs4tCFVpHj0A"/>
+      <message xmi:id="_7TgWVKKcEeKs4tCFVpHj0A" name="createClassProperties" messageSort="reply" receiveEvent="_7Tg9YKKcEeKs4tCFVpHj0A" sendEvent="_7TgWU6KcEeKs4tCFVpHj0A"/>
+      <message xmi:id="_9OjtwKKcEeKs4tCFVpHj0A" name="createClassProperties" receiveEvent="_9OjtwqKcEeKs4tCFVpHj0A" sendEvent="_9OjtwaKcEeKs4tCFVpHj0A"/>
+      <message xmi:id="_9OkU0qKcEeKs4tCFVpHj0A" name="createClassProperties" messageSort="reply" receiveEvent="_9OkU06KcEeKs4tCFVpHj0A" sendEvent="_9OkU0aKcEeKs4tCFVpHj0A"/>
+      <message xmi:id="_MKwAQKKdEeKs4tCFVpHj0A" name="bindSimpleValue" receiveEvent="_MKwAQqKdEeKs4tCFVpHj0A" sendEvent="_MKwAQaKdEeKs4tCFVpHj0A"/>
+      <message xmi:id="_MKwnUaKdEeKs4tCFVpHj0A" name="bindSimpleValue" messageSort="reply" receiveEvent="_MKwnUqKdEeKs4tCFVpHj0A" sendEvent="_MKwnUKKdEeKs4tCFVpHj0A"/>
+      <message xmi:id="_48_gAKKeEeKs4tCFVpHj0A" name="createProperty" receiveEvent="_49AHEaKeEeKs4tCFVpHj0A" sendEvent="_49AHEKKeEeKs4tCFVpHj0A"/>
+      <message xmi:id="_49AHFKKeEeKs4tCFVpHj0A" name="createProperty" messageSort="reply" receiveEvent="_49AuIKKeEeKs4tCFVpHj0A" sendEvent="_49AHE6KeEeKs4tCFVpHj0A"/>
+      <message xmi:id="__2MMcKKeEeKs4tCFVpHj0A" name="setTypeUsingReflection" receiveEvent="__2MzgaKeEeKs4tCFVpHj0A" sendEvent="__2MzgKKeEeKs4tCFVpHj0A"/>
+      <message xmi:id="__2MzhKKeEeKs4tCFVpHj0A" name="setTypeUsingReflection" messageSort="reply" receiveEvent="__2NakKKeEeKs4tCFVpHj0A" sendEvent="__2Mzg6KeEeKs4tCFVpHj0A"/>
+      <message xmi:id="_DXzSAKKfEeKs4tCFVpHj0A" name="createForeignKey" receiveEvent="_DXzSAqKfEeKs4tCFVpHj0A" sendEvent="_DXzSAaKfEeKs4tCFVpHj0A"/>
+      <message xmi:id="_DXz5EaKfEeKs4tCFVpHj0A" name="createForeignKey" messageSort="reply" receiveEvent="_DXz5EqKfEeKs4tCFVpHj0A" sendEvent="_DXz5EKKfEeKs4tCFVpHj0A"/>
+      <message xmi:id="_IyPhcKKfEeKs4tCFVpHj0A" name="setValue" receiveEvent="_IyQIgaKfEeKs4tCFVpHj0A" sendEvent="_IyQIgKKfEeKs4tCFVpHj0A"/>
+      <message xmi:id="_IyQvkKKfEeKs4tCFVpHj0A" name="setValue" messageSort="reply" receiveEvent="_IyQvkaKfEeKs4tCFVpHj0A" sendEvent="_IyQIg6KfEeKs4tCFVpHj0A"/>
+      <message xmi:id="_NyOCcKKfEeKs4tCFVpHj0A" name="bindProperty" receiveEvent="_NyOCcqKfEeKs4tCFVpHj0A" sendEvent="_NyOCcaKfEeKs4tCFVpHj0A"/>
+      <message xmi:id="_NyOpgaKfEeKs4tCFVpHj0A" name="bindProperty" messageSort="reply" receiveEvent="_NyOpgqKfEeKs4tCFVpHj0A" sendEvent="_NyOpgKKfEeKs4tCFVpHj0A"/>
+      <message xmi:id="__J7t8KKfEeKs4tCFVpHj0A" name="addProperty" receiveEvent="__J7t8qKfEeKs4tCFVpHj0A" sendEvent="__J7t8aKfEeKs4tCFVpHj0A"/>
+      <message xmi:id="__J8VAqKfEeKs4tCFVpHj0A" name="addProperty" messageSort="reply" receiveEvent="__J8VA6KfEeKs4tCFVpHj0A" sendEvent="__J8VAaKfEeKs4tCFVpHj0A"/>
     </ownedBehavior>
     <ownedBehavior xmi:type="uml:Interaction" xmi:id="_boWWsKKdEeKs4tCFVpHj0A" name="bindSimpleValue">
       <eAnnotations xmi:id="_boWWsaKdEeKs4tCFVpHj0A" source="uml2.diagrams">
@@ -4184,43 +3922,11 @@
           </edges>
         </contents>
       </eAnnotations>
-      <ownedConnector xmi:id="_boXl1KKdEeKs4tCFVpHj0A">
-        <end xmi:id="_boXl1aKdEeKs4tCFVpHj0A" role="_ZYKRAKKCEeKs4tCFVpHj0A"/>
-        <end xmi:id="_boXl1qKdEeKs4tCFVpHj0A" role="_ZYKRAKKCEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_boXl16KdEeKs4tCFVpHj0A">
-        <end xmi:id="_boXl2KKdEeKs4tCFVpHj0A" role="_2luXYaKCEeKs4tCFVpHj0A"/>
-        <end xmi:id="_boXl2aKdEeKs4tCFVpHj0A" role="_ZYKRAKKCEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_boXl2qKdEeKs4tCFVpHj0A">
-        <end xmi:id="_boXl26KdEeKs4tCFVpHj0A" role="_ge-QwKKEEeKs4tCFVpHj0A"/>
-        <end xmi:id="_boXl3KKdEeKs4tCFVpHj0A" role="_ZYKRAKKCEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_boXl3aKdEeKs4tCFVpHj0A">
-        <end xmi:id="_boXl3qKdEeKs4tCFVpHj0A" role="_1MP2caKXEeKs4tCFVpHj0A"/>
-        <end xmi:id="_boXl36KdEeKs4tCFVpHj0A" role="_ge-QwKKEEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_boXl4KKdEeKs4tCFVpHj0A">
-        <end xmi:id="_boXl4aKdEeKs4tCFVpHj0A" role="_KBTkUaKZEeKs4tCFVpHj0A"/>
-        <end xmi:id="_boXl4qKdEeKs4tCFVpHj0A" role="_ZYKRAKKCEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_boXl46KdEeKs4tCFVpHj0A">
-        <end xmi:id="_boXl5KKdEeKs4tCFVpHj0A" role="_1MP2caKXEeKs4tCFVpHj0A"/>
-        <end xmi:id="_boXl5aKdEeKs4tCFVpHj0A" role="_ZYKRAKKCEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_boXl5qKdEeKs4tCFVpHj0A">
-        <end xmi:id="_boXl56KdEeKs4tCFVpHj0A" role="_W4HCMKKaEeKs4tCFVpHj0A"/>
-        <end xmi:id="_boXl6KKdEeKs4tCFVpHj0A" role="_ZYKRAKKCEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_boXl6aKdEeKs4tCFVpHj0A">
-        <end xmi:id="_boXl6qKdEeKs4tCFVpHj0A" role="_Od5ZgaKbEeKs4tCFVpHj0A"/>
-        <end xmi:id="_boXl66KdEeKs4tCFVpHj0A" role="_ZYKRAKKCEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <lifeline xmi:id="_boXl7KKdEeKs4tCFVpHj0A" name="hbmBinder" represents="_ZYKRAKKCEeKs4tCFVpHj0A" coveredBy="_boXl86KdEeKs4tCFVpHj0A _boXl9KKdEeKs4tCFVpHj0A _boYMaKKdEeKs4tCFVpHj0A _boXmZ6KdEeKs4tCFVpHj0A _boXmaKKdEeKs4tCFVpHj0A _boXmaaKdEeKs4tCFVpHj0A _boYMEKKdEeKs4tCFVpHj0A _boYMEaKdEeKs4tCFVpHj0A _boXmaqKdEeKs4tCFVpHj0A _boXma6KdEeKs4tCFVpHj0A _boXmbKKdEeKs4tCFVpHj0A _boXmcqKdEeKs4tCFVpHj0A _boXmc6KdEeKs4tCFVpHj0A _boXmbaKdEeKs4tCFVpHj0A _boXmbqKdEeKs4tCFVpHj0A _boXmb6KdEeKs4tCFVpHj0A _boXmcKKdEeKs4tCFVpHj0A _boXmcaKdEeKs4tCFVpHj0A _boXmdKKdEeKs4tCFVpHj0A _boXmdaKdEeKs4tCFVpHj0A _boYL4KKdEeKs4tCFVpHj0A _boYMDqKdEeKs4tCFVpHj0A _boYMD6KdEeKs4tCFVpHj0A _boYL4aKdEeKs4tCFVpHj0A _boYL4qKdEeKs4tCFVpHj0A _boYL46KdEeKs4tCFVpHj0A _boYMDKKdEeKs4tCFVpHj0A _boYMDaKdEeKs4tCFVpHj0A _boYL5KKdEeKs4tCFVpHj0A _boYL6KKdEeKs4tCFVpHj0A _boYL6aKdEeKs4tCFVpHj0A _boYL6qKdEeKs4tCFVpHj0A _boYL66KdEeKs4tCFVpHj0A _boYL7KKdEeKs4tCFVpHj0A _boYL7aKdEeKs4tCFVpHj0A _boYL7qKdEeKs4tCFVpHj0A _boYL8qKdEeKs4tCFVpHj0A _boYL86KdEeKs4tCFVpHj0A _boYL96KdEeKs4tCFVpHj0A _boYL-KKdEeKs4tCFVpHj0A _boYL_KKdEeKs4tCFVpHj0A _boYL_aKdEeKs4tCFVpHj0A _boYMAaKdEeKs4tCFVpHj0A _boYMAqKdEeKs4tCFVpHj0A _boYMA6KdEeKs4tCFVpHj0A _boYMBKKdEeKs4tCFVpHj0A _boYMBaKdEeKs4tCFVpHj0A _boYMBqKdEeKs4tCFVpHj0A _boYMB6KdEeKs4tCFVpHj0A _boYMCKKdEeKs4tCFVpHj0A _boYMCaKdEeKs4tCFVpHj0A _boYMCqKdEeKs4tCFVpHj0A _boYMC6KdEeKs4tCFVpHj0A"/>
-      <lifeline xmi:id="_boXl7qKdEeKs4tCFVpHj0A" name="mappingsImpl" represents="_ge-QwKKEEeKs4tCFVpHj0A" coveredBy="_boYL9KKdEeKs4tCFVpHj0A _boYL9aKdEeKs4tCFVpHj0A _boYL9qKdEeKs4tCFVpHj0A"/>
-      <lifeline xmi:id="_boXl76KdEeKs4tCFVpHj0A" name="table" represents="_1MP2caKXEeKs4tCFVpHj0A" coveredBy="_boYL-aKdEeKs4tCFVpHj0A _boYL-qKdEeKs4tCFVpHj0A _boYL-6KdEeKs4tCFVpHj0A"/>
-      <lifeline xmi:id="_boXl8KKdEeKs4tCFVpHj0A" name="column" represents="_KBTkUaKZEeKs4tCFVpHj0A" coveredBy="_boYL5aKdEeKs4tCFVpHj0A _boYL5qKdEeKs4tCFVpHj0A _boYL56KdEeKs4tCFVpHj0A _boYL76KdEeKs4tCFVpHj0A _boYL8KKdEeKs4tCFVpHj0A _boYL8aKdEeKs4tCFVpHj0A"/>
-      <lifeline xmi:id="_boXl8aKdEeKs4tCFVpHj0A" name="simpleValue" represents="_W4HCMKKaEeKs4tCFVpHj0A" coveredBy="_boYL_qKdEeKs4tCFVpHj0A _boYL_6KdEeKs4tCFVpHj0A _boYMAKKdEeKs4tCFVpHj0A"/>
+      <lifeline xmi:id="_boXl7KKdEeKs4tCFVpHj0A" name="hbmBinder" coveredBy="_boXl86KdEeKs4tCFVpHj0A _boXl9KKdEeKs4tCFVpHj0A _boYMaKKdEeKs4tCFVpHj0A _boXmZ6KdEeKs4tCFVpHj0A _boXmaKKdEeKs4tCFVpHj0A _boXmaaKdEeKs4tCFVpHj0A _boYMEKKdEeKs4tCFVpHj0A _boYMEaKdEeKs4tCFVpHj0A _boXmaqKdEeKs4tCFVpHj0A _boXma6KdEeKs4tCFVpHj0A _boXmbKKdEeKs4tCFVpHj0A _boXmcqKdEeKs4tCFVpHj0A _boXmc6KdEeKs4tCFVpHj0A _boXmbaKdEeKs4tCFVpHj0A _boXmbqKdEeKs4tCFVpHj0A _boXmb6KdEeKs4tCFVpHj0A _boXmcKKdEeKs4tCFVpHj0A _boXmcaKdEeKs4tCFVpHj0A _boXmdKKdEeKs4tCFVpHj0A _boXmdaKdEeKs4tCFVpHj0A _boYL4KKdEeKs4tCFVpHj0A _boYMDqKdEeKs4tCFVpHj0A _boYMD6KdEeKs4tCFVpHj0A _boYL4aKdEeKs4tCFVpHj0A _boYL4qKdEeKs4tCFVpHj0A _boYL46KdEeKs4tCFVpHj0A _boYMDKKdEeKs4tCFVpHj0A _boYMDaKdEeKs4tCFVpHj0A _boYL5KKdEeKs4tCFVpHj0A _boYL6KKdEeKs4tCFVpHj0A _boYL6aKdEeKs4tCFVpHj0A _boYL6qKdEeKs4tCFVpHj0A _boYL66KdEeKs4tCFVpHj0A _boYL7KKdEeKs4tCFVpHj0A _boYL7aKdEeKs4tCFVpHj0A _boYL7qKdEeKs4tCFVpHj0A _boYL8qKdEeKs4tCFVpHj0A _boYL86KdEeKs4tCFVpHj0A _boYL96KdEeKs4tCFVpHj0A _boYL-KKdEeKs4tCFVpHj0A _boYL_KKdEeKs4tCFVpHj0A _boYL_aKdEeKs4tCFVpHj0A _boYMAaKdEeKs4tCFVpHj0A _boYMAqKdEeKs4tCFVpHj0A _boYMA6KdEeKs4tCFVpHj0A _boYMBKKdEeKs4tCFVpHj0A _boYMBaKdEeKs4tCFVpHj0A _boYMBqKdEeKs4tCFVpHj0A _boYMB6KdEeKs4tCFVpHj0A _boYMCKKdEeKs4tCFVpHj0A _boYMCaKdEeKs4tCFVpHj0A _boYMCqKdEeKs4tCFVpHj0A _boYMC6KdEeKs4tCFVpHj0A"/>
+      <lifeline xmi:id="_boXl7qKdEeKs4tCFVpHj0A" name="mappingsImpl" coveredBy="_boYL9KKdEeKs4tCFVpHj0A _boYL9aKdEeKs4tCFVpHj0A _boYL9qKdEeKs4tCFVpHj0A"/>
+      <lifeline xmi:id="_boXl76KdEeKs4tCFVpHj0A" name="table" coveredBy="_boYL-aKdEeKs4tCFVpHj0A _boYL-qKdEeKs4tCFVpHj0A _boYL-6KdEeKs4tCFVpHj0A"/>
+      <lifeline xmi:id="_boXl8KKdEeKs4tCFVpHj0A" name="column" coveredBy="_boYL5aKdEeKs4tCFVpHj0A _boYL5qKdEeKs4tCFVpHj0A _boYL56KdEeKs4tCFVpHj0A _boYL76KdEeKs4tCFVpHj0A _boYL8KKdEeKs4tCFVpHj0A _boYL8aKdEeKs4tCFVpHj0A"/>
+      <lifeline xmi:id="_boXl8aKdEeKs4tCFVpHj0A" name="simpleValue" coveredBy="_boYL_qKdEeKs4tCFVpHj0A _boYL_6KdEeKs4tCFVpHj0A _boYMAKKdEeKs4tCFVpHj0A"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_boXl86KdEeKs4tCFVpHj0A" covered="_boXl7KKdEeKs4tCFVpHj0A" message="_boYMaaKdEeKs4tCFVpHj0A"/>
       <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_boXl9KKdEeKs4tCFVpHj0A" covered="_boXl7KKdEeKs4tCFVpHj0A" start="_boXl86KdEeKs4tCFVpHj0A" finish="_boYMaKKdEeKs4tCFVpHj0A"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_boXmZ6KdEeKs4tCFVpHj0A" covered="_boXl7KKdEeKs4tCFVpHj0A" message="_boYMmqKdEeKs4tCFVpHj0A"/>
@@ -4290,32 +3996,32 @@
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_boYMEaKdEeKs4tCFVpHj0A" covered="_boXl7KKdEeKs4tCFVpHj0A" message="_boYMm6KdEeKs4tCFVpHj0A"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_boYMaKKdEeKs4tCFVpHj0A" covered="_boXl7KKdEeKs4tCFVpHj0A"/>
       <message xmi:id="_boYMaaKdEeKs4tCFVpHj0A" name="bindSimpleValue" receiveEvent="_boXl86KdEeKs4tCFVpHj0A"/>
-      <message xmi:id="_boYMmqKdEeKs4tCFVpHj0A" name="bindSimpleValue" receiveEvent="_boXmaKKdEeKs4tCFVpHj0A" sendEvent="_boXmZ6KdEeKs4tCFVpHj0A" connector="_boXl1KKdEeKs4tCFVpHj0A"/>
-      <message xmi:id="_boYMm6KdEeKs4tCFVpHj0A" name="bindSimpleValue" messageSort="reply" receiveEvent="_boYMEaKdEeKs4tCFVpHj0A" sendEvent="_boYMEKKdEeKs4tCFVpHj0A" connector="_boXl1KKdEeKs4tCFVpHj0A"/>
-      <message xmi:id="_boYMnKKdEeKs4tCFVpHj0A" name="bindSimpleValueType" receiveEvent="_boXma6KdEeKs4tCFVpHj0A" sendEvent="_boXmaqKdEeKs4tCFVpHj0A" connector="_boXl1KKdEeKs4tCFVpHj0A"/>
-      <message xmi:id="_boYMnaKdEeKs4tCFVpHj0A" name="bindSimpleValueType" messageSort="reply" receiveEvent="_boXmc6KdEeKs4tCFVpHj0A" sendEvent="_boXmcqKdEeKs4tCFVpHj0A" connector="_boXl1KKdEeKs4tCFVpHj0A"/>
-      <message xmi:id="_boYMnqKdEeKs4tCFVpHj0A" name="resolveAndBindTypeDef" receiveEvent="_boXmbqKdEeKs4tCFVpHj0A" sendEvent="_boXmbaKdEeKs4tCFVpHj0A" connector="_boXl1KKdEeKs4tCFVpHj0A"/>
-      <message xmi:id="_boYMn6KdEeKs4tCFVpHj0A" name="resolveAndBindTypeDef" messageSort="reply" receiveEvent="_boXmcaKdEeKs4tCFVpHj0A" sendEvent="_boXmcKKdEeKs4tCFVpHj0A" connector="_boXl1KKdEeKs4tCFVpHj0A"/>
-      <message xmi:id="_boYMoKKdEeKs4tCFVpHj0A" name="bindColumnsOrFormula" receiveEvent="_boXmdaKdEeKs4tCFVpHj0A" sendEvent="_boXmdKKdEeKs4tCFVpHj0A" connector="_boXl1KKdEeKs4tCFVpHj0A"/>
-      <message xmi:id="_boYMoaKdEeKs4tCFVpHj0A" name="bindColumnsOrFormula" messageSort="reply" receiveEvent="_boYMD6KdEeKs4tCFVpHj0A" sendEvent="_boYMDqKdEeKs4tCFVpHj0A" connector="_boXl1KKdEeKs4tCFVpHj0A"/>
-      <message xmi:id="_boYMoqKdEeKs4tCFVpHj0A" name="bindColumns" receiveEvent="_boYL4qKdEeKs4tCFVpHj0A" sendEvent="_boYL4aKdEeKs4tCFVpHj0A" connector="_boXl1KKdEeKs4tCFVpHj0A"/>
-      <message xmi:id="_boYMo6KdEeKs4tCFVpHj0A" name="bindColumns" messageSort="reply" receiveEvent="_boYMDaKdEeKs4tCFVpHj0A" sendEvent="_boYMDKKdEeKs4tCFVpHj0A" connector="_boXl1KKdEeKs4tCFVpHj0A"/>
-      <message xmi:id="_boYMpKKdEeKs4tCFVpHj0A" name="setValue" receiveEvent="_boYL5aKdEeKs4tCFVpHj0A" sendEvent="_boYL5KKdEeKs4tCFVpHj0A" connector="_boXl4KKdEeKs4tCFVpHj0A"/>
-      <message xmi:id="_boYMpaKdEeKs4tCFVpHj0A" name="setValue" messageSort="reply" receiveEvent="_boYL6KKdEeKs4tCFVpHj0A" sendEvent="_boYL56KdEeKs4tCFVpHj0A" connector="_boXl4KKdEeKs4tCFVpHj0A"/>
-      <message xmi:id="_boYMpqKdEeKs4tCFVpHj0A" name="bindColumn" receiveEvent="_boYL6qKdEeKs4tCFVpHj0A" sendEvent="_boYL6aKdEeKs4tCFVpHj0A" connector="_boXl1KKdEeKs4tCFVpHj0A"/>
-      <message xmi:id="_boYMp6KdEeKs4tCFVpHj0A" name="bindColumn" messageSort="reply" receiveEvent="_boYL7aKdEeKs4tCFVpHj0A" sendEvent="_boYL7KKdEeKs4tCFVpHj0A" connector="_boXl1KKdEeKs4tCFVpHj0A"/>
-      <message xmi:id="_boYMqKKdEeKs4tCFVpHj0A" name="setName" receiveEvent="_boYL76KdEeKs4tCFVpHj0A" sendEvent="_boYL7qKdEeKs4tCFVpHj0A" connector="_boXl4KKdEeKs4tCFVpHj0A"/>
-      <message xmi:id="_boYMqaKdEeKs4tCFVpHj0A" name="setName" messageSort="reply" receiveEvent="_boYL8qKdEeKs4tCFVpHj0A" sendEvent="_boYL8aKdEeKs4tCFVpHj0A" connector="_boXl4KKdEeKs4tCFVpHj0A"/>
-      <message xmi:id="_boYMqqKdEeKs4tCFVpHj0A" name="addColumnBinding" receiveEvent="_boYL9KKdEeKs4tCFVpHj0A" sendEvent="_boYL86KdEeKs4tCFVpHj0A" connector="_boXl2qKdEeKs4tCFVpHj0A"/>
-      <message xmi:id="_boYMq6KdEeKs4tCFVpHj0A" name="addColumnBinding" messageSort="reply" receiveEvent="_boYL96KdEeKs4tCFVpHj0A" sendEvent="_boYL9qKdEeKs4tCFVpHj0A" connector="_boXl2qKdEeKs4tCFVpHj0A"/>
-      <message xmi:id="_boYMrKKdEeKs4tCFVpHj0A" name="addColumn" receiveEvent="_boYL-aKdEeKs4tCFVpHj0A" sendEvent="_boYL-KKdEeKs4tCFVpHj0A" connector="_boXl46KdEeKs4tCFVpHj0A"/>
-      <message xmi:id="_boYMraKdEeKs4tCFVpHj0A" name="addColumn" messageSort="reply" receiveEvent="_boYL_KKdEeKs4tCFVpHj0A" sendEvent="_boYL-6KdEeKs4tCFVpHj0A" connector="_boXl46KdEeKs4tCFVpHj0A"/>
-      <message xmi:id="_boYMrqKdEeKs4tCFVpHj0A" name="addColumn" receiveEvent="_boYL_qKdEeKs4tCFVpHj0A" sendEvent="_boYL_aKdEeKs4tCFVpHj0A" connector="_boXl5qKdEeKs4tCFVpHj0A"/>
-      <message xmi:id="_boYMr6KdEeKs4tCFVpHj0A" name="addColumn" messageSort="reply" receiveEvent="_boYMAaKdEeKs4tCFVpHj0A" sendEvent="_boYMAKKdEeKs4tCFVpHj0A" connector="_boXl5qKdEeKs4tCFVpHj0A"/>
-      <message xmi:id="_boYMsKKdEeKs4tCFVpHj0A" name="bindIndex" receiveEvent="_boYMA6KdEeKs4tCFVpHj0A" sendEvent="_boYMAqKdEeKs4tCFVpHj0A" connector="_boXl1KKdEeKs4tCFVpHj0A"/>
-      <message xmi:id="_boYMsaKdEeKs4tCFVpHj0A" name="bindIndex" messageSort="reply" receiveEvent="_boYMBqKdEeKs4tCFVpHj0A" sendEvent="_boYMBaKdEeKs4tCFVpHj0A" connector="_boXl1KKdEeKs4tCFVpHj0A"/>
-      <message xmi:id="_boYMsqKdEeKs4tCFVpHj0A" name="bindUniqueKey" receiveEvent="_boYMCKKdEeKs4tCFVpHj0A" sendEvent="_boYMB6KdEeKs4tCFVpHj0A" connector="_boXl1KKdEeKs4tCFVpHj0A"/>
-      <message xmi:id="_boYMs6KdEeKs4tCFVpHj0A" name="bindUniqueKey" messageSort="reply" receiveEvent="_boYMC6KdEeKs4tCFVpHj0A" sendEvent="_boYMCqKdEeKs4tCFVpHj0A" connector="_boXl1KKdEeKs4tCFVpHj0A"/>
+      <message xmi:id="_boYMmqKdEeKs4tCFVpHj0A" name="bindSimpleValue" receiveEvent="_boXmaKKdEeKs4tCFVpHj0A" sendEvent="_boXmZ6KdEeKs4tCFVpHj0A"/>
+      <message xmi:id="_boYMm6KdEeKs4tCFVpHj0A" name="bindSimpleValue" messageSort="reply" receiveEvent="_boYMEaKdEeKs4tCFVpHj0A" sendEvent="_boYMEKKdEeKs4tCFVpHj0A"/>
+      <message xmi:id="_boYMnKKdEeKs4tCFVpHj0A" name="bindSimpleValueType" receiveEvent="_boXma6KdEeKs4tCFVpHj0A" sendEvent="_boXmaqKdEeKs4tCFVpHj0A"/>
+      <message xmi:id="_boYMnaKdEeKs4tCFVpHj0A" name="bindSimpleValueType" messageSort="reply" receiveEvent="_boXmc6KdEeKs4tCFVpHj0A" sendEvent="_boXmcqKdEeKs4tCFVpHj0A"/>
+      <message xmi:id="_boYMnqKdEeKs4tCFVpHj0A" name="resolveAndBindTypeDef" receiveEvent="_boXmbqKdEeKs4tCFVpHj0A" sendEvent="_boXmbaKdEeKs4tCFVpHj0A"/>
+      <message xmi:id="_boYMn6KdEeKs4tCFVpHj0A" name="resolveAndBindTypeDef" messageSort="reply" receiveEvent="_boXmcaKdEeKs4tCFVpHj0A" sendEvent="_boXmcKKdEeKs4tCFVpHj0A"/>
+      <message xmi:id="_boYMoKKdEeKs4tCFVpHj0A" name="bindColumnsOrFormula" receiveEvent="_boXmdaKdEeKs4tCFVpHj0A" sendEvent="_boXmdKKdEeKs4tCFVpHj0A"/>
+      <message xmi:id="_boYMoaKdEeKs4tCFVpHj0A" name="bindColumnsOrFormula" messageSort="reply" receiveEvent="_boYMD6KdEeKs4tCFVpHj0A" sendEvent="_boYMDqKdEeKs4tCFVpHj0A"/>
+      <message xmi:id="_boYMoqKdEeKs4tCFVpHj0A" name="bindColumns" receiveEvent="_boYL4qKdEeKs4tCFVpHj0A" sendEvent="_boYL4aKdEeKs4tCFVpHj0A"/>
+      <message xmi:id="_boYMo6KdEeKs4tCFVpHj0A" name="bindColumns" messageSort="reply" receiveEvent="_boYMDaKdEeKs4tCFVpHj0A" sendEvent="_boYMDKKdEeKs4tCFVpHj0A"/>
+      <message xmi:id="_boYMpKKdEeKs4tCFVpHj0A" name="setValue" receiveEvent="_boYL5aKdEeKs4tCFVpHj0A" sendEvent="_boYL5KKdEeKs4tCFVpHj0A"/>
+      <message xmi:id="_boYMpaKdEeKs4tCFVpHj0A" name="setValue" messageSort="reply" receiveEvent="_boYL6KKdEeKs4tCFVpHj0A" sendEvent="_boYL56KdEeKs4tCFVpHj0A"/>
+      <message xmi:id="_boYMpqKdEeKs4tCFVpHj0A" name="bindColumn" receiveEvent="_boYL6qKdEeKs4tCFVpHj0A" sendEvent="_boYL6aKdEeKs4tCFVpHj0A"/>
+      <message xmi:id="_boYMp6KdEeKs4tCFVpHj0A" name="bindColumn" messageSort="reply" receiveEvent="_boYL7aKdEeKs4tCFVpHj0A" sendEvent="_boYL7KKdEeKs4tCFVpHj0A"/>
+      <message xmi:id="_boYMqKKdEeKs4tCFVpHj0A" name="setName" receiveEvent="_boYL76KdEeKs4tCFVpHj0A" sendEvent="_boYL7qKdEeKs4tCFVpHj0A"/>
+      <message xmi:id="_boYMqaKdEeKs4tCFVpHj0A" name="setName" messageSort="reply" receiveEvent="_boYL8qKdEeKs4tCFVpHj0A" sendEvent="_boYL8aKdEeKs4tCFVpHj0A"/>
+      <message xmi:id="_boYMqqKdEeKs4tCFVpHj0A" name="addColumnBinding" receiveEvent="_boYL9KKdEeKs4tCFVpHj0A" sendEvent="_boYL86KdEeKs4tCFVpHj0A"/>
+      <message xmi:id="_boYMq6KdEeKs4tCFVpHj0A" name="addColumnBinding" messageSort="reply" receiveEvent="_boYL96KdEeKs4tCFVpHj0A" sendEvent="_boYL9qKdEeKs4tCFVpHj0A"/>
+      <message xmi:id="_boYMrKKdEeKs4tCFVpHj0A" name="addColumn" receiveEvent="_boYL-aKdEeKs4tCFVpHj0A" sendEvent="_boYL-KKdEeKs4tCFVpHj0A"/>
+      <message xmi:id="_boYMraKdEeKs4tCFVpHj0A" name="addColumn" messageSort="reply" receiveEvent="_boYL_KKdEeKs4tCFVpHj0A" sendEvent="_boYL-6KdEeKs4tCFVpHj0A"/>
+      <message xmi:id="_boYMrqKdEeKs4tCFVpHj0A" name="addColumn" receiveEvent="_boYL_qKdEeKs4tCFVpHj0A" sendEvent="_boYL_aKdEeKs4tCFVpHj0A"/>
+      <message xmi:id="_boYMr6KdEeKs4tCFVpHj0A" name="addColumn" messageSort="reply" receiveEvent="_boYMAaKdEeKs4tCFVpHj0A" sendEvent="_boYMAKKdEeKs4tCFVpHj0A"/>
+      <message xmi:id="_boYMsKKdEeKs4tCFVpHj0A" name="bindIndex" receiveEvent="_boYMA6KdEeKs4tCFVpHj0A" sendEvent="_boYMAqKdEeKs4tCFVpHj0A"/>
+      <message xmi:id="_boYMsaKdEeKs4tCFVpHj0A" name="bindIndex" messageSort="reply" receiveEvent="_boYMBqKdEeKs4tCFVpHj0A" sendEvent="_boYMBaKdEeKs4tCFVpHj0A"/>
+      <message xmi:id="_boYMsqKdEeKs4tCFVpHj0A" name="bindUniqueKey" receiveEvent="_boYMCKKdEeKs4tCFVpHj0A" sendEvent="_boYMB6KdEeKs4tCFVpHj0A"/>
+      <message xmi:id="_boYMs6KdEeKs4tCFVpHj0A" name="bindUniqueKey" messageSort="reply" receiveEvent="_boYMC6KdEeKs4tCFVpHj0A" sendEvent="_boYMCqKdEeKs4tCFVpHj0A"/>
     </ownedBehavior>
     <ownedBehavior xmi:type="uml:Interaction" xmi:id="_VE1UcKKfEeKs4tCFVpHj0A" name="bindProperty">
       <eAnnotations xmi:id="_VE1UcaKfEeKs4tCFVpHj0A" source="uml2.diagrams">
@@ -4431,40 +4137,8 @@
           </edges>
         </contents>
       </eAnnotations>
-      <ownedConnector xmi:id="_VE2jjKKfEeKs4tCFVpHj0A">
-        <end xmi:id="_VE2jjaKfEeKs4tCFVpHj0A" role="_ZYKRAKKCEeKs4tCFVpHj0A"/>
-        <end xmi:id="_VE2jjqKfEeKs4tCFVpHj0A" role="_ZYKRAKKCEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_VE2jj6KfEeKs4tCFVpHj0A">
-        <end xmi:id="_VE2jkKKfEeKs4tCFVpHj0A" role="_2luXYaKCEeKs4tCFVpHj0A"/>
-        <end xmi:id="_VE2jkaKfEeKs4tCFVpHj0A" role="_ZYKRAKKCEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_VE2jkqKfEeKs4tCFVpHj0A">
-        <end xmi:id="_VE2jk6KfEeKs4tCFVpHj0A" role="_ge-QwKKEEeKs4tCFVpHj0A"/>
-        <end xmi:id="_VE2jlKKfEeKs4tCFVpHj0A" role="_ZYKRAKKCEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_VE2jlaKfEeKs4tCFVpHj0A">
-        <end xmi:id="_VE2jlqKfEeKs4tCFVpHj0A" role="_1MP2caKXEeKs4tCFVpHj0A"/>
-        <end xmi:id="_VE2jl6KfEeKs4tCFVpHj0A" role="_ge-QwKKEEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_VE2jmKKfEeKs4tCFVpHj0A">
-        <end xmi:id="_VE2jmaKfEeKs4tCFVpHj0A" role="_KBTkUaKZEeKs4tCFVpHj0A"/>
-        <end xmi:id="_VE2jmqKfEeKs4tCFVpHj0A" role="_ZYKRAKKCEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_VE2jm6KfEeKs4tCFVpHj0A">
-        <end xmi:id="_VE2jnKKfEeKs4tCFVpHj0A" role="_1MP2caKXEeKs4tCFVpHj0A"/>
-        <end xmi:id="_VE2jnaKfEeKs4tCFVpHj0A" role="_ZYKRAKKCEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_VE2jnqKfEeKs4tCFVpHj0A">
-        <end xmi:id="_VE2jn6KfEeKs4tCFVpHj0A" role="_W4HCMKKaEeKs4tCFVpHj0A"/>
-        <end xmi:id="_VE2joKKfEeKs4tCFVpHj0A" role="_ZYKRAKKCEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <ownedConnector xmi:id="_VE2joaKfEeKs4tCFVpHj0A">
-        <end xmi:id="_VE2joqKfEeKs4tCFVpHj0A" role="_Od5ZgaKbEeKs4tCFVpHj0A"/>
-        <end xmi:id="_VE2jo6KfEeKs4tCFVpHj0A" role="_ZYKRAKKCEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <lifeline xmi:id="_VE2jpKKfEeKs4tCFVpHj0A" name="hbmBinder" represents="_ZYKRAKKCEeKs4tCFVpHj0A" coveredBy="_VE2jqqKfEeKs4tCFVpHj0A _VE2jq6KfEeKs4tCFVpHj0A _VE3KGqKfEeKs4tCFVpHj0A _VE3JtaKfEeKs4tCFVpHj0A _VE3JtqKfEeKs4tCFVpHj0A _VE3Jt6KfEeKs4tCFVpHj0A _VE3JwqKfEeKs4tCFVpHj0A _VE3Jw6KfEeKs4tCFVpHj0A _VE3JuKKfEeKs4tCFVpHj0A _VE3JvKKfEeKs4tCFVpHj0A _VE3JvaKfEeKs4tCFVpHj0A _VE3JwaKfEeKs4tCFVpHj0A"/>
-      <lifeline xmi:id="_VE2jqaKfEeKs4tCFVpHj0A" name="property" represents="_Od5ZgaKbEeKs4tCFVpHj0A" coveredBy="_VE3JuaKfEeKs4tCFVpHj0A _VE3JuqKfEeKs4tCFVpHj0A _VE3Ju6KfEeKs4tCFVpHj0A _VE3JvqKfEeKs4tCFVpHj0A _VE3Jv6KfEeKs4tCFVpHj0A _VE3JwKKfEeKs4tCFVpHj0A"/>
+      <lifeline xmi:id="_VE2jpKKfEeKs4tCFVpHj0A" name="hbmBinder" coveredBy="_VE2jqqKfEeKs4tCFVpHj0A _VE2jq6KfEeKs4tCFVpHj0A _VE3KGqKfEeKs4tCFVpHj0A _VE3JtaKfEeKs4tCFVpHj0A _VE3JtqKfEeKs4tCFVpHj0A _VE3Jt6KfEeKs4tCFVpHj0A _VE3JwqKfEeKs4tCFVpHj0A _VE3Jw6KfEeKs4tCFVpHj0A _VE3JuKKfEeKs4tCFVpHj0A _VE3JvKKfEeKs4tCFVpHj0A _VE3JvaKfEeKs4tCFVpHj0A _VE3JwaKfEeKs4tCFVpHj0A"/>
+      <lifeline xmi:id="_VE2jqaKfEeKs4tCFVpHj0A" name="property" coveredBy="_VE3JuaKfEeKs4tCFVpHj0A _VE3JuqKfEeKs4tCFVpHj0A _VE3Ju6KfEeKs4tCFVpHj0A _VE3JvqKfEeKs4tCFVpHj0A _VE3Jv6KfEeKs4tCFVpHj0A _VE3JwKKfEeKs4tCFVpHj0A"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_VE2jqqKfEeKs4tCFVpHj0A" covered="_VE2jpKKfEeKs4tCFVpHj0A" message="_VE3KG6KfEeKs4tCFVpHj0A"/>
       <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_VE2jq6KfEeKs4tCFVpHj0A" covered="_VE2jpKKfEeKs4tCFVpHj0A" start="_VE2jqqKfEeKs4tCFVpHj0A" finish="_VE3KGqKfEeKs4tCFVpHj0A"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_VE3JtaKfEeKs4tCFVpHj0A" covered="_VE2jpKKfEeKs4tCFVpHj0A" message="_VE3KUqKfEeKs4tCFVpHj0A"/>
@@ -4484,46 +4158,13 @@
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_VE3Jw6KfEeKs4tCFVpHj0A" covered="_VE2jpKKfEeKs4tCFVpHj0A" message="_VE3KU6KfEeKs4tCFVpHj0A"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_VE3KGqKfEeKs4tCFVpHj0A" covered="_VE2jpKKfEeKs4tCFVpHj0A"/>
       <message xmi:id="_VE3KG6KfEeKs4tCFVpHj0A" name="bindProperty" receiveEvent="_VE2jqqKfEeKs4tCFVpHj0A"/>
-      <message xmi:id="_VE3KUqKfEeKs4tCFVpHj0A" name="bindProperty" receiveEvent="_VE3JtqKfEeKs4tCFVpHj0A" sendEvent="_VE3JtaKfEeKs4tCFVpHj0A" connector="_VE2jjKKfEeKs4tCFVpHj0A"/>
-      <message xmi:id="_VE3KU6KfEeKs4tCFVpHj0A" name="bindProperty" messageSort="reply" receiveEvent="_VE3Jw6KfEeKs4tCFVpHj0A" sendEvent="_VE3JwqKfEeKs4tCFVpHj0A" connector="_VE2jjKKfEeKs4tCFVpHj0A"/>
-      <message xmi:id="_VE3KVKKfEeKs4tCFVpHj0A" name="setName" receiveEvent="_VE3JuaKfEeKs4tCFVpHj0A" sendEvent="_VE3JuKKfEeKs4tCFVpHj0A" connector="_VE2joaKfEeKs4tCFVpHj0A"/>
-      <message xmi:id="_VE3KVaKfEeKs4tCFVpHj0A" name="setName" messageSort="reply" receiveEvent="_VE3JvKKfEeKs4tCFVpHj0A" sendEvent="_VE3Ju6KfEeKs4tCFVpHj0A" connector="_VE2joaKfEeKs4tCFVpHj0A"/>
-      <message xmi:id="_VE3KVqKfEeKs4tCFVpHj0A" name="setNodeName" receiveEvent="_VE3JvqKfEeKs4tCFVpHj0A" sendEvent="_VE3JvaKfEeKs4tCFVpHj0A" connector="_VE2joaKfEeKs4tCFVpHj0A"/>
-      <message xmi:id="_VE3KV6KfEeKs4tCFVpHj0A" name="setNodeName" messageSort="reply" receiveEvent="_VE3JwaKfEeKs4tCFVpHj0A" sendEvent="_VE3JwKKfEeKs4tCFVpHj0A" connector="_VE2joaKfEeKs4tCFVpHj0A"/>
+      <message xmi:id="_VE3KUqKfEeKs4tCFVpHj0A" name="bindProperty" receiveEvent="_VE3JtqKfEeKs4tCFVpHj0A" sendEvent="_VE3JtaKfEeKs4tCFVpHj0A"/>
+      <message xmi:id="_VE3KU6KfEeKs4tCFVpHj0A" name="bindProperty" messageSort="reply" receiveEvent="_VE3Jw6KfEeKs4tCFVpHj0A" sendEvent="_VE3JwqKfEeKs4tCFVpHj0A"/>
+      <message xmi:id="_VE3KVKKfEeKs4tCFVpHj0A" name="setName" receiveEvent="_VE3JuaKfEeKs4tCFVpHj0A" sendEvent="_VE3JuKKfEeKs4tCFVpHj0A"/>
+      <message xmi:id="_VE3KVaKfEeKs4tCFVpHj0A" name="setName" messageSort="reply" receiveEvent="_VE3JvKKfEeKs4tCFVpHj0A" sendEvent="_VE3Ju6KfEeKs4tCFVpHj0A"/>
+      <message xmi:id="_VE3KVqKfEeKs4tCFVpHj0A" name="setNodeName" receiveEvent="_VE3JvqKfEeKs4tCFVpHj0A" sendEvent="_VE3JvaKfEeKs4tCFVpHj0A"/>
+      <message xmi:id="_VE3KV6KfEeKs4tCFVpHj0A" name="setNodeName" messageSort="reply" receiveEvent="_VE3JwaKfEeKs4tCFVpHj0A" sendEvent="_VE3JwKKfEeKs4tCFVpHj0A"/>
     </ownedBehavior>
-    <ownedAttribute xmi:id="_ZYKRAKKCEeKs4tCFVpHj0A" name="hbmBinder">
-      <type xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=HbmBinder%5Bjcu%5Ename=HbmBinder.java%5Bjpack%5Ename=org.hibernate.cfg%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D$uml.Class"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:id="_2luXYaKCEeKs4tCFVpHj0A" name="rootClass">
-      <type xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=RootClass%5Bjcu%5Ename=RootClass.java%5Bjpack%5Ename=org.hibernate.mapping%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D$uml.Class"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:id="_ge-QwKKEEeKs4tCFVpHj0A" name="mappingsImpl">
-      <type xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=MappingsImpl%5Bjsrctype%5Ename=Configuration%5Bjcu%5Ename=Configuration.java%5Bjpack%5Ename=org.hibernate.cfg%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D%5D$uml.Class"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:id="_1MP2caKXEeKs4tCFVpHj0A" name="table">
-      <type xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=Table%5Bjcu%5Ename=Table.java%5Bjpack%5Ename=org.hibernate.mapping%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D$uml.Class"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:id="_KBTkUaKZEeKs4tCFVpHj0A" name="column">
-      <type xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=Column%5Bjcu%5Ename=Column.java%5Bjpack%5Ename=org.hibernate.mapping%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D$uml.Class"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:id="_W4HCMKKaEeKs4tCFVpHj0A" name="simpleValue">
-      <type xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=SimpleValue%5Bjcu%5Ename=SimpleValue.java%5Bjpack%5Ename=org.hibernate.mapping%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D$uml.Class"/>
-    </ownedAttribute>
-    <ownedAttribute xmi:id="_Od5ZgaKbEeKs4tCFVpHj0A" name="property">
-      <type xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=Property%5Bjcu%5Ename=Property.java%5Bjpack%5Ename=org.hibernate.mapping%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D$uml.Class"/>
-    </ownedAttribute>
-  </packagedElement>
-  <packagedElement xmi:type="uml:SendOperationEvent" xmi:id="_XhqacKWYEeKGhpvYuT8g0A" name="SendOperationEvent1">
-    <operation href="mmi:///#jmethod%5Ename=processArmXmlQueue%5Esign=()V%5Bjsrctype%5Ename=MetadataSourceQueue%5Bjsrctype%5Ename=Configuration%5Bjcu%5Ename=Configuration.java%5Bjpack%5Ename=org.hibernate.cfg%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D%5D%5D$uml.Operation"/>
-  </packagedElement>
-  <packagedElement xmi:type="uml:ReceiveOperationEvent" xmi:id="_XiEqIKWYEeKGhpvYuT8g0A" name="ReceiveOperationEvent1">
-    <operation href="mmi:///#jmethod%5Ename=processArmXmlQueue%5Esign=()V%5Bjsrctype%5Ename=MetadataSourceQueue%5Bjsrctype%5Ename=Configuration%5Bjcu%5Ename=Configuration.java%5Bjpack%5Ename=org.hibernate.cfg%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D%5D%5D$uml.Operation"/>
-  </packagedElement>
-  <packagedElement xmi:type="uml:SendOperationEvent" xmi:id="_sFE0IKWYEeKGhpvYuT8g0A" name="SendOperationEvent2">
-    <operation href="mmi:///#jmethod%5Ename=bindRoot%5Esign=(QXmlDocument;QMappings;Qjava.util.Map;Qjava.util.Set%3CQString;%3E;Qjava.util.Map;QRMObjectBuilder;)V%5Bjsrctype%5Ename=ArmBinder%5Bjcu%5Ename=ArmBinder.java%5Bjpack%5Ename=org.hibernate.cfg%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D%5D$uml.Operation"/>
-  </packagedElement>
-  <packagedElement xmi:type="uml:ReceiveOperationEvent" xmi:id="_sFFbMKWYEeKGhpvYuT8g0A" name="ReceiveOperationEvent2">
-    <operation href="mmi:///#jmethod%5Ename=bindRoot%5Esign=(QXmlDocument;QMappings;Qjava.util.Map;Qjava.util.Set%3CQString;%3E;Qjava.util.Map;QRMObjectBuilder;)V%5Bjsrctype%5Ename=ArmBinder%5Bjcu%5Ename=ArmBinder.java%5Bjpack%5Ename=org.hibernate.cfg%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D%5D$uml.Operation"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Collaboration" xmi:id="_1HvugKWYEeKGhpvYuT8g0A" name="ArmBinder">
     <ownedBehavior xmi:type="uml:Interaction" xmi:id="_1HvugaWYEeKGhpvYuT8g0A" name="bindRoot">
@@ -4559,10 +4200,10 @@
           </edges>
         </contents>
       </eAnnotations>
-      <lifeline xmi:id="_9ZuLwKWYEeKGhpvYuT8g0A" name="armBinder" represents="_9Zuy0KWYEeKGhpvYuT8g0A" coveredBy="_-DceMaWYEeKGhpvYuT8g0A _-DdFQKWYEeKGhpvYuT8g0A _-DdFQaWYEeKGhpvYuT8g0A"/>
-      <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_-DceMaWYEeKGhpvYuT8g0A" covered="_9ZuLwKWYEeKGhpvYuT8g0A" event="_sFFbMKWYEeKGhpvYuT8g0A" message="_-DceMKWYEeKGhpvYuT8g0A"/>
+      <lifeline xmi:id="_9ZuLwKWYEeKGhpvYuT8g0A" name="armBinder" coveredBy="_-DceMaWYEeKGhpvYuT8g0A _-DdFQKWYEeKGhpvYuT8g0A _-DdFQaWYEeKGhpvYuT8g0A"/>
+      <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_-DceMaWYEeKGhpvYuT8g0A" covered="_9ZuLwKWYEeKGhpvYuT8g0A" message="_-DceMKWYEeKGhpvYuT8g0A"/>
       <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_-DdFQKWYEeKGhpvYuT8g0A" covered="_9ZuLwKWYEeKGhpvYuT8g0A" start="_-DceMaWYEeKGhpvYuT8g0A" finish="_-DdFQaWYEeKGhpvYuT8g0A"/>
-      <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_-DdFQaWYEeKGhpvYuT8g0A" covered="_9ZuLwKWYEeKGhpvYuT8g0A" event="_sFE0IKWYEeKGhpvYuT8g0A"/>
+      <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_-DdFQaWYEeKGhpvYuT8g0A" covered="_9ZuLwKWYEeKGhpvYuT8g0A"/>
       <message xmi:id="_-DceMKWYEeKGhpvYuT8g0A" name="bindRoot" receiveEvent="_-DceMaWYEeKGhpvYuT8g0A"/>
     </ownedBehavior>
     <ownedBehavior xmi:type="uml:Interaction" xmi:id="_1HyKxqWYEeKGhpvYuT8g0A" name="bindSimpleValue">
@@ -5179,9 +4820,6 @@
       <message xmi:id="_1HyysaWYEeKGhpvYuT8g0A" name="setNodeName" receiveEvent="_1HyypaWYEeKGhpvYuT8g0A" sendEvent="_1HyypKWYEeKGhpvYuT8g0A"/>
       <message xmi:id="_1HyysqWYEeKGhpvYuT8g0A" name="setNodeName" messageSort="reply" receiveEvent="_1HyyqKWYEeKGhpvYuT8g0A" sendEvent="_1Hyyp6WYEeKGhpvYuT8g0A"/>
     </ownedBehavior>
-    <ownedAttribute xmi:id="_9Zuy0KWYEeKGhpvYuT8g0A" name="armBinder">
-      <type xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=ArmBinder%5Bjcu%5Ename=ArmBinder.java%5Bjpack%5Ename=org.hibernate.cfg%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D$uml.Class"/>
-    </ownedAttribute>
   </packagedElement>
   <profileApplication xmi:id="_Li3vc6JyEeKs4tCFVpHj0A">
     <eAnnotations xmi:id="_Li3vdKJyEeKs4tCFVpHj0A" source="http://www.eclipse.org/uml2/2.0.0/UML">

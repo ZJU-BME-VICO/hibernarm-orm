@@ -40,6 +40,8 @@ import org.hibernate.internal.util.collections.ArrayHelper;
 import org.hibernate.internal.util.collections.EmptyIterator;
 import org.hibernate.type.CollectionType;
 import org.hibernate.type.Type;
+import org.openehr.am.archetype.Archetype;
+import org.openehr.build.RMObjectBuilder;
 
 /**
  * Mapping for a collection. Subclasses specialize to particular collection styles.
@@ -437,6 +439,10 @@ public abstract class Collection implements Fetchable, Value, Filterable {
 	}
 
 	public void setTypeUsingReflection(String className, String propertyName) {
+	}
+	
+	public void setArmTypeUsingReflection(Archetype archetype, String propertyName, RMObjectBuilder rmBuilder) {
+		
 	}
 
 	public String getCacheRegionName() {

@@ -30,6 +30,8 @@ import org.hibernate.cfg.Mappings;
 import org.hibernate.engine.spi.Mapping;
 import org.hibernate.type.EntityType;
 import org.hibernate.type.Type;
+import org.openehr.am.archetype.Archetype;
+import org.openehr.build.RMObjectBuilder;
 
 /**
  * A mapping for a one-to-many association
@@ -134,6 +136,8 @@ public class OneToMany implements Value {
 	}
 
 	public void setTypeUsingReflection(String className, String propertyName) {}
+
+	public void setArmTypeUsingReflection(Archetype archetype, String propertyName, RMObjectBuilder rmBuilder) {}
 	
 	public Object accept(ValueVisitor visitor) {
 		return visitor.accept(this);

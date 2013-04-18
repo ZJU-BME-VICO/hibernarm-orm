@@ -28,6 +28,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Map;
+import java.util.Set;
 
 import org.hibernate.AssertionFailure;
 import org.hibernate.MappingException;
@@ -38,6 +40,10 @@ import org.hibernate.property.Getter;
 import org.hibernate.property.PropertyAccessor;
 import org.hibernate.type.PrimitiveType;
 import org.hibernate.type.Type;
+import org.openehr.am.archetype.Archetype;
+import org.openehr.am.archetype.constraintmodel.CObject;
+import org.openehr.build.RMObjectBuilder;
+import org.openehr.build.RMObjectBuildingException;
 
 /**
  * Utility class for various reflection operations.
@@ -231,6 +237,43 @@ public final class ReflectHelper {
 		catch ( ClassNotFoundException cnfe ) {
 			throw new MappingException( "class " + className + " not found while looking for property: " + name, cnfe );
 		}
+	}
+
+	/**
+	 * Attempt to resolve the specified property type through reflection.
+	 *
+	 * @param archetypeName The name of the class owning the property.
+	 * @param name The name of the property.
+	 * @return The type of the property.
+	 * @throws MappingException Indicates we were unable to locate the property.
+	 */
+	public static Class reflectedPropertyArchetype(Archetype archetype, String name, RMObjectBuilder rmBuilder) throws MappingException {
+		try {
+			Map<String, CObject> patheNodeMap = archetype.getPathNodeMap();
+			Set<String> pathSet = patheNodeMap.keySet();
+			String nodePath = "";
+			for (String path : pathSet) {
+				if (name.startsWith(path)) {
+					if (path.length() > nodePath.length()) {
+						nodePath = path;
+					}
+				}
+			}
+			CObject node = patheNodeMap.get(nodePath);
+			String attributePath = name.substring(nodePath.length());
+			String[] attributePathSegments = attributePath.split("/");
+			Class klass = rmBuilder.retrieveRMType(node.getRmTypeName());
+			for (String pathSegment : attributePathSegments) {
+				if (!pathSegment.isEmpty()) {
+					klass = getter( klass, pathSegment ).getReturnType();					
+				}
+			}
+			
+			return klass;
+		}
+		catch (RMObjectBuildingException e) {
+			throw new MappingException( "archetype " + archetype + " not found while looking for property: " + name, e );
+		} 
 	}
 
 	/**

@@ -44,19 +44,12 @@
           </edges>
         </contents>
       </eAnnotations>
-      <ownedConnector xmi:id="_nVtKJKKnEeKs4tCFVpHj0A">
-        <end xmi:id="_nVtxMKKnEeKs4tCFVpHj0A" role="_iDfpoaKnEeKs4tCFVpHj0A"/>
-        <end xmi:id="_nVtxMaKnEeKs4tCFVpHj0A" role="_iDfpoaKnEeKs4tCFVpHj0A"/>
-      </ownedConnector>
-      <lifeline xmi:id="_iDfpoKKnEeKs4tCFVpHj0A" name="abstractEntityPersister" represents="_iDfpoaKnEeKs4tCFVpHj0A" coveredBy="_jOy_IaKnEeKs4tCFVpHj0A _jOzmMKKnEeKs4tCFVpHj0A _jOzmMaKnEeKs4tCFVpHj0A"/>
+      <lifeline xmi:id="_iDfpoKKnEeKs4tCFVpHj0A" name="abstractEntityPersister" coveredBy="_jOy_IaKnEeKs4tCFVpHj0A _jOzmMKKnEeKs4tCFVpHj0A _jOzmMaKnEeKs4tCFVpHj0A"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_jOy_IaKnEeKs4tCFVpHj0A" covered="_iDfpoKKnEeKs4tCFVpHj0A" message="_jOy_IKKnEeKs4tCFVpHj0A"/>
       <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_jOzmMKKnEeKs4tCFVpHj0A" covered="_iDfpoKKnEeKs4tCFVpHj0A" start="_jOy_IaKnEeKs4tCFVpHj0A" finish="_jOzmMaKnEeKs4tCFVpHj0A"/>
       <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_jOzmMaKnEeKs4tCFVpHj0A" covered="_iDfpoKKnEeKs4tCFVpHj0A"/>
       <message xmi:id="_jOy_IKKnEeKs4tCFVpHj0A" name="postInstantiate" receiveEvent="_jOy_IaKnEeKs4tCFVpHj0A"/>
     </ownedBehavior>
-    <ownedAttribute xmi:id="_iDfpoaKnEeKs4tCFVpHj0A" name="abstractEntityPersister">
-      <type xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=AbstractEntityPersister%5Bjcu%5Ename=AbstractEntityPersister.java%5Bjpack%5Ename=org.hibernate.persister.entity%5Bjsrcroot%5Esrcfolder=src/main/java%5Bproject%5Eid=hibernate-core%5D%5D%5D%5D$uml.Class"/>
-    </ownedAttribute>
   </packagedElement>
   <profileApplication xmi:id="_S9hwFaKnEeKs4tCFVpHj0A">
     <eAnnotations xmi:id="_S9hwFqKnEeKs4tCFVpHj0A" source="http://www.eclipse.org/uml2/2.0.0/UML">

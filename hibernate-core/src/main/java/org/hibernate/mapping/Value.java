@@ -29,6 +29,8 @@ import org.hibernate.FetchMode;
 import org.hibernate.MappingException;
 import org.hibernate.engine.spi.Mapping;
 import org.hibernate.type.Type;
+import org.openehr.am.archetype.Archetype;
+import org.openehr.build.RMObjectBuilder;
 
 /**
  * A value is anything that is persisted by value, instead of
@@ -54,5 +56,6 @@ public interface Value extends Serializable {
 	public boolean isSimpleValue();
 	public boolean isValid(Mapping mapping) throws MappingException;
 	public void setTypeUsingReflection(String className, String propertyName) throws MappingException;
+	public void setArmTypeUsingReflection(Archetype archetype, String propertyName, RMObjectBuilder rmBuilder) throws MappingException;
 	public Object accept(ValueVisitor visitor);
 }

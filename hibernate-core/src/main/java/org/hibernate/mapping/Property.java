@@ -61,6 +61,7 @@ public class Property implements Serializable, MetaAttributable {
 	private String nodeName;
 	private java.util.Map metaAttributes;
 	private PersistentClass persistentClass;
+	private PersistentArchetype persistentArchetype;
 	private boolean naturalIdentifier;
 	private boolean lob;
 
@@ -295,6 +296,14 @@ public class Property implements Serializable, MetaAttributable {
 
 	public void setPersistentClass(PersistentClass persistentClass) {
 		this.persistentClass = persistentClass;
+	}
+
+	public PersistentArchetype getPersistentArchetype() {
+		return persistentArchetype;
+	}
+
+	public void setPersistentArchetype(PersistentArchetype persistentArchetype) {
+		this.persistentArchetype = persistentArchetype;
 	}
 
 	public boolean isSelectable() {
