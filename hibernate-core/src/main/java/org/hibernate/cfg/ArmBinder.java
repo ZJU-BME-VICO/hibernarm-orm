@@ -1508,7 +1508,10 @@ public final class ArmBinder {
 			column.setValue( simpleValue );
 			bindColumn( node, column, isNullable );
 //			column.setName( mappings.getNamingStrategy().propertyToColumnName( propertyPath ) );
-			column.setName(propertyPath);
+			String columnName = propertyPath;
+			columnName = mappings.getObjectNameNormalizer().replaceIdentifierQuoting(columnName);
+			columnName = mappings.getObjectNameNormalizer().removeIdentifierQuoting(columnName);
+			column.setName(columnName);
 //			String logicalName = mappings.getNamingStrategy().logicalColumnName( null, propertyPath );
 			String logicalName = propertyPath;
 			mappings.addColumnBinding( logicalName, column, table );
@@ -2785,26 +2788,26 @@ public final class ArmBinder {
 //			}
 
 			if ( value != null ) {
-//				final Property property = createProperty(
-//						value,
-//						propertyName,
-//						persistentClass.getClassName(),
-//						subnode,
-//						mappings,
-//						inheritedMetas,
-//						persistentClass.getArchetype(),
-//						rmBuilder
-//				);
-//				if ( !mutable ) {
-//					property.setUpdateable(false);
-//				}
-//				if ( naturalId ) {
-//					property.setNaturalIdentifier( true );
-//				}
-//				persistentClass.addProperty( property );
-//				if ( uniqueKey!=null ) {
-//					uniqueKey.addColumns( property.getColumnIterator() );
-//				}
+				final Property property = createProperty(
+						value,
+						propertyName,
+						persistentArchetype.getClassName(),
+						subnode,
+						mappings,
+						inheritedMetas,
+						persistentArchetype.getArchetype(),
+						rmBuilder
+				);
+				if ( !mutable ) {
+					property.setUpdateable(false);
+				}
+				if ( naturalId ) {
+					property.setNaturalIdentifier( true );
+				}
+				persistentArchetype.addProperty( property );
+				if ( uniqueKey!=null ) {
+					uniqueKey.addColumns( property.getColumnIterator() );
+				}
 			}
 
 		}

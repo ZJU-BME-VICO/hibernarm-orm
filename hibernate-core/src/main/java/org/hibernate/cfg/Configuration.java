@@ -2807,6 +2807,9 @@ public class Configuration implements Serializable {
 				String name,
 				String subselect,
 				boolean isAbstract) {
+
+			name = getObjectNameNormalizer().replaceIdentifierQuoting( name );
+			
 			name = getObjectNameNormalizer().normalizeIdentifierQuoting( name );
 			schema = getObjectNameNormalizer().normalizeIdentifierQuoting( schema );
 			catalog = getObjectNameNormalizer().normalizeIdentifierQuoting( catalog );
