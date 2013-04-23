@@ -32,6 +32,7 @@ import org.hibernate.AssertionFailure;
 import org.hibernate.EntityMode;
 import org.hibernate.internal.util.collections.JoinedIterator;
 import org.hibernate.internal.util.collections.SingletonIterator;
+import org.openehr.am.archetype.Archetype;
 
 /**
  * A sublass in a table-per-class-hierarchy mapping
@@ -298,6 +299,12 @@ public class Subclass extends PersistentClass {
 	
 	public int getOptimisticLockMode() {
 		return superclass.getOptimisticLockMode();
+	}
+
+	@Override
+	public Archetype getArchetype() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

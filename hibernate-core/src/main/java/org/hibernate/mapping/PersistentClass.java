@@ -42,6 +42,7 @@ import org.hibernate.internal.util.collections.EmptyIterator;
 import org.hibernate.internal.util.collections.JoinedIterator;
 import org.hibernate.internal.util.collections.SingletonIterator;
 import org.hibernate.sql.Alias;
+import org.openehr.am.archetype.Archetype;
 
 /**
  * Mapping for an entity.
@@ -233,6 +234,8 @@ public abstract class PersistentClass implements Serializable, Filterable, MetaA
 	}
 
 	public abstract Table getTable();
+
+	public abstract Archetype getArchetype();
 
 	public String getEntityName() {
 		return entityName;

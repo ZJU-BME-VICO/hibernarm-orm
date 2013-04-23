@@ -126,7 +126,6 @@ import org.hibernate.mapping.Index;
 import org.hibernate.mapping.Join;
 import org.hibernate.mapping.MappedSuperclass;
 import org.hibernate.mapping.MetadataSource;
-import org.hibernate.mapping.PersistentArchetype;
 import org.hibernate.mapping.PersistentClass;
 import org.hibernate.mapping.Property;
 import org.hibernate.mapping.RootClass;
@@ -208,7 +207,6 @@ public class Configuration implements Serializable {
 	private transient ReflectionManager reflectionManager;
 
 	protected Map<String, PersistentClass> classes;
-	protected Map<String, PersistentArchetype> archetypes;
 	protected Map<String, String> imports;
 	protected Map<String, Collection> collections;
 	protected Map<String, Table> tables;
@@ -362,8 +360,6 @@ public class Configuration implements Serializable {
 //        values.put(SystemValue.CATEGORY, category);
 
         this.metadataSourceQueue.setRMObjectBuilder(new RMObjectBuilder(values));
-        
-        archetypes = new HashMap<String, PersistentArchetype>();
 	}
 
 	public EntityTuplizerFactory getEntityTuplizerFactory() {
@@ -2758,13 +2754,6 @@ public class Configuration implements Serializable {
 			Object old = classes.put( persistentClass.getEntityName(), persistentClass );
 			if ( old != null ) {
 				throw new DuplicateMappingException( "class/entity", persistentClass.getEntityName() );
-			}
-		}
-
-		public void addArchetype(PersistentArchetype persistentArchetype) throws DuplicateMappingException {
-			Object old = archetypes.put( persistentArchetype.getEntityName(), persistentArchetype );
-			if ( old != null ) {
-				throw new DuplicateMappingException( "archetype/entity", persistentArchetype.getEntityName() );
 			}
 		}
 

@@ -29,6 +29,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.jboss.logging.Logger;
+import org.openehr.am.archetype.Archetype;
 
 import org.hibernate.MappingException;
 import org.hibernate.engine.spi.Mapping;
@@ -355,6 +356,12 @@ public class RootClass extends PersistentClass implements TableOwner {
 	@Override
     public int getOptimisticLockMode() {
 		return optimisticLockMode;
+	}
+
+	@Override
+	public Archetype getArchetype() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

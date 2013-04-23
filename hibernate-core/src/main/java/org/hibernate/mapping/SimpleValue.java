@@ -225,6 +225,71 @@ public class SimpleValue implements KeyValue {
 		
 	}
 
+	public IdentifierGenerator createArchetypeIdentifierGenerator(
+			IdentifierGeneratorFactory identifierGeneratorFactory,
+			Dialect dialect, 
+			String defaultCatalog, 
+			String defaultSchema, 
+			RootArchetype rootArchetype) throws MappingException {
+		
+		Properties params = new Properties();
+		
+		//if the hibernate-mapping did not specify a schema/catalog, use the defaults
+		//specified by properties - but note that if the schema/catalog were specified
+		//in hibernate-mapping, or as params, they will already be initialized and
+		//will override the values set here (they are in identifierGeneratorProperties)
+		if ( defaultSchema!=null ) {
+			params.setProperty(PersistentIdentifierGenerator.SCHEMA, defaultSchema);
+		}
+		if ( defaultCatalog!=null ) {
+			params.setProperty(PersistentIdentifierGenerator.CATALOG, defaultCatalog);
+		}
+		
+		//pass the entity-name, if not a collection-id
+		if (rootArchetype!=null) {
+			params.setProperty( IdentifierGenerator.ENTITY_NAME, rootArchetype.getEntityName() );
+//			params.setProperty( IdentifierGenerator.JPA_ENTITY_NAME, rootArchetype.getJpaEntityName() );
+		}
+		
+		//init the table here instead of earlier, so that we can get a quoted table name
+		//TODO: would it be better to simply pass the qualified table name, instead of
+		//      splitting it up into schema/catalog/table names
+		String tableName = getTable().getQuotedName(dialect);
+		params.setProperty( PersistentIdentifierGenerator.TABLE, tableName );
+		
+		//pass the column name (a generated id almost always has a single column)
+		String columnName = ( (Column) getColumnIterator().next() ).getQuotedName(dialect);
+		params.setProperty( PersistentIdentifierGenerator.PK, columnName );
+		
+		if (rootArchetype!=null) {
+			StringBuilder tables = new StringBuilder();
+			Iterator iter = rootArchetype.getIdentityTables().iterator();
+			while ( iter.hasNext() ) {
+				Table table= (Table) iter.next();
+				tables.append( table.getQuotedName(dialect) );
+				if ( iter.hasNext() ) tables.append(", ");
+			}
+			params.setProperty( PersistentIdentifierGenerator.TABLES, tables.toString() );
+		}
+		else {
+			params.setProperty( PersistentIdentifierGenerator.TABLES, tableName );
+		}
+
+		if (identifierGeneratorProperties!=null) {
+			params.putAll(identifierGeneratorProperties);
+		}
+
+		// TODO : we should pass along all settings once "config lifecycle" is hashed out...
+		params.put(
+				Environment.PREFER_POOLED_VALUES_LO,
+				mappings.getConfigurationProperties().getProperty( Environment.PREFER_POOLED_VALUES_LO, "false" )
+		);
+
+		identifierGeneratorFactory.setDialect( dialect );
+		return identifierGeneratorFactory.createIdentifierGenerator( identifierGeneratorStrategy, getType(), params );
+		
+	}
+
 	public boolean isUpdateable() {
 		//needed to satisfy KeyValue
 		return true;
@@ -435,7 +500,6 @@ public class SimpleValue implements KeyValue {
 			if ( archetype == null ) {
 				throw new MappingException( "you must specify types for a dynamic entity: " + propertyName );
 			}
-//			typeName = ReflectHelper.reflectedPropertyClass( archetypeName, propertyName ).getName();
 			typeName = ReflectHelper.reflectedPropertyArchetype( archetype, propertyName, rmBuilder ).getName();
 			return;
 		}

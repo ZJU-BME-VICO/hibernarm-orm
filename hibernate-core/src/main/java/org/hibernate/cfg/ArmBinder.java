@@ -82,7 +82,6 @@ import org.hibernate.mapping.MetaAttribute;
 import org.hibernate.mapping.MetadataSource;
 import org.hibernate.mapping.OneToMany;
 import org.hibernate.mapping.OneToOne;
-import org.hibernate.mapping.PersistentArchetype;
 import org.hibernate.mapping.PersistentClass;
 import org.hibernate.mapping.PrimitiveArray;
 import org.hibernate.mapping.Property;
@@ -179,12 +178,9 @@ public final class ArmBinder {
 				bindTypeDef( element, mappings );
 			}
 			else if ( "class".equals( elementName ) ) {
-//				RootClass rootclass = new RootClass();
-//				bindRootClass( element, rootclass, mappings, inheritedMetas, archetypes, rmBuilder );
-//				mappings.addClass( rootclass );
-				RootArchetype rootarchetype = new RootArchetype();
-				bindRootArchetype( element, rootarchetype, mappings, inheritedMetas, archetypes, rmBuilder );
-				mappings.addArchetype( rootarchetype );
+				RootArchetype rootclass = new RootArchetype();
+				bindRootArchetype( element, rootclass, mappings, inheritedMetas, archetypes, rmBuilder );
+				mappings.addClass( rootclass );
 			}
 			else if ( "subclass".equals( elementName ) ) {
 				PersistentClass superModel = getSuperclass( mappings, element );
@@ -328,22 +324,6 @@ public final class ArmBinder {
 	 * @param inheritedMetas Any inherited meta-tag information.
 	 * @throws MappingException
 	 */
-	public static void bindRootClass(Element node, RootClass rootClass, Mappings mappings,
-			java.util.Map inheritedMetas, java.util.Map archetypes, RMObjectBuilder rmBuilder) throws MappingException {
-		bindClass( node, rootClass, mappings, inheritedMetas );
-		Archetype archetype = (Archetype) archetypes.get(rootClass.getEntityName());
-//		rootClass.setArchetype(archetype);
-		String rmTypeName = "";
-//		try {
-//			rmTypeName = archetype.getDefinition().getRmTypeName();
-//			rootClass.setArchetypeClass(rmBuilder.retrieveRMType(rmTypeName));
-//		} catch (RMObjectBuildingException e) {
-//			throw new MappingException( "class " + rmTypeName + " not found while looking for archetype: " + archetype, e );
-//		}
-		inheritedMetas = getMetas( node, inheritedMetas, true ); // get meta's from <class>
-		bindRootPersistentClassCommonValues( node, inheritedMetas, mappings, rootClass, rmBuilder );
-	}
-
 	public static void bindRootArchetype(Element node, RootArchetype rootArchetype, Mappings mappings,
 			java.util.Map inheritedMetas, java.util.Map archetypes, RMObjectBuilder rmBuilder) throws MappingException {
 		bindArchetype( node, rootArchetype, mappings, inheritedMetas );
@@ -358,91 +338,6 @@ public final class ArmBinder {
 		}
 		inheritedMetas = getMetas( node, inheritedMetas, true ); // get meta's from <class>
 		bindRootPersistentArchetypeCommonValues( node, inheritedMetas, mappings, rootArchetype, rmBuilder );
-	}
-
-	private static void bindRootPersistentClassCommonValues(Element node,
-			java.util.Map inheritedMetas, Mappings mappings, RootClass entity, RMObjectBuilder rmBuilder)
-			throws MappingException {
-
-		// DB-OBJECTNAME
-
-		Attribute schemaNode = node.attribute( "schema" );
-		String schema = schemaNode == null ?
-				mappings.getSchemaName() : schemaNode.getValue();
-
-		Attribute catalogNode = node.attribute( "catalog" );
-		String catalog = catalogNode == null ?
-				mappings.getCatalogName() : catalogNode.getValue();
-
-		Table table = mappings.addTable(
-				schema,
-				catalog,
-				getClassTableName( entity, node, schema, catalog, null, mappings ),
-				getSubselect( node ),
-		        entity.isAbstract() != null && entity.isAbstract()
-			);
-		entity.setTable( table );
-		bindComment(table, node);
-
-		if ( LOG.isDebugEnabled() ) {
-			LOG.debugf( "Mapping class: %s -> %s", entity.getEntityName(), entity.getTable().getName() );
-		}
-
-		// MUTABLE
-		Attribute mutableNode = node.attribute( "mutable" );
-		entity.setMutable( ( mutableNode == null ) || mutableNode.getValue().equals( "true" ) );
-
-		// WHERE
-		Attribute whereNode = node.attribute( "where" );
-		if ( whereNode != null ) entity.setWhere( whereNode.getValue() );
-
-		// CHECK
-		Attribute chNode = node.attribute( "check" );
-		if ( chNode != null ) table.addCheckConstraint( chNode.getValue() );
-
-		// POLYMORPHISM
-		Attribute polyNode = node.attribute( "polymorphism" );
-		entity.setExplicitPolymorphism( ( polyNode != null )
-			&& polyNode.getValue().equals( "explicit" ) );
-
-		// ROW ID
-		Attribute rowidNode = node.attribute( "rowid" );
-		if ( rowidNode != null ) table.setRowId( rowidNode.getValue() );
-
-		Iterator subnodes = node.elementIterator();
-		while ( subnodes.hasNext() ) {
-
-			Element subnode = (Element) subnodes.next();
-			String name = subnode.getName();
-
-			if ( "id".equals( name ) ) {
-				// ID
-				bindSimpleId( subnode, entity, mappings, inheritedMetas, rmBuilder );
-			}
-			else if ( "composite-id".equals( name ) ) {
-				// COMPOSITE-ID
-				bindCompositeId( subnode, entity, mappings, inheritedMetas );
-			}
-			else if ( "version".equals( name ) || "timestamp".equals( name ) ) {
-				// VERSION / TIMESTAMP
-				bindVersioningProperty( table, subnode, mappings, name, entity, inheritedMetas );
-			}
-			else if ( "discriminator".equals( name ) ) {
-				// DISCRIMINATOR
-				bindDiscriminatorProperty( table, entity, subnode, mappings );
-			}
-			else if ( "cache".equals( name ) ) {
-				entity.setCacheConcurrencyStrategy( subnode.attributeValue( "usage" ) );
-				entity.setCacheRegionName( subnode.attributeValue( "region" ) );
-				entity.setLazyPropertiesCacheable( !"non-lazy".equals( subnode.attributeValue( "include" ) ) );
-			}
-
-		}
-
-		// Primary key constraint
-		entity.createPrimaryKey();
-
-		createClassProperties( node, entity, mappings, inheritedMetas, rmBuilder );
 	}
 
 	private static void bindRootPersistentArchetypeCommonValues(Element node,
@@ -527,67 +422,7 @@ public final class ArmBinder {
 		// Primary key constraint
 		entity.createPrimaryKey();
 
-//		createClassProperties( node, entity, mappings, inheritedMetas, rmBuilder );
 		createArchetypeProperties( node, entity, mappings, inheritedMetas, rmBuilder );
-	}
-
-	private static void bindSimpleId(Element idNode, RootClass entity, Mappings mappings,
-			java.util.Map inheritedMetas, RMObjectBuilder rmBuilder) throws MappingException {
-		String propertyName = idNode.attributeValue( "name" );
-
-		SimpleValue id = new SimpleValue( mappings, entity.getTable() );
-		entity.setIdentifier( id );
-
-		// if ( propertyName == null || entity.getPojoRepresentation() == null ) {
-		// bindSimpleValue( idNode, id, false, RootClass.DEFAULT_IDENTIFIER_COLUMN_NAME, mappings );
-		// if ( !id.isTypeSpecified() ) {
-		// throw new MappingException( "must specify an identifier type: " + entity.getEntityName()
-		// );
-		// }
-		// }
-		// else {
-		// bindSimpleValue( idNode, id, false, propertyName, mappings );
-		// PojoRepresentation pojo = entity.getPojoRepresentation();
-		// id.setTypeUsingReflection( pojo.getClassName(), propertyName );
-		//
-		// Property prop = new Property();
-		// prop.setValue( id );
-		// bindProperty( idNode, prop, mappings, inheritedMetas );
-		// entity.setIdentifierProperty( prop );
-		// }
-
-		if ( propertyName == null ) {
-			bindSimpleValue( idNode, id, false, RootClass.DEFAULT_IDENTIFIER_COLUMN_NAME, mappings );
-		}
-		else {
-			bindSimpleValue( idNode, id, false, propertyName, mappings );
-		}
-
-		if ( propertyName == null || !entity.hasPojoRepresentation() ) {
-			if ( !id.isTypeSpecified() ) {
-				throw new MappingException( "must specify an identifier type: "
-					+ entity.getEntityName() );
-			}
-		}
-		else {
-//			id.setTypeUsingReflection( entity.getClassName(), propertyName );
-//			id.setArmTypeUsingReflection( entity.getArchetype(), propertyName, rmBuilder );
-		}
-
-		if ( propertyName != null ) {
-			Property prop = new Property();
-			prop.setValue( id );
-			bindProperty( idNode, prop, mappings, inheritedMetas );
-			entity.setIdentifierProperty( prop );
-			entity.setDeclaredIdentifierProperty( prop );
-		}
-
-		// TODO:
-		/*
-		 * if ( id.getHibernateType().getReturnedClass().isArray() ) throw new MappingException(
-		 * "illegal use of an array as an identifier (arrays don't reimplement equals)" );
-		 */
-		makeIdentifier( idNode, id, mappings );
 	}
 
 	private static void bindSimpleId(Element idNode, RootArchetype entity, Mappings mappings,
@@ -622,15 +457,13 @@ public final class ArmBinder {
 			bindSimpleValue( idNode, id, false, propertyName, mappings );
 		}
 
-//		if ( propertyName == null || !entity.hasPojoRepresentation() ) {
-		if ( propertyName == null || entity.getArchetypeClass() == null ) {
+		if ( propertyName == null ) {
 			if ( !id.isTypeSpecified() ) {
 				throw new MappingException( "must specify an identifier type: "
 					+ entity.getEntityName() );
 			}
 		}
 		else {
-//			id.setTypeUsingReflection( entity.getClassName(), propertyName );
 			id.setArmTypeUsingReflection( entity.getArchetype(), propertyName, rmBuilder );
 		}
 
@@ -741,7 +574,7 @@ public final class ArmBinder {
 		}
 	}
 
-	public static void bindClass(Element node, PersistentClass persistentClass, Mappings mappings,
+	public static void bindArchetype(Element node, PersistentClass persistentClass, Mappings mappings,
 			java.util.Map inheritedMetas) throws MappingException {
 		// transfer an explicitly defined entity name
 		// handle the lazy attribute
@@ -750,15 +583,15 @@ public final class ArmBinder {
 				mappings.isDefaultLazy() :
 				"true".equals( lazyNode.getValue() );
 		// go ahead and set the lazy here, since pojo.proxy can override it.
-		persistentClass.setLazy( lazy );
+		persistentClass.setLazy(false);
 
 		String entityName = node.attributeValue( "entity-name" );
-		if ( entityName == null ) entityName = getClassName( node.attribute("name"), mappings );
+		if ( entityName == null ) entityName = node.attribute("name").getValue();
 		if ( entityName==null ) {
 			throw new MappingException( "Unable to determine entity name" );
 		}
 		persistentClass.setEntityName( entityName );
-		persistentClass.setJpaEntityName( entityName );
+		persistentClass.setJpaEntityName("");
 
 		bindPojoRepresentation( node, persistentClass, mappings, inheritedMetas );
 		bindDom4jRepresentation( node, persistentClass, mappings, inheritedMetas );
@@ -770,66 +603,10 @@ public final class ArmBinder {
 			parseFetchProfile( profileElement, mappings, entityName );
 		}
 
-		bindPersistentClassCommonValues( node, persistentClass, mappings, inheritedMetas );
-	}
-
-	public static void bindArchetype(Element node, PersistentArchetype persistentArchetype, Mappings mappings,
-			java.util.Map inheritedMetas) throws MappingException {
-		// transfer an explicitly defined entity name
-		// handle the lazy attribute
-		Attribute lazyNode = node.attribute( "lazy" );
-		boolean lazy = lazyNode == null ?
-				mappings.isDefaultLazy() :
-				"true".equals( lazyNode.getValue() );
-		// go ahead and set the lazy here, since pojo.proxy can override it.
-//		persistentArchetype.setLazy( lazy );
-		persistentArchetype.setLazy(false);
-
-		String entityName = node.attributeValue( "entity-name" );
-//		if ( entityName == null ) entityName = getClassName( node.attribute("name"), mappings );
-		if ( entityName == null ) entityName = node.attribute("name").getValue();
-		if ( entityName==null ) {
-			throw new MappingException( "Unable to determine entity name" );
-		}
-		persistentArchetype.setEntityName( entityName );
-//		persistentArchetype.setJpaEntityName( entityName );
-
-		bindPojoRepresentation( node, persistentArchetype, mappings, inheritedMetas );
-		bindDom4jRepresentation( node, persistentArchetype, mappings, inheritedMetas );
-		bindMapRepresentation( node, persistentArchetype, mappings, inheritedMetas );
-
-		Iterator itr = node.elementIterator( "fetch-profile" );
-		while ( itr.hasNext() ) {
-			final Element profileElement = ( Element ) itr.next();
-			parseFetchProfile( profileElement, mappings, entityName );
-		}
-
-		bindPersistentArchetypeCommonValues( node, persistentArchetype, mappings, inheritedMetas );
+		bindPersistentArchetypeCommonValues( node, persistentClass, mappings, inheritedMetas );
 	}
 
 	private static void bindPojoRepresentation(Element node, PersistentClass entity,
-			Mappings mappings, java.util.Map metaTags) {
-
-		String className = getClassName( node.attribute( "name" ), mappings );
-		String proxyName = getClassName( node.attribute( "proxy" ), mappings );
-
-		entity.setClassName( className );
-
-		if ( proxyName != null ) {
-			entity.setProxyInterfaceName( proxyName );
-			entity.setLazy( true );
-		}
-		else if ( entity.isLazy() ) {
-//			entity.setProxyInterfaceName( className );
-		}
-
-		Element tuplizer = locateTuplizerDefinition( node, EntityMode.POJO );
-		if ( tuplizer != null ) {
-			entity.addTuplizer( EntityMode.POJO, tuplizer.attributeValue( "class" ) );
-		}
-	}
-
-	private static void bindPojoRepresentation(Element node, PersistentArchetype entity,
 			Mappings mappings, java.util.Map metaTags) {
 
 //		String className = getClassName( node.attribute( "name" ), mappings );
@@ -854,20 +631,6 @@ public final class ArmBinder {
 	private static void bindDom4jRepresentation(Element node, PersistentClass entity,
 			Mappings mappings, java.util.Map inheritedMetas) {
 		String nodeName = node.attributeValue( "node" );
-//		if (nodeName==null) nodeName = StringHelper.unqualify( entity.getEntityName() );
-		if (nodeName==null) nodeName = entity.getEntityName();
-		entity.setNodeName(nodeName);
-
-//		Element tuplizer = locateTuplizerDefinition( node, EntityMode.DOM4J );
-//		if ( tuplizer != null ) {
-//			entity.addTuplizer( EntityMode.DOM4J, tuplizer.attributeValue( "class" ) );
-//		}
-	}
-
-	private static void bindDom4jRepresentation(Element node, PersistentArchetype entity,
-			Mappings mappings, java.util.Map inheritedMetas) {
-		String nodeName = node.attributeValue( "node" );
-//		if (nodeName==null) nodeName = StringHelper.unqualify( entity.getEntityName() );
 		if (nodeName==null) nodeName = entity.getEntityName();
 		entity.setNodeName(nodeName);
 
@@ -878,14 +641,6 @@ public final class ArmBinder {
 	}
 
 	private static void bindMapRepresentation(Element node, PersistentClass entity,
-			Mappings mappings, java.util.Map inheritedMetas) {
-		Element tuplizer = locateTuplizerDefinition( node, EntityMode.MAP );
-		if ( tuplizer != null ) {
-			entity.addTuplizer( EntityMode.MAP, tuplizer.attributeValue( "class" ) );
-		}
-	}
-
-	private static void bindMapRepresentation(Element node, PersistentArchetype entity,
 			Mappings mappings, java.util.Map inheritedMetas) {
 		Element tuplizer = locateTuplizerDefinition( node, EntityMode.MAP );
 		if ( tuplizer != null ) {
@@ -911,84 +666,7 @@ public final class ArmBinder {
 		return null;
 	}
 
-	private static void bindPersistentClassCommonValues(Element node, PersistentClass entity,
-			Mappings mappings, java.util.Map inheritedMetas) throws MappingException {
-		// DISCRIMINATOR
-		Attribute discriminatorNode = node.attribute( "discriminator-value" );
-		entity.setDiscriminatorValue( ( discriminatorNode == null )
-			? entity.getEntityName()
-			: discriminatorNode.getValue() );
-
-		// DYNAMIC UPDATE
-		Attribute dynamicNode = node.attribute( "dynamic-update" );
-		entity.setDynamicUpdate(
-				dynamicNode != null && "true".equals( dynamicNode.getValue() )
-		);
-
-		// DYNAMIC INSERT
-		Attribute insertNode = node.attribute( "dynamic-insert" );
-		entity.setDynamicInsert(
-				insertNode != null && "true".equals( insertNode.getValue() )
-		);
-
-		// IMPORT
-		mappings.addImport( entity.getEntityName(), entity.getEntityName() );
-//		if ( mappings.isAutoImport() && entity.getEntityName().indexOf( '.' ) > 0 ) {
-//			mappings.addImport(
-//					entity.getEntityName(),
-//					StringHelper.unqualify( entity.getEntityName() )
-//				);
-//		}
-
-		// BATCH SIZE
-		Attribute batchNode = node.attribute( "batch-size" );
-		if ( batchNode != null ) entity.setBatchSize( Integer.parseInt( batchNode.getValue() ) );
-
-		// SELECT BEFORE UPDATE
-		Attribute sbuNode = node.attribute( "select-before-update" );
-		if ( sbuNode != null ) entity.setSelectBeforeUpdate( "true".equals( sbuNode.getValue() ) );
-
-		// OPTIMISTIC LOCK MODE
-		Attribute olNode = node.attribute( "optimistic-lock" );
-		entity.setOptimisticLockMode( getOptimisticLockMode( olNode ) );
-
-		entity.setMetaAttributes( getMetas( node, inheritedMetas ) );
-
-		// PERSISTER
-		Attribute persisterNode = node.attribute( "persister" );
-		if ( persisterNode != null ) {
-			try {
-				entity.setEntityPersisterClass( ReflectHelper.classForName(
-						persisterNode
-								.getValue()
-				) );
-			}
-			catch (ClassNotFoundException cnfe) {
-				throw new MappingException( "Could not find persister class: "
-					+ persisterNode.getValue() );
-			}
-		}
-
-		// CUSTOM SQL
-		handleCustomSQL( node, entity );
-
-		Iterator tables = node.elementIterator( "synchronize" );
-		while ( tables.hasNext() ) {
-			entity.addSynchronizedTable( ( (Element) tables.next() ).attributeValue( "table" ) );
-		}
-
-		Attribute abstractNode = node.attribute( "abstract" );
-		Boolean isAbstract = abstractNode == null
-				? null
-		        : "true".equals( abstractNode.getValue() )
-						? Boolean.TRUE
-	                    : "false".equals( abstractNode.getValue() )
-								? Boolean.FALSE
-	                            : null;
-		entity.setAbstract( isAbstract );
-	}
-
-	private static void bindPersistentArchetypeCommonValues(Element node, PersistentArchetype entity,
+	private static void bindPersistentArchetypeCommonValues(Element node, PersistentClass entity,
 			Mappings mappings, java.util.Map inheritedMetas) throws MappingException {
 		// DISCRIMINATOR
 		Attribute discriminatorNode = node.attribute( "discriminator-value" );
@@ -1166,7 +844,7 @@ public final class ArmBinder {
 	public static void bindUnionSubclass(Element node, UnionSubclass unionSubclass,
 			Mappings mappings, java.util.Map inheritedMetas) throws MappingException {
 
-		bindClass( node, unionSubclass, mappings, inheritedMetas );
+		bindArchetype( node, unionSubclass, mappings, inheritedMetas );
 		inheritedMetas = getMetas( node, inheritedMetas, true ); // get meta's from <subclass>
 
 		Attribute schemaNode = node.attribute( "schema" );
@@ -1181,7 +859,7 @@ public final class ArmBinder {
 		Table mytable = mappings.addDenormalizedTable(
 				schema,
 				catalog,
-				getClassTableName(unionSubclass, node, schema, catalog, denormalizedSuperTable, mappings ),
+				getArchetypeTableName(unionSubclass, node, schema, catalog, denormalizedSuperTable, mappings ),
 		        unionSubclass.isAbstract() != null && unionSubclass.isAbstract(),
 				getSubselect( node ),
 				denormalizedSuperTable
@@ -1192,14 +870,14 @@ public final class ArmBinder {
 			LOG.debugf( "Mapping union-subclass: %s -> %s", unionSubclass.getEntityName(), unionSubclass.getTable().getName() );
 		}
 
-		createClassProperties( node, unionSubclass, mappings, inheritedMetas, null );
+		createArchetypeProperties( node, unionSubclass, mappings, inheritedMetas, null );
 
 	}
 
 	public static void bindSubclass(Element node, Subclass subclass, Mappings mappings,
 			java.util.Map inheritedMetas) throws MappingException {
 
-		bindClass( node, subclass, mappings, inheritedMetas );
+		bindArchetype( node, subclass, mappings, inheritedMetas );
 		inheritedMetas = getMetas( node, inheritedMetas, true ); // get meta's from <subclass>
 
 		if ( LOG.isDebugEnabled() ) {
@@ -1207,10 +885,10 @@ public final class ArmBinder {
 		}
 
 		// properties
-		createClassProperties( node, subclass, mappings, inheritedMetas, null );
+		createArchetypeProperties( node, subclass, mappings, inheritedMetas, null );
 	}
 
-	private static String getClassTableName(
+	private static String getArchetypeTableName(
 			PersistentClass model,
 			Element node,
 			String schema,
@@ -1223,32 +901,6 @@ public final class ArmBinder {
 		if ( tableNameNode == null ) {
 			logicalTableName = model.getEntityName();
 			physicalTableName = model.getEntityName();
-//			logicalTableName = StringHelper.unqualify( model.getEntityName() );
-//			physicalTableName = mappings.getNamingStrategy().classToTableName( model.getEntityName() );
-		}
-		else {
-			logicalTableName = tableNameNode.getValue();
-			physicalTableName = mappings.getNamingStrategy().tableName( logicalTableName );
-		}
-		mappings.addTableBinding( schema, catalog, logicalTableName, physicalTableName, denormalizedSuperTable );
-		return physicalTableName;
-	}
-
-	private static String getArchetypeTableName(
-			PersistentArchetype model,
-			Element node,
-			String schema,
-			String catalog,
-			Table denormalizedSuperTable,
-			Mappings mappings) {
-		Attribute tableNameNode = node.attribute( "table" );
-		String logicalTableName;
-		String physicalTableName;
-		if ( tableNameNode == null ) {
-			logicalTableName = model.getEntityName();
-			physicalTableName = model.getEntityName();
-//			logicalTableName = StringHelper.unqualify( model.getEntityName() );
-//			physicalTableName = mappings.getNamingStrategy().classToTableName( model.getEntityName() );
 		}
 		else {
 			logicalTableName = tableNameNode.getValue();
@@ -1261,7 +913,7 @@ public final class ArmBinder {
 	public static void bindJoinedSubclass(Element node, JoinedSubclass joinedSubclass,
 			Mappings mappings, java.util.Map inheritedMetas) throws MappingException {
 
-		bindClass( node, joinedSubclass, mappings, inheritedMetas );
+		bindArchetype( node, joinedSubclass, mappings, inheritedMetas );
 		inheritedMetas = getMetas( node, inheritedMetas, true ); // get meta's from
 																	// <joined-subclass>
 
@@ -1277,7 +929,7 @@ public final class ArmBinder {
 		Table mytable = mappings.addTable(
 				schema,
 				catalog,
-				getClassTableName( joinedSubclass, node, schema, catalog, null, mappings ),
+				getArchetypeTableName( joinedSubclass, node, schema, catalog, null, mappings ),
 				getSubselect( node ),
 				false
 			);
@@ -1304,7 +956,7 @@ public final class ArmBinder {
 		if ( chNode != null ) mytable.addCheckConstraint( chNode.getValue() );
 
 		// properties
-		createClassProperties( node, joinedSubclass, mappings, inheritedMetas, null );
+		createArchetypeProperties( node, joinedSubclass, mappings, inheritedMetas, null );
 
 	}
 
@@ -1326,7 +978,7 @@ public final class ArmBinder {
 		Table table = mappings.addTable(
 				schema,
 				catalog,
-				getClassTableName( persistentClass, node, schema, catalog, primaryTable, mappings ),
+				getArchetypeTableName( persistentClass, node, schema, catalog, primaryTable, mappings ),
 				getSubselect( node ),
 				false
 			);
@@ -1507,12 +1159,10 @@ public final class ArmBinder {
 			Column column = new Column();
 			column.setValue( simpleValue );
 			bindColumn( node, column, isNullable );
-//			column.setName( mappings.getNamingStrategy().propertyToColumnName( propertyPath ) );
 			String columnName = propertyPath;
 			columnName = mappings.getObjectNameNormalizer().replaceIdentifierQuoting(columnName);
 			columnName = mappings.getObjectNameNormalizer().removeIdentifierQuoting(columnName);
 			column.setName(columnName);
-//			String logicalName = mappings.getNamingStrategy().logicalColumnName( null, propertyPath );
 			String logicalName = propertyPath;
 			mappings.addColumnBinding( logicalName, column, table );
 			/* TODO: joinKeyColumnName & foreignKeyColumnName should be called either here or at a
@@ -2532,160 +2182,19 @@ public final class ArmBinder {
 
 	}
 
-	protected static void createClassProperties(Element node, PersistentClass persistentClass,
+	protected static void createArchetypeProperties(Element node, PersistentClass persistentClass,
 			Mappings mappings, java.util.Map inheritedMetas, 
 			RMObjectBuilder rmBuilder) throws MappingException {
-		createClassProperties(node, persistentClass, mappings, inheritedMetas, null, true, true, false, rmBuilder);
+		createArchetypeProperties(node, persistentClass, mappings, inheritedMetas, null, true, true, false, rmBuilder);
 	}
 
-	protected static void createArchetypeProperties(Element node, PersistentArchetype persistentArchetype,
-			Mappings mappings, java.util.Map inheritedMetas, 
-			RMObjectBuilder rmBuilder) throws MappingException {
-//		createClassProperties(node, persistentArchetype, mappings, inheritedMetas, null, true, true, false, rmBuilder);
-		createArchetypeProperties(node, persistentArchetype, mappings, inheritedMetas, null, true, true, false, rmBuilder);
-	}
-
-	protected static void createClassProperties(Element node, PersistentClass persistentClass,
+	protected static void createArchetypeProperties(Element node, PersistentClass persistentClass,
 			Mappings mappings, java.util.Map inheritedMetas, UniqueKey uniqueKey,
 			boolean mutable, boolean nullable, boolean naturalId, 
 			RMObjectBuilder rmBuilder) throws MappingException {
 
 		String entityName = persistentClass.getEntityName();
 		Table table = persistentClass.getTable();
-
-		Iterator iter = node.elementIterator();
-		while ( iter.hasNext() ) {
-			Element subnode = (Element) iter.next();
-			String name = subnode.getName();
-			String propertyName = subnode.attributeValue( "name" );
-
-			CollectionType collectType = CollectionType.collectionTypeFromString( name );
-			Value value = null;
-			if ( collectType != null ) {
-				Collection collection = collectType.create(
-						subnode,
-						StringHelper.qualify( entityName, propertyName ),
-						persistentClass,
-						mappings, inheritedMetas
-					);
-				mappings.addCollection( collection );
-				value = collection;
-			}
-			else if ( "many-to-one".equals( name ) ) {
-				value = new ManyToOne( mappings, table );
-				bindManyToOne( subnode, (ManyToOne) value, propertyName, nullable, mappings );
-			}
-			else if ( "any".equals( name ) ) {
-				value = new Any( mappings, table );
-				bindAny( subnode, (Any) value, nullable, mappings );
-			}
-			else if ( "one-to-one".equals( name ) ) {
-				value = new OneToOne( mappings, table, persistentClass );
-				bindOneToOne( subnode, (OneToOne) value, propertyName, true, mappings );
-			}
-			else if ( "property".equals( name ) ) {
-				value = new SimpleValue( mappings, table );
-				bindSimpleValue( subnode, (SimpleValue) value, nullable, propertyName, mappings );
-			}
-			else if ( "component".equals( name )
-				|| "dynamic-component".equals( name )
-				|| "properties".equals( name ) ) {
-				String subpath = StringHelper.qualify( entityName, propertyName );
-				value = new Component( mappings, persistentClass );
-
-				bindComponent(
-						subnode,
-						(Component) value,
-						persistentClass.getClassName(),
-						propertyName,
-						subpath,
-						true,
-						"properties".equals( name ),
-						mappings,
-						inheritedMetas,
-						false
-					);
-			}
-			else if ( "join".equals( name ) ) {
-				Join join = new Join();
-				join.setPersistentClass( persistentClass );
-				bindJoin( subnode, join, mappings, inheritedMetas );
-				persistentClass.addJoin( join );
-			}
-			else if ( "subclass".equals( name ) ) {
-				handleSubclass( persistentClass, mappings, subnode, inheritedMetas );
-			}
-			else if ( "joined-subclass".equals( name ) ) {
-				handleJoinedSubclass( persistentClass, mappings, subnode, inheritedMetas );
-			}
-			else if ( "union-subclass".equals( name ) ) {
-				handleUnionSubclass( persistentClass, mappings, subnode, inheritedMetas );
-			}
-			else if ( "filter".equals( name ) ) {
-				parseFilter( subnode, persistentClass, mappings );
-			}
-			else if ( "natural-id".equals( name ) ) {
-				UniqueKey uk = new UniqueKey();
-				uk.setName("_UniqueKey");
-				uk.setTable(table);
-				//by default, natural-ids are "immutable" (constant)
-				boolean mutableId = "true".equals( subnode.attributeValue("mutable") );
-				createClassProperties(
-						subnode,
-						persistentClass,
-						mappings,
-						inheritedMetas,
-						uk,
-						mutableId,
-						false,
-						true,
-						rmBuilder
-					);
-				table.addUniqueKey(uk);
-			}
-			else if ( "query".equals(name) ) {
-				bindNamedQuery(subnode, persistentClass.getEntityName(), mappings);
-			}
-			else if ( "sql-query".equals(name) ) {
-				bindNamedSQLQuery(subnode, persistentClass.getEntityName(), mappings);
-			}
-			else if ( "resultset".equals(name) ) {
-				bindResultSetMappingDefinition( subnode, persistentClass.getEntityName(), mappings );
-			}
-
-			if ( value != null ) {
-//				final Property property = createProperty(
-//						value,
-//						propertyName,
-//						persistentClass.getClassName(),
-//						subnode,
-//						mappings,
-//						inheritedMetas,
-//						persistentClass.getArchetype(),
-//						rmBuilder
-//				);
-//				if ( !mutable ) {
-//					property.setUpdateable(false);
-//				}
-//				if ( naturalId ) {
-//					property.setNaturalIdentifier( true );
-//				}
-//				persistentClass.addProperty( property );
-//				if ( uniqueKey!=null ) {
-//					uniqueKey.addColumns( property.getColumnIterator() );
-//				}
-			}
-
-		}
-	}
-
-	protected static void createArchetypeProperties(Element node, PersistentArchetype persistentArchetype,
-			Mappings mappings, java.util.Map inheritedMetas, UniqueKey uniqueKey,
-			boolean mutable, boolean nullable, boolean naturalId, 
-			RMObjectBuilder rmBuilder) throws MappingException {
-
-		String entityName = persistentArchetype.getEntityName();
-		Table table = persistentArchetype.getTable();
 
 		Iterator iter = node.elementIterator();
 		while ( iter.hasNext() ) {
@@ -2791,11 +2300,11 @@ public final class ArmBinder {
 				final Property property = createProperty(
 						value,
 						propertyName,
-						persistentArchetype.getClassName(),
+						persistentClass.getClassName(),
 						subnode,
 						mappings,
 						inheritedMetas,
-						persistentArchetype.getArchetype(),
+						persistentClass.getArchetype(),
 						rmBuilder
 				);
 				if ( !mutable ) {
@@ -2804,7 +2313,7 @@ public final class ArmBinder {
 				if ( naturalId ) {
 					property.setNaturalIdentifier( true );
 				}
-				persistentArchetype.addProperty( property );
+				persistentClass.addProperty( property );
 				if ( uniqueKey!=null ) {
 					uniqueKey.addColumns( property.getColumnIterator() );
 				}
@@ -2827,7 +2336,6 @@ public final class ArmBinder {
 			throw new MappingException( subnode.getName() + " mapping must defined a name attribute [" + className + "]" );
 		}
 
-//		value.setTypeUsingReflection( className, propertyName );
 		value.setArmTypeUsingReflection(archetype, propertyName, rmBuilder);
 
 		// this is done here 'cos we might only know the type here (ugly!)
