@@ -354,7 +354,12 @@ public class EntityMetamodel implements Serializable {
 			}
 		}
 
-		entityMode = persistentClass.hasPojoRepresentation() ? EntityMode.POJO : EntityMode.MAP;
+		if (persistentClass.getArchetype() != null) {
+			entityMode = EntityMode.ARCHETYPE;
+		}
+		else {
+			entityMode = persistentClass.hasPojoRepresentation() ? EntityMode.POJO : EntityMode.MAP;
+		}
 		final EntityTuplizerFactory entityTuplizerFactory = sessionFactory.getSettings().getEntityTuplizerFactory();
 		final String tuplizerClassName = persistentClass.getTuplizerImplClassName( entityMode );
 		if ( tuplizerClassName == null ) {

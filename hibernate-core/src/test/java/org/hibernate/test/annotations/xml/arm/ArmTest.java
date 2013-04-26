@@ -23,9 +23,22 @@
  */
 package org.hibernate.test.annotations.xml.arm;
 
+import java.io.InputStream;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.UUID;
 
 import org.junit.Test;
+import org.openehr.am.parser.ContentObject;
+import org.openehr.am.parser.DADLParser;
+import org.openehr.build.RMObjectBuilder;
+import org.openehr.rm.binding.DADLBinding;
+import org.openehr.rm.composition.content.entry.Observation;
+import org.openehr.rm.datatypes.text.DvText;
+import org.openehr.rm.support.identification.HierObjectID;
+import org.openehr.rm.support.identification.UID;
+import org.openehr.rm.support.identification.UIDBasedID;
 
 import org.hibernate.Session;
 import org.hibernate.testing.junit4.BaseCoreFunctionalTestCase;
@@ -77,15 +90,40 @@ public class ArmTest extends BaseCoreFunctionalTestCase {
 	public void testManyToMany() throws Exception {
 		Session s = openSession();
 		s.getTransaction().begin();
-//		CloudType type = new CloudType();
-//		type.setName( "Cumulus" );
-//		Sky sky = new Sky();
-//		s.persist( type );
-//		sky.getCloudTypes().add(type);
-//		s.persist( sky );
-//		s.flush();
-//		s.getTransaction().rollback();
-//		s.close();
+		
+		for (String dadl : getDadlFiles()) {
+			InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(dadl);
+			DADLParser parser = new DADLParser(is);
+			ContentObject contentObj = parser.parse();
+			DADLBinding binding = new DADLBinding();
+			Observation bp = (Observation) binding.bind(contentObj);
+			UUID uuid = UUID.randomUUID();
+			HierObjectID uid = new HierObjectID(uuid.toString());
+			bp.setUid(uid);
+			s.save(bp);
+		}
+		
+		
+//		RMObjectBuilder builder = configuration().getRMObjectBuilder();
+//		Map<String, Object> values = new HashMap<String, Object>();
+//        DvText name = new DvText("test observation", lang, charset, ts);
+//        String node = "at0001";
+//        Archetyped archetypeDetails = new Archetyped(
+//                new ArchetypeID("openehr-ehr_rm-observation.physical_examination.v3"), "v1.0");
+//        History<ItemStructure> data = event();
+//        values.put("archetypeNodeId", node);
+//        values.put("archetypeDetails", archetypeDetails);
+//        values.put("name", name);
+//        values.put("language", lang);
+//        values.put("encoding", charset);
+//        values.put("subject", subject());
+//        values.put("provider", provider());
+//        values.put("data", data);
+//        RMObject obj = builder.construct("Observation", values);
+		
+		s.flush();
+		s.getTransaction().rollback();
+		s.close();
 	}
 
 	@Override
@@ -99,6 +137,12 @@ public class ArmTest extends BaseCoreFunctionalTestCase {
 	protected String[] getAdlFiles() {
 		return new String[]{
 				"org/hibernate/test/annotations/xml/arm/openEHR-EHR-OBSERVATION.blood_pressure.v1.adl",
+		};
+	}
+	
+	protected String[] getDadlFiles() {
+		return new String[]{
+				"org/hibernate/test/annotations/xml/arm/openEHR-EHR-OBSERVATION.blood_pressure.v1.dadl",
 		};
 	}
 }

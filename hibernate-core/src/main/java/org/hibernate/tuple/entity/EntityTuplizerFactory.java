@@ -247,6 +247,7 @@ public class EntityTuplizerFactory implements Serializable {
 		Map<EntityMode,Class<? extends EntityTuplizer>> map = new ConcurrentHashMap<EntityMode,Class<? extends EntityTuplizer>>();
 		map.put( EntityMode.POJO, PojoEntityTuplizer.class );
 		map.put( EntityMode.MAP, DynamicMapEntityTuplizer.class );
+		map.put( EntityMode.ARCHETYPE, ArchetypeEntityTuplizer.class );
 		return map;
 	}
 }

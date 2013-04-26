@@ -45,6 +45,7 @@ public final class PropertyAccessorFactory {
 	private static final PropertyAccessor MAP_ACCESSOR = new MapAccessor();
 	private static final PropertyAccessor NOOP_ACCESSOR = new NoopAccessor();
 	private static final PropertyAccessor EMBEDDED_PROPERTY_ACCESSOR = new EmbeddedPropertyAccessor();
+	private static final PropertyAccessor ARCHETYPE_ACCESSOR = new ArchetypeAccessor();
 
 	//TODO: ideally we need the construction of PropertyAccessor to take the following:
 	//      1) EntityMode
@@ -76,6 +77,9 @@ public final class PropertyAccessorFactory {
 	    else if ( EntityMode.MAP.equals( mode ) ) {
 		    return getDynamicMapPropertyAccessor();
 	    }
+	    else if (EntityMode.ARCHETYPE.equals(mode)) {
+			return getArchetypePropertyAccessor();
+		}
 	    else {
 		    throw new MappingException( "Unknown entity mode [" + mode + "]" );
 	    }
@@ -131,6 +135,10 @@ public final class PropertyAccessorFactory {
 		return MAP_ACCESSOR;
 	}
 
+	public static PropertyAccessor getArchetypePropertyAccessor() throws MappingException {
+		return ARCHETYPE_ACCESSOR;
+	}
+
 	private static PropertyAccessor resolveCustomAccessor(String accessorName) {
 		Class accessorClass;
 		try {
@@ -162,6 +170,7 @@ public final class PropertyAccessorFactory {
 		if ( "map".equals(type) ) return MAP_ACCESSOR;
 		if ( "embedded".equals(type) ) return EMBEDDED_PROPERTY_ACCESSOR;
 		if ( "noop".equals(type)) return NOOP_ACCESSOR;
+		if ("archetype".equals(type)) return ARCHETYPE_ACCESSOR;
 
 		return resolveCustomAccessor(type);
 	}

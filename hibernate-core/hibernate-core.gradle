@@ -23,6 +23,7 @@ dependencies {
     compile 'openehr:openehr-ap:1.0.3-SNAPSHOT'
     compile 'openehr:adl-parser:1.0.3-SNAPSHOT'
     compile 'openehr:rm-builder:1.0.3-SNAPSHOT'
+    compile 'openehr:dadl-binding:1.0.3-SNAPSHOT'
 
     antlr( libraries.antlr )
 

@@ -345,8 +345,8 @@ public class Configuration implements Serializable {
 		specjProprietarySyntaxEnabled = System.getProperty( "hibernate.enable_specj_proprietary_syntax" ) != null;
 
         Map<SystemValue, Object> values = new HashMap<SystemValue, Object>();
-        values.put(SystemValue.LANGUAGE, new CodePhrase("ISO_639-1", "en"));
-        values.put(SystemValue.ENCODING, new CodePhrase("IANA_character-sets", "UTF-8"));
+//        values.put(SystemValue.LANGUAGE, new CodePhrase("ISO_639-1", "en"));
+//        values.put(SystemValue.ENCODING, new CodePhrase("IANA_character-sets", "UTF-8"));
 //        values.put(SystemValue.TERMINOLOGY_SERVICE, ts);
 //        values.put(SystemValue.SUBJECT, subject());
 //        values.put(SystemValue.PROVIDER, provider());
@@ -360,6 +360,10 @@ public class Configuration implements Serializable {
 //        values.put(SystemValue.CATEGORY, category);
 
         this.metadataSourceQueue.setRMObjectBuilder(new RMObjectBuilder(values));
+	}
+	
+	public RMObjectBuilder getRMObjectBuilder() {
+		return this.metadataSourceQueue.getRMObjectBuilder();
 	}
 
 	public EntityTuplizerFactory getEntityTuplizerFactory() {
@@ -3795,6 +3799,10 @@ public class Configuration implements Serializable {
 		
 		public void setRMObjectBuilder(RMObjectBuilder rmBuilder) {
 			this.rmBuilder = rmBuilder;
+		}
+		
+		public RMObjectBuilder getRMObjectBuilder() {
+			return this.rmBuilder;
 		}
 
 	}

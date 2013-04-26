@@ -38,7 +38,12 @@ public enum EntityMode {
 	/**
 	 * The {@code dynamic-map} entity mode describes an entity model defined using {@link java.util.Map} references.
 	 */
-	MAP( "dynamic-map" );
+	MAP( "dynamic-map" ),
+
+	/**
+	 * The {@code archetype} entity mode describes an entity model defined using openEHR archetypes.
+	 */
+	ARCHETYPE( "archetype" );
 
 	private final String name;
 
