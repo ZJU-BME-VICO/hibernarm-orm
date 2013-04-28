@@ -46,15 +46,15 @@ public class MapCollectionMapper<T extends Map> extends AbstractCollectionMapper
                                Class<? extends T> collectionClass, Class<? extends T> proxyClass,
                                MiddleComponentData elementComponentData, MiddleComponentData indexComponentData,
 							   boolean revisionTypeInId) {
-        super(commonCollectionMapperData, collectionClass, proxyClass, revisionTypeInId);
+		super( commonCollectionMapperData, collectionClass, proxyClass, false, revisionTypeInId );
         this.elementComponentData = elementComponentData;
         this.indexComponentData = indexComponentData;
     }
 
     protected Initializor<T> getInitializor(AuditConfiguration verCfg, AuditReaderImplementor versionsReader,
-                                            Object primaryKey, Number revision) {
+                                            Object primaryKey, Number revision, boolean removed) {
         return new MapCollectionInitializor<T>(verCfg, versionsReader, commonCollectionMapperData.getQueryGenerator(),
-                primaryKey, revision, collectionClass, elementComponentData, indexComponentData);
+                primaryKey, revision, removed, collectionClass, elementComponentData, indexComponentData);
     }
 
     protected Collection getNewCollectionContent(PersistentCollection newCollection) {

@@ -55,15 +55,17 @@ import org.hibernate.property.Setter;
 public abstract class AbstractCollectionMapper<T> implements PropertyMapper {
     protected final CommonCollectionMapperData commonCollectionMapperData;    
     protected final Class<? extends T> collectionClass;
+    protected final boolean ordinalInId;
 	protected final boolean revisionTypeInId;
 
     private final Constructor<? extends T> proxyConstructor;
 
-    protected AbstractCollectionMapper(CommonCollectionMapperData commonCollectionMapperData,
-                                       Class<? extends T> collectionClass, Class<? extends T> proxyClass,
-									   boolean revisionTypeInId) {
+	protected AbstractCollectionMapper(CommonCollectionMapperData commonCollectionMapperData,
+			Class<? extends T> collectionClass, Class<? extends T> proxyClass, boolean ordinalInId,
+			boolean revisionTypeInId) {
         this.commonCollectionMapperData = commonCollectionMapperData;
         this.collectionClass = collectionClass;
+		this.ordinalInId = ordinalInId;
 		this.revisionTypeInId = revisionTypeInId;
 
         try {
@@ -84,11 +86,27 @@ public abstract class AbstractCollectionMapper<T> implements PropertyMapper {
      */
     protected abstract void mapToMapFromObject(SessionImplementor session, Map<String, Object> idData, Map<String, Object> data, Object changed);
 
+	/**
+	 * Creates map for storing identifier data. Ordinal parameter guarantees uniqueness of primary key.
+	 * Composite primary key cannot contain embeddable properties since they might be nullable.
+	 * @param ordinal Iteration ordinal.
+	 * @return Map for holding identifier data.
+	 */
+	protected Map<String, Object> createIdMap(int ordinal) {
+		final Map<String, Object> idMap = new HashMap<String, Object>();
+		if ( ordinalInId ) {
+			idMap.put( commonCollectionMapperData.getVerEntCfg().getEmbeddableSetOrdinalPropertyName(), ordinal );
+		}
+		return idMap;
+	}
+
     private void addCollectionChanges(SessionImplementor session, List<PersistentCollectionChangeData> collectionChanges,
 									  Set<Object> changed, RevisionType revisionType, Serializable id) {
+		int ordinal = 0;
+
         for (Object changedObj : changed) {
             Map<String, Object> entityData = new HashMap<String, Object>();
-            Map<String, Object> originalId = new HashMap<String, Object>();
+			Map<String, Object> originalId = createIdMap( ordinal++ );
             entityData.put(commonCollectionMapperData.getVerEntCfg().getOriginalIdPropName(), originalId);
 
             collectionChanges.add(new PersistentCollectionChangeData(
@@ -182,14 +200,22 @@ public abstract class AbstractCollectionMapper<T> implements PropertyMapper {
 
 	protected abstract Initializor<T> getInitializor(AuditConfiguration verCfg,
                                                      AuditReaderImplementor versionsReader, Object primaryKey,
-                                                     Number revision);
+                                                     Number revision, boolean removed);
 
     public void mapToEntityFromMap(AuditConfiguration verCfg, Object obj, Map data, Object primaryKey,
                                    AuditReaderImplementor versionsReader, Number revision) {
-        Setter setter = ReflectionTools.getSetter(obj.getClass(),
-                commonCollectionMapperData.getCollectionReferencingPropertyData());
+        Setter setter = ReflectionTools.getSetter(obj.getClass(), commonCollectionMapperData.getCollectionReferencingPropertyData());
         try {
-            setter.set(obj, proxyConstructor.newInstance(getInitializor(verCfg, versionsReader, primaryKey, revision)), null);
+			setter.set(
+					obj,
+					proxyConstructor.newInstance(
+							getInitializor(
+									verCfg, versionsReader, primaryKey, revision,
+									RevisionType.DEL.equals( data.get( verCfg.getAuditEntCfg().getRevisionTypePropName() ) )
+							)
+					),
+					null
+			);
         } catch (InstantiationException e) {
             throw new AuditException(e);
         } catch (IllegalAccessException e) {

@@ -90,7 +90,7 @@ public final class StringHelper {
 	}
 
 	public static String[] add(String[] x, String sep, String[] y) {
-		String[] result = new String[x.length];
+		final String[] result = new String[x.length];
 		for ( int i = 0; i < x.length; i++ ) {
 			result[i] = x[i] + sep + y[i];
 		}
@@ -455,13 +455,9 @@ public final class StringHelper {
 
 	public static String qualify(String prefix, String name) {
 		if ( name == null || prefix == null ) {
-			throw new NullPointerException();
+			throw new NullPointerException( "prefix or name were null attempting to build qualified name" );
 		}
-		return new StringBuilder( prefix.length() + name.length() + 1 )
-				.append(prefix)
-				.append('.')
-				.append(name)
-				.toString();
+		return prefix + '.' + name;
 	}
 
 	public static String[] qualify(String prefix, String[] names) {

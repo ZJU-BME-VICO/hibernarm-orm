@@ -41,17 +41,17 @@ import org.hibernate.envers.internal.reader.AuditReaderImplementor;
 public class BasicCollectionMapper<T extends Collection> extends AbstractCollectionMapper<T> implements PropertyMapper {
     protected final MiddleComponentData elementComponentData;
 
-    public BasicCollectionMapper(CommonCollectionMapperData commonCollectionMapperData,
-                                 Class<? extends T> collectionClass, Class<? extends T> proxyClass,
-                                 MiddleComponentData elementComponentData, boolean revisionTypeInId) {
-        super(commonCollectionMapperData, collectionClass, proxyClass, revisionTypeInId);
+	public BasicCollectionMapper(CommonCollectionMapperData commonCollectionMapperData,
+			Class<? extends T> collectionClass, Class<? extends T> proxyClass,
+			MiddleComponentData elementComponentData, boolean ordinalInId, boolean revisionTypeInId) {
+		super( commonCollectionMapperData, collectionClass, proxyClass, ordinalInId, revisionTypeInId );
         this.elementComponentData = elementComponentData;
     }
 
     protected Initializor<T> getInitializor(AuditConfiguration verCfg, AuditReaderImplementor versionsReader,
-                                            Object primaryKey, Number revision) {
+                                            Object primaryKey, Number revision, boolean removed) {
         return new BasicCollectionInitializor<T>(verCfg, versionsReader, commonCollectionMapperData.getQueryGenerator(),
-                primaryKey, revision, collectionClass, elementComponentData);
+                primaryKey, revision, removed, collectionClass, elementComponentData);
     }
 
     protected Collection getNewCollectionContent(PersistentCollection newCollection) {

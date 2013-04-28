@@ -38,17 +38,16 @@ public final class SortedSetCollectionMapper extends BasicCollectionMapper<Sorte
 	private final Comparator comparator;
 
 	public SortedSetCollectionMapper(CommonCollectionMapperData commonCollectionMapperData,
-									 Class<? extends SortedSet> collectionClass, Class<? extends SortedSet> proxyClass,
-									 MiddleComponentData elementComponentData, Comparator comparator,
-									 boolean revisionTypeInId) {
-		super(commonCollectionMapperData, collectionClass, proxyClass, elementComponentData, revisionTypeInId);
+			Class<? extends SortedSet> collectionClass, Class<? extends SortedSet> proxyClass,
+			MiddleComponentData elementComponentData, Comparator comparator, boolean ordinalInId,
+			boolean revisionTypeInId) {
+		super( commonCollectionMapperData, collectionClass, proxyClass, elementComponentData, ordinalInId, revisionTypeInId );
 		this.comparator = comparator;
 	}
 
 	protected Initializor<SortedSet> getInitializor(AuditConfiguration verCfg, AuditReaderImplementor versionsReader,
-													Object primaryKey, Number revision) {
+													Object primaryKey, Number revision, boolean removed) {
 		return new SortedSetCollectionInitializor(verCfg, versionsReader, commonCollectionMapperData.getQueryGenerator(),
-				primaryKey, revision, collectionClass, elementComponentData, comparator);
+				primaryKey, revision, removed, collectionClass, elementComponentData, comparator);
 	}
-
 }

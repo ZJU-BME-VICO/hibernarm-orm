@@ -30,6 +30,7 @@ import java.util.Map;
 
 import org.hibernate.AssertionFailure;
 import org.hibernate.EntityMode;
+import org.hibernate.engine.OptimisticLockStyle;
 import org.hibernate.internal.util.collections.JoinedIterator;
 import org.hibernate.internal.util.collections.SingletonIterator;
 import org.openehr.am.archetype.Archetype;
@@ -296,9 +297,10 @@ public class Subclass extends PersistentClass {
 	public Component getIdentifierMapper() {
 		return superclass.getIdentifierMapper();
 	}
-	
-	public int getOptimisticLockMode() {
-		return superclass.getOptimisticLockMode();
+
+	@Override
+	public OptimisticLockStyle getOptimisticLockStyle() {
+		return superclass.getOptimisticLockStyle();
 	}
 
 	@Override
@@ -306,5 +308,4 @@ public class Subclass extends PersistentClass {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

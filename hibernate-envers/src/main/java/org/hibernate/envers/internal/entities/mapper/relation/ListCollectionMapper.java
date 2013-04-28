@@ -49,15 +49,15 @@ public final class ListCollectionMapper extends AbstractCollectionMapper<List> i
     public ListCollectionMapper(CommonCollectionMapperData commonCollectionMapperData,
                                 MiddleComponentData elementComponentData, MiddleComponentData indexComponentData,
 								boolean revisionTypeInId) {
-        super(commonCollectionMapperData, List.class, ListProxy.class, revisionTypeInId);
+		super( commonCollectionMapperData, List.class, ListProxy.class, false, revisionTypeInId );
         this.elementComponentData = elementComponentData;
         this.indexComponentData = indexComponentData;
     }
 
     protected Initializor<List> getInitializor(AuditConfiguration verCfg, AuditReaderImplementor versionsReader,
-                                               Object primaryKey, Number revision) {
+                                               Object primaryKey, Number revision, boolean removed) {
         return new ListCollectionInitializor(verCfg, versionsReader, commonCollectionMapperData.getQueryGenerator(),
-                primaryKey, revision, elementComponentData, indexComponentData);
+                primaryKey, revision, removed, elementComponentData, indexComponentData);
     }
 
     @SuppressWarnings({"unchecked"})

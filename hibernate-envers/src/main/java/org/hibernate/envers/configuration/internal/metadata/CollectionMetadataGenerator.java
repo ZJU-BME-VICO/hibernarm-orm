@@ -506,6 +506,18 @@ public final class CollectionMetadataGenerator {
 				);
 			}
 
+			// Add an additional column holding a number to make each entry unique within the set.
+			// Embeddable properties may contain null values, so cannot be stored within composite primary key.
+			if ( propertyValue.isSet() ) {
+				final String setOrdinalPropertyName = mainGenerator.getVerEntCfg().getEmbeddableSetOrdinalPropertyName();
+				final Element ordinalProperty = MetadataTools.addProperty(
+						xmlMapping, setOrdinalPropertyName, "integer", true, true
+				);
+				MetadataTools.addColumn(
+						ordinalProperty, setOrdinalPropertyName, null, null, null, null, null, null, false
+				);
+			}
+
 			return new MiddleComponentData( componentMapper, 0 );
         } else {
             // Last but one parameter: collection components are always insertable
@@ -529,14 +541,13 @@ public final class CollectionMetadataGenerator {
         Type type = propertyValue.getType();
 		boolean embeddableElementType = isEmbeddableElementType();
         if (type instanceof SortedSetType) {
-			currentMapper.addComposite(propertyAuditingData.getPropertyData(),
-					new SortedSetCollectionMapper(commonCollectionMapperData,
-							TreeSet.class, SortedSetProxy.class, elementComponentData, propertyValue.getComparator(),
-							embeddableElementType));
+			currentMapper.addComposite( propertyAuditingData.getPropertyData(), new SortedSetCollectionMapper(
+					commonCollectionMapperData, TreeSet.class, SortedSetProxy.class, elementComponentData,
+					propertyValue.getComparator(), embeddableElementType, embeddableElementType ) );
 		} else if (type instanceof SetType) {
-			currentMapper.addComposite(propertyAuditingData.getPropertyData(),
-                    new BasicCollectionMapper<Set>(commonCollectionMapperData,
-                    HashSet.class, SetProxy.class, elementComponentData, embeddableElementType));
+			currentMapper.addComposite( propertyAuditingData.getPropertyData(), new BasicCollectionMapper<Set>(
+					commonCollectionMapperData, HashSet.class, SetProxy.class, elementComponentData,
+					embeddableElementType, embeddableElementType ) );
         } else if (type instanceof SortedMapType) {
             // Indexed collection, so <code>indexComponentData</code> is not null.
 			currentMapper.addComposite(propertyAuditingData.getPropertyData(),
@@ -549,9 +560,9 @@ public final class CollectionMetadataGenerator {
                     new MapCollectionMapper<Map>(commonCollectionMapperData,
                     HashMap.class, MapProxy.class, elementComponentData, indexComponentData, embeddableElementType));
         } else if (type instanceof BagType) {
-            currentMapper.addComposite(propertyAuditingData.getPropertyData(),
-                    new BasicCollectionMapper<List>(commonCollectionMapperData,
-                    ArrayList.class, ListProxy.class, elementComponentData, embeddableElementType));
+			currentMapper.addComposite( propertyAuditingData.getPropertyData(), new BasicCollectionMapper<List>(
+					commonCollectionMapperData, ArrayList.class, ListProxy.class, elementComponentData,
+					embeddableElementType, embeddableElementType ) );
         } else if (type instanceof ListType) {
             // Indexed collection, so <code>indexComponentData</code> is not null.
             currentMapper.addComposite(propertyAuditingData.getPropertyData(),
