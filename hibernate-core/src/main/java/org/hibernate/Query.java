@@ -272,6 +272,8 @@ public interface Query extends BasicQueryContract {
 	 */
 	public List list();
 
+	public List listAQL();
+
 	/**
 	 * Convenience method to return a single instance that matches
 	 * the query, or null if the query returns no results.

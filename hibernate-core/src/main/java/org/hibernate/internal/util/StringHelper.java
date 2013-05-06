@@ -31,6 +31,8 @@ import java.util.BitSet;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.hibernate.dialect.Dialect;
 import org.hibernate.internal.util.collections.ArrayHelper;
@@ -771,5 +773,29 @@ public final class StringHelper {
 			s = s.substring( 0, length );
 		}
 		return prefix + s;
+	}
+
+	public static String getTableNameFromArchetypeId(String identifier) {
+		if ( StringHelper.isEmpty( identifier ) ) {
+			return null;
+		}
+
+		return identifier.replace('-', '_').replace('.', '_').replace('/', '_');
+	}
+
+	public static String getColumnNameFromArchetypePath(String identifier) {
+		if ( StringHelper.isEmpty( identifier ) ) {
+			return null;
+		}
+		
+		Pattern pattern = Pattern.compile("_[a-zA-Z0-9]*\\[");
+		Matcher matcher = pattern.matcher(identifier);
+		StringBuffer sbr = new StringBuffer();
+		while (matcher.find()) {
+		    matcher.appendReplacement(sbr, "_");
+		}
+		matcher.appendTail(sbr);
+
+		return sbr.toString().replace("]", "");
 	}
 }

@@ -23,9 +23,6 @@
  */
 package org.hibernate.cfg;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.hibernate.internal.util.StringHelper;
 
 /**
@@ -118,30 +115,6 @@ public abstract class ObjectNameNormalizer {
 		}
 
 		return identifier;
-	}
-
-	public String replaceIdentifierQuoting(String identifier) {
-		if ( StringHelper.isEmpty( identifier ) ) {
-			return null;
-		}
-
-		return identifier.replace('-', '_').replace('.', '_').replace('/', '_');
-	}
-
-	public String removeIdentifierQuoting(String identifier) {
-		if ( StringHelper.isEmpty( identifier ) ) {
-			return null;
-		}
-		
-		Pattern pattern = Pattern.compile("_[a-zA-Z0-9]*\\[");
-		Matcher matcher = pattern.matcher(identifier);
-		StringBuffer sbr = new StringBuffer();
-		while (matcher.find()) {
-		    matcher.appendReplacement(sbr, "_");
-		}
-		matcher.appendTail(sbr);
-
-		return sbr.toString().replace("]", "");
 	}
 
 	/**

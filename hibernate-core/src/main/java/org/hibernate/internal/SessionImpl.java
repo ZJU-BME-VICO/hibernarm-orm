@@ -86,6 +86,7 @@ import org.hibernate.criterion.NaturalIdentifier;
 import org.hibernate.engine.internal.StatefulPersistenceContext;
 import org.hibernate.engine.jdbc.LobCreator;
 import org.hibernate.engine.jdbc.NonContextualLobCreator;
+import org.hibernate.engine.query.spi.AQLQueryPlan;
 import org.hibernate.engine.query.spi.FilterQueryPlan;
 import org.hibernate.engine.query.spi.HQLQueryPlan;
 import org.hibernate.engine.query.spi.NativeSQLQueryPlan;
@@ -1278,6 +1279,29 @@ public final class SessionImpl extends AbstractSessionImpl implements EventSourc
 		return results;
 	}
 
+	public List listAQL(String query, QueryParameters queryParameters) throws HibernateException {
+		errorIfClosed();
+		checkTransactionSynchStatus();
+		queryParameters.validateParameters();
+		AQLQueryPlan plan = getAQLQueryPlan( query, false );
+		autoFlushIfRequired( plan.getQuerySpaces() );
+
+		List results = Collections.EMPTY_LIST;
+		boolean success = false;
+
+		dontFlushFromFind++;   //stops flush being called multiple times if this method is recursively called
+		try {
+			results = plan.performList( queryParameters, this );
+			success = true;
+		}
+		finally {
+			dontFlushFromFind--;
+			afterOperation(success);
+			delayedAfterCompletion();
+		}
+		return results;
+	}
+
 	public int executeUpdate(String query, QueryParameters queryParameters) throws HibernateException {
 		errorIfClosed();
 		checkTransactionSynchStatus();
@@ -1777,6 +1801,12 @@ public final class SessionImpl extends AbstractSessionImpl implements EventSourc
 		errorIfClosed();
 		checkTransactionSynchStatus();
 		return super.createQuery( queryString );
+	}
+
+	public Query createAQLQuery(String queryString) {
+		errorIfClosed();
+		checkTransactionSynchStatus();
+		return super.createAQLQuery( queryString );
 	}
 
 	public SQLQuery createSQLQuery(String sql) {

@@ -150,6 +150,11 @@ public abstract class AbstractDelegateSessionImplementor implements SessionImple
     }
 
 	@Override
+    public List listAQL(String query, QueryParameters queryParameters) throws HibernateException {
+        return delegate.listAQL(query, queryParameters);
+    }
+
+	@Override
     public Iterator iterate(String query, QueryParameters queryParameters) throws HibernateException {
         return delegate.iterate(query, queryParameters);
     }

@@ -1160,8 +1160,8 @@ public final class ArmBinder {
 			column.setValue( simpleValue );
 			bindColumn( node, column, isNullable );
 			String columnName = propertyPath;
-			columnName = mappings.getObjectNameNormalizer().replaceIdentifierQuoting(columnName);
-			columnName = mappings.getObjectNameNormalizer().removeIdentifierQuoting(columnName);
+			columnName = StringHelper.getTableNameFromArchetypeId(columnName);
+			columnName = StringHelper.getColumnNameFromArchetypePath(columnName);
 			column.setName(columnName);
 			String logicalName = propertyPath;
 			mappings.addColumnBinding( logicalName, column, table );

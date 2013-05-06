@@ -43,9 +43,7 @@ import org.hibernate.cache.spi.RegionFactory;
 import org.hibernate.engine.jdbc.spi.ExtractedDatabaseMetaData;
 import org.hibernate.engine.jdbc.spi.JdbcServices;
 import org.hibernate.engine.transaction.spi.TransactionFactory;
-import org.hibernate.hql.spi.MultiTableBulkIdStrategy;
 import org.hibernate.hql.spi.PersistentTableBulkIdStrategy;
-import org.hibernate.hql.spi.QueryTranslatorFactory;
 import org.hibernate.hql.spi.TemporaryTableBulkIdStrategy;
 import org.hibernate.internal.CoreMessageLogger;
 import org.hibernate.internal.util.StringHelper;
@@ -103,9 +101,9 @@ public class SettingsFactory implements Serializable {
 		// Transaction settings:
 		settings.setJtaPlatform( serviceRegistry.getService( JtaPlatform.class ) );
 
-		MultiTableBulkIdStrategy multiTableBulkIdStrategy = serviceRegistry.getService( StrategySelector.class )
+		org.hibernate.hql.spi.MultiTableBulkIdStrategy multiTableBulkIdStrategy = serviceRegistry.getService( StrategySelector.class )
 				.resolveStrategy(
-						MultiTableBulkIdStrategy.class,
+						org.hibernate.hql.spi.MultiTableBulkIdStrategy.class,
 						properties.getProperty( AvailableSettings.HQL_BULK_ID_STRATEGY )
 				);
 		if ( multiTableBulkIdStrategy == null ) {
@@ -114,6 +112,9 @@ public class SettingsFactory implements Serializable {
 					: new PersistentTableBulkIdStrategy();
 		}
 		settings.setMultiTableBulkIdStrategy( multiTableBulkIdStrategy );
+		
+		org.hibernate.aql.spi.MultiTableBulkIdStrategy aqlMultiTableBulkIdStrategy = null;
+		settings.setAqlMultiTableBulkIdStrategy( aqlMultiTableBulkIdStrategy );
 
 		boolean flushBeforeCompletion = ConfigurationHelper.getBoolean(AvailableSettings.FLUSH_BEFORE_COMPLETION, properties);
 		if ( debugEnabled ) {
@@ -260,6 +261,8 @@ public class SettingsFactory implements Serializable {
 		//Query parser settings:
 
 		settings.setQueryTranslatorFactory( createQueryTranslatorFactory( properties, serviceRegistry ) );
+
+		settings.setAqlQueryTranslatorFactory( createAqlQueryTranslatorFactory( properties, serviceRegistry ) );
 
 		Map querySubstitutions = ConfigurationHelper.toMap( AvailableSettings.QUERY_SUBSTITUTIONS, " ,=;:\n\t\r\f", properties );
 		if ( debugEnabled ) {
@@ -503,13 +506,28 @@ public class SettingsFactory implements Serializable {
 		}
 	}
 
-	protected QueryTranslatorFactory createQueryTranslatorFactory(Properties properties, ServiceRegistry serviceRegistry) {
+	protected org.hibernate.hql.spi.QueryTranslatorFactory createQueryTranslatorFactory(Properties properties, ServiceRegistry serviceRegistry) {
 		String className = ConfigurationHelper.getString(
 				AvailableSettings.QUERY_TRANSLATOR, properties, "org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory"
 		);
 		LOG.debugf( "Query translator: %s", className );
 		try {
-			return (QueryTranslatorFactory) serviceRegistry.getService( ClassLoaderService.class )
+			return (org.hibernate.hql.spi.QueryTranslatorFactory) serviceRegistry.getService( ClassLoaderService.class )
+					.classForName( className )
+					.newInstance();
+		}
+		catch ( Exception e ) {
+			throw new HibernateException( "could not instantiate QueryTranslatorFactory: " + className, e );
+		}
+	}
+
+	protected org.hibernate.aql.spi.QueryTranslatorFactory createAqlQueryTranslatorFactory(Properties properties, ServiceRegistry serviceRegistry) {
+		String className = ConfigurationHelper.getString(
+				AvailableSettings.AQL_QUERY_TRANSLATOR, properties, "org.hibernate.aql.internal.ast.ASTQueryTranslatorFactory"
+		);
+		LOG.debugf( "Query translator: %s", className );
+		try {
+			return (org.hibernate.aql.spi.QueryTranslatorFactory) serviceRegistry.getService( ClassLoaderService.class )
 					.classForName( className )
 					.newInstance();
 		}

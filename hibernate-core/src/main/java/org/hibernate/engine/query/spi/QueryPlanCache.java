@@ -173,6 +173,20 @@ public class QueryPlanCache implements Serializable {
 		return value;
 	}
 
+	public AQLQueryPlan getAQLQueryPlan( String queryString, boolean shallow, Map enabledFilters)
+			throws QueryException, MappingException {
+		HQLQueryPlanKey key = new HQLQueryPlanKey( queryString, shallow, enabledFilters );
+		AQLQueryPlan value = (AQLQueryPlan) queryPlanCache.get( key );
+		if ( value == null ) {
+			LOG.tracev( "Unable to locate HQL query plan in cache; generating ({0})", queryString );
+			value = new AQLQueryPlan( queryString, shallow, enabledFilters, factory );
+			queryPlanCache.putIfAbsent( key, value );
+		} else {
+			LOG.tracev( "Located HQL query plan in cache ({0})", queryString );
+		}
+		return value;
+	}
+
 
 
 	public FilterQueryPlan getFilterQueryPlan(String filterString, String collectionRole, boolean shallow, Map enabledFilters)
