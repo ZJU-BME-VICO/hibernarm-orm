@@ -24,6 +24,7 @@ dependencies {
     compile 'openehr:adl-parser:1.0.3-SNAPSHOT'
     compile 'openehr:rm-builder:1.0.3-SNAPSHOT'
     compile 'openehr:dadl-binding:1.0.3-SNAPSHOT'
+    compile 'openehr:rm-skeleton:1.0.3-SNAPSHOT'
 
     antlr( libraries.antlr )
 

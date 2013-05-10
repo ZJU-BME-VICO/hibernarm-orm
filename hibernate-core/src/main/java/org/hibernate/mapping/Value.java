@@ -56,6 +56,6 @@ public interface Value extends Serializable {
 	public boolean isSimpleValue();
 	public boolean isValid(Mapping mapping) throws MappingException;
 	public void setTypeUsingReflection(String className, String propertyName) throws MappingException;
-	public void setArmTypeUsingReflection(Archetype archetype, String propertyName, RMObjectBuilder rmBuilder) throws MappingException;
+	public void setArmTypeUsingReflection(Archetype archetype, String propertyName) throws MappingException;
 	public Object accept(ValueVisitor visitor);
 }

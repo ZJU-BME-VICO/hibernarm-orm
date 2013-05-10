@@ -47,6 +47,7 @@ import org.hibernate.cfg.Environment;
 import org.hibernate.dialect.CUBRIDDialect;
 import org.hibernate.testing.SkipForDialect;
 import org.hibernate.testing.junit4.BaseCoreFunctionalTestCase;
+import org.hibernate.transform.Transformers;
 
 /**
  * Tests the integration of the new AST parser into the loading of query results using
@@ -69,7 +70,7 @@ public class ASTParserLoadingTest extends BaseCoreFunctionalTestCase {
 	private List<Long> createdAnimalIds = new ArrayList<Long>();
 	@Override
 	protected boolean isCleanupTestDataRequired() {
-		return true;
+		return false;
 	}
 
 	@Override
@@ -151,8 +152,20 @@ public class ASTParserLoadingTest extends BaseCoreFunctionalTestCase {
 	public void testEntityPropertySelect() throws Exception {
 		createTestBaseData();
 		Session session = openSession();
-		List results = session.createAQLQuery( "select o#/data[at0001]/events[at0006]/data[at0003]/items[at0004]/value/magnitude, o#/data[at0001]/events[at0006]/data[at0003]/items[at0005]/value/magnitude from openEHR-EHR-OBSERVATION.blood_pressure.v1 as o" ).listAQL();
+		String query = "select " + 
+				"o#/data[at0001]/events[at0006]/data[at0003]/items[at0004]/value/magnitude as /data[at0001]/events[at0006]/data[at0003]/items[at0004]/value/magnitude, " + 
+				"o#/data[at0001]/events[at0006]/data[at0003]/items[at0005]/value/magnitude as /data[at0001]/events[at0006]/data[at0003]/items[at0005]/value/magnitude " + 
+				"from openEHR-EHR-OBSERVATION.blood_pressure.v1 as o";
+		String archetypeId = "openEHR-EHR-OBSERVATION.blood_pressure.v1";
+		List results = session.createAQLQuery(query)
+				.setResultTransformer(Transformers.aliasToArchetype(archetypeId))
+				.listAQL();
 		session.close();
 		destroyTestBaseData();
+
+		DADLBinding binding = new DADLBinding();
+		for (Object obj : results) {
+			System.out.println(binding.toDADL(obj));
+		}
 	}
 }

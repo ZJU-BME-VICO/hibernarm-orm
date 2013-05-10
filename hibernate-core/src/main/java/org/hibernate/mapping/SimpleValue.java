@@ -480,7 +480,7 @@ public class SimpleValue implements KeyValue {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void setArmTypeUsingReflection(Archetype archetype, String propertyName, RMObjectBuilder rmBuilder) throws MappingException {
+	public void setArmTypeUsingReflection(Archetype archetype, String propertyName) throws MappingException {
 		// NOTE : this is called as the last piece in setting SimpleValue type information, and implementations
 		// rely on that fact, using it as a signal that all information it is going to get is defined at this point...
 
@@ -500,7 +500,7 @@ public class SimpleValue implements KeyValue {
 			if ( archetype == null ) {
 				throw new MappingException( "you must specify types for a dynamic entity: " + propertyName );
 			}
-			typeName = ReflectHelper.reflectedPropertyArchetype( archetype, propertyName, rmBuilder ).getName();
+			typeName = ReflectHelper.reflectedPropertyArchetype( archetype, propertyName ).getName();
 			return;
 		}
 

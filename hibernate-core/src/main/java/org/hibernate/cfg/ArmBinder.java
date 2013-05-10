@@ -44,6 +44,7 @@ import org.hibernate.EntityMode;
 import org.hibernate.FetchMode;
 import org.hibernate.FlushMode;
 import org.hibernate.MappingException;
+import org.hibernate.archetype.ArchetypeRepository;
 import org.hibernate.engine.OptimisticLockStyle;
 import org.hibernate.engine.spi.ExecuteUpdateResultCheckStyle;
 import org.hibernate.engine.spi.FilterDefinition;
@@ -138,9 +139,7 @@ public final class ArmBinder {
 			XmlDocument metadataXml,
 			Mappings mappings,
 			java.util.Map inheritedMetas,
-			java.util.Set<String> entityNames,
-			java.util.Map archetypes, 
-			RMObjectBuilder rmBuilder) throws MappingException {
+			java.util.Set<String> entityNames) throws MappingException {
 
 		final Document doc = metadataXml.getDocumentTree();
 		final Element hibernateMappingElement = doc.getRootElement();
@@ -179,7 +178,7 @@ public final class ArmBinder {
 			}
 			else if ( "class".equals( elementName ) ) {
 				RootArchetype rootclass = new RootArchetype();
-				bindRootArchetype( element, rootclass, mappings, inheritedMetas, archetypes, rmBuilder );
+				bindRootArchetype( element, rootclass, mappings, inheritedMetas );
 				mappings.addClass( rootclass );
 			}
 			else if ( "subclass".equals( elementName ) ) {
@@ -325,23 +324,23 @@ public final class ArmBinder {
 	 * @throws MappingException
 	 */
 	public static void bindRootArchetype(Element node, RootArchetype rootArchetype, Mappings mappings,
-			java.util.Map inheritedMetas, java.util.Map archetypes, RMObjectBuilder rmBuilder) throws MappingException {
+			java.util.Map inheritedMetas) throws MappingException {
 		bindArchetype( node, rootArchetype, mappings, inheritedMetas );
-		Archetype archetype = (Archetype) archetypes.get(rootArchetype.getEntityName());
+		Archetype archetype = (Archetype) ArchetypeRepository.getArchetype(rootArchetype.getEntityName());
 		rootArchetype.setArchetype(archetype);
 		String rmTypeName = "";
 		try {
 			rmTypeName = archetype.getDefinition().getRmTypeName();
-			rootArchetype.setArchetypeClass(rmBuilder.retrieveRMType(rmTypeName));
+			rootArchetype.setArchetypeClass(ArchetypeRepository.getRMBuilder().retrieveRMType(rmTypeName));
 		} catch (RMObjectBuildingException e) {
 			throw new MappingException( "class " + rmTypeName + " not found while looking for archetype: " + archetype, e );
 		}
 		inheritedMetas = getMetas( node, inheritedMetas, true ); // get meta's from <class>
-		bindRootPersistentArchetypeCommonValues( node, inheritedMetas, mappings, rootArchetype, rmBuilder );
+		bindRootPersistentArchetypeCommonValues( node, inheritedMetas, mappings, rootArchetype );
 	}
 
 	private static void bindRootPersistentArchetypeCommonValues(Element node,
-			java.util.Map inheritedMetas, Mappings mappings, RootArchetype entity, RMObjectBuilder rmBuilder)
+			java.util.Map inheritedMetas, Mappings mappings, RootArchetype entity)
 			throws MappingException {
 
 		// DB-OBJECTNAME
@@ -397,7 +396,7 @@ public final class ArmBinder {
 
 			if ( "id".equals( name ) ) {
 				// ID
-				bindSimpleId( subnode, entity, mappings, inheritedMetas, rmBuilder );
+				bindSimpleId( subnode, entity, mappings, inheritedMetas );
 			}
 			else if ( "composite-id".equals( name ) ) {
 				// COMPOSITE-ID
@@ -422,11 +421,11 @@ public final class ArmBinder {
 		// Primary key constraint
 		entity.createPrimaryKey();
 
-		createArchetypeProperties( node, entity, mappings, inheritedMetas, rmBuilder );
+		createArchetypeProperties( node, entity, mappings, inheritedMetas );
 	}
 
 	private static void bindSimpleId(Element idNode, RootArchetype entity, Mappings mappings,
-			java.util.Map inheritedMetas, RMObjectBuilder rmBuilder) throws MappingException {
+			java.util.Map inheritedMetas) throws MappingException {
 		String propertyName = idNode.attributeValue( "name" );
 
 		SimpleValue id = new SimpleValue( mappings, entity.getTable() );
@@ -464,7 +463,7 @@ public final class ArmBinder {
 			}
 		}
 		else {
-			id.setArmTypeUsingReflection( entity.getArchetype(), propertyName, rmBuilder );
+			id.setArmTypeUsingReflection( entity.getArchetype(), propertyName );
 		}
 
 		if ( propertyName != null ) {
@@ -870,7 +869,7 @@ public final class ArmBinder {
 			LOG.debugf( "Mapping union-subclass: %s -> %s", unionSubclass.getEntityName(), unionSubclass.getTable().getName() );
 		}
 
-		createArchetypeProperties( node, unionSubclass, mappings, inheritedMetas, null );
+		createArchetypeProperties( node, unionSubclass, mappings, inheritedMetas );
 
 	}
 
@@ -885,7 +884,7 @@ public final class ArmBinder {
 		}
 
 		// properties
-		createArchetypeProperties( node, subclass, mappings, inheritedMetas, null );
+		createArchetypeProperties( node, subclass, mappings, inheritedMetas );
 	}
 
 	private static String getArchetypeTableName(
@@ -956,7 +955,7 @@ public final class ArmBinder {
 		if ( chNode != null ) mytable.addCheckConstraint( chNode.getValue() );
 
 		// properties
-		createArchetypeProperties( node, joinedSubclass, mappings, inheritedMetas, null );
+		createArchetypeProperties( node, joinedSubclass, mappings, inheritedMetas );
 
 	}
 
@@ -1054,7 +1053,7 @@ public final class ArmBinder {
 
 			if ( value != null ) {
 				Property prop = createProperty( value, propertyName, persistentClass
-					.getEntityName(), subnode, mappings, inheritedMetas, null, null );
+					.getEntityName(), subnode, mappings, inheritedMetas, null );
 				prop.setOptional( join.isOptional() );
 				join.addProperty( prop );
 			}
@@ -2038,7 +2037,7 @@ public final class ArmBinder {
 
 			if ( value != null ) {
 				Property property = createProperty( value, propertyName, component
-					.getComponentClassName(), subnode, mappings, inheritedMetas, null, null );
+					.getComponentClassName(), subnode, mappings, inheritedMetas, null );
 				if (isIdentifierMapper) {
 					property.setInsertable(false);
 					property.setUpdateable(false);
@@ -2183,15 +2182,13 @@ public final class ArmBinder {
 	}
 
 	protected static void createArchetypeProperties(Element node, PersistentClass persistentClass,
-			Mappings mappings, java.util.Map inheritedMetas, 
-			RMObjectBuilder rmBuilder) throws MappingException {
-		createArchetypeProperties(node, persistentClass, mappings, inheritedMetas, null, true, true, false, rmBuilder);
+			Mappings mappings, java.util.Map inheritedMetas) throws MappingException {
+		createArchetypeProperties(node, persistentClass, mappings, inheritedMetas, null, true, true, false);
 	}
 
 	protected static void createArchetypeProperties(Element node, PersistentClass persistentClass,
 			Mappings mappings, java.util.Map inheritedMetas, UniqueKey uniqueKey,
-			boolean mutable, boolean nullable, boolean naturalId, 
-			RMObjectBuilder rmBuilder) throws MappingException {
+			boolean mutable, boolean nullable, boolean naturalId) throws MappingException {
 
 		String entityName = persistentClass.getEntityName();
 		Table table = persistentClass.getTable();
@@ -2304,8 +2301,7 @@ public final class ArmBinder {
 						subnode,
 						mappings,
 						inheritedMetas,
-						persistentClass.getArchetype(),
-						rmBuilder
+						persistentClass.getArchetype()
 				);
 				if ( !mutable ) {
 					property.setUpdateable(false);
@@ -2329,14 +2325,13 @@ public final class ArmBinder {
 	        final Element subnode,
 	        final Mappings mappings,
 			java.util.Map inheritedMetas, 
-			Archetype archetype,
-			RMObjectBuilder rmBuilder) throws MappingException {
+			Archetype archetype) throws MappingException {
 
 		if ( StringHelper.isEmpty( propertyName ) ) {
 			throw new MappingException( subnode.getName() + " mapping must defined a name attribute [" + className + "]" );
 		}
 
-		value.setArmTypeUsingReflection(archetype, propertyName, rmBuilder);
+		value.setArmTypeUsingReflection(archetype, propertyName);
 
 		// this is done here 'cos we might only know the type here (ugly!)
 		// TODO: improve this a lot:

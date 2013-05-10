@@ -441,7 +441,7 @@ public abstract class Collection implements Fetchable, Value, Filterable {
 	public void setTypeUsingReflection(String className, String propertyName) {
 	}
 	
-	public void setArmTypeUsingReflection(Archetype archetype, String propertyName, RMObjectBuilder rmBuilder) {
+	public void setArmTypeUsingReflection(Archetype archetype, String propertyName) {
 		
 	}
 

@@ -272,7 +272,7 @@ public class QueryTranslatorImpl implements FilterTranslator {
 		final AqlParser parser = AqlParser.getInstance( hql );
 		parser.setFilter( filter );
 
-		LOG.debugf( "parse() - HQL: %s", hql );
+		LOG.debugf( "parse() - AQL: %s", hql );
 		parser.statement();
 
 		final AST hqlAst = parser.getAST();

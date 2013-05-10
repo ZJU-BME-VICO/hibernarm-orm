@@ -34,6 +34,7 @@ import java.util.Set;
 import org.hibernate.AssertionFailure;
 import org.hibernate.MappingException;
 import org.hibernate.PropertyNotFoundException;
+import org.hibernate.archetype.ArchetypeRepository;
 import org.hibernate.property.BasicPropertyAccessor;
 import org.hibernate.property.DirectPropertyAccessor;
 import org.hibernate.property.Getter;
@@ -44,6 +45,7 @@ import org.openehr.am.archetype.Archetype;
 import org.openehr.am.archetype.constraintmodel.CObject;
 import org.openehr.build.RMObjectBuilder;
 import org.openehr.build.RMObjectBuildingException;
+import org.openehr.rm.common.archetyped.Locatable;
 
 /**
  * Utility class for various reflection operations.
@@ -247,22 +249,14 @@ public final class ReflectHelper {
 	 * @return The type of the property.
 	 * @throws MappingException Indicates we were unable to locate the property.
 	 */
-	public static Class reflectedPropertyArchetype(Archetype archetype, String name, RMObjectBuilder rmBuilder) throws MappingException {
+	public static Class reflectedPropertyArchetype(Archetype archetype, String name) throws MappingException {
 		try {
 			Map<String, CObject> patheNodeMap = archetype.getPathNodeMap();
-			Set<String> pathSet = patheNodeMap.keySet();
-			String nodePath = "";
-			for (String path : pathSet) {
-				if (name.startsWith(path)) {
-					if (path.length() > nodePath.length()) {
-						nodePath = path;
-					}
-				}
-			}
+			String nodePath = getArchetypeNodePath(archetype, name);
 			CObject node = patheNodeMap.get(nodePath);
 			String attributePath = name.substring(nodePath.length());
 			String[] attributePathSegments = attributePath.split("/");
-			Class klass = rmBuilder.retrieveRMType(node.getRmTypeName());
+			Class klass = ArchetypeRepository.getRMBuilder().retrieveRMType(node.getRmTypeName());
 			for (String pathSegment : attributePathSegments) {
 				if (!pathSegment.isEmpty()) {
 					klass = getter( klass, pathSegment ).getReturnType();					
@@ -274,6 +268,21 @@ public final class ReflectHelper {
 		catch (RMObjectBuildingException e) {
 			throw new MappingException( "archetype " + archetype + " not found while looking for property: " + name, e );
 		} 
+	}
+
+	public static String getArchetypeNodePath(Archetype archetype, String name) {
+		Map<String, CObject> patheNodeMap = archetype.getPathNodeMap();
+		Set<String> pathSet = patheNodeMap.keySet();
+		String nodePath = "";
+		for (String path : pathSet) {
+			if (name.startsWith(path)) {
+				if (path.length() > nodePath.length()) {
+					nodePath = path;
+				}
+			}
+		}			
+		
+		return nodePath;
 	}
 
 	/**
@@ -288,7 +297,7 @@ public final class ReflectHelper {
 		return getter( clazz, name ).getReturnType();
 	}
 
-	private static Getter getter(Class clazz, String name) throws MappingException {
+	public static Getter getter(Class clazz, String name) throws MappingException {
 		try {
 			return BASIC_PROPERTY_ACCESSOR.getGetter( clazz, name );
 		}

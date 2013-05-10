@@ -47,5 +47,9 @@ final public class Transformers {
 	public static ResultTransformer aliasToBean(Class target) {
 		return new AliasToBeanResultTransformer(target);
 	}
+
+	public static ResultTransformer aliasToArchetype(String archetypeId) {
+		return new AliasToArchetypeResultTransformer(archetypeId);
+	}
 	
 }

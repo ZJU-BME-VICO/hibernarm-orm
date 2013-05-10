@@ -78,6 +78,7 @@ import org.hibernate.annotations.common.reflection.MetadataProviderInjector;
 import org.hibernate.annotations.common.reflection.ReflectionManager;
 import org.hibernate.annotations.common.reflection.XClass;
 import org.hibernate.annotations.common.reflection.java.JavaReflectionManager;
+import org.hibernate.archetype.ArchetypeRepository;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.boot.registry.internal.StandardServiceRegistryImpl;
 import org.hibernate.cfg.annotations.reflection.JPAMetadataProvider;
@@ -345,27 +346,6 @@ public class Configuration implements Serializable {
 		propertiesAnnotatedWithMapsId = new HashMap<XClass, Map<String, PropertyData>>();
 		propertiesAnnotatedWithIdAndToOne = new HashMap<XClass, Map<String, PropertyData>>();
 		specjProprietarySyntaxEnabled = System.getProperty( "hibernate.enable_specj_proprietary_syntax" ) != null;
-
-        Map<SystemValue, Object> values = new HashMap<SystemValue, Object>();
-//        values.put(SystemValue.LANGUAGE, new CodePhrase("ISO_639-1", "en"));
-//        values.put(SystemValue.ENCODING, new CodePhrase("IANA_character-sets", "UTF-8"));
-//        values.put(SystemValue.TERMINOLOGY_SERVICE, ts);
-//        values.put(SystemValue.SUBJECT, subject());
-//        values.put(SystemValue.PROVIDER, provider());
-//        values.put(SystemValue.COMPOSER, provider());
-//        
-//        CodePhrase territory = new CodePhrase("ISO_3166-1", "SE");
-//        values.put(SystemValue.TERRITORY, territory);
-//        values.put(SystemValue.CONTEXT, context());
-//        
-//        DvCodedText category = new DvCodedText("event", lang, charset, EVENT, ts);
-//        values.put(SystemValue.CATEGORY, category);
-
-        this.metadataSourceQueue.setRMObjectBuilder(new RMObjectBuilder(values));
-	}
-	
-	public RMObjectBuilder getRMObjectBuilder() {
-		return this.metadataSourceQueue.getRMObjectBuilder();
 	}
 
 	public EntityTuplizerFactory getEntityTuplizerFactory() {
@@ -544,7 +524,7 @@ public class Configuration implements Serializable {
 	public void addArchetype(InputStream xmlInputStream) {
 		ADLParser parser = new ADLParser(xmlInputStream, "UTF-8");
 		try {
-			this.metadataSourceQueue.addArchetype(parser.parse());
+			ArchetypeRepository.addArchetype(parser.parse());
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -3509,9 +3489,6 @@ public class Configuration implements Serializable {
 				= new LinkedHashMap<XmlDocument, Set<String>>();
 		private Map<String, XmlDocument> armMetadataByEntityNameXRef = new HashMap<String, XmlDocument>();
 		
-		private Map<String, Archetype> archetypes = new HashMap<String, Archetype>();
-		private RMObjectBuilder rmBuilder;
-		
 
 		//XClass are not serializable by default
 		private transient List<XClass> annotatedClasses = new ArrayList<XClass>();
@@ -3666,7 +3643,7 @@ public class Configuration implements Serializable {
 		private void processArmXml(XmlDocument metadataXml, Set<String> entityNames) {
 			try {
 //				HbmBinder.bindRoot( metadataXml, createMappings(), Collections.EMPTY_MAP, entityNames );
-				ArmBinder.bindRoot(metadataXml, createMappings(), Collections.EMPTY_MAP, entityNames, archetypes, rmBuilder);
+				ArmBinder.bindRoot(metadataXml, createMappings(), Collections.EMPTY_MAP, entityNames);
 			}
 			catch ( MappingException me ) {
 				throw new InvalidMappingException(
@@ -3782,21 +3759,6 @@ public class Configuration implements Serializable {
 
 		public boolean isEmpty() {
 			return hbmMetadataToEntityNamesMap.isEmpty() && annotatedClasses.isEmpty();
-		}
-		
-		public void addArchetype(Archetype archetype) {
-			if (archetype != null) {
-				String archetypeId = archetype.getArchetypeId().getValue();
-				this.archetypes.put(archetypeId, archetype);
-			}
-		}
-		
-		public void setRMObjectBuilder(RMObjectBuilder rmBuilder) {
-			this.rmBuilder = rmBuilder;
-		}
-		
-		public RMObjectBuilder getRMObjectBuilder() {
-			return this.rmBuilder;
 		}
 
 	}
