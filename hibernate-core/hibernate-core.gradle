@@ -2,10 +2,6 @@ apply plugin: 'antlr'
 apply plugin: org.hibernate.build.gradle.inject.InjectionPlugin
 apply plugin: org.hibernate.build.gradle.testing.matrix.MatrixTestingPlugin
 
-repositories {
-    mavenLocal()
-}
-
 dependencies {
     compile( libraries.jta )
     compile( libraries.dom4j )

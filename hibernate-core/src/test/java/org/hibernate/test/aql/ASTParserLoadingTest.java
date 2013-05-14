@@ -67,7 +67,6 @@ import org.hibernate.transform.Transformers;
 public class ASTParserLoadingTest extends BaseCoreFunctionalTestCase {
 	private static final Logger log = Logger.getLogger( ASTParserLoadingTest.class );
 	
-	private List<Long> createdAnimalIds = new ArrayList<Long>();
 	@Override
 	protected boolean isCleanupTestDataRequired() {
 		return false;

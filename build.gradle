@@ -25,7 +25,7 @@ buildscript {
     }
 }
 
-ext.hibernateTargetVersion = '4.3.0-SNAPSHOT'
+ext.hibernateTargetVersion = '4.3.0'
 ext.javaLanguageLevel = "1.6"
 
 task wrapper(type: Wrapper) {
@@ -70,7 +70,7 @@ subprojects { subProject ->
 
     defaultTasks 'build'
 
-    group = 'org.hibernate'
+    group = 'org.hibernarm'
     version = rootProject.hibernateTargetVersion
 
     // minimize changes, at least for now (gradle uses 'build' by default)..
