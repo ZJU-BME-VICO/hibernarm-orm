@@ -186,7 +186,7 @@ public class EntityManagerTest extends BaseEntityManagerFunctionalTestCase {
 	public void testContains() throws Exception {
 		EntityManager em = getOrCreateEntityManager();
 		em.getTransaction().begin();
-		Integer nonManagedObject = new Integer( 4 );
+		Integer nonManagedObject = Integer.valueOf( 4 );
 		try {
 			em.contains( nonManagedObject );
 			fail( "Should have raised an exception" );
@@ -279,8 +279,8 @@ public class EntityManagerTest extends BaseEntityManagerFunctionalTestCase {
 			IllegalArgumentException deserializedException = ( IllegalArgumentException ) in.readObject();
 			in.close();
 			byteIn.close();
-			assertNull( deserializedException.getCause().getCause().getCause() );
-			assertNull( e.getCause().getCause().getCause() );
+			assertNull( deserializedException.getCause().getCause() );
+			assertNull( e.getCause().getCause() );
 		}
 		em.getTransaction().rollback();
 		em.close();

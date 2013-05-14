@@ -348,7 +348,7 @@ public class StatefulPersistenceContext implements PersistenceContext {
 			// snapshot-cached.
 			final int[] props = persister.getNaturalIdentifierProperties();
 			final Object[] entitySnapshot = getDatabaseSnapshot( id, persister );
-			if ( entitySnapshot == NO_ROW ) {
+			if ( entitySnapshot == NO_ROW || entitySnapshot == null ) {
 				return null;
 			}
 
@@ -394,7 +394,7 @@ public class StatefulPersistenceContext implements PersistenceContext {
 
 	@Override
 	public boolean containsEntity(EntityKey key) {
-		return entitiesByKey.containsKey(key);
+		return entitiesByKey.containsKey( key );
 	}
 
 	@Override

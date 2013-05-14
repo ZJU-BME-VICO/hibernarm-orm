@@ -55,10 +55,11 @@ public class EntityFetch extends AbstractSingularAttributeFetch implements Entit
 			LockMode lockMode,
 			FetchOwner owner,
 			String ownerProperty,
+			EntityType entityType,
 			FetchStrategy fetchStrategy) {
 		super( sessionFactory, lockMode, owner, ownerProperty, fetchStrategy );
 
-		this.associationType = (EntityType) owner.retrieveFetchSourcePersister().getPropertyType( ownerProperty );
+		this.associationType = entityType;
 		this.persister = sessionFactory.getEntityPersister( associationType.getAssociatedEntityName() );
 	}
 

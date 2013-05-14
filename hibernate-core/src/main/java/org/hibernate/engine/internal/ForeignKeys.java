@@ -76,8 +76,7 @@ public final class ForeignKeys {
 		 * @param values The entity attribute values
 		 * @param types The entity attribute types
 		 */
-		public void nullifyTransientReferences(final Object[] values, final Type[] types)
-				throws HibernateException {
+		public void nullifyTransientReferences(final Object[] values, final Type[] types) {
 			for ( int i = 0; i < types.length; i++ ) {
 				values[i] = nullifyTransientReferences( values[i], types[i] );
 			}
@@ -89,9 +88,10 @@ public final class ForeignKeys {
 		 *
 		 * @param value An entity attribute value
 		 * @param type An entity attribute type
+		 *
+		 * @return {@code null} if the argument is an unsaved entity; otherwise return the argument.
 		 */
-		private Object nullifyTransientReferences(final Object value, final Type type)
-				throws HibernateException {
+		private Object nullifyTransientReferences(final Object value, final Type type) {
 			if ( value == null ) {
 				return null;
 			}
