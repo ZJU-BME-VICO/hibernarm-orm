@@ -293,6 +293,8 @@ public interface Query extends BasicQueryContract {
 	 */
 	public int executeUpdate();
 
+	public int executeUpdateAQL();
+
 	/**
 	 * Bind a value to a JDBC-style query parameter.
 	 *

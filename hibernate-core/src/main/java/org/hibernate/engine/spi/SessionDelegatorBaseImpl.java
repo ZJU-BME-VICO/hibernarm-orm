@@ -284,6 +284,11 @@ public class SessionDelegatorBaseImpl implements SessionImplementor, Session {
 	}
 
 	@Override
+	public int executeUpdateAQL(String query, QueryParameters queryParameters) throws HibernateException {
+		return sessionImplementor.executeUpdateAQL( query, queryParameters );
+	}
+
+	@Override
 	public int executeNativeUpdate(NativeSQLQuerySpecification specification, QueryParameters queryParameters) throws HibernateException {
 		return sessionImplementor.executeNativeUpdate( specification, queryParameters );
 	}

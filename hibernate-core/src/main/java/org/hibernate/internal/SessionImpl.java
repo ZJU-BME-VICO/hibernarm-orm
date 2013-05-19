@@ -1322,6 +1322,26 @@ public final class SessionImpl extends AbstractSessionImpl implements EventSourc
 		return result;
 	}
 
+	public int executeUpdateAQL(String query, QueryParameters queryParameters) throws HibernateException {
+		errorIfClosed();
+		checkTransactionSynchStatus();
+		queryParameters.validateParameters();
+		AQLQueryPlan plan = getAQLQueryPlan( query, false );
+		autoFlushIfRequired( plan.getQuerySpaces() );
+
+		boolean success = false;
+		int result = 0;
+		try {
+			result = plan.performExecuteUpdate( queryParameters, this );
+			success = true;
+		}
+		finally {
+			afterOperation(success);
+			delayedAfterCompletion();
+		}
+		return result;
+	}
+
     public int executeNativeUpdate(NativeSQLQuerySpecification nativeQuerySpecification,
             QueryParameters queryParameters) throws HibernateException {
         errorIfClosed();

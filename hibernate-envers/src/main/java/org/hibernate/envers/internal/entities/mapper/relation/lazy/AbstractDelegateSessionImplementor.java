@@ -269,6 +269,11 @@ public abstract class AbstractDelegateSessionImplementor implements SessionImple
 	}
 
 	@Override
+	public int executeUpdateAQL(String query, QueryParameters queryParameters) throws HibernateException {
+		return delegate.executeUpdateAQL( query, queryParameters );
+	}
+
+	@Override
 	public int executeNativeUpdate(NativeSQLQuerySpecification specification, QueryParameters queryParameters)
 			throws HibernateException {
 		return delegate.executeNativeUpdate( specification, queryParameters );

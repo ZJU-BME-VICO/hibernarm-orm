@@ -302,6 +302,8 @@ public interface SessionImplementor extends Serializable, LobCreationContext {
 	 */
 	int executeUpdate(String query, QueryParameters queryParameters) throws HibernateException;
 
+	int executeUpdateAQL(String query, QueryParameters queryParameters) throws HibernateException;
+
 	/**
 	 * Execute a native SQL update or delete query
 	 */

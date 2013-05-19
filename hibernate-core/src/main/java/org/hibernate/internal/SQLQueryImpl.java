@@ -395,6 +395,10 @@ public class SQLQueryImpl extends AbstractQueryImpl implements SQLQuery {
 			after();
 		}
 	}
+	
+	public int executeUpdateAQL() {
+		return 0;
+	}
 
 	private class RootReturnBuilder implements RootReturn, ReturnBuilder {
 		private final String alias;

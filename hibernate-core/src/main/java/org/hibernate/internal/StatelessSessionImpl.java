@@ -428,6 +428,25 @@ public class StatelessSessionImpl extends AbstractSessionImpl implements Statele
 	}
 
 	@Override
+	public int executeUpdateAQL(String query, QueryParameters queryParameters)
+			throws HibernateException {
+		errorIfClosed();
+		queryParameters.validateParameters();
+		AQLQueryPlan plan = getAQLQueryPlan( query, false );
+		boolean success = false;
+		int result = 0;
+		try {
+			result = plan.performExecuteUpdate( queryParameters, this );
+			success = true;
+		}
+		finally {
+			afterOperation(success);
+		}
+		temporaryPersistenceContext.clear();
+		return result;
+	}
+
+	@Override
 	public CacheMode getCacheMode() {
 		return CacheMode.IGNORE;
 	}

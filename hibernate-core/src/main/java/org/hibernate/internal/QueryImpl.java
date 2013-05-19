@@ -138,6 +138,21 @@ public class QueryImpl extends AbstractQueryImpl {
 		}
 	}
 
+	public int executeUpdateAQL() throws HibernateException {
+		verifyParameters();
+		Map namedParams = getNamedParams();
+		before();
+		try {
+            return getSession().executeUpdateAQL(
+                    expandParameterLists( namedParams ),
+                    getQueryParameters( namedParams )
+	            );
+		}
+		finally {
+			after();
+		}
+	}
+
 	public Query setLockMode(String alias, LockMode lockMode) {
 		lockOptions.setAliasSpecificLockMode( alias, lockMode );
 		return this;
