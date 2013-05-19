@@ -357,6 +357,51 @@ public class ASTParserLoadingTest extends BaseCoreFunctionalTestCase {
 			assertEquals(d4, "zhangsan");
 		}
 		
+		{
+			String query = "select "
+					+ "o#/uid/value as /uid/value, "
+					+ "o#/context/other_context[at0001]/items[at0007]/value/value as /context/other_context[at0001]/items[at0007]/value/value, "
+					+ "o#/context/other_context[at0001]/items[at0015]/value/value as /context/other_context[at0001]/items[at0015]/value/value "
+					+ "from openEHR-EHR-COMPOSITION.visit.v3 as o "
+					+ "where o#/context/other_context[at0001]/items[at0015]/value/value = :pid";
+			String archetypeId = "openEHR-EHR-COMPOSITION.visit.v3";
+			List results = s
+					.createAQLQuery(query)
+					.setParameter( "pid", "patient1" )
+					.setResultTransformer(
+							Transformers.aliasToArchetype(archetypeId)).listAQL();
+
+			DADLBinding binding = new DADLBinding();
+			for (Object obj : results) {
+				System.out.println(binding.toDADL(obj));
+			}			
+
+			assertEquals(results.size(), 2);
+		}
+		
+		{
+			String query = "select "
+					+ "o#/uid/value as /uid/value, "
+					+ "o#/context/other_context[at0001]/items[at0007]/value/value as /context/other_context[at0001]/items[at0007]/value/value, "
+					+ "o#/context/other_context[at0001]/items[at0015]/value/value as /context/other_context[at0001]/items[at0015]/value/value "
+					+ "from openEHR-EHR-COMPOSITION.visit.v3 as o "
+					+ "where o#/uid/value = :name and o#/context/other_context[at0001]/items[at0015]/value/value = :pid";
+			String archetypeId = "openEHR-EHR-COMPOSITION.visit.v3";
+			List results = s
+					.createAQLQuery(query)
+					.setParameter( "name", "visit1" )
+					.setParameter( "pid", "patient1" )
+					.setResultTransformer(
+							Transformers.aliasToArchetype(archetypeId)).listAQL();
+
+			DADLBinding binding = new DADLBinding();
+			for (Object obj : results) {
+				System.out.println(binding.toDADL(obj));
+			}			
+
+			assertEquals(results.size(), 1);
+		}
+		
 		s.close();
 
 		destroyTestBaseData();
