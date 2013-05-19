@@ -23,7 +23,9 @@
  *
  */
 package org.hibernate.transform;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.ClassUtils;
@@ -95,43 +97,12 @@ public class AliasToArchetypeResultTransformer extends AliasedTupleSubsetResultT
 					check( aliases );
 				}
 
-				for ( int i = 0; i < aliases.length; i++ ) {
-					Map<String, CObject> patheNodeMap = archetype.getPathNodeMap();
-					String nodePath = ReflectHelper.getArchetypeNodePath(archetype, aliases[i]);
-					CObject node = patheNodeMap.get(nodePath);
-					Object target = loc.itemAtPath(nodePath);
-					if (target == null) {
-//						target = ArchetypeRepository.getRMBuilder().construct(node.getRmTypeName(), new HashMap<String, Object>());
-						Class klass = ArchetypeRepository.getRMBuilder().retrieveRMType(node.getRmTypeName());
-						target = klass.newInstance();
-					}
-					
-					String attributePath = aliases[i].substring(nodePath.length());
-					String[] attributePathSegments = attributePath.split("/");
-					Object tempTarget = target;
-					for (String pathSegment : attributePathSegments) {
-						if (!pathSegment.isEmpty()) {
-							Class klass = ReflectHelper.getter(tempTarget.getClass(), pathSegment).getReturnType();
-							PropertyAccessor propertyAccessor = new ChainedPropertyAccessor(
-									new PropertyAccessor[] {
-											PropertyAccessorFactory.getPropertyAccessor(tempTarget.getClass(), null),
-											PropertyAccessorFactory.getPropertyAccessor("field")
-									}
-							);
-							Setter setter = propertyAccessor.getSetter(tempTarget.getClass(), pathSegment);
-							if (klass.isPrimitive() || ClassUtils.wrapperToPrimitive(klass) != null) {
-								setter.set(tempTarget, tuple[i], null);
-							} 
-							else {
-								Object value = klass.newInstance();
-								setter.set(tempTarget, value, null);
-								tempTarget = value;								
-							}
-						}
-					}
-					
-					loc.set(nodePath, target);
+				Map<String, Object> values = new HashMap<String, Object>();
+				for (int i = 0; i < aliases.length; i++) {
+					values.put(aliases[i], tuple[i]);
 				}
+				
+				ReflectHelper.setArchetypeValue(archetype, loc, values);
 
 				return loc;				
 			}

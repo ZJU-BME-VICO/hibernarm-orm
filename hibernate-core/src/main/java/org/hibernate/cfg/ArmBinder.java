@@ -329,12 +329,8 @@ public final class ArmBinder {
 		Archetype archetype = (Archetype) ArchetypeRepository.getArchetype(rootArchetype.getEntityName());
 		rootArchetype.setArchetype(archetype);
 		String rmTypeName = "";
-		try {
-			rmTypeName = archetype.getDefinition().getRmTypeName();
-			rootArchetype.setArchetypeClass(ArchetypeRepository.getRMBuilder().retrieveRMType(rmTypeName));
-		} catch (RMObjectBuildingException e) {
-			throw new MappingException( "class " + rmTypeName + " not found while looking for archetype: " + archetype, e );
-		}
+		rmTypeName = archetype.getDefinition().getRmTypeName();
+		rootArchetype.setArchetypeClass(ArchetypeRepository.getRMBuilder().retrieveRMType(rmTypeName));
 		inheritedMetas = getMetas( node, inheritedMetas, true ); // get meta's from <class>
 		bindRootPersistentArchetypeCommonValues( node, inheritedMetas, mappings, rootArchetype );
 	}

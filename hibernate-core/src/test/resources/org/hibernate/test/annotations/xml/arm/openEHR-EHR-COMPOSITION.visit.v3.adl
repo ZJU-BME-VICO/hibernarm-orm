@@ -1,0 +1,116 @@
+archetype (adl_version=1.4)
+	openEHR-EHR-COMPOSITION.visit.v3
+
+concept
+	[at0000]	-- Visit
+language
+	original_language = <[ISO_639-1::zh]>
+description
+	original_author = <
+		["name"] = <"">
+	>
+	details = <
+		["zh"] = <
+			language = <[ISO_639-1::zh]>
+			purpose = <"">
+			use = <"">
+			misuse = <"">
+			copyright = <"">
+		>
+	>
+	lifecycle_state = <"0">
+	other_contributors = <>
+	other_details = <
+		["MD5-CAM-1.0.1"] = <"1FC3ADC6F5392BB8FCE57BE069766C4E">
+	>
+
+definition
+	COMPOSITION[at0000] matches {	-- Visit
+		category matches {
+			DV_CODED_TEXT matches {
+				defining_code matches {[openehr::433]}
+			}
+		}
+		context matches {
+			EVENT_CONTEXT matches {
+				other_context matches {
+					ITEM_TREE[at0001] matches {	-- Tree
+						items cardinality matches {0..*; unordered} matches {
+							allow_archetype CLUSTER[at0013] occurrences matches {0..*} matches {	-- VisitType
+								include
+									archetype_id/value matches {/openEHR-EHR-CLUSTER\.visit_type_dict\.v1/}
+								exclude
+									archetype_id/value matches {/.*/}
+							}
+							ELEMENT[at0007] occurrences matches {0..1} matches {	-- VisitDateTime
+								value matches {
+									DV_DATE_TIME matches {*}
+								}
+							}
+							allow_archetype CLUSTER[at0014] occurrences matches {0..*} matches {	-- DepartmentID
+								include
+									archetype_id/value matches {/openEHR-EHR-CLUSTER\.department_dict\.v1/}
+								exclude
+									archetype_id/value matches {/.*/}
+							}
+							ELEMENT[at0009] occurrences matches {0..1} matches {	-- DoctorID
+								value matches {
+									DV_TEXT matches {*}
+								}
+							}
+							ELEMENT[at0010] occurrences matches {0..1} matches {	-- Problem
+								value matches {
+									DV_TEXT matches {*}
+								}
+							}
+							ELEMENT[at0015] occurrences matches {0..1} matches {	-- PatientID
+								value matches {
+									DV_TEXT matches {*}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+ontology
+	term_definitions = <
+		["zh"] = <
+			items = <
+				["at0000"] = <
+					text = <"Visit">
+					description = <"unknown">
+				>
+				["at0001"] = <
+					text = <"Tree">
+					description = <"@ internal @">
+				>
+				["at0007"] = <
+					text = <"VisitDateTime">
+					description = <"*">
+				>
+				["at0009"] = <
+					text = <"DoctorID">
+					description = <"*">
+				>
+				["at0010"] = <
+					text = <"Problem">
+					description = <"*">
+				>
+				["at0013"] = <
+					text = <"VisitType">
+					description = <"*">
+				>
+				["at0014"] = <
+					text = <"DepartmentID">
+					description = <"*">
+				>
+				["at0015"] = <
+					text = <"PatientID">
+					description = <"*">
+				>
+			>
+		>
+	>

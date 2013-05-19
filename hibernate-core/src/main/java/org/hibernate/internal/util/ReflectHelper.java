@@ -28,21 +28,27 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.ClassUtils;
 import org.hibernate.AssertionFailure;
 import org.hibernate.MappingException;
 import org.hibernate.PropertyNotFoundException;
 import org.hibernate.archetype.ArchetypeRepository;
 import org.hibernate.property.BasicPropertyAccessor;
+import org.hibernate.property.ChainedPropertyAccessor;
 import org.hibernate.property.DirectPropertyAccessor;
 import org.hibernate.property.Getter;
 import org.hibernate.property.PropertyAccessor;
+import org.hibernate.property.PropertyAccessorFactory;
+import org.hibernate.property.Setter;
 import org.hibernate.type.PrimitiveType;
 import org.hibernate.type.Type;
 import org.openehr.am.archetype.Archetype;
 import org.openehr.am.archetype.constraintmodel.CObject;
+import org.openehr.am.archetype.constraintmodel.CPrimitiveObject;
 import org.openehr.build.RMObjectBuilder;
 import org.openehr.build.RMObjectBuildingException;
 import org.openehr.rm.common.archetyped.Locatable;
@@ -250,24 +256,21 @@ public final class ReflectHelper {
 	 * @throws MappingException Indicates we were unable to locate the property.
 	 */
 	public static Class reflectedPropertyArchetype(Archetype archetype, String name) throws MappingException {
-		try {
-			Map<String, CObject> patheNodeMap = archetype.getPathNodeMap();
-			String nodePath = getArchetypeNodePath(archetype, name);
-			CObject node = patheNodeMap.get(nodePath);
-			String attributePath = name.substring(nodePath.length());
-			String[] attributePathSegments = attributePath.split("/");
-			Class klass = ArchetypeRepository.getRMBuilder().retrieveRMType(node.getRmTypeName());
+		Map<String, CObject> patheNodeMap = archetype.getPathNodeMap();
+		String nodePath = getArchetypeNodePath(archetype, name);
+		CObject node = patheNodeMap.get(nodePath);
+		String attributePath = name.substring(nodePath.length());
+		String[] attributePathSegments = attributePath.split("/");
+		Class klass = ArchetypeRepository.getRMBuilder().retrieveRMType(node.getRmTypeName());			
+		if (klass != null) {
 			for (String pathSegment : attributePathSegments) {
 				if (!pathSegment.isEmpty()) {
 					klass = getter( klass, pathSegment ).getReturnType();					
 				}
-			}
-			
-			return klass;
+			}				
 		}
-		catch (RMObjectBuildingException e) {
-			throw new MappingException( "archetype " + archetype + " not found while looking for property: " + name, e );
-		} 
+		
+		return klass;
 	}
 
 	public static String getArchetypeNodePath(Archetype archetype, String name) {
@@ -430,6 +433,46 @@ public final class ReflectHelper {
 		}
 		catch (Exception e) {
 			return null;
+		}
+	}
+	
+	public static void setArchetypeValue(Archetype archetype, Locatable loc, Map<String, Object> values) 
+			throws InstantiationException, IllegalAccessException {
+		for (String path : values.keySet()) {
+			Map<String, CObject> pathNodeMap = archetype.getPathNodeMap();
+			String nodePath = ReflectHelper.getArchetypeNodePath(archetype, path);
+			CObject node = pathNodeMap.get(nodePath);
+			Object target = loc.itemAtPath(nodePath);
+			if (target == null) {
+				Class klass = ArchetypeRepository.getRMBuilder().retrieveRMType(node.getRmTypeName());
+				target = klass.newInstance();
+			}
+			
+			String attributePath = path.substring(nodePath.length());
+			String[] attributePathSegments = attributePath.split("/");
+			Object tempTarget = target;
+			for (String pathSegment : attributePathSegments) {
+				if (!pathSegment.isEmpty()) {
+					Class klass = ReflectHelper.getter(tempTarget.getClass(), pathSegment).getReturnType();
+					PropertyAccessor propertyAccessor = new ChainedPropertyAccessor(
+							new PropertyAccessor[] {
+									PropertyAccessorFactory.getPropertyAccessor(tempTarget.getClass(), null),
+									PropertyAccessorFactory.getPropertyAccessor("field")
+							}
+					);
+					Setter setter = propertyAccessor.getSetter(tempTarget.getClass(), pathSegment);
+					if (klass.isPrimitive() || ClassUtils.wrapperToPrimitive(klass) != null || String.class.equals(klass)) {
+						setter.set(tempTarget, values.get(path), null);
+					} 
+					else {
+						Object value = klass.newInstance();
+						setter.set(tempTarget, value, null);
+						tempTarget = value;								
+					}
+				}
+			}
+			
+//			loc.set(nodePath, target);			
 		}
 	}
 
