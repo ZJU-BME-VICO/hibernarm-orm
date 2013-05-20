@@ -1,6 +1,6 @@
 <
     archetype_node_id = <"openEHR-EHR-OBSERVATION.blood_pressure.v1">
-    name = <
+    name = (DV_TEXT) <
     	value = <"BP measurement">
     >
     archetype_details = <
@@ -24,25 +24,25 @@
 	subject = (PARTY_SELF) <>
     data = <
         archetype_node_id = <"at0001">
-        name = <
+        name = (DV_TEXT) <
 	    	value = <"history">
 	    >
         origin = <2007-10-30T09:22:00>
         events = <
             [1] = <
                 archetype_node_id = <"at0006">
-                name = <
+                name = (DV_TEXT) <
                 	value = <"sitting">
                 >
                 time = <2005-12-03T09:22:00>
                 data = <
                     archetype_node_id = <"at0003">
-                    name = <
+                    name = (DV_TEXT) <
 				    	value = <"item list">
 				    >
                     items = <
                         [1] = <
-                            name = <
+                            name = (DV_TEXT) <
                             	value = <"systolic">
                             >
                             archetype_node_id = <"at0004">
@@ -52,7 +52,7 @@
                             >
                         >
                         [2] = <
-                            name = <
+                            name = (DV_TEXT) <
                             	value = <"diastolic">
                             >
                             archetype_node_id = <"at0005">
