@@ -407,7 +407,8 @@ public class ASTParserLoadingTest extends BaseCoreFunctionalTestCase {
 					+ "o#/context/other_context[at0001]/items[at0007]/value/value as /context/other_context[at0001]/items[at0007]/value/value, "
 					+ "o#/context/other_context[at0001]/items[at0015]/value/value as /context/other_context[at0001]/items[at0015]/value/value "
 					+ "from openEHR-EHR-COMPOSITION.visit.v3 as o "
-					+ "where o#/context/other_context[at0001]/items[at0015]/value/value = :pid";
+					+ "where o#/context/other_context[at0001]/items[at0015]/value/value = :pid "
+					+ "order by o#/uid/value asc";
 			String archetypeId = "openEHR-EHR-COMPOSITION.visit.v3";
 			List results = s
 					.createAQLQuery(query)
