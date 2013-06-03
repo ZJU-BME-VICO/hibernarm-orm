@@ -138,7 +138,8 @@ public class ASTParserLoadingTest extends BaseCoreFunctionalTestCase {
 				"cid/Product.hbm.xml",
 				"any/Properties.hbm.xml",
 				"legacy/Commento.hbm.xml",
-				"legacy/Marelo.hbm.xml"
+				"legacy/Marelo.hbm.xml",
+				"hql/Event.hbm.xml"
 		};
 	}
 
@@ -3066,6 +3067,22 @@ public class ASTParserLoadingTest extends BaseCoreFunctionalTestCase {
 		session.createQuery(hql).list();
 
 		session.close();
+	}
+
+	@Test
+	public void testBasicSelect() {
+		Session s = openSession();
+		s.beginTransaction();
+		s.save( new Event( "Our very first event!", new java.util.Date() ) );
+		s.save( new Event( "A follow up event", new java.util.Date() ) );
+		s.getTransaction().commit();
+		s.close();
+
+		s = openSession();
+        s.beginTransaction();
+        List result = s.createQuery( "select e from Event as e" ).list();
+        s.getTransaction().commit();
+        s.close();
 	}
 
 	@RequiresDialectFeature(

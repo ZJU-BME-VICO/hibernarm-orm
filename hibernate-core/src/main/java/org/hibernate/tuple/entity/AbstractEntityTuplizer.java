@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.jboss.logging.Logger;
+import org.openehr.rm.common.archetyped.Locatable;
 
 import org.hibernate.EntityMode;
 import org.hibernate.HibernateException;
@@ -46,6 +47,7 @@ import org.hibernate.event.spi.PersistEvent;
 import org.hibernate.event.spi.PersistEventListener;
 import org.hibernate.id.Assigned;
 import org.hibernate.internal.CoreMessageLogger;
+import org.hibernate.internal.util.ReflectHelper;
 import org.hibernate.mapping.Component;
 import org.hibernate.mapping.PersistentClass;
 import org.hibernate.mapping.Property;
@@ -382,7 +384,15 @@ public abstract class AbstractEntityTuplizer implements EntityTuplizer {
 			}
 		}
 		else if ( idSetter != null ) {
-			idSetter.set( entity, id, getFactory() );
+			if (entity instanceof Locatable) {
+				Locatable loc = (Locatable) entity;
+				try {		
+					ReflectHelper.setArchetypeValue(loc, idSetter.getMethodName(), id);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 		else if ( identifierMapperType != null ) {
 			mappedIdentifierValueMarshaller.setIdentifier( entity, id, getEntityMode(), session );
@@ -708,7 +718,15 @@ public abstract class AbstractEntityTuplizer implements EntityTuplizer {
 
 		for ( int j = 0; j < entityMetamodel.getPropertySpan(); j++ ) {
 			if ( setAll || values[j] != LazyPropertyInitializer.UNFETCHED_PROPERTY ) {
-				setters[j].set( entity, values[j], getFactory() );
+				if (entity instanceof Locatable) {
+					Locatable loc = (Locatable) entity;
+					try {		
+						ReflectHelper.setArchetypeValue(loc, setters[j].getMethodName(), values[j]);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 			}
 		}
 	}

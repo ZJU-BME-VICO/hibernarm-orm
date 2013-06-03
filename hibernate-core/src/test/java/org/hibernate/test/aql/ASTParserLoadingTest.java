@@ -207,7 +207,7 @@ public class ASTParserLoadingTest extends BaseCoreFunctionalTestCase {
 					GenerationStrategy.MAXIMUM_EMPTY);
 			if (result instanceof Locatable) {
 				Locatable loc = (Locatable) result;
-				ReflectHelper.setArchetypeValue(archetype, loc, values);
+				ReflectHelper.setArchetypeValue(loc, values);
 				s.save(loc);
 			}
 		}
@@ -232,7 +232,241 @@ public class ASTParserLoadingTest extends BaseCoreFunctionalTestCase {
 	}
 
 	@Test
+	public void testSimpleSelectProperty() throws Exception {
+		createTestBaseData();
+
+		Session s = openSession();
+
+		{
+			String query = "select "
+					+ "o#/uid/value, "
+					+ "o#/details[at0001]/items[at0003]/value/value, "
+					+ "o#/details[at0001]/items[at0004]/value/value, "
+					+ "o#/details[at0001]/items[at0009]/value/value "
+					+ "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
+					+ "order by o#/uid/value asc";
+			List results = s
+					.createAQLQuery(query)
+					.listAQL();
+
+			assertEquals(results.size(), 3);
+			Object[] loc1 = (Object[]) results.get(0);
+			assertEquals(loc1[0], "patient1");
+			assertEquals(loc1[1], "M");
+			assertEquals(loc1[2], "1984-08-11T19:20:30+08:00");
+			assertEquals(loc1[3], "zhangsan");
+			Object[] loc2 = (Object[]) results.get(1);
+			assertEquals(loc2[0], "patient2");
+			assertEquals(loc2[1], "F");
+			assertEquals(loc2[2], "1986-08-11T19:20:30+08:00");
+			assertEquals(loc2[3], "lisi");
+			Object[] loc3 = (Object[]) results.get(2);
+			assertEquals(loc3[0], "patient3");
+			assertEquals(loc3[1], "O");
+			assertEquals(loc3[2], "1988-08-11T19:20:30+08:00");
+			assertEquals(loc3[3], "wangwu");
+		}
+
+		{
+			String query = "select "
+					+ "o#/uid/value, "
+					+ "o#/details[at0001]/items[at0003]/value/value, "
+					+ "o#/details[at0001]/items[at0004]/value/value, "
+					+ "o#/details[at0001]/items[at0009]/value/value "
+					+ "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
+					+ "where o#/details[at0001]/items[at0009]/value/value = :name";
+			List results = s
+					.createAQLQuery(query)
+					.setParameter("name", "lisi")
+					.listAQL();
+
+			assertEquals(results.size(), 1);
+			Object[] loc2 = (Object[]) results.get(0);
+			assertEquals(loc2[0], "patient2");
+			assertEquals(loc2[1], "F");
+			assertEquals(loc2[2], "1986-08-11T19:20:30+08:00");
+			assertEquals(loc2[3], "lisi");
+		}
+
+		{
+			String query = "select "
+					+ "o#/uid/value, "
+					+ "o#/details[at0001]/items[at0003]/value/value, "
+					+ "o#/details[at0001]/items[at0004]/value/value, "
+					+ "o#/details[at0001]/items[at0009]/value/value "
+					+ "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
+					+ "where o#/uid/value = :name";
+			List results = s
+					.createAQLQuery(query)
+					.setParameter("name", "patient1")
+					.listAQL();
+
+			assertEquals(results.size(), 1);
+			Object[] loc1 = (Object[]) results.get(0);
+			assertEquals(loc1[0], "patient1");
+			assertEquals(loc1[1], "M");
+			assertEquals(loc1[2], "1984-08-11T19:20:30+08:00");
+			assertEquals(loc1[3], "zhangsan");
+		}
+		
+		s.close();
+		
+		cleanTestBaseData();
+	}
+
+	@Test
 	public void testSimpleSelect() throws Exception {
+		createTestBaseData();
+
+		Session s = openSession();
+
+		{
+			String query = "select o "
+					+ "from openEHR-EHR-OBSERVATION.blood_pressure.v1 as o "
+					+ "order by o#/data[at0001]/events[at0006]/data[at0003]/items[at0004]/value/magnitude asc";
+			List results = s
+					.createAQLQuery(query)
+					.listAQL();
+
+			DADLBinding binding = new DADLBinding();
+			for (Object obj : results) {
+				System.out.println(binding.toDADL(obj));
+			}
+
+			assertEquals(results.size(), 2);
+			Locatable loc1 = (Locatable) results.get(0);
+			Double d1 = (Double) loc1
+					.itemAtPath("/data[at0001]/events[at0006]/data[at0003]/items[at0004]/value/magnitude");
+			Double d2 = (Double) loc1
+					.itemAtPath("/data[at0001]/events[at0006]/data[at0003]/items[at0005]/value/magnitude");
+			assertEquals(d1.doubleValue(), 120, 0.1);
+			assertEquals(d2.doubleValue(), 80, 0.1);
+			Locatable loc2 = (Locatable) results.get(1);
+			Double d3 = (Double) loc2
+					.itemAtPath("/data[at0001]/events[at0006]/data[at0003]/items[at0004]/value/magnitude");
+			Double d4 = (Double) loc2
+					.itemAtPath("/data[at0001]/events[at0006]/data[at0003]/items[at0005]/value/magnitude");
+			assertEquals(d3.doubleValue(), 125, 0.1);
+			assertEquals(d4.doubleValue(), 85, 0.1);
+		}
+
+		{
+			String query = "select o "
+					+ "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
+					+ "order by o#/uid/value asc";
+			List results = s
+					.createAQLQuery(query)
+					.listAQL();
+
+			DADLBinding binding = new DADLBinding();
+			for (Object obj : results) {
+				System.out.println(binding.toDADL(obj));
+			}
+
+			assertEquals(results.size(), 3);
+			Locatable loc1 = (Locatable) results.get(0);
+			String d1 = (String) loc1.itemAtPath("/uid/value");
+			String d2 = (String) loc1
+					.itemAtPath("/details[at0001]/items[at0003]/value/value");
+			String d3 = (String) loc1
+					.itemAtPath("/details[at0001]/items[at0004]/value/value");
+			String d4 = (String) loc1
+					.itemAtPath("/details[at0001]/items[at0009]/value/value");
+			assertEquals(d1, "patient1");
+			assertEquals(d2, "M");
+			assertEquals(d3, "1984-08-11T19:20:30+08:00");
+			assertEquals(d4, "zhangsan");
+			Locatable loc2 = (Locatable) results.get(1);
+			String d5 = (String) loc2.itemAtPath("/uid/value");
+			String d6 = (String) loc2
+					.itemAtPath("/details[at0001]/items[at0003]/value/value");
+			String d7 = (String) loc2
+					.itemAtPath("/details[at0001]/items[at0004]/value/value");
+			String d8 = (String) loc2
+					.itemAtPath("/details[at0001]/items[at0009]/value/value");
+			assertEquals(d5, "patient2");
+			assertEquals(d6, "F");
+			assertEquals(d7, "1986-08-11T19:20:30+08:00");
+			assertEquals(d8, "lisi");
+			Locatable loc3 = (Locatable) results.get(2);
+			String d9 = (String) loc3.itemAtPath("/uid/value");
+			String d10 = (String) loc3
+					.itemAtPath("/details[at0001]/items[at0003]/value/value");
+			String d11 = (String) loc3
+					.itemAtPath("/details[at0001]/items[at0004]/value/value");
+			String d12 = (String) loc3
+					.itemAtPath("/details[at0001]/items[at0009]/value/value");
+			assertEquals(d9, "patient3");
+			assertEquals(d10, "O");
+			assertEquals(d11, "1988-08-11T19:20:30+08:00");
+			assertEquals(d12, "wangwu");
+		}
+
+		{
+			String query = "select o "
+					+ "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
+					+ "where o#/details[at0001]/items[at0009]/value/value = :name";
+			List results = s
+					.createAQLQuery(query)
+					.setParameter("name", "lisi")
+					.listAQL();
+
+			DADLBinding binding = new DADLBinding();
+			for (Object obj : results) {
+				System.out.println(binding.toDADL(obj));
+			}
+
+			assertEquals(results.size(), 1);
+			Locatable loc2 = (Locatable) results.get(0);
+			String d5 = (String) loc2.itemAtPath("/uid/value");
+			String d6 = (String) loc2
+					.itemAtPath("/details[at0001]/items[at0003]/value/value");
+			String d7 = (String) loc2
+					.itemAtPath("/details[at0001]/items[at0004]/value/value");
+			String d8 = (String) loc2
+					.itemAtPath("/details[at0001]/items[at0009]/value/value");
+			assertEquals(d5, "patient2");
+			assertEquals(d6, "F");
+			assertEquals(d7, "1986-08-11T19:20:30+08:00");
+			assertEquals(d8, "lisi");
+		}
+
+		{
+			String query = "select o "
+					+ "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
+					+ "where o#/uid/value = :name";
+			List results = s
+					.createAQLQuery(query)
+					.setParameter("name", "patient1")
+					.listAQL();
+
+			DADLBinding binding = new DADLBinding();
+			for (Object obj : results) {
+				System.out.println(binding.toDADL(obj));
+			}
+
+			assertEquals(results.size(), 1);
+			Locatable loc1 = (Locatable) results.get(0);
+			String d1 = (String) loc1.itemAtPath("/uid/value");
+			String d2 = (String) loc1
+					.itemAtPath("/details[at0001]/items[at0003]/value/value");
+			String d3 = (String) loc1
+					.itemAtPath("/details[at0001]/items[at0004]/value/value");
+			String d4 = (String) loc1
+					.itemAtPath("/details[at0001]/items[at0009]/value/value");
+			assertEquals(d1, "patient1");
+			assertEquals(d2, "M");
+			assertEquals(d3, "1984-08-11T19:20:30+08:00");
+			assertEquals(d4, "zhangsan");
+		}
+
+		s.close();
+		
+		cleanTestBaseData();
+	}
+
+	@Test
+	public void testSimpleSelectAs() throws Exception {
 		createTestBaseData();
 
 		Session s = openSession();

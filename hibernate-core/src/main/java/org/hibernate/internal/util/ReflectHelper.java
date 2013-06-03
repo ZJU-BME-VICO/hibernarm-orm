@@ -436,43 +436,48 @@ public final class ReflectHelper {
 		}
 	}
 	
-	public static void setArchetypeValue(Archetype archetype, Locatable loc, Map<String, Object> values) 
+	public static void setArchetypeValue(Locatable loc, Map<String, Object> values) 
 			throws InstantiationException, IllegalAccessException {
 		for (String path : values.keySet()) {
-			Map<String, CObject> pathNodeMap = archetype.getPathNodeMap();
-			String nodePath = ReflectHelper.getArchetypeNodePath(archetype, path);
-			CObject node = pathNodeMap.get(nodePath);
-			Object target = loc.itemAtPath(nodePath);
-			if (target == null) {
-				Class klass = ArchetypeRepository.getRMBuilder().retrieveRMType(node.getRmTypeName());
-				target = klass.newInstance();
-			}
-			
-			String attributePath = path.substring(nodePath.length());
-			String[] attributePathSegments = attributePath.split("/");
-			Object tempTarget = target;
-			for (String pathSegment : attributePathSegments) {
-				if (!pathSegment.isEmpty()) {
-					Class klass = ReflectHelper.getter(tempTarget.getClass(), pathSegment).getReturnType();
-					PropertyAccessor propertyAccessor = new ChainedPropertyAccessor(
-							new PropertyAccessor[] {
-									PropertyAccessorFactory.getPropertyAccessor(tempTarget.getClass(), null),
-									PropertyAccessorFactory.getPropertyAccessor("field")
-							}
-					);
-					Setter setter = propertyAccessor.getSetter(tempTarget.getClass(), pathSegment);
-					if (klass.isPrimitive() || ClassUtils.wrapperToPrimitive(klass) != null || String.class.equals(klass)) {
-						setter.set(tempTarget, values.get(path), null);
-					} 
-					else {
-						Object value = klass.newInstance();
-						setter.set(tempTarget, value, null);
-						tempTarget = value;								
-					}
+			setArchetypeValue(loc, path, values.get(path));
+		}
+	}
+	
+	public static void setArchetypeValue(Locatable loc, String propertyPath, Object propertyValue) 
+			throws InstantiationException, IllegalAccessException {
+
+		Archetype archetype = ArchetypeRepository.getArchetype(loc.getArchetypeNodeId());
+		Map<String, CObject> pathNodeMap = archetype.getPathNodeMap();
+		String nodePath = ReflectHelper.getArchetypeNodePath(archetype, propertyPath);
+		CObject node = pathNodeMap.get(nodePath);
+		Object target = loc.itemAtPath(nodePath);
+		if (target == null) {
+			Class klass = ArchetypeRepository.getRMBuilder().retrieveRMType(node.getRmTypeName());
+			target = klass.newInstance();
+		}
+		
+		String attributePath = propertyPath.substring(nodePath.length());
+		String[] attributePathSegments = attributePath.split("/");
+		Object tempTarget = target;
+		for (String pathSegment : attributePathSegments) {
+			if (!pathSegment.isEmpty()) {
+				Class klass = ReflectHelper.getter(tempTarget.getClass(), pathSegment).getReturnType();
+				PropertyAccessor propertyAccessor = new ChainedPropertyAccessor(
+						new PropertyAccessor[] {
+								PropertyAccessorFactory.getPropertyAccessor(tempTarget.getClass(), null),
+								PropertyAccessorFactory.getPropertyAccessor("field")
+						}
+				);
+				Setter setter = propertyAccessor.getSetter(tempTarget.getClass(), pathSegment);
+				if (klass.isPrimitive() || ClassUtils.wrapperToPrimitive(klass) != null || String.class.equals(klass)) {
+					setter.set(tempTarget, propertyValue, null);
+				} 
+				else {
+					Object value = klass.newInstance();
+					setter.set(tempTarget, value, null);
+					tempTarget = value;								
 				}
 			}
-			
-//			loc.set(nodePath, target);			
 		}
 	}
 

@@ -42,7 +42,7 @@ import org.hibernate.property.PropertyAccessorFactory;
 import org.hibernate.property.Setter;
 import org.hibernate.proxy.ProxyFactory;
 import org.hibernate.proxy.map.MapProxyFactory;
-import org.hibernate.tuple.DynamicMapInstantiator;
+import org.hibernate.tuple.ArchetypeInstantiator;
 import org.hibernate.tuple.Instantiator;
 
 /**
@@ -101,7 +101,7 @@ public class ArchetypeEntityTuplizer extends AbstractEntityTuplizer {
 	 */
 	@Override
     protected Instantiator buildInstantiator(PersistentClass mappingInfo) {
-        return new DynamicMapInstantiator( mappingInfo );
+        return new ArchetypeInstantiator( mappingInfo );
 	}
 
 	/**
@@ -160,7 +160,7 @@ public class ArchetypeEntityTuplizer extends AbstractEntityTuplizer {
 	 */
 	@Override
 	protected Instantiator buildInstantiator(EntityBinding mappingInfo) {
-		return new DynamicMapInstantiator( mappingInfo );
+		return new ArchetypeInstantiator( mappingInfo );
 	}
 
 	/**
@@ -220,11 +220,20 @@ public class ArchetypeEntityTuplizer extends AbstractEntityTuplizer {
 	 * {@inheritDoc}
 	 */
 	public String determineConcreteSubclassEntityName(Object entityInstance, SessionFactoryImplementor factory) {
-		return extractEmbeddedEntityName( ( Map ) entityInstance );
-	}
-
-	public static String extractEmbeddedEntityName(Map entity) {
-		return ( String ) entity.get( DynamicMapInstantiator.KEY );
+		final Class concreteEntityClass = entityInstance.getClass();
+		if ( concreteEntityClass == getMappedClass() ) {
+			return getEntityName();
+		}
+		else {
+			String entityName = getEntityMetamodel().findEntityNameByEntityClass( concreteEntityClass );
+			if ( entityName == null ) {
+				throw new HibernateException(
+						"Unable to resolve entity name from Class [" + concreteEntityClass.getName() + "]"
+								+ " expected instance/subclass of [" + getEntityName() + "]"
+				);
+			}
+			return entityName;
+		}
 	}
 
 	public static class BasicEntityNameResolver implements EntityNameResolver {

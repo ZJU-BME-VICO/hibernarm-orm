@@ -56,6 +56,10 @@ public class ArchetypeAccessor implements PropertyAccessor {
 	public static final class ArchetypeSetter implements Setter {
 		private String name;
 
+		public String getName() {
+			return name;
+		}
+
 		ArchetypeSetter(String name) {
 			this.name = name;
 		}
@@ -71,7 +75,7 @@ public class ArchetypeAccessor implements PropertyAccessor {
 		 * {@inheritDoc}
 		 */
 		public String getMethodName() {
-			return null;
+			return name;
 		}
 
 		/**
