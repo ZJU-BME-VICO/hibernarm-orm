@@ -25,6 +25,9 @@ package org.hibernate.testing.junit4;
 
 import static org.junit.Assert.fail;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.Clob;
@@ -245,8 +248,27 @@ public abstract class BaseCoreFunctionalTestCase extends BaseUnitTestCase {
 		String[] adlFiles = getAdlFiles();
 		if (adlFiles != null) {
 			for (String adlFile : adlFiles) {
-				InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(adlFile);
-				configuration.addArchetype(is);
+				try {
+					File file = new File(adlFile);
+					InputStream is = new FileInputStream(file);
+					configuration.addArchetype(is);
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		String[] armFiles = getArmFiles();
+		if (armFiles != null) {
+			for (String armFile : armFiles) {
+				try {
+					File file = new File(armFile);
+					InputStream is = new FileInputStream(file);
+					configuration.addInputStream(is);
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -307,6 +329,11 @@ public abstract class BaseCoreFunctionalTestCase extends BaseUnitTestCase {
 	}
 
 	protected String[] getAdlFiles() {
+		// todo : rename to getOrmXmlFiles()
+		return NO_MAPPINGS;
+	}
+
+	protected String[] getArmFiles() {
 		// todo : rename to getOrmXmlFiles()
 		return NO_MAPPINGS;
 	}

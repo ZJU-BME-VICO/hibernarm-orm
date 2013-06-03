@@ -24,6 +24,9 @@
 package org.hibernate.test.aql;
 
 import static org.junit.Assert.assertEquals;
+
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -84,27 +87,27 @@ public class ASTParserLoadingTest extends BaseCoreFunctionalTestCase {
 	}
 
 	@Override
-	protected String[] getXmlFiles() {
+	protected String[] getAdlFiles() {
 		return new String[] {
-				"org/hibernate/test/annotations/xml/arm/openEHR-EHR-OBSERVATION.blood_pressure.v1.arm.xml",
-				"org/hibernate/test/annotations/xml/arm/openEHR-DEMOGRAPHIC-PERSON.patient.v1.arm.xml",
-				"org/hibernate/test/annotations/xml/arm/openEHR-EHR-COMPOSITION.visit.v3.arm.xml",
-				"org/hibernate/test/annotations/xml/arm/ad/openEHR-EHR-OBSERVATION.adl.v1.arm.xml",
-				"org/hibernate/test/annotations/xml/arm/ad/openEHR-EHR-OBSERVATION.cdr.v1.arm.xml",
-				"org/hibernate/test/annotations/xml/arm/ad/openEHR-EHR-OBSERVATION.gds.v1.arm.xml",
-				"org/hibernate/test/annotations/xml/arm/ad/openEHR-EHR-OBSERVATION.mmse.v1.arm.xml", };
+				"../../../../../CDRDocument/knowledge/archetype/CKM/entry/observation/openEHR-EHR-OBSERVATION.blood_pressure.v1.adl",
+				"../../../../../CDRDocument/knowledge/archetype/ZJU/openEHR-DEMOGRAPHIC-PERSON.patient.v1.adl",
+				"../../../../../CDRDocument/knowledge/archetype/ZJU/openEHR-EHR-COMPOSITION.visit.v3.adl",
+				"../../../../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.adl.v1.adl",
+				"../../../../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.cdr.v1.adl",
+				"../../../../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.gds.v1.adl",
+				"../../../../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.mmse.v1.adl", };
 	}
 
 	@Override
-	protected String[] getAdlFiles() {
+	protected String[] getArmFiles() {
 		return new String[] {
-				"org/hibernate/test/annotations/xml/arm/openEHR-EHR-OBSERVATION.blood_pressure.v1.adl",
-				"org/hibernate/test/annotations/xml/arm/openEHR-DEMOGRAPHIC-PERSON.patient.v1.adl",
-				"org/hibernate/test/annotations/xml/arm/openEHR-EHR-COMPOSITION.visit.v3.adl",
-				"org/hibernate/test/annotations/xml/arm/ad/openEHR-EHR-OBSERVATION.adl.v1.adl",
-				"org/hibernate/test/annotations/xml/arm/ad/openEHR-EHR-OBSERVATION.cdr.v1.adl",
-				"org/hibernate/test/annotations/xml/arm/ad/openEHR-EHR-OBSERVATION.gds.v1.adl",
-				"org/hibernate/test/annotations/xml/arm/ad/openEHR-EHR-OBSERVATION.mmse.v1.adl", };
+				"../../../../../CDRDocument/knowledge/archetype/CKM/entry/observation/openEHR-EHR-OBSERVATION.blood_pressure.v1.arm.xml",
+				"../../../../../CDRDocument/knowledge/archetype/ZJU/openEHR-DEMOGRAPHIC-PERSON.patient.v1.arm.xml",
+				"../../../../../CDRDocument/knowledge/archetype/ZJU/openEHR-EHR-COMPOSITION.visit.v3.arm.xml",
+				"../../../../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.adl.v1.arm.xml",
+				"../../../../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.cdr.v1.arm.xml",
+				"../../../../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.gds.v1.arm.xml",
+				"../../../../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.mmse.v1.arm.xml", };
 	}
 
 	protected String[] getArchetypeIds() {
@@ -120,8 +123,8 @@ public class ASTParserLoadingTest extends BaseCoreFunctionalTestCase {
 
 	protected String[] getDadlFiles() {
 		return new String[] {
-				"org/hibernate/test/annotations/xml/arm/openEHR-EHR-OBSERVATION.blood_pressure.v1.1.dadl",
-				"org/hibernate/test/annotations/xml/arm/openEHR-EHR-OBSERVATION.blood_pressure.v1.2.dadl", };
+				"../../../../../CDRDocument/knowledge/archetype/CKM/entry/observation/openEHR-EHR-OBSERVATION.blood_pressure.v1.1.dadl",
+				"../../../../../CDRDocument/knowledge/archetype/CKM/entry/observation/openEHR-EHR-OBSERVATION.blood_pressure.v1.2.dadl", };
 	}
 
 	protected Map<HashMap<String, Object>, String> getArchetypeValues() {
@@ -183,8 +186,8 @@ public class ASTParserLoadingTest extends BaseCoreFunctionalTestCase {
 		Transaction txn = s.beginTransaction();
 
 		for (String dadl : getDadlFiles()) {
-			InputStream is = Thread.currentThread().getContextClassLoader()
-					.getResourceAsStream(dadl);
+			File file = new File(dadl);
+			InputStream is = new FileInputStream(file);
 			DADLParser parser = new DADLParser(is);
 			ContentObject contentObj = parser.parse();
 			DADLBinding binding = new DADLBinding();
