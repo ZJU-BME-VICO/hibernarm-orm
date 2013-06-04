@@ -478,6 +478,9 @@ public final class ReflectHelper {
 					tempTarget = value;								
 				}
 			}
+			else {
+				loc.set(nodePath, propertyValue);
+			}
 		}
 	}
 

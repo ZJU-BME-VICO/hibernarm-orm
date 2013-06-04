@@ -95,7 +95,8 @@ public class ASTParserLoadingTest extends BaseCoreFunctionalTestCase {
 				"../../../../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.adl.v1.adl",
 				"../../../../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.cdr.v1.adl",
 				"../../../../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.gds.v1.adl",
-				"../../../../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.mmse.v1.adl", };
+				"../../../../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.mmse.v1.adl", 
+				"../../../../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.other_cognitions_scale_exams.v1.adl", };
 	}
 
 	@Override
@@ -107,7 +108,8 @@ public class ASTParserLoadingTest extends BaseCoreFunctionalTestCase {
 				"../../../../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.adl.v1.arm.xml",
 				"../../../../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.cdr.v1.arm.xml",
 				"../../../../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.gds.v1.arm.xml",
-				"../../../../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.mmse.v1.arm.xml", };
+				"../../../../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.mmse.v1.arm.xml", 
+				"../../../../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.other_cognitions_scale_exams.v1.arm.xml", };
 	}
 
 	protected String[] getArchetypeIds() {
@@ -118,7 +120,8 @@ public class ASTParserLoadingTest extends BaseCoreFunctionalTestCase {
 				"openEHR-EHR-OBSERVATION.adl.v1",
 				"openEHR-EHR-OBSERVATION.cdr.v1",
 				"openEHR-EHR-OBSERVATION.gds.v1",
-				"openEHR-EHR-OBSERVATION.mmse.v1", };
+				"openEHR-EHR-OBSERVATION.mmse.v1", 
+				"openEHR-EHR-OBSERVATION.other_cognitions_scale_exams.v1", };
 	}
 
 	protected String[] getDadlFiles() {
@@ -130,53 +133,84 @@ public class ASTParserLoadingTest extends BaseCoreFunctionalTestCase {
 	protected Map<HashMap<String, Object>, String> getArchetypeValues() {
 		Map<HashMap<String, Object>, String> results = new HashMap<HashMap<String, Object>, String>();
 
-		HashMap<String, Object> patient1 = new HashMap<String, Object>();
-		patient1.put("/uid/value", "patient1");
-		patient1.put("/details[at0001]/items[at0003]/value/value", "M");
-		patient1.put("/details[at0001]/items[at0004]/value/value",
-				"1984-08-11T19:20:30+08:00");
-		patient1.put("/details[at0001]/items[at0009]/value/value", "zhangsan");
-		results.put(patient1, "openEHR-DEMOGRAPHIC-PERSON.patient.v1");
+		{
+			HashMap<String, Object> patient1 = new HashMap<String, Object>();
+			patient1.put("/uid/value", "patient1");
+			patient1.put("/details[at0001]/items[at0003]/value/value", "M");
+			patient1.put("/details[at0001]/items[at0004]/value/value",
+					"1984-08-11T19:20:30+08:00");
+			patient1.put("/details[at0001]/items[at0009]/value/value", "zhangsan");
+			results.put(patient1, "openEHR-DEMOGRAPHIC-PERSON.patient.v1");			
+		}
 
-		HashMap<String, Object> patient2 = new HashMap<String, Object>();
-		patient2.put("/uid/value", "patient2");
-		patient2.put("/details[at0001]/items[at0003]/value/value", "F");
-		patient2.put("/details[at0001]/items[at0004]/value/value",
-				"1986-08-11T19:20:30+08:00");
-		patient2.put("/details[at0001]/items[at0009]/value/value", "lisi");
-		results.put(patient2, "openEHR-DEMOGRAPHIC-PERSON.patient.v1");
+		{
+			HashMap<String, Object> patient2 = new HashMap<String, Object>();
+			patient2.put("/uid/value", "patient2");
+			patient2.put("/details[at0001]/items[at0003]/value/value", "F");
+			patient2.put("/details[at0001]/items[at0004]/value/value",
+					"1986-08-11T19:20:30+08:00");
+			patient2.put("/details[at0001]/items[at0009]/value/value", "lisi");
+			results.put(patient2, "openEHR-DEMOGRAPHIC-PERSON.patient.v1");		
+		}
 
-		HashMap<String, Object> patient3 = new HashMap<String, Object>();
-		patient3.put("/uid/value", "patient3");
-		patient3.put("/details[at0001]/items[at0003]/value/value", "O");
-		patient3.put("/details[at0001]/items[at0004]/value/value",
-				"1988-08-11T19:20:30+08:00");
-		patient3.put("/details[at0001]/items[at0009]/value/value", "wangwu");
-		results.put(patient3, "openEHR-DEMOGRAPHIC-PERSON.patient.v1");
+		{
+			HashMap<String, Object> patient3 = new HashMap<String, Object>();
+			patient3.put("/uid/value", "patient3");
+			patient3.put("/details[at0001]/items[at0003]/value/value", "O");
+			patient3.put("/details[at0001]/items[at0004]/value/value",
+					"1988-08-11T19:20:30+08:00");
+			patient3.put("/details[at0001]/items[at0009]/value/value", "wangwu");
+			results.put(patient3, "openEHR-DEMOGRAPHIC-PERSON.patient.v1");			
+		}
 
-		HashMap<String, Object> visit1 = new HashMap<String, Object>();
-		visit1.put("/uid/value", "visit1");
-		visit1.put("/context/other_context[at0001]/items[at0007]/value/value",
-				"2010-01-15T19:20:30+08:00");
-		visit1.put("/context/other_context[at0001]/items[at0015]/value/value",
-				"patient1");
-		results.put(visit1, "openEHR-EHR-COMPOSITION.visit.v3");
+		{
+			HashMap<String, Object> visit1 = new HashMap<String, Object>();
+			visit1.put("/uid/value", "visit1");
+			visit1.put("/context/other_context[at0001]/items[at0007]/value/value",
+					"2010-01-15T19:20:30+08:00");
+			visit1.put("/context/other_context[at0001]/items[at0015]/value/value",
+					"patient1");
+			results.put(visit1, "openEHR-EHR-COMPOSITION.visit.v3");			
+		}
 
-		HashMap<String, Object> visit2 = new HashMap<String, Object>();
-		visit2.put("/uid/value", "visit2");
-		visit2.put("/context/other_context[at0001]/items[at0007]/value/value",
-				"2010-01-25T19:20:30+08:00");
-		visit2.put("/context/other_context[at0001]/items[at0015]/value/value",
-				"patient1");
-		results.put(visit2, "openEHR-EHR-COMPOSITION.visit.v3");
+		{
+			HashMap<String, Object> visit2 = new HashMap<String, Object>();
+			visit2.put("/uid/value", "visit2");
+			visit2.put("/context/other_context[at0001]/items[at0007]/value/value",
+					"2010-01-25T19:20:30+08:00");
+			visit2.put("/context/other_context[at0001]/items[at0015]/value/value",
+					"patient1");
+			results.put(visit2, "openEHR-EHR-COMPOSITION.visit.v3");			
+		}
 
-		HashMap<String, Object> visit3 = new HashMap<String, Object>();
-		visit3.put("/uid/value", "visit3");
-		visit3.put("/context/other_context[at0001]/items[at0007]/value/value",
-				"2011-02-05T19:20:30+08:00");
-		visit3.put("/context/other_context[at0001]/items[at0015]/value/value",
-				"patient2");
-		results.put(visit3, "openEHR-EHR-COMPOSITION.visit.v3");
+		{
+			HashMap<String, Object> visit3 = new HashMap<String, Object>();
+			visit3.put("/uid/value", "visit3");
+			visit3.put("/context/other_context[at0001]/items[at0007]/value/value",
+					"2011-02-05T19:20:30+08:00");
+			visit3.put("/context/other_context[at0001]/items[at0015]/value/value",
+					"patient2");
+			results.put(visit3, "openEHR-EHR-COMPOSITION.visit.v3");			
+		}
+
+		{
+			HashMap<String, Object> other_cognitions_scale_exams1 = new HashMap<String, Object>();
+			other_cognitions_scale_exams1.put("/uid/value", "other_cognitions_scale_exams1");
+			other_cognitions_scale_exams1.put("/data[at0001]/events[at0002]/data[at0003]/items[at0004]/items[at0005]/value/magnitude", 1);
+			other_cognitions_scale_exams1.put("/data[at0001]/events[at0002]/data[at0003]/items[at0004]/items[at0006]/value/magnitude", 2);
+			other_cognitions_scale_exams1.put("/data[at0001]/events[at0002]/data[at0003]/items[at0004]/items[at0007]/value/magnitude", 3);
+			other_cognitions_scale_exams1.put("/data[at0001]/events[at0002]/data[at0003]/items[at0004]/items[at0008]/value/magnitude", 6);
+			results.put(other_cognitions_scale_exams1, "openEHR-EHR-OBSERVATION.other_cognitions_scale_exams.v1");			
+		}
+
+		{
+			HashMap<String, Object> mmse1 = new HashMap<String, Object>();
+			mmse1.put("/uid/value", "mmse1");
+			mmse1.put("/data[at0001]/events[at0002]/data[at0003]/items[at0004]/items[at0005]/value/value", false);
+			mmse1.put("/data[at0001]/events[at0002]/data[at0003]/items[at0004]/items[at0009]/value/value", false);
+			mmse1.put("/data[at0001]/events[at0002]/data[at0003]/items[at0004]/items[at0012]/value/value", false);
+			results.put(mmse1, "openEHR-EHR-OBSERVATION.mmse.v1");			
+		}
 
 		return results;
 	}
@@ -458,6 +492,64 @@ public class ASTParserLoadingTest extends BaseCoreFunctionalTestCase {
 			assertEquals(d2, "M");
 			assertEquals(d3, "1984-08-11T19:20:30+08:00");
 			assertEquals(d4, "zhangsan");
+		}
+
+		{
+			String query = "select o "
+					+ "from openEHR-EHR-OBSERVATION.other_cognitions_scale_exams.v1 as o "
+					+ "order by o#/uid/value asc";
+			List results = s
+					.createAQLQuery(query)
+					.listAQL();
+
+			DADLBinding binding = new DADLBinding();
+			for (Object obj : results) {
+				System.out.println(binding.toDADL(obj));
+			}
+
+			assertEquals(results.size(), 1);
+			Locatable loc1 = (Locatable) results.get(0);
+			Integer d1 = (Integer) loc1
+					.itemAtPath("/data[at0001]/events[at0002]/data[at0003]/items[at0004]/items[at0005]/value/magnitude");
+			Integer d2 = (Integer) loc1
+					.itemAtPath("/data[at0001]/events[at0002]/data[at0003]/items[at0004]/items[at0006]/value/magnitude");
+			Integer d3 = (Integer) loc1
+					.itemAtPath("/data[at0001]/events[at0002]/data[at0003]/items[at0004]/items[at0007]/value/magnitude");
+			Integer d4 = (Integer) loc1
+					.itemAtPath("/data[at0001]/events[at0002]/data[at0003]/items[at0004]/items[at0008]/value/magnitude");
+			assertEquals(d1.intValue(), 1);
+			assertEquals(d2.intValue(), 2);
+			assertEquals(d3.intValue(), 3);
+			assertEquals(d4.intValue(), 6);
+		}
+
+		{
+			String query = "select o "
+					+ "from openEHR-EHR-OBSERVATION.mmse.v1 as o "
+					+ "order by o#/uid/value asc";
+			List results = s
+					.createAQLQuery(query)
+					.listAQL();
+
+			DADLBinding binding = new DADLBinding();
+			for (Object obj : results) {
+				System.out.println(binding.toDADL(obj));
+			}
+
+			assertEquals(results.size(), 1);
+			Locatable loc1 = (Locatable) results.get(0);
+			Boolean d1 = (Boolean) loc1
+					.itemAtPath("/data[at0001]/events[at0002]/data[at0003]/items[at0004]/items[at0005]/value/value");
+			Boolean d2 = (Boolean) loc1
+					.itemAtPath("/data[at0001]/events[at0002]/data[at0003]/items[at0004]/items[at0009]/value/value");
+			Boolean d3 = (Boolean) loc1
+					.itemAtPath("/data[at0001]/events[at0002]/data[at0003]/items[at0004]/items[at0015]/value/value");
+			Boolean d4 = (Boolean) loc1
+					.itemAtPath("/data[at0001]/events[at0002]/data[at0003]/items[at0004]/items[at0016]/value/value");
+			assertEquals(d1.booleanValue(), false);
+			assertEquals(d2.booleanValue(), false);
+			assertEquals(d3.booleanValue(), true);
+			assertEquals(d4.booleanValue(), true);
 		}
 
 		s.close();
