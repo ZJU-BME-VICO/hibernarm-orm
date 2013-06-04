@@ -972,5 +972,55 @@ public class ASTParserLoadingTest extends BaseCoreFunctionalTestCase {
 		
 		cleanTestBaseData();
 	}
+	
+	@Test
+	public void testSimpleSelectPerformance() throws Exception {
+		createTestBaseData();
+		Session s = openSession();
+		long start=System.currentTimeMillis();
+		for (int i=0;i<10000;i++) {
+			{
+				String query = "select "
+						+ "o#/uid/value as /uid/value, "
+						+ "o#/data[at0001]/events[at0006]/data[at0003]/items[at0004]/value/magnitude as /data[at0001]/events[at0006]/data[at0003]/items[at0004]/value/magnitude, "
+						+ "o#/data[at0001]/events[at0006]/data[at0003]/items[at0005]/value/magnitude as /data[at0001]/events[at0006]/data[at0003]/items[at0005]/value/magnitude "
+						+ "from openEHR-EHR-OBSERVATION.blood_pressure.v1 as o "
+						+ "order by o#/data[at0001]/events[at0006]/data[at0003]/items[at0004]/value/magnitude asc";
+				String archetypeId = "openEHR-EHR-OBSERVATION.blood_pressure.v1";
+				List results = s
+						.createAQLQuery(query)
+						.setResultTransformer(
+								Transformers.aliasToArchetype(archetypeId))
+						.listAQL();
+
+				DADLBinding binding = new DADLBinding();
+				for (Object obj : results) {
+					System.out.println(binding.toDADL(obj));
+				}
+
+				assertEquals(results.size(), 2);
+				Locatable loc1 = (Locatable) results.get(0);
+				Double d1 = (Double) loc1
+						.itemAtPath("/data[at0001]/events[at0006]/data[at0003]/items[at0004]/value/magnitude");
+				Double d2 = (Double) loc1
+						.itemAtPath("/data[at0001]/events[at0006]/data[at0003]/items[at0005]/value/magnitude");
+				assertEquals(d1.doubleValue(), 120, 0.1);
+				assertEquals(d2.doubleValue(), 80, 0.1);
+				Locatable loc2 = (Locatable) results.get(1);
+				Double d3 = (Double) loc2
+						.itemAtPath("/data[at0001]/events[at0006]/data[at0003]/items[at0004]/value/magnitude");
+				Double d4 = (Double) loc2
+						.itemAtPath("/data[at0001]/events[at0006]/data[at0003]/items[at0005]/value/magnitude");
+				assertEquals(d3.doubleValue(), 125, 0.1);
+				assertEquals(d4.doubleValue(), 85, 0.1);
+			}
+		}
+		System.out.println(start);
+		System.out.println(System.currentTimeMillis()-start);
+		
+		s.close();
+		
+		cleanTestBaseData();
+	}
 
 }
