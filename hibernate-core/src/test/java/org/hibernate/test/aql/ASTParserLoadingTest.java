@@ -1169,5 +1169,53 @@ public class ASTParserLoadingTest extends BaseCoreFunctionalTestCase {
 		
 		cleanTestBaseData();
 	}
+	
+	@Test
+	public void testSimpleInsertPerformance() throws Exception {
+		long start = System.currentTimeMillis();
+		long s3=0;
+		for (int i =0;i <1000;i++){
+			Session s = openSession();
+			Transaction txn = s.beginTransaction();
+			for (String dadl : getDadlFiles()) {
+				File file = new File(dadl);
+				InputStream is = new FileInputStream(file);
+				DADLParser parser = new DADLParser(is);
+				ContentObject contentObj = parser.parse();
+				DADLBinding binding = new DADLBinding();
+				Observation bp = (Observation) binding.bind(contentObj);
+				UUID uuid = UUID.randomUUID();
+				HierObjectID uid = new HierObjectID(uuid.toString());
+				bp.setUid(uid);
+				s.save(bp);
+			}
+			Map<HashMap<String, Object>, String> archetypeValues = getArchetypeValues();
+			for (HashMap<String, Object> values : archetypeValues.keySet()) {
+				SkeletonGenerator generator = SkeletonGenerator.getInstance();
+				Archetype archetype = ArchetypeRepository
+						.getArchetype(archetypeValues.get(values));
+				Object result = generator.create(archetype,
+						GenerationStrategy.MAXIMUM_EMPTY);
+				if (result instanceof Locatable) {
+					Locatable loc = (Locatable) result;
+					ReflectHelper.setArchetypeValue(loc, values);
+					s.save(loc);
+				}
+			}
+
+			long s1=System.currentTimeMillis();
+			s.flush();
+			long s2=System.currentTimeMillis()-s1;
+			s3=s3+s2;
+			txn.commit();
+			s.close();
+			cleanTestBaseData();
+		}
+		long end = System.currentTimeMillis();
+		System.out.println(s3);	
+		System.out.println(end-start);
+		System.out.println("done");
+
+	}
 
 }
