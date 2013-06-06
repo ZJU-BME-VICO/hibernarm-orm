@@ -1124,7 +1124,6 @@ public class ASTParserLoadingTest extends BaseCoreFunctionalTestCase {
 	public void testSimpleSelectPerformance() throws Exception {
 		createTestBaseData();
 		Session s = openSession();
-		long s3=0;
 		long start=System.currentTimeMillis();
 		for (int i=0;i<10000;i++) {
 			{
@@ -1135,14 +1134,11 @@ public class ASTParserLoadingTest extends BaseCoreFunctionalTestCase {
 						+ "from openEHR-EHR-OBSERVATION.blood_pressure.v1 as o "
 						+ "order by o#/data[at0001]/events[at0006]/data[at0003]/items[at0004]/value/magnitude asc";
 				String archetypeId = "openEHR-EHR-OBSERVATION.blood_pressure.v1";
-				long s1=System.currentTimeMillis();
 				List results = s
 						.createAQLQuery(query)
 						.setResultTransformer(
 								Transformers.aliasToArchetype(archetypeId))
 						.listAQL();
-				long s2=System.currentTimeMillis()-s1;
-				s3 = s3 + s2;
 
 				DADLBinding binding = new DADLBinding();
 				for (Object obj : results) {
@@ -1166,10 +1162,11 @@ public class ASTParserLoadingTest extends BaseCoreFunctionalTestCase {
 				assertEquals(d4.doubleValue(), 85, 0.1);
 			}
 		}
-		long ss =System.currentTimeMillis()-start;
-		log.info(s3);		
-		log.info(ss);
-		s.close();		
+		System.out.println(start);
+		System.out.println(System.currentTimeMillis()-start);
+		
+		s.close();
+		
 		cleanTestBaseData();
 	}
 	
@@ -1177,7 +1174,7 @@ public class ASTParserLoadingTest extends BaseCoreFunctionalTestCase {
 	public void testSimpleInsertPerformance() throws Exception {
 		long start = System.currentTimeMillis();
 		long s3=0;
-		for (int i =0;i <10000;i++){
+		for (int i =0;i <1000;i++){
 			Session s = openSession();
 			Transaction txn = s.beginTransaction();
 			for (String dadl : getDadlFiles()) {
@@ -1215,9 +1212,10 @@ public class ASTParserLoadingTest extends BaseCoreFunctionalTestCase {
 			cleanTestBaseData();
 		}
 		long end = System.currentTimeMillis();
-		log.info(s3);
-		log.info(end-start);
-		log.info("done");
+		System.out.println(s3);	
+		System.out.println(end-start);
+		System.out.println("done");
+
 	}
 
 }
