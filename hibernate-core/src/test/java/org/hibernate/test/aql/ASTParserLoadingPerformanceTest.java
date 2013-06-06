@@ -25,13 +25,30 @@ package org.hibernate.test.aql;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import org.jboss.logging.Logger;
 import org.junit.Test;
+import org.openehr.am.archetype.Archetype;
+import org.openehr.am.parser.ContentObject;
+import org.openehr.am.parser.DADLParser;
 import org.openehr.rm.binding.DADLBinding;
 import org.openehr.rm.common.archetyped.Locatable;
+import org.openehr.rm.composition.content.entry.Observation;
+import org.openehr.rm.support.identification.HierObjectID;
+import org.openehr.rm.util.GenerationStrategy;
+import org.openehr.rm.util.SkeletonGenerator;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.archetype.ArchetypeRepository;
 import org.hibernate.dialect.CUBRIDDialect;
+import org.hibernate.internal.util.ReflectHelper;
 import org.hibernate.testing.SkipForDialect;
 import org.hibernate.transform.Transformers;
 
@@ -98,6 +115,54 @@ public class ASTParserLoadingPerformanceTest extends ASTParserLoadingTestBase {
 		s.close();
 		
 		cleanTestBaseData();
+	}
+	
+	@Test
+	public void testSimpleInsertPerformance() throws Exception {
+		long start = System.currentTimeMillis();
+		long s3=0;
+		for (int i =0;i <1000;i++){
+			Session s = openSession();
+			Transaction txn = s.beginTransaction();
+			for (String dadl : getDadlFiles()) {
+				File file = new File(dadl);
+				InputStream is = new FileInputStream(file);
+				DADLParser parser = new DADLParser(is);
+				ContentObject contentObj = parser.parse();
+				DADLBinding binding = new DADLBinding();
+				Observation bp = (Observation) binding.bind(contentObj);
+				UUID uuid = UUID.randomUUID();
+				HierObjectID uid = new HierObjectID(uuid.toString());
+				bp.setUid(uid);
+				s.save(bp);
+			}
+			Map<HashMap<String, Object>, String> archetypeValues = getArchetypeValues();
+			for (HashMap<String, Object> values : archetypeValues.keySet()) {
+				SkeletonGenerator generator = SkeletonGenerator.getInstance();
+				Archetype archetype = ArchetypeRepository
+						.getArchetype(archetypeValues.get(values));
+				Object result = generator.create(archetype,
+						GenerationStrategy.MAXIMUM_EMPTY);
+				if (result instanceof Locatable) {
+					Locatable loc = (Locatable) result;
+					ReflectHelper.setArchetypeValue(loc, values);
+					s.save(loc);
+				}
+			}
+
+			long s1=System.currentTimeMillis();
+			s.flush();
+			long s2=System.currentTimeMillis()-s1;
+			s3=s3+s2;
+			txn.commit();
+			s.close();
+			cleanTestBaseData();
+		}
+		long end = System.currentTimeMillis();
+		System.out.println(s3);	
+		System.out.println(end-start);
+		System.out.println("done");
+
 	}
 
 }
