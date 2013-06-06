@@ -268,6 +268,7 @@ countExpr
 
 selectAtom
 	: DOT
+	| PATH_SEPARATOR
 	| SQL_TOKEN
 	| ALIAS_REF
 	| SELECT_EXPR
@@ -471,6 +472,7 @@ parameter
 
 addrExpr
 	: #(r:DOT . .) { out(r); }
+	| #(p:PATH_SEPARATOR . .) { out(p); }
 	| i:ALIAS_REF { out(i); }
 	| j:INDEX_OP { out(j); }
 	| v:RESULT_VARIABLE_REF { out(v); }

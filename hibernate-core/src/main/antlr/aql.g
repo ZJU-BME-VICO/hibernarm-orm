@@ -620,7 +620,7 @@ additiveExpression
 
 // level 2 - binary multiply and divide
 multiplyExpression
-	: unaryExpression ( ( STAR^ | MOD^ ) unaryExpression )*
+	: unaryExpression ( ( STAR^ | DIV^ | MOD^ ) unaryExpression )*
 	;
 	
 // level 1 - unary minus, unary plus, not
@@ -865,6 +865,7 @@ CONCAT: "||";
 PLUS: '+';
 MINUS: '-';
 STAR: '*';
+DIV: "><";
 MOD: '%';
 COLON: ':';
 PARAM: '?';
