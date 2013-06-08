@@ -596,6 +596,7 @@ expr
 arithmeticExpr
     : #(PLUS exprOrSubquery exprOrSubquery)         { prepareArithmeticOperator( #arithmeticExpr ); }
     | #(MINUS exprOrSubquery exprOrSubquery)        { prepareArithmeticOperator( #arithmeticExpr ); }
+    | #(DIV exprOrSubquery exprOrSubquery)          { prepareArithmeticOperator( #arithmeticExpr ); }
     | #(MOD exprOrSubquery exprOrSubquery)          { prepareArithmeticOperator( #arithmeticExpr ); }
     | #(STAR exprOrSubquery exprOrSubquery)         { prepareArithmeticOperator( #arithmeticExpr ); }
 //	| #(CONCAT expr (expr)+ )   { prepareArithmeticOperator( #arithmeticExpr ); }
