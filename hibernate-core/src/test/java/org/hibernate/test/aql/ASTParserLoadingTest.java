@@ -893,6 +893,99 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 
 		{
 			String query = "update openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o set "
+					+ "o#/details[at0001]/items[at0009]/value/value = 'lisi', "
+					+ "o#/details[at0001]/items[at0004]/value/value = '1994-08-11T19:20:30+08:00' "
+					+ "where " + "o#/uid/value = 'patient1' ";
+			int ret = s.createAQLQuery(query).executeUpdateAQL();
+
+			assertEquals(ret, 1);
+		}
+
+		{
+			String query = "select "
+					+ "o#/uid/value as /uid/value, "
+					+ "o#/details[at0001]/items[at0003]/value/value as /details[at0001]/items[at0003]/value/value, "
+					+ "o#/details[at0001]/items[at0004]/value/value as /details[at0001]/items[at0004]/value/value, "
+					+ "o#/details[at0001]/items[at0009]/value/value as /details[at0001]/items[at0009]/value/value "
+					+ "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
+					+ "where o#/uid/value = :name";
+			String archetypeId = "openEHR-DEMOGRAPHIC-PERSON.patient.v1";
+			List results = s
+					.createAQLQuery(query)
+					.setParameter("name", "patient1")
+					.setResultTransformer(
+							Transformers.aliasToArchetype(archetypeId))
+					.listAQL();
+
+			DADLBinding binding = new DADLBinding();
+			for (Object obj : results) {
+				System.out.println(binding.toDADL(obj));
+			}
+
+			assertEquals(results.size(), 1);
+			Locatable loc1 = (Locatable) results.get(0);
+			String d1 = (String) loc1.itemAtPath("/uid/value");
+			String d2 = (String) loc1
+					.itemAtPath("/details[at0001]/items[at0003]/value/value");
+			String d3 = (String) loc1
+					.itemAtPath("/details[at0001]/items[at0004]/value/value");
+			String d4 = (String) loc1
+					.itemAtPath("/details[at0001]/items[at0009]/value/value");
+			assertEquals(d1, "patient1");
+			assertEquals(d2, "M");
+			assertEquals(d3, "1994-08-11T19:20:30+08:00");
+			assertEquals(d4, "lisi");
+		}
+
+		s.close();
+		
+		cleanTestBaseData();
+	}
+
+	@Test
+	public void testSimpleUpdateParameterized() throws Exception {
+		createTestBaseData();
+
+		Session s = openSession();
+
+		{
+			String query = "select "
+					+ "o#/uid/value as /uid/value, "
+					+ "o#/details[at0001]/items[at0003]/value/value as /details[at0001]/items[at0003]/value/value, "
+					+ "o#/details[at0001]/items[at0004]/value/value as /details[at0001]/items[at0004]/value/value, "
+					+ "o#/details[at0001]/items[at0009]/value/value as /details[at0001]/items[at0009]/value/value "
+					+ "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
+					+ "where o#/uid/value = :name";
+			String archetypeId = "openEHR-DEMOGRAPHIC-PERSON.patient.v1";
+			List results = s
+					.createAQLQuery(query)
+					.setParameter("name", "patient1")
+					.setResultTransformer(
+							Transformers.aliasToArchetype(archetypeId))
+					.listAQL();
+
+			DADLBinding binding = new DADLBinding();
+			for (Object obj : results) {
+				System.out.println(binding.toDADL(obj));
+			}
+
+			assertEquals(results.size(), 1);
+			Locatable loc1 = (Locatable) results.get(0);
+			String d1 = (String) loc1.itemAtPath("/uid/value");
+			String d2 = (String) loc1
+					.itemAtPath("/details[at0001]/items[at0003]/value/value");
+			String d3 = (String) loc1
+					.itemAtPath("/details[at0001]/items[at0004]/value/value");
+			String d4 = (String) loc1
+					.itemAtPath("/details[at0001]/items[at0009]/value/value");
+			assertEquals(d1, "patient1");
+			assertEquals(d2, "M");
+			assertEquals(d3, "1984-08-11T19:20:30+08:00");
+			assertEquals(d4, "zhangsan");
+		}
+
+		{
+			String query = "update openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o set "
 					+ "o#/details[at0001]/items[at0009]/value/value = :name, "
 					+ "o#/details[at0001]/items[at0004]/value/value = :birthday "
 					+ "where " + "o#/uid/value = :pid ";
