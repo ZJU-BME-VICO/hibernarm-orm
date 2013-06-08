@@ -858,6 +858,7 @@ OPEN: '(';
 CLOSE: ')';
 OPEN_BRACKET: '[';
 CLOSE_BRACKET: ']';
+PATH_SEPARATOR: '#';
 
 CONCAT: "||";
 PLUS: '+';
