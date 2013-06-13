@@ -84,7 +84,6 @@ public class ASTParserLoadingTestBase extends BaseCoreFunctionalTestCase {
 	@Override
 	protected String[] getAdlFiles() {
 		return new String[] {
-				"../../CDRDocument/knowledge/archetype/CKM/entry/observation/openEHR-EHR-OBSERVATION.blood_pressure.v1.adl",
 				"../../CDRDocument/knowledge/archetype/ZJU/openEHR-DEMOGRAPHIC-PERSON.patient.v1.adl",
 				"../../CDRDocument/knowledge/archetype/ZJU/openEHR-EHR-COMPOSITION.visit.v3.adl",
 				"../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.adl.v1.adl",
@@ -97,7 +96,6 @@ public class ASTParserLoadingTestBase extends BaseCoreFunctionalTestCase {
 	@Override
 	protected String[] getArmFiles() {
 		return new String[] {
-				"../../CDRDocument/knowledge/archetype/CKM/entry/observation/openEHR-EHR-OBSERVATION.blood_pressure.v1.arm.xml",
 				"../../CDRDocument/knowledge/archetype/ZJU/openEHR-DEMOGRAPHIC-PERSON.patient.v1.arm.xml",
 				"../../CDRDocument/knowledge/archetype/ZJU/openEHR-EHR-COMPOSITION.visit.v3.arm.xml",
 				"../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.adl.v1.arm.xml",
@@ -109,7 +107,6 @@ public class ASTParserLoadingTestBase extends BaseCoreFunctionalTestCase {
 
 	protected String[] getArchetypeIds() {
 		return new String[] {
-				"openEHR-EHR-OBSERVATION.blood_pressure.v1",
 				"openEHR-DEMOGRAPHIC-PERSON.patient.v1",
 				"openEHR-EHR-COMPOSITION.visit.v3",
 				"openEHR-EHR-OBSERVATION.adl.v1",
@@ -117,12 +114,6 @@ public class ASTParserLoadingTestBase extends BaseCoreFunctionalTestCase {
 				"openEHR-EHR-OBSERVATION.gds.v1",
 				"openEHR-EHR-OBSERVATION.mmse.v1", 
 				"openEHR-EHR-OBSERVATION.other_cognitions_scale_exams.v1", };
-	}
-
-	protected String[] getDadlFiles() {
-		return new String[] {
-				"../../CDRDocument/knowledge/archetype/CKM/entry/observation/openEHR-EHR-OBSERVATION.blood_pressure.v1.1.dadl",
-				"../../CDRDocument/knowledge/archetype/CKM/entry/observation/openEHR-EHR-OBSERVATION.blood_pressure.v1.2.dadl", };
 	}
 
 	protected Map<HashMap<String, Object>, String> getArchetypeValues() {
@@ -213,19 +204,6 @@ public class ASTParserLoadingTestBase extends BaseCoreFunctionalTestCase {
 	protected void createTestBaseData() throws Exception {
 		Session s = openSession();
 		Transaction txn = s.beginTransaction();
-
-		for (String dadl : getDadlFiles()) {
-			File file = new File(dadl);
-			InputStream is = new FileInputStream(file);
-			DADLParser parser = new DADLParser(is);
-			ContentObject contentObj = parser.parse();
-			DADLBinding binding = new DADLBinding();
-			Observation bp = (Observation) binding.bind(contentObj);
-			UUID uuid = UUID.randomUUID();
-			HierObjectID uid = new HierObjectID(uuid.toString());
-			bp.setUid(uid);
-			s.save(bp);
-		}
 
 		Map<HashMap<String, Object>, String> archetypeValues = getArchetypeValues();
 		for (HashMap<String, Object> values : archetypeValues.keySet()) {
