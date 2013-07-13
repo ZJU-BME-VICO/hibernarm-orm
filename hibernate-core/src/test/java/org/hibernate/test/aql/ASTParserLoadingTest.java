@@ -25,9 +25,13 @@ package org.hibernate.test.aql;
 
 import static org.junit.Assert.assertEquals;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javassist.expr.Instanceof;
 
 import org.jboss.logging.Logger;
 import org.junit.Test;
@@ -35,6 +39,7 @@ import org.openehr.am.parser.ContentObject;
 import org.openehr.am.parser.DADLParser;
 import org.openehr.rm.binding.DADLBinding;
 import org.openehr.rm.common.archetyped.Locatable;
+import org.hamcrest.core.IsInstanceOf;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.dialect.CUBRIDDialect;
@@ -192,7 +197,8 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 		Session s = openSession();
 
 		{
-			String query = "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o ";
+			String query = "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
+					+ "order by o#/uid/value asc";
 			List results = s
 					.createAQLQuery(query)
 					.listAQL();
@@ -278,6 +284,52 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 			assertEquals(d2, "M");
 			assertEquals(d3, "1984-08-11T19:20:30+08:00");
 			assertEquals(d4, "zhangsan");
+		}
+
+		s.close();
+		
+		cleanTestBaseData();
+	}
+
+	@Test
+	public void testFromJoin() throws Exception {
+		createTestBaseData();
+
+		Session s = openSession();
+
+		{
+			String query = "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as p, openEHR-EHR-COMPOSITION.visit.v3 as v ";
+			List results = s
+					.createAQLQuery(query)
+					.listAQL();
+
+			List<Locatable> patients = new ArrayList<Locatable>();
+			List<Locatable> visits = new ArrayList<Locatable>();
+			for (Object arr : results) {
+				if (arr.getClass().isArray()) {
+					for (int i = 0; i < Array.getLength(arr); i++)
+					{
+						Object obj = Array.get(arr, i);
+						if (obj instanceof Locatable) {
+							Locatable loc = (Locatable) obj;			
+							if (loc.getArchetypeNodeId().compareToIgnoreCase("openEHR-DEMOGRAPHIC-PERSON.patient.v1") == 0) {
+								if (!patients.contains(loc)) {
+									patients.add(loc);									
+								}
+							}
+							
+							if (loc.getArchetypeNodeId().compareToIgnoreCase("openEHR-EHR-COMPOSITION.visit.v3") == 0) {
+								if (!visits.contains(loc)) {
+									visits.add(loc);									
+								}
+							}
+						}						
+					}					
+				}
+			}
+
+			assertEquals(patients.size(), 3);
+			assertEquals(visits.size(), 3);
 		}
 
 		s.close();
@@ -634,6 +686,53 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 			assertEquals(loc1[1], "M");
 			assertEquals(loc1[2], "1984-08-11T19:20:30+08:00");
 			assertEquals(loc1[3], "zhangsan");
+		}
+		
+		s.close();
+		
+		cleanTestBaseData();
+	}
+
+	@Test
+	public void testSelectJoin() throws Exception {
+		createTestBaseData();
+
+		Session s = openSession();
+
+		{
+			String query = "select p, v "
+					+ "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as p, openEHR-EHR-COMPOSITION.visit.v3 as v ";
+			List results = s
+					.createAQLQuery(query)
+					.listAQL();
+
+			List<Locatable> patients = new ArrayList<Locatable>();
+			List<Locatable> visits = new ArrayList<Locatable>();
+			for (Object arr : results) {
+				if (arr.getClass().isArray()) {
+					for (int i = 0; i < Array.getLength(arr); i++)
+					{
+						Object obj = Array.get(arr, i);
+						if (obj instanceof Locatable) {
+							Locatable loc = (Locatable) obj;			
+							if (loc.getArchetypeNodeId().compareToIgnoreCase("openEHR-DEMOGRAPHIC-PERSON.patient.v1") == 0) {
+								if (!patients.contains(loc)) {
+									patients.add(loc);									
+								}
+							}
+							
+							if (loc.getArchetypeNodeId().compareToIgnoreCase("openEHR-EHR-COMPOSITION.visit.v3") == 0) {
+								if (!visits.contains(loc)) {
+									visits.add(loc);									
+								}
+							}
+						}						
+					}					
+				}
+			}
+
+			assertEquals(patients.size(), 3);
+			assertEquals(visits.size(), 3);
 		}
 		
 		s.close();
