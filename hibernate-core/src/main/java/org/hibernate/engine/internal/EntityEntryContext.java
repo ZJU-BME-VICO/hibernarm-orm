@@ -30,6 +30,7 @@ import java.util.IdentityHashMap;
 import java.util.Map;
 
 import org.jboss.logging.Logger;
+import org.openehr.rm.common.archetyped.Locatable;
 
 import org.hibernate.LockMode;
 import org.hibernate.engine.spi.EntityEntry;
@@ -58,6 +59,7 @@ public class EntityEntryContext {
 	private transient int count;
 
 	private transient IdentityHashMap<Object,ManagedEntity> nonEnhancedEntityXref;
+	private transient IdentityHashMap<String, Object> nonEnhancedEntityArchetypeKey;
 
 	@SuppressWarnings( {"unchecked"})
 	private transient Map.Entry<Object,EntityEntry>[] reentrantSafeEntries = new Map.Entry[0];
@@ -98,11 +100,26 @@ public class EntityEntryContext {
 			}
 			else {
 				wrapper = nonEnhancedEntityXref.get( entity );
+				if (wrapper == null) {
+					if (entity instanceof String) {
+						Object key = nonEnhancedEntityArchetypeKey.get(entity);
+						wrapper = nonEnhancedEntityXref.get(key);						
+					}
+				}
+			}
+			
+			if (nonEnhancedEntityArchetypeKey == null) {
+				nonEnhancedEntityArchetypeKey = new IdentityHashMap<String, Object>();
 			}
 
 			if ( wrapper == null ) {
 				wrapper = new ManagedEntityImpl( entity );
 				nonEnhancedEntityXref.put( entity, wrapper );
+				if (entity instanceof Locatable) {
+					Locatable loc = (Locatable) entity;
+					String uid = loc.getUid().getValue();
+					nonEnhancedEntityArchetypeKey.put(uid, entity);
+				}
 				alreadyAssociated = false;
 			}
 			else {
@@ -155,7 +172,7 @@ public class EntityEntryContext {
 	 */
 	public EntityEntry getEntityEntry(Object entity) {
 		// essentially resolve the entity to a ManagedEntity...
-		final ManagedEntity managedEntity;
+		ManagedEntity managedEntity;
 		if ( ManagedEntity.class.isInstance( entity ) ) {
 			managedEntity = (ManagedEntity) entity;
 		}
@@ -164,6 +181,13 @@ public class EntityEntryContext {
 		}
 		else {
 			managedEntity = nonEnhancedEntityXref.get( entity );
+		}
+		
+		if (managedEntity == null) {
+			if (entity instanceof String) {
+				Object key = nonEnhancedEntityArchetypeKey.get((String) entity);
+				managedEntity = nonEnhancedEntityXref.get(key);
+			}
 		}
 
 		// and get/return the EntityEntry from the ManagedEntry
@@ -287,6 +311,7 @@ public class EntityEntryContext {
 
 		if ( nonEnhancedEntityXref != null ) {
 			nonEnhancedEntityXref.clear();
+			nonEnhancedEntityArchetypeKey.clear();
 		}
 
 		head = null;
@@ -377,6 +402,14 @@ public class EntityEntryContext {
 					context.nonEnhancedEntityXref = new IdentityHashMap<Object, ManagedEntity>();
 				}
 				context.nonEnhancedEntityXref.put( entity, managedEntity );
+				
+				if (context.nonEnhancedEntityArchetypeKey == null) {
+					context.nonEnhancedEntityArchetypeKey = new IdentityHashMap<String, Object>();
+				}
+				if (entity instanceof Locatable) {
+					Locatable loc = (Locatable) entity;
+					context.nonEnhancedEntityArchetypeKey.put(loc.getUid().getValue(), entity);
+				}
 			}
 			managedEntity.$$_hibernate_setEntityEntry( entry );
 
