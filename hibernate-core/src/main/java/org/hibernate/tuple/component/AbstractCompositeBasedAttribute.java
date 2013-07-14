@@ -30,6 +30,8 @@ import org.hibernate.tuple.NonIdentifierAttribute;
 import org.hibernate.type.Type;
 
 /**
+ * A base class for a sub-attribute of a composite, non-identifier attribute.
+ *
  * @author Steve Ebersole
  */
 public abstract class AbstractCompositeBasedAttribute
@@ -39,7 +41,7 @@ public abstract class AbstractCompositeBasedAttribute
 	private final int ownerAttributeNumber;
 
 	public AbstractCompositeBasedAttribute(
-			AbstractCompositionDefinition source,
+			AbstractCompositionAttribute source,
 			SessionFactoryImplementor sessionFactory,
 			int attributeNumber,
 			String attributeName,
@@ -55,7 +57,7 @@ public abstract class AbstractCompositeBasedAttribute
 	}
 
 	@Override
-	public AbstractCompositionDefinition getSource() {
-		return (AbstractCompositionDefinition) super.getSource();
+	public AbstractCompositionAttribute getSource() {
+		return (AbstractCompositionAttribute) super.getSource();
 	}
 }

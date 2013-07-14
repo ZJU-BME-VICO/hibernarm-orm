@@ -59,7 +59,6 @@ import org.hibernate.cache.spi.entry.ReferenceCacheEntryImpl;
 import org.hibernate.cache.spi.entry.StandardCacheEntryImpl;
 import org.hibernate.cache.spi.entry.StructuredCacheEntry;
 import org.hibernate.cache.spi.entry.UnstructuredCacheEntry;
-import org.hibernate.cfg.NotYetImplementedException;
 import org.hibernate.dialect.lock.LockingStrategy;
 import org.hibernate.engine.OptimisticLockStyle;
 import org.hibernate.engine.internal.StatefulPersistenceContext;
@@ -111,12 +110,7 @@ import org.hibernate.metamodel.relational.DerivedValue;
 import org.hibernate.metamodel.relational.Value;
 import org.hibernate.persister.walking.internal.EntityIdentifierDefinitionHelper;
 import org.hibernate.persister.walking.spi.AttributeDefinition;
-import org.hibernate.persister.walking.spi.AttributeSource;
-import org.hibernate.persister.walking.spi.CompositionDefinition;
-import org.hibernate.persister.walking.spi.EncapsulatedEntityIdentifierDefinition;
-import org.hibernate.persister.walking.spi.EntityDefinition;
 import org.hibernate.persister.walking.spi.EntityIdentifierDefinition;
-import org.hibernate.persister.walking.spi.NonEncapsulatedEntityIdentifierDefinition;
 import org.hibernate.pretty.MessageHelper;
 import org.hibernate.property.BackrefPropertyAccessor;
 import org.hibernate.sql.Alias;
@@ -132,7 +126,6 @@ import org.hibernate.sql.Update;
 import org.hibernate.tuple.entity.EntityMetamodel;
 import org.hibernate.tuple.entity.EntityTuplizer;
 import org.hibernate.type.AssociationType;
-import org.hibernate.type.ComponentType;
 import org.hibernate.type.CompositeType;
 import org.hibernate.type.EntityType;
 import org.hibernate.type.Type;
@@ -778,7 +771,7 @@ public abstract class AbstractEntityPersister
 		iter = definedBySubclass.iterator();
 		j = 0;
 		while ( iter.hasNext() ) {
-			propertyDefinedOnSubclass[j++] = ( ( Boolean ) iter.next() ).booleanValue();
+			propertyDefinedOnSubclass[j++] = (Boolean) iter.next();
 		}
 
 		// Handle any filters applied to the class level
@@ -4882,12 +4875,11 @@ public abstract class AbstractEntityPersister
 		return generateEntityIdByNaturalIdSql( valueNullness );
 	}
 
-	@SuppressWarnings("UnnecessaryUnboxing")
 	protected boolean isNaturalIdNonNullable() {
 		if ( naturalIdIsNonNullable == null ) {
 			naturalIdIsNonNullable = determineNaturalIdNullability();
 		}
-		return naturalIdIsNonNullable.booleanValue();
+		return naturalIdIsNonNullable;
 	}
 
 	private boolean determineNaturalIdNullability() {

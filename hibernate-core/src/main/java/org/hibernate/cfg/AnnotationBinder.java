@@ -209,6 +209,9 @@ public final class AnnotationBinder {
 
 	public static void bindDefaults(Mappings mappings) {
 		Map defaults = mappings.getReflectionManager().getDefaults();
+
+		// id generators ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 		{
 			List<SequenceGenerator> anns = ( List<SequenceGenerator> ) defaults.get( SequenceGenerator.class );
 			if ( anns != null ) {
@@ -231,6 +234,9 @@ public final class AnnotationBinder {
 				}
 			}
 		}
+
+		// queries ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 		{
 			List<NamedQuery> anns = ( List<NamedQuery> ) defaults.get( NamedQuery.class );
 			if ( anns != null ) {
@@ -247,6 +253,9 @@ public final class AnnotationBinder {
 				}
 			}
 		}
+
+		// result-set-mappings ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 		{
 			List<SqlResultSetMapping> anns = ( List<SqlResultSetMapping> ) defaults.get( SqlResultSetMapping.class );
 			if ( anns != null ) {
@@ -256,24 +265,23 @@ public final class AnnotationBinder {
 			}
 		}
 
+		// stored procs ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 		{
 			final List<NamedStoredProcedureQuery> annotations =
 					(List<NamedStoredProcedureQuery>) defaults.get( NamedStoredProcedureQuery.class );
 			if ( annotations != null ) {
 				for ( NamedStoredProcedureQuery annotation : annotations ) {
-					QueryBinder.bindNamedStoredProcedureQuery( annotation, mappings );
+					bindNamedStoredProcedureQuery( mappings, annotation, true );
 				}
 			}
 		}
-
 		{
 			final List<NamedStoredProcedureQueries> annotations =
 					(List<NamedStoredProcedureQueries>) defaults.get( NamedStoredProcedureQueries.class );
 			if ( annotations != null ) {
 				for ( NamedStoredProcedureQueries annotation : annotations ) {
-					for ( NamedStoredProcedureQuery queryAnnotation : annotation.value() ) {
-						QueryBinder.bindNamedStoredProcedureQuery( queryAnnotation, mappings );
-					}
+					bindNamedStoredProcedureQueries( mappings, annotation, true );
 				}
 			}
 		}
@@ -384,21 +392,27 @@ public final class AnnotationBinder {
 		}
 
 		// NamedStoredProcedureQuery handling ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		{
-			final NamedStoredProcedureQuery annotation = annotatedElement.getAnnotation( NamedStoredProcedureQuery.class );
-			if ( annotation != null ) {
-				QueryBinder.bindNamedStoredProcedureQuery( annotation, mappings );
-			}
-		}
+		bindNamedStoredProcedureQuery( mappings, annotatedElement.getAnnotation( NamedStoredProcedureQuery.class ), false );
 
 		// NamedStoredProcedureQueries handling ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		{
-			final NamedStoredProcedureQueries annotation = annotatedElement.getAnnotation( NamedStoredProcedureQueries.class );
-			if ( annotation != null ) {
-				for ( NamedStoredProcedureQuery queryAnnotation : annotation.value() ) {
-					QueryBinder.bindNamedStoredProcedureQuery( queryAnnotation, mappings );
-				}
+		bindNamedStoredProcedureQueries(
+				mappings,
+				annotatedElement.getAnnotation( NamedStoredProcedureQueries.class ),
+				false
+		);
+	}
+
+	private static void bindNamedStoredProcedureQueries(Mappings mappings, NamedStoredProcedureQueries annotation, boolean isDefault) {
+		if ( annotation != null ) {
+			for ( NamedStoredProcedureQuery queryAnnotation : annotation.value() ) {
+				bindNamedStoredProcedureQuery( mappings, queryAnnotation, isDefault );
 			}
+		}
+	}
+
+	private static void bindNamedStoredProcedureQuery(Mappings mappings, NamedStoredProcedureQuery annotation, boolean isDefault) {
+		if ( annotation != null ) {
+			QueryBinder.bindNamedStoredProcedureQuery( annotation, mappings, isDefault );
 		}
 	}
 

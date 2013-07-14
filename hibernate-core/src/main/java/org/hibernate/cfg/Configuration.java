@@ -82,6 +82,7 @@ import org.hibernate.archetype.ArchetypeRepository;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.boot.registry.classloading.spi.ClassLoaderService;
 import org.hibernate.boot.registry.internal.StandardServiceRegistryImpl;
+import org.hibernate.cfg.annotations.NamedEntityGraphDefinition;
 import org.hibernate.cfg.annotations.NamedProcedureCallDefinition;
 import org.hibernate.cfg.annotations.reflection.JPAMetadataProvider;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
@@ -225,6 +226,7 @@ public class Configuration implements Serializable {
 	protected Map<String, NamedSQLQueryDefinition> namedSqlQueries;
 	protected Map<String, NamedProcedureCallDefinition> namedProcedureCallMap;
 	protected Map<String, ResultSetMappingDefinition> sqlResultSetMappings;
+	protected Map<String, NamedEntityGraphDefinition> namedEntityGraphMap;
 
 	protected Map<String, TypeDef> typeDefs;
 	protected Map<String, FilterDefinition> filterDefinitions;
@@ -268,6 +270,8 @@ public class Configuration implements Serializable {
 	private Set<String> defaultNamedQueryNames;
 	private Set<String> defaultNamedNativeQueryNames;
 	private Set<String> defaultSqlResultSetMappingNames;
+	private Set<String> defaultNamedProcedure;
+
 	private Set<String> defaultNamedGenerators;
 	private Map<String, Properties> generatorTables;
 	private Map<Table, List<UniqueConstraintHolder>> uniqueConstraintHoldersByTable;
@@ -307,7 +311,8 @@ public class Configuration implements Serializable {
 		namedQueries = new HashMap<String,NamedQueryDefinition>();
 		namedSqlQueries = new HashMap<String,NamedSQLQueryDefinition>();
 		sqlResultSetMappings = new HashMap<String, ResultSetMappingDefinition>();
-
+		namedEntityGraphMap = new HashMap<String, NamedEntityGraphDefinition>();
+		namedProcedureCallMap = new HashMap<String, NamedProcedureCallDefinition>(  );
 		typeDefs = new HashMap<String,TypeDef>();
 		filterDefinitions = new HashMap<String, FilterDefinition>();
 		fetchProfiles = new HashMap<String, FetchProfile>();
@@ -343,6 +348,7 @@ public class Configuration implements Serializable {
 		defaultNamedQueryNames = new HashSet<String>();
 		defaultNamedNativeQueryNames = new HashSet<String>();
 		defaultSqlResultSetMappingNames = new HashSet<String>();
+		defaultNamedProcedure =  new HashSet<String>(  );
 		defaultNamedGenerators = new HashSet<String>();
 		uniqueConstraintHoldersByTable = new HashMap<Table, List<UniqueConstraintHolder>>();
 		jpaIndexHoldersByTable = new HashMap<Table,List<JPAIndexHolder>>(  );
@@ -908,12 +914,14 @@ public class Configuration implements Serializable {
 	 */
 	public Configuration addDirectory(File dir) throws MappingException {
 		File[] files = dir.listFiles();
-		for ( File file : files ) {
-			if ( file.isDirectory() ) {
-				addDirectory( file );
-			}
-			else if ( file.getName().endsWith( ".hbm.xml" ) ) {
-				addFile( file );
+		if ( files != null ) {
+			for ( File file : files ) {
+				if ( file.isDirectory() ) {
+					addDirectory( file );
+				}
+				else if ( file.getName().endsWith( ".hbm.xml" ) ) {
+					addFile( file );
+				}
 			}
 		}
 		return this;
@@ -1559,10 +1567,8 @@ public class Configuration implements Serializable {
 		for ( FkSecondPass sp : dependencies ) {
 			String dependentTable = quotedTableName(sp.getValue().getTable());
 			if ( dependentTable.compareTo( startTable ) == 0 ) {
-				StringBuilder sb = new StringBuilder(
-						"Foreign key circularity dependency involving the following tables: "
-				);
-				throw new AnnotationException( sb.toString() );
+				String sb = "Foreign key circularity dependency involving the following tables: ";
+				throw new AnnotationException( sb );
 			}
 			buildRecursiveOrderedFkSecondPasses( orderedFkSecondPasses, isADependencyOf, startTable, dependentTable );
 			if ( !orderedFkSecondPasses.contains( sp ) ) {
@@ -2658,6 +2664,12 @@ public class Configuration implements Serializable {
 		}
 	}
 
+	public java.util.Collection<NamedEntityGraphDefinition> getNamedEntityGraphs() {
+		return namedEntityGraphMap == null
+				? Collections.<NamedEntityGraphDefinition>emptyList()
+				: namedEntityGraphMap.values();
+	}
+
 
 	// Mappings impl ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -2921,9 +2933,28 @@ public class Configuration implements Serializable {
 		public void addNamedProcedureCallDefinition(NamedProcedureCallDefinition definition)
 				throws DuplicateMappingException {
 			final String name = definition.getRegisteredName();
-			final NamedProcedureCallDefinition previous = namedProcedureCallMap.put( name, definition );
+			if ( !defaultNamedProcedure.contains( name ) ) {
+				final NamedProcedureCallDefinition previous = namedProcedureCallMap.put( name, definition );
+				if ( previous != null ) {
+					throw new DuplicateMappingException( "named stored procedure query", name );
+				}
+			}
+		}
+		@Override
+		public void addDefaultNamedProcedureCallDefinition(NamedProcedureCallDefinition definition)
+				throws DuplicateMappingException {
+			addNamedProcedureCallDefinition( definition );
+			defaultNamedProcedure.add( definition.getRegisteredName() );
+		}
+
+		@Override
+		public void addNamedEntityGraphDefintion(NamedEntityGraphDefinition definition)
+				throws DuplicateMappingException {
+			final String name = definition.getRegisteredName();
+
+			final NamedEntityGraphDefinition previous = namedEntityGraphMap.put( name, definition );
 			if ( previous != null ) {
-				throw new DuplicateMappingException( "named stored procedure query", name );
+				throw new DuplicateMappingException( "NamedEntityGraph", name );
 			}
 		}
 
@@ -3160,7 +3191,7 @@ public class Configuration implements Serializable {
 			}
 			return finalName;
 		}
-
+		@Override
 		public String getLogicalColumnName(String physicalName, Table table) throws MappingException {
 			String logical = null;
 			Table currentTable = table;
@@ -3181,7 +3212,7 @@ public class Configuration implements Serializable {
 					currentTable = null;
 				}
 			}
-			while ( logical == null && currentTable != null && description != null );
+			while ( logical == null && currentTable != null );
 			if ( logical == null ) {
 				throw new MappingException(
 						"Unable to find logical column name from physical name "
@@ -3303,41 +3334,38 @@ public class Configuration implements Serializable {
 		}
 
 		private Boolean useNewGeneratorMappings;
-
-		@SuppressWarnings({ "UnnecessaryUnboxing" })
+		@Override
 		public boolean useNewGeneratorMappings() {
 			if ( useNewGeneratorMappings == null ) {
 				final String booleanName = getConfigurationProperties()
 						.getProperty( AvailableSettings.USE_NEW_ID_GENERATOR_MAPPINGS );
 				useNewGeneratorMappings = Boolean.valueOf( booleanName );
 			}
-			return useNewGeneratorMappings.booleanValue();
+			return useNewGeneratorMappings;
 		}
 
 		private Boolean useNationalizedCharacterData;
 
 		@Override
-		@SuppressWarnings( {"UnnecessaryUnboxing"})
 		public boolean useNationalizedCharacterData() {
 			if ( useNationalizedCharacterData == null ) {
 				final String booleanName = getConfigurationProperties()
 						.getProperty( AvailableSettings.USE_NATIONALIZED_CHARACTER_DATA );
 				useNationalizedCharacterData = Boolean.valueOf( booleanName );
 			}
-			return useNationalizedCharacterData.booleanValue();
+			return useNationalizedCharacterData;
 		}
 
 		private Boolean forceDiscriminatorInSelectsByDefault;
 
 		@Override
-		@SuppressWarnings( {"UnnecessaryUnboxing"})
 		public boolean forceDiscriminatorInSelectsByDefault() {
 			if ( forceDiscriminatorInSelectsByDefault == null ) {
 				final String booleanName = getConfigurationProperties()
 						.getProperty( AvailableSettings.FORCE_DISCRIMINATOR_IN_SELECTS_BY_DEFAULT );
 				forceDiscriminatorInSelectsByDefault = Boolean.valueOf( booleanName );
 			}
-			return forceDiscriminatorInSelectsByDefault.booleanValue();
+			return forceDiscriminatorInSelectsByDefault;
 		}
 
 		public IdGenerator getGenerator(String name) {
@@ -3529,7 +3557,7 @@ public class Configuration implements Serializable {
 			//Do not cache this value as we lazily set it in Hibernate Annotation (AnnotationConfiguration)
 			//TODO use a dedicated protected useQuotedIdentifier flag in Configuration (overriden by AnnotationConfiguration)
 			String setting = (String) properties.get( Environment.GLOBALLY_QUOTED_IDENTIFIERS );
-			return setting != null && Boolean.valueOf( setting ).booleanValue();
+			return setting != null && Boolean.valueOf( setting );
 		}
 
 		public NamingStrategy getNamingStrategy() {

@@ -283,6 +283,12 @@ public abstract class Dialect implements ConversionContext {
 
 	// database type mapping support ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+	/**
+	 * Allows the Dialect to contribute additional types
+	 *
+	 * @param typeContributions Callback to contribute the types
+	 * @param serviceRegistry The service registry
+	 */
 	public void contributeTypes(TypeContributions typeContributions, ServiceRegistry serviceRegistry) {
 		// by default, nothing to do
 	}
@@ -1346,7 +1352,7 @@ public abstract class Dialect implements ConversionContext {
 	 * @param lockOptions the lock options to apply
 	 * @return The appropriate <tt>FOR UPDATE OF column_list</tt> clause string.
 	 */
-	@SuppressWarnings( {"unchecked"})
+	@SuppressWarnings({"unchecked", "UnusedParameters"})
 	public String getForUpdateString(String aliases, LockOptions lockOptions) {
 		LockMode lockMode = lockOptions.getLockMode();
 		final Iterator<Map.Entry<String, LockMode>> itr = lockOptions.getAliasLockIterator();
@@ -1446,7 +1452,7 @@ public abstract class Dialect implements ConversionContext {
 	 * @param keyColumnNames a map of key columns indexed by aliased table names.
 	 * @return the modified SQL string.
 	 */
-	public String applyLocksToSql(String sql, LockOptions aliasedLockOptions, Map keyColumnNames) {
+	public String applyLocksToSql(String sql, LockOptions aliasedLockOptions, Map<String, String[]> keyColumnNames) {
 		return sql + new ForUpdateFragment( this, aliasedLockOptions, keyColumnNames ).toFragmentString();
 	}
 
@@ -1596,6 +1602,7 @@ public abstract class Dialect implements ConversionContext {
 	 *
 	 * @throws SQLException Indicates problems registering the param.
 	 */
+	@SuppressWarnings("UnusedParameters")
 	public int registerResultSetOutParameter(CallableStatement statement, String name) throws SQLException {
 		throw new UnsupportedOperationException(
 				getClass().getName() +
@@ -1628,6 +1635,7 @@ public abstract class Dialect implements ConversionContext {
 	 *
 	 * @throws SQLException Indicates problems extracting the result set.
 	 */
+	@SuppressWarnings("UnusedParameters")
 	public ResultSet getResultSet(CallableStatement statement, int position) throws SQLException {
 		throw new UnsupportedOperationException(
 				getClass().getName() + " does not support resultsets via stored procedures"
@@ -1645,6 +1653,7 @@ public abstract class Dialect implements ConversionContext {
 	 *
 	 * @throws SQLException Indicates problems extracting the result set.
 	 */
+	@SuppressWarnings("UnusedParameters")
 	public ResultSet getResultSet(CallableStatement statement, String name) throws SQLException {
 		throw new UnsupportedOperationException(
 				getClass().getName() + " does not support resultsets via stored procedures"
@@ -2129,6 +2138,28 @@ public abstract class Dialect implements ConversionContext {
 	 * @return {@code true} if the "if exists" can be applied after the table name
 	 */
 	public boolean supportsIfExistsAfterTableName() {
+		return false;
+	}
+
+	/**
+	 * For dropping a constraint with an "alter table", can the phrase "if exists" be applied before the constraint name?
+	 * <p/>
+	 * NOTE : Only one or the other (or neither) of this and {@link #supportsIfExistsAfterConstraintName} should return true
+	 *
+	 * @return {@code true} if the "if exists" can be applied before the constraint name
+	 */
+	public boolean supportsIfExistsBeforeConstraintName() {
+		return false;
+	}
+
+	/**
+	 * For dropping a constraint with an "alter table", can the phrase "if exists" be applied after the constraint name?
+	 * <p/>
+	 * NOTE : Only one or the other (or neither) of this and {@link #supportsIfExistsBeforeConstraintName} should return true
+	 *
+	 * @return {@code true} if the "if exists" can be applied after the constraint name
+	 */
+	public boolean supportsIfExistsAfterConstraintName() {
 		return false;
 	}
 

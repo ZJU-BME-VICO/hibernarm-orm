@@ -1,71 +1,61 @@
 package org.hibernate.loader.plan.spi;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.hibernate.HibernateException;
 import org.hibernate.engine.FetchStrategy;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.loader.PropertyPath;
-import org.hibernate.loader.plan.internal.LoadPlanBuildingHelper;
 import org.hibernate.loader.plan.spi.build.LoadPlanBuildingContext;
 import org.hibernate.persister.collection.CollectionPersister;
+import org.hibernate.persister.collection.QueryableCollection;
 import org.hibernate.persister.entity.EntityPersister;
 import org.hibernate.persister.walking.spi.AssociationAttributeDefinition;
-import org.hibernate.persister.walking.spi.CompositionDefinition;
+import org.hibernate.type.CompositeType;
 
 /**
+ *  Represents the {@link FetchOwner} for a composite collection index.
+ *
  * @author Steve Ebersole
+ * @author Gail Badner
  */
-public class CompositeIndexGraph extends AbstractPlanNode implements FetchableCollectionIndex {
+public class CompositeIndexGraph extends AbstractFetchOwner implements FetchableCollectionIndex {
 	private final CollectionReference collectionReference;
 	private final PropertyPath propertyPath;
 	private final CollectionPersister collectionPersister;
+	private final FetchOwnerDelegate fetchOwnerDelegate;
 
-	private List<Fetch> fetches;
-
+	/**
+	 * Constructs a {@link CompositeElementGraph}.
+	 *
+	 * @param sessionFactory - the session factory.
+	 * @param collectionReference - the collection reference.
+	 * @param collectionPath - the {@link PropertyPath} for the collection.
+	 */
 	public CompositeIndexGraph(
 			SessionFactoryImplementor sessionFactory,
 			CollectionReference collectionReference,
-			PropertyPath propertyPath) {
+			PropertyPath collectionPath) {
 		super( sessionFactory );
 		this.collectionReference = collectionReference;
 		this.collectionPersister = collectionReference.getCollectionPersister();
-		this.propertyPath = propertyPath.append( "<index>" );
+		this.propertyPath = collectionPath.append( "<index>" );
+		this.fetchOwnerDelegate = new CompositeFetchOwnerDelegate(
+				sessionFactory,
+				(CompositeType) collectionPersister.getIndexType(),
+				new CompositeFetchOwnerDelegate.PropertyMappingDelegate() {
+					@Override
+					public String[] toSqlSelectFragments(String alias) {
+						return ( (QueryableCollection) collectionPersister ).getIndexColumnNames( alias );
+					}
+				}
+		);
 	}
 
 	protected CompositeIndexGraph(CompositeIndexGraph original, CopyContext copyContext) {
-		super( original );
+		super( original, copyContext );
 		this.collectionReference = original.collectionReference;
 		this.collectionPersister = original.collectionPersister;
 		this.propertyPath = original.propertyPath;
-
-		copyContext.getReturnGraphVisitationStrategy().startingFetches( original );
-		if ( fetches == null || fetches.size() == 0 ) {
-			this.fetches = Collections.emptyList();
-		}
-		else {
-			List<Fetch> fetchesCopy = new ArrayList<Fetch>();
-			for ( Fetch fetch : fetches ) {
-				fetchesCopy.add( fetch.makeCopy( copyContext, this ) );
-			}
-			this.fetches = fetchesCopy;
-		}
-		copyContext.getReturnGraphVisitationStrategy().finishingFetches( original );
-	}
-
-	@Override
-	public void addFetch(Fetch fetch) {
-		if ( fetches == null ) {
-			fetches = new ArrayList<Fetch>();
-		}
-		fetches.add( fetch );
-	}
-
-	@Override
-	public Fetch[] getFetches() {
-		return fetches == null ? NO_FETCHES : fetches.toArray( new Fetch[ fetches.size() ] );
+		this.fetchOwnerDelegate = original.fetchOwnerDelegate;
 	}
 
 	@Override
@@ -78,8 +68,23 @@ public class CompositeIndexGraph extends AbstractPlanNode implements FetchableCo
 	}
 
 	@Override
+	public CollectionReference getCollectionReference() {
+		return collectionReference;
+	}
+
+	@Override
 	public PropertyPath getPropertyPath() {
 		return propertyPath;
+	}
+
+	@Override
+	public CompositeIndexGraph makeCopy(CopyContext copyContext) {
+		return new CompositeIndexGraph( this, copyContext );
+	}
+
+	@Override
+	protected FetchOwnerDelegate getFetchOwnerDelegate() {
+		return fetchOwnerDelegate;
 	}
 
 	@Override
@@ -90,28 +95,4 @@ public class CompositeIndexGraph extends AbstractPlanNode implements FetchableCo
 		throw new HibernateException( "Composite index cannot define collections" );
 	}
 
-	@Override
-	public EntityFetch buildEntityFetch(
-			AssociationAttributeDefinition attributeDefinition,
-			FetchStrategy fetchStrategy,
-			LoadPlanBuildingContext loadPlanBuildingContext) {
-		return LoadPlanBuildingHelper.buildStandardEntityFetch(
-				this,
-				attributeDefinition,
-				fetchStrategy,
-				loadPlanBuildingContext
-		);
-	}
-
-	@Override
-	public CompositeFetch buildCompositeFetch(
-			CompositionDefinition attributeDefinition,
-			LoadPlanBuildingContext loadPlanBuildingContext) {
-		return LoadPlanBuildingHelper.buildStandardCompositeFetch( this, attributeDefinition, loadPlanBuildingContext );
-	}
-
-	@Override
-	public CompositeIndexGraph makeCopy(CopyContext copyContext) {
-		return new CompositeIndexGraph( this, copyContext );
-	}
 }

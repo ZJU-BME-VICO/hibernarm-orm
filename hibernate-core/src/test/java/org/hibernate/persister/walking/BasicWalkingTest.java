@@ -37,6 +37,7 @@ import org.hibernate.persister.walking.spi.AttributeDefinition;
 import org.hibernate.persister.walking.spi.CollectionDefinition;
 import org.hibernate.persister.walking.spi.CollectionElementDefinition;
 import org.hibernate.persister.walking.spi.CollectionIndexDefinition;
+import org.hibernate.persister.walking.spi.CompositeCollectionElementDefinition;
 import org.hibernate.persister.walking.spi.CompositionDefinition;
 import org.hibernate.persister.walking.spi.EntityDefinition;
 import org.hibernate.persister.walking.spi.EntityIdentifierDefinition;
@@ -164,6 +165,28 @@ public class BasicWalkingTest extends BaseCoreFunctionalTestCase {
 										"%s Finishing composite (%s)",
 										StringHelper.repeat( ">>", depth-- ),
 										compositionDefinition.toString()
+								)
+						);
+					}
+
+					@Override
+					public void startingCompositeCollectionElement(CompositeCollectionElementDefinition compositionElementDefinition) {
+						System.out.println(
+								String.format(
+										"%s Starting composite (%s)",
+										StringHelper.repeat( ">>", ++depth ),
+										compositionElementDefinition.toString()
+								)
+						);
+					}
+
+					@Override
+					public void finishingCompositeCollectionElement(CompositeCollectionElementDefinition compositionElementDefinition) {
+						System.out.println(
+								String.format(
+										"%s Finishing composite (%s)",
+										StringHelper.repeat( ">>", depth-- ),
+										compositionElementDefinition.toString()
 								)
 						);
 					}

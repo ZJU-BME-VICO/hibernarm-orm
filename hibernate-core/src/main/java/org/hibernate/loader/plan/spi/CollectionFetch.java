@@ -30,7 +30,6 @@ import org.hibernate.LockMode;
 import org.hibernate.engine.FetchStrategy;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.loader.spi.ResultSetProcessingContext;
-import org.hibernate.type.CollectionType;
 
 /**
  * @author Steve Ebersole
@@ -72,6 +71,16 @@ public class CollectionFetch extends AbstractCollectionReference implements Fetc
 	@Override
 	public String getOwnerPropertyName() {
 		return getPropertyPath().getProperty();
+	}
+
+	@Override
+	public boolean isNullable() {
+		return true;
+	}
+
+	@Override
+	public String[] toSqlSelectFragments(String alias) {
+		return getOwner().toSqlSelectFragments( this, alias );
 	}
 
 	@Override

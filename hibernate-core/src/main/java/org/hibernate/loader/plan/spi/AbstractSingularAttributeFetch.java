@@ -24,14 +24,16 @@
 package org.hibernate.loader.plan.spi;
 
 import org.hibernate.HibernateException;
-import org.hibernate.LockMode;
 import org.hibernate.engine.FetchStrategy;
 import org.hibernate.engine.FetchStyle;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.loader.PropertyPath;
 
 /**
+ * Represents a singular attribute that is both a {@link FetchOwner} and a {@link Fetch}.
+ *
  * @author Steve Ebersole
+ * @author Gail Badner
  */
 public abstract class AbstractSingularAttributeFetch extends AbstractFetchOwner implements Fetch {
 	private final FetchOwner owner;
@@ -40,13 +42,20 @@ public abstract class AbstractSingularAttributeFetch extends AbstractFetchOwner 
 
 	private final PropertyPath propertyPath;
 
+	/**
+	 * Constructs an {@link AbstractSingularAttributeFetch} object.
+	 *
+	 * @param factory - the session factory.
+	 * @param owner - the fetch owner for this fetch.
+	 * @param ownerProperty - the owner's property referring to this fetch.
+	 * @param fetchStrategy - the fetch strategy for this fetch.
+	 */
 	public AbstractSingularAttributeFetch(
 			SessionFactoryImplementor factory,
-			LockMode lockMode,
 			FetchOwner owner,
 			String ownerProperty,
 			FetchStrategy fetchStrategy) {
-		super( factory, lockMode );
+		super( factory );
 		this.owner = owner;
 		this.ownerProperty = ownerProperty;
 		this.fetchStrategy = fetchStrategy;
@@ -75,6 +84,16 @@ public abstract class AbstractSingularAttributeFetch extends AbstractFetchOwner 
 	@Override
 	public String getOwnerPropertyName() {
 		return ownerProperty;
+	}
+
+	@Override
+	public boolean isNullable() {
+		return owner.isNullable( this );
+	}
+
+	@Override
+	public String[] toSqlSelectFragments(String alias) {
+		return owner.toSqlSelectFragments( this, alias );
 	}
 
 	@Override

@@ -55,6 +55,9 @@ public interface AssociationVisitationStrategy {
 	public void startingComposite(CompositionDefinition compositionDefinition);
 	public void finishingComposite(CompositionDefinition compositionDefinition);
 
+	public void startingCompositeCollectionElement(CompositeCollectionElementDefinition compositionElementDefinition);
+	public void finishingCompositeCollectionElement(CompositeCollectionElementDefinition compositionElementDefinition);
+
 	public boolean startingAttribute(AttributeDefinition attributeDefinition);
 	public void finishingAttribute(AttributeDefinition attributeDefinition);
 }

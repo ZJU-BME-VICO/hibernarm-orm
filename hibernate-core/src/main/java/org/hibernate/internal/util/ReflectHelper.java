@@ -59,6 +59,7 @@ import org.openehr.rm.common.archetyped.Locatable;
  * @author Gavin King
  * @author Steve Ebersole
  */
+@SuppressWarnings("unchecked")
 public final class ReflectHelper {
 
 	//TODO: this dependency is kinda Bad

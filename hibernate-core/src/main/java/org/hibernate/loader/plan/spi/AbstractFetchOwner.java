@@ -27,20 +27,30 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.hibernate.LockMode;
+import org.hibernate.engine.FetchStrategy;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
+import org.hibernate.loader.plan.internal.LoadPlanBuildingHelper;
+import org.hibernate.loader.plan.spi.build.LoadPlanBuildingContext;
+import org.hibernate.persister.walking.spi.AssociationAttributeDefinition;
+import org.hibernate.persister.walking.spi.CompositionDefinition;
+import org.hibernate.type.Type;
 
 /**
+ * This is a class for fetch owners, providing functionality related to the owned
+ * fetches.
+ *
  * @author Steve Ebersole
+ * @author Gail Badner
  */
 public abstract class AbstractFetchOwner extends AbstractPlanNode implements FetchOwner {
-	private final LockMode lockMode;
+
+	// TODO: I removed lockMode from this method because I *think* it only relates to EntityFetch and EntityReturn.
+	//       lockMode should be moved back here if it applies to all fetch owners.
 
 	private List<Fetch> fetches;
 
-	public AbstractFetchOwner(SessionFactoryImplementor factory, LockMode lockMode) {
+	public AbstractFetchOwner(SessionFactoryImplementor factory) {
 		super( factory );
-		this.lockMode = lockMode;
 		validate();
 	}
 
@@ -50,13 +60,14 @@ public abstract class AbstractFetchOwner extends AbstractPlanNode implements Fet
 	/**
 	 * A "copy" constructor.  Used while making clones/copies of this.
 	 *
-	 * @param original
+	 * @param original - the original object to copy.
+	 * @param copyContext - the copy context.
 	 */
 	protected AbstractFetchOwner(AbstractFetchOwner original, CopyContext copyContext) {
 		super( original );
-		this.lockMode = original.lockMode;
 		validate();
 
+		// TODO: I don't think this is correct; shouldn't the fetches from original be copied into this???
 		copyContext.getReturnGraphVisitationStrategy().startingFetches( original );
 		if ( fetches == null || fetches.size() == 0 ) {
 			this.fetches = Collections.emptyList();
@@ -69,10 +80,6 @@ public abstract class AbstractFetchOwner extends AbstractPlanNode implements Fet
 			this.fetches = fetchesCopy;
 		}
 		copyContext.getReturnGraphVisitationStrategy().finishingFetches( original );
-	}
-
-	public LockMode getLockMode() {
-		return lockMode;
 	}
 
 	@Override
@@ -92,4 +99,59 @@ public abstract class AbstractFetchOwner extends AbstractPlanNode implements Fet
 	public Fetch[] getFetches() {
 		return fetches == null ? NO_FETCHES : fetches.toArray( new Fetch[ fetches.size() ] );
 	}
+
+	/**
+	 * Abstract method returning the delegate for obtaining details about an owned fetch.
+	 * @return the delegate
+	 */
+	protected abstract FetchOwnerDelegate getFetchOwnerDelegate();
+
+	@Override
+	public boolean isNullable(Fetch fetch) {
+		return getFetchOwnerDelegate().locateFetchMetadata( fetch ).isNullable();
+	}
+
+	@Override
+	public Type getType(Fetch fetch) {
+		return getFetchOwnerDelegate().locateFetchMetadata( fetch ).getType();
+	}
+
+	@Override
+	public String[] toSqlSelectFragments(Fetch fetch, String alias) {
+		return getFetchOwnerDelegate().locateFetchMetadata( fetch ).toSqlSelectFragments( alias );
+	}
+
+	@Override
+	public CollectionFetch buildCollectionFetch(
+			AssociationAttributeDefinition attributeDefinition,
+			FetchStrategy fetchStrategy,
+			LoadPlanBuildingContext loadPlanBuildingContext) {
+		return LoadPlanBuildingHelper.buildStandardCollectionFetch(
+				this,
+				attributeDefinition,
+				fetchStrategy,
+				loadPlanBuildingContext
+		);
+	}
+
+	@Override
+	public EntityFetch buildEntityFetch(
+			AssociationAttributeDefinition attributeDefinition,
+			FetchStrategy fetchStrategy,
+			LoadPlanBuildingContext loadPlanBuildingContext) {
+		return LoadPlanBuildingHelper.buildStandardEntityFetch(
+				this,
+				attributeDefinition,
+				fetchStrategy,
+				loadPlanBuildingContext
+		);
+	}
+
+	@Override
+	public CompositeFetch buildCompositeFetch(
+			CompositionDefinition attributeDefinition,
+			LoadPlanBuildingContext loadPlanBuildingContext) {
+		return LoadPlanBuildingHelper.buildStandardCompositeFetch( this, attributeDefinition, loadPlanBuildingContext );
+	}
+
 }
