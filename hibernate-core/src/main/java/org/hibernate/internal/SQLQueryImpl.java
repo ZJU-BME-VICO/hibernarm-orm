@@ -144,11 +144,6 @@ public class SQLQueryImpl extends AbstractQueryImpl implements SQLQuery {
 		}
 	}
 
-	@Override
-	public List listAQL() throws HibernateException {
-		return null;
-	}
-
 	private NativeSQLQuerySpecification generateQuerySpecification(Map namedParams) {
 		return new NativeSQLQuerySpecification(
 		        expandParameterLists(namedParams),
@@ -394,10 +389,6 @@ public class SQLQueryImpl extends AbstractQueryImpl implements SQLQuery {
 		finally {
 			after();
 		}
-	}
-	
-	public int executeUpdateAQL() {
-		return 0;
 	}
 
 	private class RootReturnBuilder implements RootReturn, ReturnBuilder {

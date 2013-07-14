@@ -50,7 +50,6 @@ import org.hibernate.cache.spi.CacheKey;
 import org.hibernate.collection.spi.PersistentCollection;
 import org.hibernate.engine.internal.StatefulPersistenceContext;
 import org.hibernate.engine.internal.Versioning;
-import org.hibernate.engine.query.spi.AQLQueryPlan;
 import org.hibernate.engine.query.spi.HQLQueryPlan;
 import org.hibernate.engine.query.spi.NativeSQLQueryPlan;
 import org.hibernate.engine.query.spi.sql.NativeSQLQuerySpecification;
@@ -428,25 +427,6 @@ public class StatelessSessionImpl extends AbstractSessionImpl implements Statele
 	}
 
 	@Override
-	public int executeUpdateAQL(String query, QueryParameters queryParameters)
-			throws HibernateException {
-		errorIfClosed();
-		queryParameters.validateParameters();
-		AQLQueryPlan plan = getAQLQueryPlan( query, false );
-		boolean success = false;
-		int result = 0;
-		try {
-			result = plan.performExecuteUpdate( queryParameters, this );
-			success = true;
-		}
-		finally {
-			afterOperation(success);
-		}
-		temporaryPersistenceContext.clear();
-		return result;
-	}
-
-	@Override
 	public CacheMode getCacheMode() {
 		return CacheMode.IGNORE;
 	}
@@ -606,24 +586,6 @@ public class StatelessSessionImpl extends AbstractSessionImpl implements Statele
 		return results;
 	}
 
-	@Override
-	public List listAQL(String query, QueryParameters queryParameters) throws HibernateException {
-		errorIfClosed();
-		queryParameters.validateParameters();
-		AQLQueryPlan plan = getAQLQueryPlan( query, false );
-		boolean success = false;
-		List results = Collections.EMPTY_LIST;
-		try {
-			results = plan.performList( queryParameters, this );
-			success = true;
-		}
-		finally {
-			afterOperation(success);
-		}
-		temporaryPersistenceContext.clear();
-		return results;
-	}
-	
 	public void afterOperation(boolean success) {
 		if ( ! transactionCoordinator.isTransactionInProgress() ) {
 			transactionCoordinator.afterNonTransactionalQuery( success );

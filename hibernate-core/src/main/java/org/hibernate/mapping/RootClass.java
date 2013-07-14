@@ -42,7 +42,7 @@ import org.hibernate.internal.util.collections.SingletonIterator;
  * The root class of an inheritance hierarchy
  * @author Gavin King
  */
-public class RootClass extends PersistentClass implements TableOwner {
+public class RootClass extends PersistentClass implements TableOwner, ArchetypeOwner {
 
     private static final CoreMessageLogger LOG = Logger.getMessageLogger(CoreMessageLogger.class, RootClass.class.getName());
 
@@ -69,6 +69,9 @@ public class RootClass extends PersistentClass implements TableOwner {
 	private int nextSubclassId = 0;
 	private Property declaredIdentifierProperty;
 	private Property declaredVersion;
+	
+	private Archetype archetype;
+	private Class archetypeClass;
 
 	@Override
     int nextSubclassId() {
@@ -353,11 +356,21 @@ public class RootClass extends PersistentClass implements TableOwner {
     public Object accept(PersistentClassVisitor mv) {
 		return mv.accept(this);
 	}
-	
+
 	@Override
-	public Archetype getArchetype() {
-		// TODO Auto-generated method stub
-		return null;
+	public void setArchetype(Archetype archetype) {
+		this.archetype = archetype;
 	}
 
+	public Archetype getArchetype() {
+		return archetype;
+	}
+	
+	public void setArchetypeClass(Class klass) {
+		this.archetypeClass = klass;
+	}
+
+	public Class getArchetypeClass() {
+		return archetypeClass;
+	}
 }

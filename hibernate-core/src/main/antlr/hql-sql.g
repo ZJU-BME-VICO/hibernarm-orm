@@ -501,9 +501,9 @@ path returns [String p] {
 	String x = "?x?";
 	}
 	: a:identifier { p = a.getText(); }
-	| #(DOT x=path y:identifier) {
+	| #(PATH_SEPARATOR x=path y:identifier) {
 			StringBuilder buf = new StringBuilder();
-			buf.append(x).append(".").append(y.getText());
+			buf.append(x).append("/").append(y.getText());
 			p = buf.toString();
 		}
 	;
@@ -651,7 +651,7 @@ identifier
 	;
 
 addrExpr! [ boolean root ]
-	: #(d:DOT lhs:addrExprLhs rhs:propertyName )	{
+	: #(d:PATH_SEPARATOR lhs:addrExprLhs rhs:propertyName )	{
 		// This gives lookupProperty() a chance to transform the tree 
 		// to process collection properties (.elements, etc).
 		#addrExpr = #(#d, #lhs, #rhs);
@@ -697,7 +697,7 @@ propertyRef!
 	    resolve( #mcr );
 	    #propertyRef = #mcr;
 	}
-	| #(d:DOT lhs:propertyRefLhs rhs:propertyName )	{
+	| #(d:PATH_SEPARATOR lhs:propertyRefLhs rhs:propertyName )	{
 		// This gives lookupProperty() a chance to transform the tree to process collection properties (.elements, etc).
 		#propertyRef = #(#d, #lhs, #rhs);
 		#propertyRef = lookupProperty(#propertyRef,false,true);

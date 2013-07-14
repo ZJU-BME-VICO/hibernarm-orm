@@ -78,15 +78,6 @@ public interface SharedSessionContract extends Serializable {
 	public Query createQuery(String queryString);
 
 	/**
-	 * Create a {@link Query} instance for the given AQL query string.
-	 *
-	 * @param queryString The AQL query
-	 *
-	 * @return The query instance for manipulation and execution
-	 */
-	public Query createAQLQuery(String queryString);
-
-	/**
 	 * Create a {@link SQLQuery} instance for the given SQL query string.
 	 *
 	 * @param queryString The SQL query

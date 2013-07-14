@@ -713,7 +713,8 @@ vectorExpr
 // the method looks a head to find keywords after DOT and turns them into identifiers.
 identPrimary
     : i:identPrimaryBase { handleDotIdent(); }
-			( options { greedy=true; } : DOT^ ( identifier | ELEMENTS | o:OBJECT { #o.setType(IDENT); } ) )*
+//			( options { greedy=true; } : DOT^ ( identifier | ELEMENTS | o:OBJECT { #o.setType(IDENT); } ) )*
+			( options { greedy=true; } : PATH_SEPARATOR^ ( identifier | ELEMENTS | o:OBJECT { #o.setType(IDENT); } ) )*
 			( options { greedy=true; } :
 				( op:OPEN^ { #op.setType(METHOD_CALL);} e:exprList CLOSE! ) {
 				    AST path = #e.getFirstChild();
@@ -799,10 +800,10 @@ constant
 
 //## compoundPath: path ( OPEN_BRACKET expression CLOSE_BRACKET ( '.' path )? )*;
 
-//## path: identifier ( '.' identifier )*;
+//## path: identifier ( '#' identifier )*;
 
 path
-	: identifier ( DOT^ { weakKeywords(); } identifier )*
+	: identifier ( PATH_SEPARATOR^ { weakKeywords(); } identifier )*
 	;
 
 // Wraps the IDENT token from the lexer, in order to provide
@@ -864,7 +865,7 @@ CONCAT: "||";
 PLUS: '+';
 MINUS: '-';
 STAR: '*';
-DIV: '/';
+DIV: "><";
 MOD: '%';
 COLON: ':';
 PARAM: '?';
@@ -881,6 +882,7 @@ protected
 ID_START_LETTER
     :    '_'
     |    '$'
+    |    '/'
     |    'a'..'z'
     |    '\u0080'..'\ufffe'       // HHH-558 : Allow unicode chars in identifiers
     ;
@@ -888,6 +890,10 @@ ID_START_LETTER
 protected
 ID_LETTER
     :    ID_START_LETTER
+    |    OPEN_BRACKET
+    |    CLOSE_BRACKET
+    |    '.'
+    |    MINUS
     |    '0'..'9'
     ;
 

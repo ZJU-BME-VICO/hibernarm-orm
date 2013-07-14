@@ -69,6 +69,7 @@ import org.hibernate.hql.internal.ast.tree.MethodNode;
 import org.hibernate.hql.internal.ast.tree.OperatorNode;
 import org.hibernate.hql.internal.ast.tree.ParameterContainer;
 import org.hibernate.hql.internal.ast.tree.ParameterNode;
+import org.hibernate.hql.internal.ast.tree.PathSeparatorNode;
 import org.hibernate.hql.internal.ast.tree.QueryNode;
 import org.hibernate.hql.internal.ast.tree.ResolvableNode;
 import org.hibernate.hql.internal.ast.tree.RestrictableStatement;
@@ -563,7 +564,7 @@ public class HqlSqlWalker extends HqlSqlBaseWalker implements ErrorReporter, Par
 
 	@Override
     protected AST lookupProperty(AST dot, boolean root, boolean inSelect) throws SemanticException {
-		DotNode dotNode = ( DotNode ) dot;
+		PathSeparatorNode dotNode = ( PathSeparatorNode ) dot;
 		FromReferenceNode lhs = dotNode.getLhs();
 		AST rhs = lhs.getNextSibling();
 		switch ( rhs.getType() ) {
@@ -897,8 +898,8 @@ public class HqlSqlWalker extends HqlSqlBaseWalker implements ErrorReporter, Par
 		// This is called when it's time to fully resolve a path expression.
 		int type = node.getType();
 		switch ( type ) {
-			case DOT: {
-				DotNode dot = ( DotNode ) node;
+			case PATH_SEPARATOR: {
+				PathSeparatorNode dot = ( PathSeparatorNode ) node;
 				dot.resolveSelectExpression();
 				break;
 			}

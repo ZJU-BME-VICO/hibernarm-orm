@@ -41,7 +41,6 @@ import org.hibernate.procedure.ProcedureCall;
 import org.hibernate.cache.spi.CacheKey;
 import org.hibernate.engine.jdbc.LobCreationContext;
 import org.hibernate.engine.jdbc.spi.JdbcConnectionAccess;
-import org.hibernate.engine.query.spi.AQLQueryPlan;
 import org.hibernate.engine.query.spi.HQLQueryPlan;
 import org.hibernate.engine.query.spi.NativeSQLQueryPlan;
 import org.hibernate.engine.query.spi.ParameterMetadata;
@@ -229,18 +228,6 @@ public abstract class AbstractSessionImpl
 	}
 
 	@Override
-	public Query createAQLQuery(String queryString) {
-		errorIfClosed();
-		QueryImpl query = new QueryImpl(
-				queryString,
-		        this,
-		        getAQLQueryPlan( queryString, false ).getParameterMetadata()
-		);
-		query.setComment( queryString );
-		return query;
-	}
-
-	@Override
 	public SQLQuery createSQLQuery(String sql) {
 		errorIfClosed();
 		final SQLQueryImpl query = new SQLQueryImpl(
@@ -297,10 +284,6 @@ public abstract class AbstractSessionImpl
 
 	protected HQLQueryPlan getHQLQueryPlan(String query, boolean shallow) throws HibernateException {
 		return factory.getQueryPlanCache().getHQLQueryPlan( query, shallow, getEnabledFilters() );
-	}
-
-	protected AQLQueryPlan getAQLQueryPlan(String query, boolean shallow) throws HibernateException {
-		return factory.getQueryPlanCache().getAQLQueryPlan( query, shallow, getEnabledFilters() );
 	}
 
 	protected NativeSQLQueryPlan getNativeSQLQueryPlan(NativeSQLQuerySpecification spec) throws HibernateException {

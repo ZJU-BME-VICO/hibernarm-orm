@@ -22,16 +22,16 @@
  * Boston, MA  02110-1301  USA
  *
  */
-package org.hibernate.aql.internal.ast.tree;
+package org.hibernate.hql.internal.ast.tree;
 
 import antlr.SemanticException;
 import antlr.collections.AST;
 import org.jboss.logging.Logger;
 
 import org.hibernate.QueryException;
-import org.hibernate.aql.internal.CollectionProperties;
-import org.hibernate.aql.internal.ast.util.ASTUtil;
-import org.hibernate.aql.internal.ast.util.ColumnHelper;
+import org.hibernate.hql.internal.CollectionProperties;
+import org.hibernate.hql.internal.ast.util.ASTUtil;
+import org.hibernate.hql.internal.ast.util.ColumnHelper;
 import org.hibernate.engine.internal.JoinSequence;
 import org.hibernate.hql.internal.antlr.SqlTokenTypes;
 import org.hibernate.internal.CoreMessageLogger;
@@ -50,7 +50,7 @@ import org.hibernate.type.Type;
  *
  * @author Joshua Davis
  */
-public class DotNode extends FromReferenceNode implements DisplayableNode, SelectExpression {
+public class PathSeparatorNode extends FromReferenceNode implements DisplayableNode, SelectExpression {
 
 	///////////////////////////////////////////////////////////////////////////
 	// USED ONLY FOR REGRESSION TESTING!!!!
@@ -71,7 +71,7 @@ public class DotNode extends FromReferenceNode implements DisplayableNode, Selec
 	public static IllegalCollectionDereferenceExceptionBuilder ILLEGAL_COLL_DEREF_EXCP_BUILDER = DEF_ILLEGAL_COLL_DEREF_EXCP_BUILDER;
 	///////////////////////////////////////////////////////////////////////////
 
-    private static final CoreMessageLogger LOG = Logger.getMessageLogger(CoreMessageLogger.class, DotNode.class.getName());
+    private static final CoreMessageLogger LOG = Logger.getMessageLogger(CoreMessageLogger.class, PathSeparatorNode.class.getName());
 
 	private static final int DEREF_UNKNOWN = 0;
 	private static final int DEREF_ENTITY = 1;
@@ -346,7 +346,7 @@ public class DotNode extends FromReferenceNode implements DisplayableNode, Selec
 		// for ToOne implicit joins *if the query is shallow*; the result
 		// being that Query.list() and Query.iterate() could return
 		// different number of results!
-		DotNode parentAsDotNode = null;
+		PathSeparatorNode parentAsDotNode = null;
 		String property = propertyName;
 		final boolean joinIsNeeded;
 
@@ -354,7 +354,7 @@ public class DotNode extends FromReferenceNode implements DisplayableNode, Selec
 			// our parent is another dot node, meaning we are being further dereferenced.
 			// thus we need to generate a join unless the parent refers to the associated
 			// entity's PK (because 'our' table would know the FK).
-			parentAsDotNode = ( DotNode ) parent;
+			parentAsDotNode = ( PathSeparatorNode ) parent;
 			property = parentAsDotNode.propertyName;
 			joinIsNeeded = generateJoin && !isReferenceToPrimaryKey( parentAsDotNode.propertyName, entityType );
 		}
@@ -489,7 +489,7 @@ public class DotNode extends FromReferenceNode implements DisplayableNode, Selec
 	private void setImpliedJoin(FromElement elem) {
 		this.impliedJoin = elem;
 		if ( getFirstChild().getType() == SqlTokenTypes.DOT ) {
-			DotNode dotLhs = ( DotNode ) getFirstChild();
+			PathSeparatorNode dotLhs = ( PathSeparatorNode ) getFirstChild();
 			if ( dotLhs.getImpliedJoin() != null ) {
 				this.impliedJoin = dotLhs.getImpliedJoin();
 			}
@@ -555,7 +555,7 @@ public class DotNode extends FromReferenceNode implements DisplayableNode, Selec
 		setPropertyNameAndPath( parent );
 	}
 
-	private void dereferenceEntityIdentifier(String propertyName, DotNode dotParent) {
+	private void dereferenceEntityIdentifier(String propertyName, PathSeparatorNode dotParent) {
 		// special shortcut for id properties, skip the join!
 		// this must only occur at the _end_ of a path expression
 		if ( LOG.isDebugEnabled() ) {
@@ -576,7 +576,7 @@ public class DotNode extends FromReferenceNode implements DisplayableNode, Selec
 
 	private void setPropertyNameAndPath(AST parent) {
 		if ( isDotNode( parent ) ) {
-			DotNode dotNode = ( DotNode ) parent;
+			PathSeparatorNode dotNode = ( PathSeparatorNode ) parent;
 			AST lhs = dotNode.getFirstChild();
 			AST rhs = lhs.getNextSibling();
 			propertyName = rhs.getText();

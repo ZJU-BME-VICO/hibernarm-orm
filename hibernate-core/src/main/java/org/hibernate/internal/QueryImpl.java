@@ -108,42 +108,12 @@ public class QueryImpl extends AbstractQueryImpl {
 		}
 	}
 
-	public List listAQL() throws HibernateException {
-		verifyParameters();
-		Map namedParams = getNamedParams();
-		before();
-		try {
-			return getSession().listAQL(
-					expandParameterLists(namedParams),
-			        getQueryParameters(namedParams)
-				);
-		}
-		finally {
-			after();
-		}
-	}
-
 	public int executeUpdate() throws HibernateException {
 		verifyParameters();
 		Map namedParams = getNamedParams();
 		before();
 		try {
             return getSession().executeUpdate(
-                    expandParameterLists( namedParams ),
-                    getQueryParameters( namedParams )
-	            );
-		}
-		finally {
-			after();
-		}
-	}
-
-	public int executeUpdateAQL() throws HibernateException {
-		verifyParameters();
-		Map namedParams = getNamedParams();
-		before();
-		try {
-            return getSession().executeUpdateAQL(
                     expandParameterLists( namedParams ),
                     getQueryParameters( namedParams )
 	            );

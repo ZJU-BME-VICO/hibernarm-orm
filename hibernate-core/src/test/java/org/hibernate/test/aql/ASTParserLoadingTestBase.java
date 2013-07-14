@@ -35,11 +35,11 @@ import org.openehr.rm.util.SkeletonGenerator;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.aql.internal.ast.ASTQueryTranslatorFactory;
 import org.hibernate.archetype.ArchetypeRepository;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.hibernate.dialect.CUBRIDDialect;
+import org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory;
 import org.hibernate.internal.util.ReflectHelper;
 import org.hibernate.testing.SkipForDialect;
 import org.hibernate.testing.junit4.BaseCoreFunctionalTestCase;
@@ -69,8 +69,7 @@ public class ASTParserLoadingTestBase extends BaseCoreFunctionalTestCase {
 		super.configure(cfg);
 		cfg.setProperty(Environment.USE_QUERY_CACHE, "true");
 		cfg.setProperty(Environment.GENERATE_STATISTICS, "true");
-		cfg.setProperty(Environment.AQL_QUERY_TRANSLATOR,
-				ASTQueryTranslatorFactory.class.getName());
+		cfg.setProperty( Environment.QUERY_TRANSLATOR, ASTQueryTranslatorFactory.class.getName() );
 	}
 
 	@Override
@@ -256,7 +255,7 @@ public class ASTParserLoadingTestBase extends BaseCoreFunctionalTestCase {
 
 		for (String str : getArchetypeIds()) {
 			String aql = String.format("delete from %s as o", str);
-			s.createAQLQuery(aql).executeUpdateAQL();
+			s.createQuery(aql).executeUpdate();
 		}
 
 		s.flush();

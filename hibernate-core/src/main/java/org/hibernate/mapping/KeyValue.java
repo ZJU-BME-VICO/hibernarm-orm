@@ -42,13 +42,6 @@ public interface KeyValue extends Value {
 			String defaultSchema,
 			RootClass rootClass) throws MappingException;
 
-	public IdentifierGenerator createArchetypeIdentifierGenerator(
-			IdentifierGeneratorFactory identifierGeneratorFactory,
-			Dialect dialect,
-			String defaultCatalog,
-			String defaultSchema,
-			RootArchetype rootArchetype) throws MappingException;
-
 	public boolean isIdentityColumn(IdentifierGeneratorFactory identifierGeneratorFactory, Dialect dialect);
 	
 	public void createForeignKeyOfEntity(String entityName);

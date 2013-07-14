@@ -515,11 +515,7 @@ public class Configuration implements Serializable {
 
 	public void add(XmlDocument metadataXml) {
 		if ( inSecondPass || !isOrmXml( metadataXml ) ) {
-			if (isArmXml(metadataXml)) {
-				metadataSourceQueue.addArm(metadataXml);
-			} else {
-				metadataSourceQueue.add( metadataXml );
-			}
+			metadataSourceQueue.add( metadataXml );
 		}
 		else {
 			final MetadataProvider metadataProvider = ( (MetadataProviderInjector) reflectionManager ).getMetadataProvider();
@@ -553,20 +549,6 @@ public class Configuration implements Serializable {
 		return "entity-mappings".equals( xmlDocument.getDocumentTree().getRootElement().getName() );
 	}
 
-	private static boolean isArmXml(XmlDocument xmlDocument) {
-		final Document document = xmlDocument.getDocumentTree();
-		final Element hmNode = document.getRootElement();
-		
-		Attribute packNode = hmNode.attribute( "package" );
-		String defaultPackage = packNode != null ? packNode.getValue() : "";
-
-		if (defaultPackage.equals("@openEHR")) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
 	/**
 	 * Add a cached mapping file.  A cached file is a serialized representation
 	 * of the DOM structure of a particular mapping.  It is saved from a previous
@@ -3569,11 +3551,6 @@ public class Configuration implements Serializable {
 		private LinkedHashMap<XmlDocument, Set<String>> hbmMetadataToEntityNamesMap
 				= new LinkedHashMap<XmlDocument, Set<String>>();
 		private Map<String, XmlDocument> hbmMetadataByEntityNameXRef = new HashMap<String, XmlDocument>();
-		
-		private LinkedHashMap<XmlDocument, Set<String>> armMetadataToEntityNamesMap
-				= new LinkedHashMap<XmlDocument, Set<String>>();
-		private Map<String, XmlDocument> armMetadataByEntityNameXRef = new HashMap<String, XmlDocument>();
-		
 
 		//XClass are not serializable by default
 		private transient List<XClass> annotatedClasses = new ArrayList<XClass>();
@@ -3605,10 +3582,8 @@ public class Configuration implements Serializable {
 		public void add(XmlDocument metadataXml) {
 			final Document document = metadataXml.getDocumentTree();
 			final Element hmNode = document.getRootElement();
-			Attribute packNode = hmNode.attribute( "package" );
-			String defaultPackage = packNode != null ? packNode.getValue() : "";
 			Set<String> entityNames = new HashSet<String>();
-			findClassNames( defaultPackage, hmNode, entityNames );
+			findArchetypeNames( null, hmNode, entityNames );
 			for ( String entity : entityNames ) {
 				hbmMetadataByEntityNameXRef.put( entity, metadataXml );
 			}
@@ -3648,17 +3623,6 @@ public class Configuration implements Serializable {
 				return defaultPackage + '.' + unqualifiedName;
 			}
 			return unqualifiedName;
-		}
-
-		public void addArm(XmlDocument metadataXml) {
-			final Document document = metadataXml.getDocumentTree();
-			final Element hmNode = document.getRootElement();
-			Set<String> entityNames = new HashSet<String>();
-			findArchetypeNames( null, hmNode, entityNames );
-			for ( String entity : entityNames ) {
-				armMetadataByEntityNameXRef.put( entity, metadataXml );
-			}
-			this.armMetadataToEntityNamesMap.put( metadataXml, entityNames );
 		}
 
 		private void findArchetypeNames(String defaultPackage, Element startNode, Set<String> names) {
@@ -3709,41 +3673,7 @@ public class Configuration implements Serializable {
 				else if ( MetadataSourceType.CLASS.equals( type ) ) {
 					processAnnotatedClassesQueue();
 				}
-				else if (MetadataSourceType.ARM.equals(type)) {
-					processArmXmlQueue();
-				}
 			}
-		}
-
-		private void processArmXmlQueue() {
-			LOG.debug( "Processing arm.xml files" );
-			for ( Map.Entry<XmlDocument, Set<String>> entry : armMetadataToEntityNamesMap.entrySet() ) {
-				// Unfortunately we have to create a Mappings instance for each iteration here
-				processArmXml( entry.getKey(), entry.getValue() );
-			}
-			armMetadataToEntityNamesMap.clear();
-			armMetadataByEntityNameXRef.clear();
-		}
-
-		private void processArmXml(XmlDocument metadataXml, Set<String> entityNames) {
-			try {
-//				HbmBinder.bindRoot( metadataXml, createMappings(), Collections.EMPTY_MAP, entityNames );
-				ArmBinder.bindRoot(metadataXml, createMappings(), Collections.EMPTY_MAP, entityNames);
-			}
-			catch ( MappingException me ) {
-				throw new InvalidMappingException(
-						metadataXml.getOrigin().getType(),
-						metadataXml.getOrigin().getName(),
-						me
-				);
-			}
-
-//			for ( String entityName : entityNames ) {
-//				if ( annotatedClassesByEntityNameMap.containsKey( entityName ) ) {
-//					annotatedClasses.remove( annotatedClassesByEntityNameMap.get( entityName ) );
-//					annotatedClassesByEntityNameMap.remove( entityName );
-//				}
-//			}
 		}
 
 		private void processHbmXmlQueue() {
@@ -3851,7 +3781,6 @@ public class Configuration implements Serializable {
 
 	public static final MetadataSourceType[] DEFAULT_ARTEFACT_PROCESSING_ORDER = new MetadataSourceType[] {
 			MetadataSourceType.HBM,
-			MetadataSourceType.ARM,
 			MetadataSourceType.CLASS
 	};
 

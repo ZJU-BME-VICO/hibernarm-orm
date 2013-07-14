@@ -160,8 +160,6 @@ public interface SessionImplementor extends Serializable, LobCreationContext {
 	 * Execute a <tt>find()</tt> query
 	 */
 	public List list(String query, QueryParameters queryParameters) throws HibernateException;
-
-	public List listAQL(String query, QueryParameters queryParameters) throws HibernateException;
 	/**
 	 * Execute an <tt>iterate()</tt> query
 	 */
@@ -301,8 +299,6 @@ public interface SessionImplementor extends Serializable, LobCreationContext {
 	 * Execute a HQL update or delete query
 	 */
 	int executeUpdate(String query, QueryParameters queryParameters) throws HibernateException;
-
-	int executeUpdateAQL(String query, QueryParameters queryParameters) throws HibernateException;
 
 	/**
 	 * Execute a native SQL update or delete query

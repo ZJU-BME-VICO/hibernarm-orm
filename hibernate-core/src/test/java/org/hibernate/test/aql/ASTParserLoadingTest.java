@@ -39,7 +39,6 @@ import org.openehr.am.parser.ContentObject;
 import org.openehr.am.parser.DADLParser;
 import org.openehr.rm.binding.DADLBinding;
 import org.openehr.rm.common.archetyped.Locatable;
-import org.hamcrest.core.IsInstanceOf;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.dialect.CUBRIDDialect;
@@ -69,7 +68,7 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 
 		{
 			String query = "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o ";
-			List results = s.createAQLQuery(query).listAQL();
+			List results = s.createQuery(query).list();
 
 			DADLBinding binding = new DADLBinding();
 			for (Object obj : results) {
@@ -83,14 +82,14 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 			String query = "delete "
 					+ "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
 					+ "where o#/details[at0001]/items[at0009]/value/value = 'lisi'";
-			int ret = s.createAQLQuery(query).executeUpdateAQL();
+			int ret = s.createQuery(query).executeUpdate();
 
 			assertEquals(ret, 1);
 		}
 
 		{
 			String query = "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o ";
-			List results = s.createAQLQuery(query).listAQL();
+			List results = s.createQuery(query).list();
 
 			DADLBinding binding = new DADLBinding();
 			for (Object obj : results) {
@@ -103,14 +102,14 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 		{
 			String query = "delete "
 					+ "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o ";
-			int ret = s.createAQLQuery(query).executeUpdateAQL();
+			int ret = s.createQuery(query).executeUpdate();
 
 			assertEquals(ret, 2);
 		}
 
 		{
 			String query = "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o ";
-			List results = s.createAQLQuery(query).listAQL();
+			List results = s.createQuery(query).list();
 
 			DADLBinding binding = new DADLBinding();
 			for (Object obj : results) {
@@ -133,7 +132,7 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 
 		{
 			String query = "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o ";
-			List results = s.createAQLQuery(query).listAQL();
+			List results = s.createQuery(query).list();
 
 			DADLBinding binding = new DADLBinding();
 			for (Object obj : results) {
@@ -147,15 +146,15 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 			String query = "delete "
 					+ "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
 					+ "where o#/details[at0001]/items[at0009]/value/value = :name";
-			int ret = s.createAQLQuery(query).setParameter("name", "lisi")
-					.executeUpdateAQL();
+			int ret = s.createQuery(query).setParameter("name", "lisi")
+					.executeUpdate();
 
 			assertEquals(ret, 1);
 		}
 
 		{
 			String query = "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o ";
-			List results = s.createAQLQuery(query).listAQL();
+			List results = s.createQuery(query).list();
 
 			DADLBinding binding = new DADLBinding();
 			for (Object obj : results) {
@@ -168,14 +167,14 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 		{
 			String query = "delete "
 					+ "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o ";
-			int ret = s.createAQLQuery(query).executeUpdateAQL();
+			int ret = s.createQuery(query).executeUpdate();
 
 			assertEquals(ret, 2);
 		}
 
 		{
 			String query = "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o ";
-			List results = s.createAQLQuery(query).listAQL();
+			List results = s.createQuery(query).list();
 
 			DADLBinding binding = new DADLBinding();
 			for (Object obj : results) {
@@ -200,8 +199,8 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 			String query = "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
 					+ "order by o#/uid/value asc";
 			List results = s
-					.createAQLQuery(query)
-					.listAQL();
+					.createQuery(query)
+					.list();
 
 			assertEquals(results.size(), 3);
 			Locatable loc1 = (Locatable) results.get(0);
@@ -246,8 +245,8 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 			String query = "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
 					+ "where o#/details[at0001]/items[at0009]/value/value = 'lisi'";
 			List results = s
-					.createAQLQuery(query)
-					.listAQL();
+					.createQuery(query)
+					.list();
 
 			assertEquals(results.size(), 1);
 			Locatable loc2 = (Locatable) results.get(0);
@@ -268,8 +267,8 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 			String query = "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
 					+ "where o#/uid/value = 'patient1'";
 			List results = s
-					.createAQLQuery(query)
-					.listAQL();
+					.createQuery(query)
+					.list();
 
 			assertEquals(results.size(), 1);
 			Locatable loc1 = (Locatable) results.get(0);
@@ -300,8 +299,8 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 		{
 			String query = "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as p, openEHR-EHR-COMPOSITION.visit.v3 as v ";
 			List results = s
-					.createAQLQuery(query)
-					.listAQL();
+					.createQuery(query)
+					.list();
 
 			List<Locatable> patients = new ArrayList<Locatable>();
 			List<Locatable> visits = new ArrayList<Locatable>();
@@ -347,8 +346,8 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 			String query = "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
 					+ "order by o#/uid/value asc";
 			List results = s
-					.createAQLQuery(query)
-					.listAQL();
+					.createQuery(query)
+					.list();
 
 			assertEquals(results.size(), 3);
 			Locatable loc1 = (Locatable) results.get(0);
@@ -393,9 +392,9 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 			String query = "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
 					+ "where o#/details[at0001]/items[at0009]/value/value = :name";
 			List results = s
-					.createAQLQuery(query)
+					.createQuery(query)
 					.setParameter("name", "lisi")
-					.listAQL();
+					.list();
 
 			assertEquals(results.size(), 1);
 			Locatable loc2 = (Locatable) results.get(0);
@@ -416,9 +415,9 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 			String query = "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
 					+ "where o#/uid/value = :name";
 			List results = s
-					.createAQLQuery(query)
+					.createQuery(query)
 					.setParameter("name", "patient1")
-					.listAQL();
+					.list();
 
 			assertEquals(results.size(), 1);
 			Locatable loc1 = (Locatable) results.get(0);
@@ -451,8 +450,8 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 					+ "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
 					+ "order by o#/uid/value asc";
 			List results = s
-					.createAQLQuery(query)
-					.listAQL();
+					.createQuery(query)
+					.list();
 
 			assertEquals(results.size(), 3);
 
@@ -501,8 +500,8 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 					+ "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
 					+ "where o#/details[at0001]/items[at0009]/value/value = 'lisi'";
 			List results = s
-					.createAQLQuery(query)
-					.listAQL();
+					.createQuery(query)
+					.list();
 
 			assertEquals(results.size(), 1);
 			Locatable loc2 = (Locatable) results.get(0);
@@ -524,8 +523,8 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 					+ "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
 					+ "where o#/uid/value = 'patient1'";
 			List results = s
-					.createAQLQuery(query)
-					.listAQL();
+					.createQuery(query)
+					.list();
 
 			assertEquals(results.size(), 1);
 			Locatable loc1 = (Locatable) results.get(0);
@@ -547,8 +546,8 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 					+ "from openEHR-EHR-COMPOSITION.visit.v3 as o "
 					+ "where o#/context/other_context[at0001]/items[at0015]/value/value = 'patient1'";
 			List results = s
-					.createAQLQuery(query)
-					.listAQL();
+					.createQuery(query)
+					.list();
 
 			assertEquals(results.size(), 2);
 		}
@@ -558,8 +557,8 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 					+ "from openEHR-EHR-COMPOSITION.visit.v3 as o "
 					+ "where o#/uid/value = 'visit1' and o#/context/other_context[at0001]/items[at0015]/value/value = 'patient1'";
 			List results = s
-					.createAQLQuery(query)
-					.listAQL();
+					.createQuery(query)
+					.list();
 
 			assertEquals(results.size(), 1);
 		}
@@ -585,10 +584,10 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 					+ "where o#/details[at0001]/items[at0009]/value/value = 'lisi'";
 			String archetypeId = "openEHR-DEMOGRAPHIC-PERSON.patient.v1";
 			List results = s
-					.createAQLQuery(query)
+					.createQuery(query)
 					.setResultTransformer(
 							Transformers.aliasToArchetype(archetypeId))
-					.listAQL();
+					.list();
 
 			assertEquals(results.size(), 1);
 			Locatable loc2 = (Locatable) results.get(0);
@@ -625,8 +624,8 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 					+ "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
 					+ "order by o#/uid/value asc";
 			List results = s
-					.createAQLQuery(query)
-					.listAQL();
+					.createQuery(query)
+					.list();
 
 			assertEquals(results.size(), 3);
 			Object[] loc1 = (Object[]) results.get(0);
@@ -655,9 +654,9 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 					+ "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
 					+ "where o#/details[at0001]/items[at0009]/value/value = :name";
 			List results = s
-					.createAQLQuery(query)
+					.createQuery(query)
 					.setParameter("name", "lisi")
-					.listAQL();
+					.list();
 
 			assertEquals(results.size(), 1);
 			Object[] loc2 = (Object[]) results.get(0);
@@ -676,9 +675,9 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 					+ "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
 					+ "where o#/uid/value = :name";
 			List results = s
-					.createAQLQuery(query)
+					.createQuery(query)
 					.setParameter("name", "patient1")
-					.listAQL();
+					.list();
 
 			assertEquals(results.size(), 1);
 			Object[] loc1 = (Object[]) results.get(0);
@@ -703,8 +702,8 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 			String query = "select p, v "
 					+ "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as p, openEHR-EHR-COMPOSITION.visit.v3 as v ";
 			List results = s
-					.createAQLQuery(query)
-					.listAQL();
+					.createQuery(query)
+					.list();
 
 			List<Locatable> patients = new ArrayList<Locatable>();
 			List<Locatable> visits = new ArrayList<Locatable>();
@@ -751,9 +750,9 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 					+ "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
 					+ "where o#/details[at0001]/items[at0009]/value/value = :name";
 			List results = s
-					.createAQLQuery(query)
+					.createQuery(query)
 					.setParameter("name", "lisi")
-					.listAQL();
+					.list();
 
 			assertEquals(results.size(), 1);
 			Locatable loc2 = (Locatable) results.get(0);
@@ -775,10 +774,10 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 					+ "from openEHR-EHR-COMPOSITION.visit.v3 as o "
 					+ "where o#/uid/value = :VisitId and o#/context/other_context[at0001]/items[at0015]/value/value = :PatientId";
 			List results = s
-					.createAQLQuery(query)
+					.createQuery(query)
 					.setParameter("VisitId", "visit1")
 					.setParameter("PatientId", "patient1")
-					.listAQL();
+					.list();
 
 			assertEquals(results.size(), 1);
 		}
@@ -798,8 +797,8 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 					+ "where o#/uid/value = 'patient1'";
 			Session s = openSession();
 			List results = s
-					.createAQLQuery(query)
-					.listAQL();
+					.createQuery(query)
+					.list();
 			s.close();
 
 			assertEquals(results.size(), 1);
@@ -823,7 +822,7 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 					+ "o#/details[at0001]/items[at0004]/value/value = '1994-08-11T19:20:30+08:00' "
 					+ "where o#/uid/value = 'patient1'";
 			Session s = openSession();
-			int ret = s.createAQLQuery(query).executeUpdateAQL();
+			int ret = s.createQuery(query).executeUpdate();
 			s.close();
 
 			assertEquals(ret, 1);
@@ -835,8 +834,8 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 					+ "where o#/uid/value = 'patient1'";
 			Session s = openSession();
 			List results = s
-					.createAQLQuery(query)
-					.listAQL();
+					.createQuery(query)
+					.list();
 			s.close();
 
 			assertEquals(results.size(), 1);
@@ -867,8 +866,8 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 					+ "where o#/uid/value = 'patient1'";
 			Session s = openSession();
 			List results = s
-					.createAQLQuery(query)
-					.listAQL();
+					.createQuery(query)
+					.list();
 			s.close();
 
 			assertEquals(results.size(), 1);
@@ -892,9 +891,9 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 					+ "o#/details[at0001]/items[at0004]/value/value = :birthday "
 					+ "where " + "o#/uid/value = :pid ";
 			Session s = openSession();
-			int ret = s.createAQLQuery(query).setParameter("name", "lisi")
+			int ret = s.createQuery(query).setParameter("name", "lisi")
 					.setParameter("birthday", "1994-08-11T19:20:30+08:00")
-					.setParameter("pid", "patient1").executeUpdateAQL();
+					.setParameter("pid", "patient1").executeUpdate();
 			s.close();
 
 			assertEquals(ret, 1);
@@ -906,8 +905,8 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 					+ "where o#/uid/value = 'patient1'";
 			Session s = openSession();
 			List results = s
-					.createAQLQuery(query)
-					.listAQL();
+					.createQuery(query)
+					.list();
 			s.close();
 
 			assertEquals(results.size(), 1);

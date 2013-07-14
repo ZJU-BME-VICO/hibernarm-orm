@@ -272,8 +272,6 @@ public interface Query extends BasicQueryContract {
 	 */
 	public List list();
 
-	public List listAQL();
-
 	/**
 	 * Convenience method to return a single instance that matches
 	 * the query, or null if the query returns no results.
@@ -292,8 +290,6 @@ public interface Query extends BasicQueryContract {
 	 * @return The number of entities updated or deleted.
 	 */
 	public int executeUpdate();
-
-	public int executeUpdateAQL();
 
 	/**
 	 * Bind a value to a JDBC-style query parameter.

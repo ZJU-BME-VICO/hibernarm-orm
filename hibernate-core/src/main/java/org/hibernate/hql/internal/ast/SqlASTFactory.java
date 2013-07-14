@@ -61,6 +61,7 @@ import org.hibernate.hql.internal.ast.tree.MapValueNode;
 import org.hibernate.hql.internal.ast.tree.MethodNode;
 import org.hibernate.hql.internal.ast.tree.OrderByClause;
 import org.hibernate.hql.internal.ast.tree.ParameterNode;
+import org.hibernate.hql.internal.ast.tree.PathSeparatorNode;
 import org.hibernate.hql.internal.ast.tree.QueryNode;
 import org.hibernate.hql.internal.ast.tree.ResultVariableRefNode;
 import org.hibernate.hql.internal.ast.tree.SelectClause;
@@ -162,9 +163,11 @@ public class SqlASTFactory extends ASTFactory implements HqlSqlTokenTypes {
 			case PLUS:
 			case MINUS:
 			case STAR:
-			case DIV:
+//			case DIV:
 			case MOD:
 				return BinaryArithmeticOperatorNode.class;
+			case PATH_SEPARATOR:
+				return PathSeparatorNode.class;
 			case UNARY_MINUS:
 			case UNARY_PLUS:
 				return UnaryArithmeticNode.class;

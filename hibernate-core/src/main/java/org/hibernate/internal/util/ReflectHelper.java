@@ -28,7 +28,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -48,9 +47,6 @@ import org.hibernate.type.PrimitiveType;
 import org.hibernate.type.Type;
 import org.openehr.am.archetype.Archetype;
 import org.openehr.am.archetype.constraintmodel.CObject;
-import org.openehr.am.archetype.constraintmodel.CPrimitiveObject;
-import org.openehr.build.RMObjectBuilder;
-import org.openehr.build.RMObjectBuildingException;
 import org.openehr.rm.common.archetyped.Locatable;
 
 /**
@@ -301,7 +297,7 @@ public final class ReflectHelper {
 		return getter( clazz, name ).getReturnType();
 	}
 
-	public static Getter getter(Class clazz, String name) throws MappingException {
+	private static Getter getter(Class clazz, String name) throws MappingException {
 		try {
 			return BASIC_PROPERTY_ACCESSOR.getGetter( clazz, name );
 		}

@@ -32,6 +32,8 @@ import org.hibernate.NullPrecedence;
 import org.hibernate.cache.spi.QueryCacheFactory;
 import org.hibernate.cache.spi.RegionFactory;
 import org.hibernate.engine.transaction.jta.platform.spi.JtaPlatform;
+import org.hibernate.hql.spi.MultiTableBulkIdStrategy;
+import org.hibernate.hql.spi.QueryTranslatorFactory;
 import org.hibernate.loader.BatchFetchStyle;
 import org.hibernate.tuple.entity.EntityTuplizerFactory;
 
@@ -71,8 +73,7 @@ public final class Settings {
 	private ConnectionReleaseMode connectionReleaseMode;
 	private RegionFactory regionFactory;
 	private QueryCacheFactory queryCacheFactory;
-	private org.hibernate.hql.spi.QueryTranslatorFactory queryTranslatorFactory;
-	private org.hibernate.aql.spi.QueryTranslatorFactory aqlQueryTranslatorFactory;
+	private QueryTranslatorFactory queryTranslatorFactory;
 	private boolean wrapResultSetsEnabled;
 	private boolean orderUpdatesEnabled;
 	private boolean orderInsertsEnabled;
@@ -92,8 +93,7 @@ public final class Settings {
 
 	private JtaPlatform jtaPlatform;
 
-	private org.hibernate.hql.spi.MultiTableBulkIdStrategy multiTableBulkIdStrategy;
-	private org.hibernate.aql.spi.MultiTableBulkIdStrategy aqlMultiTableBulkIdStrategy;
+	private MultiTableBulkIdStrategy multiTableBulkIdStrategy;
 	private BatchFetchStyle batchFetchStyle;
 	private boolean directReferenceCacheEntriesEnabled;
 	
@@ -224,12 +224,8 @@ public final class Settings {
 		return connectionReleaseMode;
 	}
 
-	public org.hibernate.hql.spi.QueryTranslatorFactory getQueryTranslatorFactory() {
+	public QueryTranslatorFactory getQueryTranslatorFactory() {
 		return queryTranslatorFactory;
-	}
-
-	public org.hibernate.aql.spi.QueryTranslatorFactory getAqlQueryTranslatorFactory() {
-		return aqlQueryTranslatorFactory;
 	}
 
 	public boolean isWrapResultSetsEnabled() {
@@ -398,12 +394,8 @@ public final class Settings {
 		this.connectionReleaseMode = connectionReleaseMode;
 	}
 
-	void setQueryTranslatorFactory(org.hibernate.hql.spi.QueryTranslatorFactory queryTranslatorFactory) {
+	void setQueryTranslatorFactory(QueryTranslatorFactory queryTranslatorFactory) {
 		this.queryTranslatorFactory = queryTranslatorFactory;
-	}
-
-	void setAqlQueryTranslatorFactory(org.hibernate.aql.spi.QueryTranslatorFactory queryTranslatorFactory) {
-		this.aqlQueryTranslatorFactory = queryTranslatorFactory;
 	}
 
 	void setWrapResultSetsEnabled(boolean wrapResultSetsEnabled) {
@@ -495,20 +487,12 @@ public final class Settings {
 		this.initializeLazyStateOutsideTransactions = initializeLazyStateOutsideTransactions;
 	}
 
-	public org.hibernate.hql.spi.MultiTableBulkIdStrategy getMultiTableBulkIdStrategy() {
+	public MultiTableBulkIdStrategy getMultiTableBulkIdStrategy() {
 		return multiTableBulkIdStrategy;
 	}
 
-	public org.hibernate.aql.spi.MultiTableBulkIdStrategy getAqlMultiTableBulkIdStrategy() {
-		return aqlMultiTableBulkIdStrategy;
-	}
-
-	void setMultiTableBulkIdStrategy(org.hibernate.hql.spi.MultiTableBulkIdStrategy multiTableBulkIdStrategy) {
+	void setMultiTableBulkIdStrategy(MultiTableBulkIdStrategy multiTableBulkIdStrategy) {
 		this.multiTableBulkIdStrategy = multiTableBulkIdStrategy;
-	}
-
-	void setAqlMultiTableBulkIdStrategy(org.hibernate.aql.spi.MultiTableBulkIdStrategy multiTableBulkIdStrategy) {
-		this.aqlMultiTableBulkIdStrategy = multiTableBulkIdStrategy;
 	}
 
 	public BatchFetchStyle getBatchFetchStyle() {

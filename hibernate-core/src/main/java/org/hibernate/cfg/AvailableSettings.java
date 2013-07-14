@@ -343,8 +343,6 @@ public interface AvailableSettings {
 	 */
 	public static final String QUERY_TRANSLATOR = "hibernate.query.factory_class";
 
-	public static final String AQL_QUERY_TRANSLATOR = "hibernate.query.aql.factory_class";
-
 	/**
 	 * A comma-separated list of token substitutions to use when translating a Hibernate
 	 * query to SQL

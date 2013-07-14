@@ -169,11 +169,6 @@ public class SessionDelegatorBaseImpl implements SessionImplementor, Session {
 	}
 
 	@Override
-	public List listAQL(String query, QueryParameters queryParameters) throws HibernateException {
-		return sessionImplementor.listAQL( query, queryParameters );
-	}
-
-	@Override
 	public Iterator iterate(String query, QueryParameters queryParameters) throws HibernateException {
 		return sessionImplementor.iterate( query, queryParameters );
 	}
@@ -281,11 +276,6 @@ public class SessionDelegatorBaseImpl implements SessionImplementor, Session {
 	@Override
 	public int executeUpdate(String query, QueryParameters queryParameters) throws HibernateException {
 		return sessionImplementor.executeUpdate( query, queryParameters );
-	}
-
-	@Override
-	public int executeUpdateAQL(String query, QueryParameters queryParameters) throws HibernateException {
-		return sessionImplementor.executeUpdateAQL( query, queryParameters );
 	}
 
 	@Override
@@ -403,11 +393,6 @@ public class SessionDelegatorBaseImpl implements SessionImplementor, Session {
 	@Override
 	public Query createQuery(String queryString) {
 		return session.createQuery( queryString );
-	}
-	
-	@Override
-	public Query createAQLQuery(String queryString) {
-		return session.createAQLQuery( queryString );
 	}
 
 	@Override

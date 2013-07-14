@@ -34,12 +34,14 @@ import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.jboss.logging.Logger;
+import org.openehr.am.archetype.Archetype;
 
 import org.hibernate.CacheMode;
 import org.hibernate.EntityMode;
 import org.hibernate.FetchMode;
 import org.hibernate.FlushMode;
 import org.hibernate.MappingException;
+import org.hibernate.archetype.ArchetypeRepository;
 import org.hibernate.engine.OptimisticLockStyle;
 import org.hibernate.engine.spi.ExecuteUpdateResultCheckStyle;
 import org.hibernate.engine.spi.FilterDefinition;
@@ -319,6 +321,11 @@ public final class HbmBinder {
 	public static void bindRootClass(Element node, RootClass rootClass, Mappings mappings,
 			java.util.Map inheritedMetas) throws MappingException {
 		bindClass( node, rootClass, mappings, inheritedMetas );
+		Archetype archetype = (Archetype) ArchetypeRepository.getArchetype(rootClass.getEntityName());
+		rootClass.setArchetype(archetype);
+		String rmTypeName = "";
+		rmTypeName = archetype.getDefinition().getRmTypeName();
+		rootClass.setArchetypeClass(ArchetypeRepository.getRMBuilder().retrieveRMType(rmTypeName));
 		inheritedMetas = getMetas( node, inheritedMetas, true ); // get meta's from <class>
 		bindRootPersistentClassCommonValues( node, inheritedMetas, mappings, rootClass );
 	}
@@ -440,14 +447,14 @@ public final class HbmBinder {
 			bindSimpleValue( idNode, id, false, propertyName, mappings );
 		}
 
-		if ( propertyName == null || !entity.hasPojoRepresentation() ) {
+		if ( propertyName == null ) {
 			if ( !id.isTypeSpecified() ) {
 				throw new MappingException( "must specify an identifier type: "
 					+ entity.getEntityName() );
 			}
 		}
 		else {
-			id.setTypeUsingReflection( entity.getClassName(), propertyName );
+			id.setArmTypeUsingReflection( entity.getArchetype(), propertyName );
 		}
 
 		if ( propertyName != null ) {
@@ -566,15 +573,15 @@ public final class HbmBinder {
 				mappings.isDefaultLazy() :
 				"true".equals( lazyNode.getValue() );
 		// go ahead and set the lazy here, since pojo.proxy can override it.
-		persistentClass.setLazy( lazy );
+		persistentClass.setLazy(false);
 
 		String entityName = node.attributeValue( "entity-name" );
-		if ( entityName == null ) entityName = getClassName( node.attribute("name"), mappings );
+		if ( entityName == null ) entityName = node.attribute("name").getValue();
 		if ( entityName==null ) {
 			throw new MappingException( "Unable to determine entity name" );
 		}
 		persistentClass.setEntityName( entityName );
-		persistentClass.setJpaEntityName( StringHelper.unqualify( entityName ) );
+		persistentClass.setJpaEntityName("");
 
 		bindPojoRepresentation( node, persistentClass, mappings, inheritedMetas );
 		bindDom4jRepresentation( node, persistentClass, mappings, inheritedMetas );
@@ -592,18 +599,18 @@ public final class HbmBinder {
 	private static void bindPojoRepresentation(Element node, PersistentClass entity,
 			Mappings mappings, java.util.Map metaTags) {
 
-		String className = getClassName( node.attribute( "name" ), mappings );
-		String proxyName = getClassName( node.attribute( "proxy" ), mappings );
+//		String className = getClassName( node.attribute( "name" ), mappings );
+//		String proxyName = getClassName( node.attribute( "proxy" ), mappings );
 
-		entity.setClassName( className );
+//		entity.setClassName( className );
 
-		if ( proxyName != null ) {
-			entity.setProxyInterfaceName( proxyName );
-			entity.setLazy( true );
-		}
-		else if ( entity.isLazy() ) {
-			entity.setProxyInterfaceName( className );
-		}
+//		if ( proxyName != null ) {
+//			entity.setProxyInterfaceName( proxyName );
+//			entity.setLazy( true );
+//		}
+//		else if ( entity.isLazy() ) {
+//			entity.setProxyInterfaceName( className );
+//		}
 
 		Element tuplizer = locateTuplizerDefinition( node, EntityMode.POJO );
 		if ( tuplizer != null ) {
@@ -614,7 +621,7 @@ public final class HbmBinder {
 	private static void bindDom4jRepresentation(Element node, PersistentClass entity,
 			Mappings mappings, java.util.Map inheritedMetas) {
 		String nodeName = node.attributeValue( "node" );
-		if (nodeName==null) nodeName = StringHelper.unqualify( entity.getEntityName() );
+		if (nodeName==null) nodeName = entity.getEntityName();
 		entity.setNodeName(nodeName);
 
 //		Element tuplizer = locateTuplizerDefinition( node, EntityMode.DOM4J );
@@ -671,12 +678,12 @@ public final class HbmBinder {
 
 		// IMPORT
 		mappings.addImport( entity.getEntityName(), entity.getEntityName() );
-		if ( mappings.isAutoImport() && entity.getEntityName().indexOf( '.' ) > 0 ) {
-			mappings.addImport(
-					entity.getEntityName(),
-					StringHelper.unqualify( entity.getEntityName() )
-				);
-		}
+//		if ( mappings.isAutoImport() && entity.getEntityName().indexOf( '.' ) > 0 ) {
+//			mappings.addImport(
+//					entity.getEntityName(),
+//					StringHelper.unqualify( entity.getEntityName() )
+//				);
+//		}
 
 		// BATCH SIZE
 		Attribute batchNode = node.attribute( "batch-size" );
@@ -882,8 +889,8 @@ public final class HbmBinder {
 		String logicalTableName;
 		String physicalTableName;
 		if ( tableNameNode == null ) {
-			logicalTableName = StringHelper.unqualify( model.getEntityName() );
-			physicalTableName = mappings.getNamingStrategy().classToTableName( model.getEntityName() );
+			logicalTableName = model.getEntityName();
+			physicalTableName = model.getEntityName();
 		}
 		else {
 			logicalTableName = tableNameNode.getValue();
@@ -1037,7 +1044,7 @@ public final class HbmBinder {
 
 			if ( value != null ) {
 				Property prop = createProperty( value, propertyName, persistentClass
-					.getEntityName(), subnode, mappings, inheritedMetas );
+					.getEntityName(), subnode, mappings, inheritedMetas, null );
 				prop.setOptional( join.isOptional() );
 				join.addProperty( prop );
 			}
@@ -1142,8 +1149,11 @@ public final class HbmBinder {
 			Column column = new Column();
 			column.setValue( simpleValue );
 			bindColumn( node, column, isNullable );
-			column.setName( mappings.getNamingStrategy().propertyToColumnName( propertyPath ) );
-			String logicalName = mappings.getNamingStrategy().logicalColumnName( null, propertyPath );
+			String columnName = propertyPath;
+			columnName = StringHelper.getTableNameFromArchetypeId(columnName);
+			columnName = StringHelper.getColumnNameFromArchetypePath(columnName);
+			column.setName(columnName);
+			String logicalName = propertyPath;
 			mappings.addColumnBinding( logicalName, column, table );
 			/* TODO: joinKeyColumnName & foreignKeyColumnName should be called either here or at a
 			 * slightly higer level in the stack (to get all the information we need)
@@ -2020,7 +2030,7 @@ public final class HbmBinder {
 
 			if ( value != null ) {
 				Property property = createProperty( value, propertyName, component
-					.getComponentClassName(), subnode, mappings, inheritedMetas );
+					.getComponentClassName(), subnode, mappings, inheritedMetas, null );
 				if (isIdentifierMapper) {
 					property.setInsertable(false);
 					property.setUpdateable(false);
@@ -2283,7 +2293,8 @@ public final class HbmBinder {
 						persistentClass.getClassName(),
 						subnode,
 						mappings,
-						inheritedMetas
+						inheritedMetas,
+						persistentClass.getArchetype()
 				);
 				if ( !mutable ) {
 					property.setUpdateable(false);
@@ -2306,13 +2317,14 @@ public final class HbmBinder {
 			final String className,
 	        final Element subnode,
 	        final Mappings mappings,
-			java.util.Map inheritedMetas) throws MappingException {
+			java.util.Map inheritedMetas, 
+			Archetype archetype) throws MappingException {
 
 		if ( StringHelper.isEmpty( propertyName ) ) {
 			throw new MappingException( subnode.getName() + " mapping must defined a name attribute [" + className + "]" );
 		}
 
-		value.setTypeUsingReflection( className, propertyName );
+		value.setArmTypeUsingReflection(archetype, propertyName);
 
 		// this is done here 'cos we might only know the type here (ugly!)
 		// TODO: improve this a lot:
