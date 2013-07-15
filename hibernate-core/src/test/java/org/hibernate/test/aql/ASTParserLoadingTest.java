@@ -67,54 +67,39 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 		Session s = openSession();
 
 		{
-			String query = "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o ";
+			String query = "from openEHR-EHR-COMPOSITION.visit.v3 as o ";
 			List results = s.createQuery(query).list();
-
-			DADLBinding binding = new DADLBinding();
-			for (Object obj : results) {
-				System.out.println(binding.toDADL(obj));
-			}
 
 			assertEquals(results.size(), 3);
 		}
 
 		{
 			String query = "delete "
-					+ "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
-					+ "where o#/details[at0001]/items[at0009]/value/value = 'lisi'";
+					+ "from openEHR-EHR-COMPOSITION.visit.v3 as o "
+					+ "where o#/uid/value = 'visit2'";
 			int ret = s.createQuery(query).executeUpdate();
 
 			assertEquals(ret, 1);
 		}
 
 		{
-			String query = "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o ";
+			String query = "from openEHR-EHR-COMPOSITION.visit.v3 as o ";
 			List results = s.createQuery(query).list();
-
-			DADLBinding binding = new DADLBinding();
-			for (Object obj : results) {
-				System.out.println(binding.toDADL(obj));
-			}
 
 			assertEquals(results.size(), 2);
 		}
 
 		{
 			String query = "delete "
-					+ "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o ";
+					+ "from openEHR-EHR-COMPOSITION.visit.v3 as o ";
 			int ret = s.createQuery(query).executeUpdate();
 
 			assertEquals(ret, 2);
 		}
 
 		{
-			String query = "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o ";
+			String query = "from openEHR-EHR-COMPOSITION.visit.v3 as o ";
 			List results = s.createQuery(query).list();
-
-			DADLBinding binding = new DADLBinding();
-			for (Object obj : results) {
-				System.out.println(binding.toDADL(obj));
-			}
 
 			assertEquals(results.size(), 0);
 		}
@@ -131,55 +116,39 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 		Session s = openSession();
 
 		{
-			String query = "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o ";
+			String query = "from openEHR-EHR-COMPOSITION.visit.v3 as o ";
 			List results = s.createQuery(query).list();
-
-			DADLBinding binding = new DADLBinding();
-			for (Object obj : results) {
-				System.out.println(binding.toDADL(obj));
-			}
 
 			assertEquals(results.size(), 3);
 		}
 
 		{
 			String query = "delete "
-					+ "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
-					+ "where o#/details[at0001]/items[at0009]/value/value = :name";
-			int ret = s.createQuery(query).setParameter("name", "lisi")
-					.executeUpdate();
+					+ "from openEHR-EHR-COMPOSITION.visit.v3 as o "
+					+ "where o#/uid/value = :name";
+			int ret = s.createQuery(query).setParameter("name", "visit2").executeUpdate();
 
 			assertEquals(ret, 1);
 		}
 
 		{
-			String query = "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o ";
+			String query = "from openEHR-EHR-COMPOSITION.visit.v3 as o ";
 			List results = s.createQuery(query).list();
-
-			DADLBinding binding = new DADLBinding();
-			for (Object obj : results) {
-				System.out.println(binding.toDADL(obj));
-			}
 
 			assertEquals(results.size(), 2);
 		}
 
 		{
 			String query = "delete "
-					+ "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o ";
+					+ "from openEHR-EHR-COMPOSITION.visit.v3 as o ";
 			int ret = s.createQuery(query).executeUpdate();
 
 			assertEquals(ret, 2);
 		}
 
 		{
-			String query = "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o ";
+			String query = "from openEHR-EHR-COMPOSITION.visit.v3 as o ";
 			List results = s.createQuery(query).list();
-
-			DADLBinding binding = new DADLBinding();
-			for (Object obj : results) {
-				System.out.println(binding.toDADL(obj));
-			}
 
 			assertEquals(results.size(), 0);
 		}

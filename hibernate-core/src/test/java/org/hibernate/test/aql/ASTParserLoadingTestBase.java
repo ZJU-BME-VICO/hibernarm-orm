@@ -98,13 +98,13 @@ public class ASTParserLoadingTestBase extends BaseCoreFunctionalTestCase {
 
 	protected String[] getArchetypeIds() {
 		return new String[] {
-				"openEHR-DEMOGRAPHIC-PERSON.patient.v1",
-				"openEHR-EHR-COMPOSITION.visit.v3",
 				"openEHR-EHR-OBSERVATION.adl.v1",
 				"openEHR-EHR-OBSERVATION.cdr.v1",
 				"openEHR-EHR-OBSERVATION.gds.v1",
 				"openEHR-EHR-OBSERVATION.mmse.v1", 
-				"openEHR-EHR-OBSERVATION.other_cognitions_scale_exams.v1", };
+				"openEHR-EHR-OBSERVATION.other_cognitions_scale_exams.v1",
+				"openEHR-EHR-COMPOSITION.visit.v3",
+				"openEHR-DEMOGRAPHIC-PERSON.patient.v1", };
 	}
 
 	protected List<Map<HashMap<String, Object>, String>> getArchetypeValues() {		

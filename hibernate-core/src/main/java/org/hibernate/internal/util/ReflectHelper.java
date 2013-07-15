@@ -469,9 +469,17 @@ public final class ReflectHelper {
 									PropertyAccessorFactory.getPropertyAccessor("field")
 							}
 					);
+					
 					Setter setter = propertyAccessor.getSetter(tempTarget.getClass(), pathSegment);
-					if (klass.isPrimitive() || ClassUtils.wrapperToPrimitive(klass) != null || String.class.equals(klass)) {
-						setter.set(tempTarget, propertyValue, null);
+					if (klass.isPrimitive() || ClassUtils.wrapperToPrimitive(klass) != null || String.class.equals(klass)) {						
+						if (propertyValue instanceof Locatable) {
+							String uid = ((Locatable) propertyValue).getUid().getValue();
+							setter.set(tempTarget, uid, null);
+							loc.getAssociatedObjects().put(uid, propertyValue);
+						}
+						else {
+							setter.set(tempTarget, propertyValue, null);
+						}						
 					} 
 					else {
 						Object value = klass.newInstance();
