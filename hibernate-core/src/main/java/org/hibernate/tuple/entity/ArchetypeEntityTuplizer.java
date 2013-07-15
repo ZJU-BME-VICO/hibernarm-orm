@@ -41,7 +41,7 @@ import org.hibernate.property.PropertyAccessor;
 import org.hibernate.property.PropertyAccessorFactory;
 import org.hibernate.property.Setter;
 import org.hibernate.proxy.ProxyFactory;
-import org.hibernate.proxy.map.MapProxyFactory;
+import org.hibernate.proxy.archetype.ArchetypeProxyFactory;
 import org.hibernate.tuple.ArchetypeInstantiator;
 import org.hibernate.tuple.Instantiator;
 
@@ -110,7 +110,7 @@ public class ArchetypeEntityTuplizer extends AbstractEntityTuplizer {
 	@Override
     protected ProxyFactory buildProxyFactory(PersistentClass mappingInfo, Getter idGetter, Setter idSetter) {
 
-		ProxyFactory pf = new MapProxyFactory();
+		ProxyFactory pf = new ArchetypeProxyFactory();
 		try {
 			//TODO: design new lifecycle for ProxyFactory
 			pf.postInstantiate(
@@ -169,7 +169,7 @@ public class ArchetypeEntityTuplizer extends AbstractEntityTuplizer {
 	@Override
 	protected ProxyFactory buildProxyFactory(EntityBinding mappingInfo, Getter idGetter, Setter idSetter) {
 
-		ProxyFactory pf = new MapProxyFactory();
+		ProxyFactory pf = new ArchetypeProxyFactory();
 		try {
 			//TODO: design new lifecycle for ProxyFactory
 			pf.postInstantiate(

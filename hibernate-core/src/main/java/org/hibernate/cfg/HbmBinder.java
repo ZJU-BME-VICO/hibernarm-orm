@@ -573,7 +573,7 @@ public final class HbmBinder {
 				mappings.isDefaultLazy() :
 				"true".equals( lazyNode.getValue() );
 		// go ahead and set the lazy here, since pojo.proxy can override it.
-		persistentClass.setLazy(false);
+		persistentClass.setLazy( lazy );
 
 		String entityName = node.attributeValue( "entity-name" );
 		if ( entityName == null ) entityName = node.attribute("name").getValue();

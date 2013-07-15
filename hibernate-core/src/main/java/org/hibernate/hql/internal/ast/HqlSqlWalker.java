@@ -56,7 +56,6 @@ import org.hibernate.hql.internal.ast.tree.AssignmentSpecification;
 import org.hibernate.hql.internal.ast.tree.CollectionFunction;
 import org.hibernate.hql.internal.ast.tree.ConstructorNode;
 import org.hibernate.hql.internal.ast.tree.DeleteStatement;
-import org.hibernate.hql.internal.ast.tree.DotNode;
 import org.hibernate.hql.internal.ast.tree.FromClause;
 import org.hibernate.hql.internal.ast.tree.FromElement;
 import org.hibernate.hql.internal.ast.tree.FromElementFactory;
@@ -366,10 +365,10 @@ public class HqlSqlWalker extends HqlSqlBaseWalker implements ErrorReporter, Par
 			throw new QueryException( "fetch not allowed in subquery from-elements" );
 		}
 		// The path AST should be a DotNode, and it should have been evaluated already.
-		if ( path.getType() != SqlTokenTypes.DOT ) {
+		if ( path.getType() != SqlTokenTypes.PATH_SEPARATOR ) {
 			throw new SemanticException( "Path expected for join!" );
 		}
-		DotNode dot = ( DotNode ) path;
+		PathSeparatorNode dot = ( PathSeparatorNode ) path;
 		JoinType hibernateJoinType = JoinProcessor.toHibernateJoinType( joinType );
 		dot.setJoinType( hibernateJoinType );	// Tell the dot node about the join type.
 		dot.setFetch( fetch );
@@ -468,8 +467,8 @@ public class HqlSqlWalker extends HqlSqlBaseWalker implements ErrorReporter, Par
 			//          2) here we would need to track each comparison individually, along with
 			//              the join alias to which it applies and then pass that information
 			//              back to the FromElement so it can pass it along to the JoinSequence
-			if ( node instanceof DotNode ) {
-				DotNode dotNode = ( DotNode ) node;
+			if ( node instanceof PathSeparatorNode ) {
+				PathSeparatorNode dotNode = ( PathSeparatorNode ) node;
 				FromElement fromElement = dotNode.getFromElement();
 				if ( referencedFromElement != null ) {
 					if ( fromElement != referencedFromElement ) {
@@ -512,8 +511,8 @@ public class HqlSqlWalker extends HqlSqlBaseWalker implements ErrorReporter, Par
 			joinFragment.addEmbeddedParameter( paramSpec );
 		}
 
-		private String extractAppliedAlias(DotNode dotNode) {
-			return dotNode.getText().substring( 0, dotNode.getText().indexOf( '.' ) );
+		private String extractAppliedAlias(PathSeparatorNode dotNode) {
+			return dotNode.getText().substring( 0, dotNode.getText().indexOf( '#' ) );
 		}
 
 		public FromElement getReferencedFromElement() {
@@ -621,7 +620,7 @@ public class HqlSqlWalker extends HqlSqlBaseWalker implements ErrorReporter, Par
 	private AST generateSyntheticDotNodeForNonQualifiedPropertyRef(AST property, FromElement fromElement) {
 		AST dot = getASTFactory().create( DOT, "{non-qualified-property-ref}" );
 		// TODO : better way?!?
-		( ( DotNode ) dot ).setPropertyPath( ( ( FromReferenceNode ) property ).getPath() );
+		( ( PathSeparatorNode ) dot ).setPropertyPath( ( ( FromReferenceNode ) property ).getPath() );
 
 		IdentNode syntheticAlias = ( IdentNode ) getASTFactory().create( IDENT, "{synthetic-alias}" );
 		syntheticAlias.setFromElement( fromElement );

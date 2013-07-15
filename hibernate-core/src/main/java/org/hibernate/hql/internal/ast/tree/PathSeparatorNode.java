@@ -380,7 +380,7 @@ public class PathSeparatorNode extends FromReferenceNode implements DisplayableN
 	}
 
 	private boolean isDotNode(AST n) {
-		return n != null && n.getType() == SqlTokenTypes.DOT;
+		return n != null && n.getType() == SqlTokenTypes.PATH_SEPARATOR;
 	}
 
 	private void dereferenceEntityJoin(String classAlias, EntityType propertyType, boolean impliedJoin, AST parent)
@@ -488,7 +488,7 @@ public class PathSeparatorNode extends FromReferenceNode implements DisplayableN
 
 	private void setImpliedJoin(FromElement elem) {
 		this.impliedJoin = elem;
-		if ( getFirstChild().getType() == SqlTokenTypes.DOT ) {
+		if ( getFirstChild().getType() == SqlTokenTypes.PATH_SEPARATOR ) {
 			PathSeparatorNode dotLhs = ( PathSeparatorNode ) getFirstChild();
 			if ( dotLhs.getImpliedJoin() != null ) {
 				this.impliedJoin = dotLhs.getImpliedJoin();

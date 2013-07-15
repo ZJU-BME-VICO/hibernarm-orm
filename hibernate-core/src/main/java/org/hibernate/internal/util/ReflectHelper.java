@@ -43,6 +43,9 @@ import org.hibernate.property.Getter;
 import org.hibernate.property.PropertyAccessor;
 import org.hibernate.property.PropertyAccessorFactory;
 import org.hibernate.property.Setter;
+import org.hibernate.proxy.LazyInitializer;
+import org.hibernate.proxy.archetype.ArchetypeProxy;
+import org.hibernate.proxy.map.MapProxy;
 import org.hibernate.type.PrimitiveType;
 import org.hibernate.type.Type;
 import org.openehr.am.archetype.Archetype;
@@ -476,6 +479,10 @@ public final class ReflectHelper {
 							String uid = ((Locatable) propertyValue).getUid().getValue();
 							setter.set(tempTarget, uid, null);
 							loc.getAssociatedObjects().put(uid, propertyValue);
+						}
+						else if (propertyValue instanceof ArchetypeProxy) {
+							LazyInitializer li = ((ArchetypeProxy) propertyValue).getHibernateLazyInitializer();
+							setter.set(tempTarget, li.getIdentifier(), null);
 						}
 						else {
 							setter.set(tempTarget, propertyValue, null);

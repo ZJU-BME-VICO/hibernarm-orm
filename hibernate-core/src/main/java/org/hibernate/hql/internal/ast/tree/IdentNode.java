@@ -104,8 +104,8 @@ public class IdentNode extends FromReferenceNode implements SelectExpression {
 					// We represent a from-clause alias
 				}
 			}
-			else if (parent != null && parent.getType() == SqlTokenTypes.DOT) {
-				DotNode dot = (DotNode) parent;
+			else if (parent != null && parent.getType() == SqlTokenTypes.PATH_SEPARATOR) {
+				PathSeparatorNode dot = (PathSeparatorNode) parent;
 				if (parent.getFirstChild() == this) {
 					if (resolveAsNakedComponentPropertyRefLHS(dot)) {
 						// we are the LHS of the DOT representing a naked comp-prop-ref
@@ -246,7 +246,7 @@ public class IdentNode extends FromReferenceNode implements SelectExpression {
 		return PROPERTY_REF;
 	}
 
-	private boolean resolveAsNakedComponentPropertyRefLHS(DotNode parent) {
+	private boolean resolveAsNakedComponentPropertyRefLHS(PathSeparatorNode parent) {
 		FromElement fromElement = locateSingleFromElement();
 		if (fromElement == null) {
 			return false;
@@ -279,7 +279,7 @@ public class IdentNode extends FromReferenceNode implements SelectExpression {
 		return true;
 	}
 
-	private boolean resolveAsNakedComponentPropertyRefRHS(DotNode parent) {
+	private boolean resolveAsNakedComponentPropertyRefRHS(PathSeparatorNode parent) {
 		FromElement fromElement = locateSingleFromElement();
 		if (fromElement == null) {
 			return false;
