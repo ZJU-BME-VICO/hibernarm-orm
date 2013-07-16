@@ -632,7 +632,7 @@ public class PathSeparatorNode extends FromReferenceNode implements DisplayableN
 			}
 			else {
 				SqlNode rhs = ( SqlNode ) lhs.getNextSibling();
-				path = lhs.getPath() + "." + rhs.getOriginalText();
+				path = lhs.getPath() + "#" + rhs.getOriginalText();
 			}
 		}
 		return path;
