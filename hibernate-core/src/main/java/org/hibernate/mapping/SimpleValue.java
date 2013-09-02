@@ -478,42 +478,7 @@ public class SimpleValue implements KeyValue {
 		}
 
 		// we had an AttributeConverter...
-
-		// todo : we should validate the number of columns present
-		// todo : ultimately I want to see attributeConverterJavaType and attributeConverterJdbcTypeCode specify-able separately
-		//		then we can "play them against each other" in terms of determining proper typing
-		// todo : see if we already have previously built a custom on-the-fly BasicType for this AttributeConverter; see note below about caching
-
-		// AttributeConverter works totally in memory, meaning it converts between one Java representation (the entity
-		// attribute representation) and another (the value bound into JDBC statements or extracted from results).
-		// However, the Hibernate Type system operates at the lower level of actually dealing with those JDBC objects.
-		// So even though we have an AttributeConverter, we still need to "fill out" the rest of the BasicType
-		// data.  For the JavaTypeDescriptor portion we simply resolve the "entity attribute representation" part of
-		// the AttributeConverter to resolve the corresponding descriptor.  For the SqlTypeDescriptor portion we use the
-		// "database column representation" part of the AttributeConverter to resolve the "recommended" JDBC type-code
-		// and use that type-code to resolve the SqlTypeDescriptor to use.
-		final Class entityAttributeJavaType = jpaAttributeConverterDefinition.getEntityAttributeType();
-		final Class databaseColumnJavaType = jpaAttributeConverterDefinition.getDatabaseColumnType();
-		final int jdbcTypeCode = JdbcTypeJavaClassMappings.INSTANCE.determineJdbcTypeCodeForJavaClass( databaseColumnJavaType );
-
-		final JavaTypeDescriptor javaTypeDescriptor = JavaTypeDescriptorRegistry.INSTANCE.getDescriptor( entityAttributeJavaType );
-		final SqlTypeDescriptor sqlTypeDescriptor = SqlTypeDescriptorRegistry.INSTANCE.getDescriptor( jdbcTypeCode );
-		// the adapter here injects the AttributeConverter calls into the binding/extraction process...
-		final SqlTypeDescriptor sqlTypeDescriptorAdapter = new AttributeConverterSqlTypeDescriptorAdapter(
-				jpaAttributeConverterDefinition.getAttributeConverter(),
-				sqlTypeDescriptor
-		);
-
-		final String name = "BasicType adapter for AttributeConverter<" + entityAttributeJavaType + "," + databaseColumnJavaType + ">";
-		type = new AbstractSingleColumnStandardBasicType( sqlTypeDescriptorAdapter, javaTypeDescriptor ) {
-			@Override
-			public String getName() {
-				return name;
-			}
-		};
-		log.debug( "Created : " + name );
-
-		// todo : cache the BasicType we just created in case that AttributeConverter is applied multiple times.
+		type = buildAttributeConverterTypeAdapter();
 	}
 
 	public boolean isTypeSpecified() {
