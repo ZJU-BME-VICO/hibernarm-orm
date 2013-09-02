@@ -22,11 +22,10 @@
  * Boston, MA  02110-1301  USA
  */
 package org.hibernate.mapping;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.hibernate.internal.util.collections.JoinedIterator;
 
@@ -51,7 +50,8 @@ public class DenormalizedTable extends Table {
 			createForeignKey( 
 					Constraint.generateName( fk.generatedConstraintNamePrefix(), this, fk.getColumns() ),
 					fk.getColumns(), 
-					fk.getReferencedEntityName() 
+					fk.getReferencedEntityName(),
+					fk.getReferencedColumns()
 				);
 		}
 	}

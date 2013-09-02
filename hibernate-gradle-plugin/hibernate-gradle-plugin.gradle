@@ -1,7 +1,7 @@
 /*
  * Hibernate, Relational Persistence for Idiomatic Java
  *
- * Copyright (c) 2012, Red Hat Inc. or third-party contributors as
+ * Copyright (c) 2013, Red Hat Inc. or third-party contributors as
  * indicated by the @author tags or express copyright attribution
  * statements applied by the authors.  All third-party contributions are
  * distributed under license by Red Hat Inc.
@@ -21,28 +21,27 @@
  * 51 Franklin Street, Fifth Floor
  * Boston, MA  02110-1301  USA
  */
-package org.hibernate.result;
+apply plugin: 'groovy'
+apply plugin: 'maven'
+apply plugin: 'java'
 
-import java.util.List;
+repositories {
+    mavenCentral()
+}
 
-/**
- * Models a return that is a result set.
- *
- * @author Steve Ebersole
- */
-public interface ResultSetReturn extends Return {
-	/**
-	 * Consume the underlying {@link java.sql.ResultSet} and return the resulting List.
-	 *
-	 * @return The consumed ResultSet values.
-	 */
-	public List getResultList();
+dependencies {
+   compile( project(':hibernate-core') ) 
+   compile( libraries.jpa )
+   compile( libraries.javassist )
+   compile gradleApi()
+   compile localGroovy()
+}
 
-	/**
-	 * Consume the underlying {@link java.sql.ResultSet} with the expectation that there is just a single level of
-	 * root returns.
-	 *
-	 * @return The single result.
-	 */
-	public Object getSingleResult();
+/* Available for testing locally. */
+install {
+    repositories.mavenInstaller {
+        pom.groupId = 'org.hibernate'
+        pom.artifactId = 'hibernate-gradle-plugin'
+        pom.version = '1.0'
+    }
 }

@@ -1,7 +1,7 @@
 /*
  * Hibernate, Relational Persistence for Idiomatic Java
  *
- * Copyright (c) 2012, Red Hat Inc. or third-party contributors as
+ * Copyright (c) 2013, Red Hat Inc. or third-party contributors as
  * indicated by the @author tags or express copyright attribution
  * statements applied by the authors.  All third-party contributions are
  * distributed under license by Red Hat Inc.
@@ -21,21 +21,29 @@
  * 51 Franklin Street, Fifth Floor
  * Boston, MA  02110-1301  USA
  */
-package org.hibernate.result;
+package org.hibernate.jpa.spi;
+
+import javax.persistence.TemporalType;
 
 /**
- * Common contract for individual return objects which can be either results ({@link ResultSetReturn}) or update
- * counts ({@link UpdateCountReturn}).
+ * Represents the value currently bound to a particular (bindable) parameter.
+ *
+ * @param <T>
  *
  * @author Steve Ebersole
  */
-public interface Return {
+public interface ParameterBind<T> {
 	/**
-	 * Determine if this return is a result (castable to {@link ResultSetReturn}).  The alternative is that it is
-	 * an update count (castable to {@link UpdateCountReturn}).
+	 * Access the bound value
 	 *
-	 * @return {@code true} indicates that {@code this} can be safely cast to {@link ResultSetReturn}), other wise
-	 * it can be cast to {@link UpdateCountReturn}.
+	 * @return The bound value
 	 */
-	public boolean isResultSet();
+	public T getValue();
+
+	/**
+	 * The temporal type that will be used to "interpret" Date-like values (if applicable).
+	 *
+	 * @return The temporal type, or {@code null}
+	 */
+	public TemporalType getSpecifiedTemporalType();
 }

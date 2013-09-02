@@ -1,7 +1,7 @@
 /*
  * Hibernate, Relational Persistence for Idiomatic Java
  *
- * Copyright (c) 2013, Red Hat Inc. or third-party contributors as
+ * Copyright (c) 2012, Red Hat Inc. or third-party contributors as
  * indicated by the @author tags or express copyright attribution
  * statements applied by the authors.  All third-party contributions are
  * distributed under license by Red Hat Inc.
@@ -24,27 +24,15 @@
 package org.hibernate.result;
 
 /**
- * Represents the result of executing a JDBC statement accounting for mixing of result sets and update counts hiding the
- * complexity (IMO) of how this is exposed in the JDBC API.
- *
- * A result is made up of group of {@link Return} objects, each representing a single result set or update count.
- * Conceptually, Result presents those Returns as an iterator.
+ * Models a return that is an update count (count of rows affected)
  *
  * @author Steve Ebersole
  */
-public interface Result {
+public interface UpdateCountOutput extends Output {
 	/**
-	 * Are there any more returns associated with this result?
+	 * Retrieve the associated update count
 	 *
-	 * @return {@code true} means there are more returns available via {@link #getNextReturn()}; {@code false}
-	 * indicates that calling {@link #getNextReturn()} will certainly result in an exception.
+	 * @return The update count
 	 */
-	public boolean hasMoreReturns();
-
-	/**
-	 * Retrieve the next return.
-	 *
-	 * @return The next return.
-	 */
-	public Return getNextReturn() throws NoMoreReturnsException;
+	public int getUpdateCount();
 }

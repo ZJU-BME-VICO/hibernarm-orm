@@ -210,6 +210,126 @@ public class BulkManipulationTest extends BaseCoreFunctionalTestCase {
 	}
 
 	@Test
+    public void testSelectWithNamedParamProjection() {
+        Session s = openSession();
+        try {
+            s.createQuery("select :someParameter, id from Car");
+            fail("Should throw an unsupported exception");
+        } catch(QueryException q) {
+            // allright
+        } finally {
+            s.close();
+        }
+    }
+
+	@Test
+    public void testSimpleInsertWithNamedParam() {
+		TestData data = new TestData();
+		data.prepare();
+
+		Session s = openSession();
+		Transaction t = s.beginTransaction();
+
+		org.hibernate.Query q = s.createQuery( "insert into Pickup (id, owner, vin) select id, :owner, vin from Car" );
+		q.setParameter("owner", "owner");
+
+		q.executeUpdate();
+
+		t.commit();
+		t = s.beginTransaction();
+
+		s.createQuery( "delete Vehicle" ).executeUpdate();
+
+		t.commit();
+		s.close();
+
+		data.cleanup();
+	}
+
+	@Test
+    public void testInsertWithMultipleNamedParams() {
+		TestData data = new TestData();
+		data.prepare();
+
+		Session s = openSession();
+		Transaction t = s.beginTransaction();
+
+		org.hibernate.Query q = s.createQuery( "insert into Pickup (id, owner, vin) select :id, owner, :vin from Car" );
+		q.setParameter("id", 5l);
+        q.setParameter("vin", "some");
+
+		q.executeUpdate();
+
+		t.commit();
+		t = s.beginTransaction();
+
+		s.createQuery( "delete Vehicle" ).executeUpdate();
+
+		t.commit();
+		s.close();
+
+		data.cleanup();
+	}
+	
+	@Test
+    public void testInsertWithSubqueriesAndNamedParams() {
+		TestData data = new TestData();
+		data.prepare();
+
+		Session s = openSession();
+		Transaction t = s.beginTransaction();
+
+		org.hibernate.Query q = s.createQuery( "insert into Pickup (id, owner, vin) select :id, (select a.description from Animal a where a.description = :description), :vin from Car" );
+		q.setParameter("id", 5l);
+        q.setParameter("description", "Frog");
+        q.setParameter("vin", "some");
+
+		q.executeUpdate();
+
+		t.commit();
+		t = s.beginTransaction();
+
+        try {
+            org.hibernate.Query q1 = s.createQuery( "insert into Pickup (id, owner, vin) select :id, (select :description from Animal a where a.description = :description), :vin from Car" );
+            fail("Unsupported exception should have been thrown");
+        } catch(QueryException e) {
+            assertTrue(e.getMessage().indexOf("Use of parameters in subqueries of INSERT INTO DML statements is not supported.") > -1);
+        }
+
+        t.commit();
+        t = s.beginTransaction();
+
+		s.createQuery( "delete Vehicle" ).executeUpdate();
+
+		t.commit();
+		s.close();
+
+		data.cleanup();
+	}
+
+	@Test
+    public void testSimpleInsertTypeMismatchException() {
+
+        Session s = openSession();
+        try {
+            org.hibernate.Query q = s.createQuery( "insert into Pickup (id, owner, vin) select id, :owner, id from Car" );
+            fail("Parameter type mismatch but no exception thrown");
+        } catch (Throwable throwable) {
+            assertTrue(throwable instanceof QueryException);
+            String m = throwable.getMessage();
+            // insertion type [org.hibernate.type.StringType@21e3cc77] and selection type [org.hibernate.type.LongType@7284aa02] at position 2 are not compatible [insert into Pickup (id, owner, vin) select id, :owner, id from org.hibernate.test.hql.Car]
+            int st = m.indexOf("org.hibernate.type.StringType");
+            int lt = m.indexOf("org.hibernate.type.LongType");
+            assertTrue("type causing error not reported", st > -1);
+            assertTrue("type causing error not reported", lt > -1);
+            assertTrue(lt > st);
+            assertTrue("wrong position of type error reported", m.indexOf("position 2") > -1);
+        } finally {
+            s.close();
+        }
+    }
+
+	@Test
 	public void testSimpleNativeSQLInsert() {
 		TestData data = new TestData();
 		data.prepare();

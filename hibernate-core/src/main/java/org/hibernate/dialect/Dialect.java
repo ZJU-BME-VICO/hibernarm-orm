@@ -35,6 +35,7 @@ import java.sql.Types;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -44,6 +45,7 @@ import org.hibernate.LockMode;
 import org.hibernate.LockOptions;
 import org.hibernate.MappingException;
 import org.hibernate.NullPrecedence;
+import org.hibernate.ScrollMode;
 import org.hibernate.cfg.Environment;
 import org.hibernate.dialect.function.CastFunction;
 import org.hibernate.dialect.function.SQLFunction;
@@ -2657,5 +2659,26 @@ public abstract class Dialect implements ConversionContext {
 	@Deprecated
 	public boolean supportsNotNullUnique() {
 		return true;
+	}
+	
+	/**
+	 * Apply a hint to the query.  The entire query is provided, allowing the Dialect full control over the placement
+	 * and syntax of the hint.  By default, ignore the hint and simply return the query.
+	 * 
+	 * @param query The query to which to apply the hint.
+	 * @param hints The  hints to apply
+	 * @return The modified SQL
+	 */
+	public String getQueryHintString(String query, List<String> hints) {
+		return query;
+	}
+	
+	/**
+	 * Certain dialects support a subset of ScrollModes.  Provide a default to be used by Criteria and Query.
+	 * 
+	 * @return ScrollMode
+	 */
+	public ScrollMode defaultScrollMode() {
+		return ScrollMode.SCROLL_INSENSITIVE;
 	}
 }

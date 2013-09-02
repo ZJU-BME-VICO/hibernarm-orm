@@ -83,12 +83,10 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.StaleObjectStateException;
 import org.hibernate.StaleStateException;
-import org.hibernate.procedure.ProcedureCall;
 import org.hibernate.TransientObjectException;
 import org.hibernate.TypeMismatchException;
 import org.hibernate.UnresolvableObjectException;
 import org.hibernate.cfg.Environment;
-import org.hibernate.cfg.NotYetImplementedException;
 import org.hibernate.dialect.lock.LockingStrategyException;
 import org.hibernate.dialect.lock.OptimisticEntityLockException;
 import org.hibernate.dialect.lock.PessimisticEntityLockException;
@@ -499,7 +497,18 @@ public abstract class AbstractEntityManagerImpl implements HibernateEntityManage
 
 			@Override
 			public <X> X get(int i, Class<X> type) {
-				return (X) get( i );
+				final Object result = get( i );
+				if ( result != null && ! type.isInstance( result ) ) {
+					throw new IllegalArgumentException(
+							String.format(
+									"Requested tuple value [index=%s, realType=%s] cannot be assigned to requested type [%s]",
+									i,
+									result.getClass().getName(),
+									type.getName()
+							)
+					);
+				}
+				return ( X ) result;
 			}
 
 			@Override
@@ -541,13 +550,13 @@ public abstract class AbstractEntityManagerImpl implements HibernateEntityManage
 			String jpaqlString,
 			Class<T> resultClass,
 			Selection selection,
-			Options options) {
+			QueryOptions queryOptions) {
 		try {
 			org.hibernate.Query hqlQuery = internalGetSession().createQuery( jpaqlString );
 
-			if ( options.getValueHandlers() == null ) {
-				if ( options.getResultMetadataValidator() != null ) {
-					options.getResultMetadataValidator().validate( hqlQuery.getReturnTypes() );
+			if ( queryOptions.getValueHandlers() == null ) {
+				if ( queryOptions.getResultMetadataValidator() != null ) {
+					queryOptions.getResultMetadataValidator().validate( hqlQuery.getReturnTypes() );
 				}
 			}
 
@@ -555,12 +564,12 @@ public abstract class AbstractEntityManagerImpl implements HibernateEntityManage
 			List tupleElements = Tuple.class.equals( resultClass )
 					? ( ( CompoundSelectionImpl<Tuple> ) selection ).getCompoundSelectionItems()
 					: null;
-			if ( options.getValueHandlers() != null || tupleElements != null ) {
+			if ( queryOptions.getValueHandlers() != null || tupleElements != null ) {
 				hqlQuery.setResultTransformer(
-						new CriteriaQueryTransformer( options.getValueHandlers(), tupleElements )
+						new CriteriaQueryTransformer( queryOptions.getValueHandlers(), tupleElements )
 				);
 			}
-			return new QueryImpl<T>( hqlQuery, this, options.getNamedParameterExplicitTypes() );
+			return new QueryImpl<T>( hqlQuery, this, queryOptions.getNamedParameterExplicitTypes() );
 		}
 		catch ( HibernateException he ) {
 			throw convert( he );
@@ -661,7 +670,18 @@ public abstract class AbstractEntityManagerImpl implements HibernateEntityManage
 			}
 
 			public <X> X get(int i, Class<X> type) {
-				return ( X ) get( i );
+				final Object result = get( i );
+				if ( result != null && ! type.isInstance( result ) ) {
+					throw new IllegalArgumentException(
+							String.format(
+									"Requested tuple value [index=%s, realType=%s] cannot be assigned to requested type [%s]",
+									i,
+									result.getClass().getName(),
+									type.getName()
+							)
+					);
+				}
+				return ( X ) result;
 			}
 
 			public Object[] toArray() {
@@ -838,8 +858,7 @@ public abstract class AbstractEntityManagerImpl implements HibernateEntityManage
 		if ( memento == null ) {
 			throw new IllegalArgumentException( "No @NamedStoredProcedureQuery was found with that name : " + name );
 		}
-		final ProcedureCall procedureCall = memento.makeProcedureCall( internalGetSession() );
-		final StoredProcedureQueryImpl jpaImpl = new StoredProcedureQueryImpl( procedureCall, this );
+		final StoredProcedureQueryImpl jpaImpl = new StoredProcedureQueryImpl( memento, this );
 		// apply hints
 		if ( memento.getHintsMap() != null ) {
 			for ( Map.Entry<String,Object> hintEntry : memento.getHintsMap().entrySet() ) {
@@ -1360,7 +1379,8 @@ public abstract class AbstractEntityManagerImpl implements HibernateEntityManage
 		throw new PersistenceException( "Hibernate cannot unwrap " + clazz );
 	}
 
-	protected void markAsRollback() {
+	@Override
+	public void markForRollbackOnly() {
         LOG.debugf("Mark transaction for rollback");
 		if ( tx.isActive() ) {
 			tx.setRollbackOnly();
@@ -1492,7 +1512,7 @@ public abstract class AbstractEntityManagerImpl implements HibernateEntityManage
 		}
 
 		try {
-			markAsRollback();
+			markForRollbackOnly();
 		}
 		catch ( Exception ne ) {
 			//we do not want the subsequent exception to swallow the original one
@@ -1518,7 +1538,7 @@ public abstract class AbstractEntityManagerImpl implements HibernateEntityManage
 			result = convert( ( HibernateException ) e );
 		}
 		else {
-			markAsRollback();
+			markForRollbackOnly();
 		}
 		return result;
 	}
@@ -1575,7 +1595,7 @@ public abstract class AbstractEntityManagerImpl implements HibernateEntityManage
 		}
 		else if ( e instanceof TransientObjectException ) {
 			try {
-				markAsRollback();
+				markForRollbackOnly();
 			}
 			catch ( Exception ne ) {
 				//we do not want the subsequent exception to swallow the original one
