@@ -50,6 +50,8 @@ import org.hibernate.type.PrimitiveType;
 import org.hibernate.type.Type;
 import org.openehr.am.archetype.Archetype;
 import org.openehr.am.archetype.constraintmodel.CObject;
+import org.openehr.am.archetype.ontology.ArchetypeOntology;
+import org.openehr.am.archetype.ontology.ArchetypeTerm;
 import org.openehr.rm.common.archetyped.Locatable;
 
 /**
@@ -474,7 +476,11 @@ public final class ReflectHelper {
 					);
 					
 					Setter setter = propertyAccessor.getSetter(tempTarget.getClass(), pathSegment);
-					if (klass.isPrimitive() || ClassUtils.wrapperToPrimitive(klass) != null || String.class.equals(klass)) {						
+					Getter getter = propertyAccessor.getGetter(tempTarget.getClass(), pathSegment);
+					if (klass.isPrimitive() || 
+							ClassUtils.wrapperToPrimitive(klass) != null || 
+							String.class.isAssignableFrom(klass) ||
+							Set.class.isAssignableFrom(klass)) {						
 						if (propertyValue instanceof Locatable) {
 							String uid = ((Locatable) propertyValue).getUid().getValue();
 							setter.set(tempTarget, uid, null);

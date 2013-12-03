@@ -46,6 +46,9 @@ import org.hibernate.internal.CoreLogging;
 import org.hibernate.internal.CoreMessageLogger;
 import org.hibernate.persister.collection.CollectionPersister;
 import org.hibernate.pretty.MessageHelper;
+import org.openehr.rm.common.archetyped.Locatable;
+import org.openehr.rm.datastructure.itemstructure.representation.Element;
+import org.openehr.rm.datatypes.text.DvText;
 
 /**
  * Represents state associated with the processing of a given {@link ResultSet}
@@ -162,7 +165,7 @@ public class CollectionLoadContext {
 	 *
 	 * @param persister The persister for which to complete loading.
 	 */
-	public void endLoadingCollections(CollectionPersister persister) {
+	public void endLoadingCollections(List results, CollectionPersister persister) {
 		final SessionImplementor session = getLoadContext().getPersistenceContext().getSession();
 		if ( !loadContexts.hasLoadingCollectionEntries()
 				&& localLoadingCollectionKeys.isEmpty() ) {
@@ -215,6 +218,38 @@ public class CollectionLoadContext {
 			// this cleanup should become part of the "close result set"
 			// processing from the (sandbox/jdbc) jdbc-container code.
 			loadContexts.cleanup( resultSet );
+		}
+		
+		if (matches != null && results != null) {
+			for (LoadingCollectionEntry lce : matches) {
+				String nodeNameOnetomany = lce.getPersister().getNodeName();
+				String nodeNameItems = nodeNameOnetomany.substring(0, nodeNameOnetomany.lastIndexOf('/')).concat("/items"); 
+				String key = (String) lce.getKey();
+				for (Object object : results) {
+					Locatable loc = (Locatable) object;
+					if (loc.getUid().getValue().equals(key)) {
+						Set set = (Set) loc.itemAtPath(nodeNameOnetomany);
+						if (set != null) {
+							List<Locatable> list = (List<Locatable>) loc.itemAtPath(nodeNameItems);
+							if (list == null) {
+								list = new ArrayList<Locatable>();
+							}
+							for (Object associatedObject : set) {
+								if (associatedObject instanceof Locatable) {
+									Locatable associatedLoc = (Locatable) associatedObject;
+									String associatedUid = associatedLoc.getUid().getValue();
+									DvText text = new DvText(associatedUid);
+									Element element = new Element("", associatedLoc.getArchetypeNodeId(), text);
+									list.add(element);
+									loc.getAssociatedObjects().put(associatedUid, associatedLoc);							
+								}
+							}
+							loc.set(nodeNameOnetomany, null);
+							loc.set(nodeNameItems, list);
+						}
+					}
+				}
+			}			
 		}
 	}
 

@@ -692,7 +692,7 @@ public class ResultSetProcessingContextImpl implements ResultSetProcessingContex
 							session.getPersistenceContext()
 									.getLoadContexts()
 									.getCollectionLoadContext( resultSet )
-									.endLoadingCollections( persister );
+									.endLoadingCollections( null, persister );
 						}
 					}
 				}
@@ -733,7 +733,7 @@ public class ResultSetProcessingContextImpl implements ResultSetProcessingContex
 							session.getPersistenceContext()
 									.getLoadContexts()
 									.getCollectionLoadContext( resultSet )
-									.endLoadingCollections( persister );
+									.endLoadingCollections( null, persister );
 						}
 					}
 				}

@@ -159,403 +159,6 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 	}
 
 	@Test
-	public void testFrom() throws Exception {
-		createTestBaseData();
-
-		Session s = openSession();
-
-		{
-			String query = "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
-					+ "order by o#/uid/value asc";
-			List results = s
-					.createQuery(query)
-					.list();
-
-			assertEquals(results.size(), 3);
-			Locatable loc1 = (Locatable) results.get(0);
-			String d1 = (String) loc1.itemAtPath("/uid/value");
-			String d2 = (String) loc1
-					.itemAtPath("/details[at0001]/items[at0003]/value/value");
-			String d3 = (String) loc1
-					.itemAtPath("/details[at0001]/items[at0004]/value/value");
-			String d4 = (String) loc1
-					.itemAtPath("/details[at0001]/items[at0009]/value/value");
-			assertEquals(d1, "patient1");
-			assertEquals(d2, "M");
-			assertEquals(d3, "1984-08-11T19:20:30+08:00");
-			assertEquals(d4, "zhangsan");
-			Locatable loc2 = (Locatable) results.get(1);
-			String d5 = (String) loc2.itemAtPath("/uid/value");
-			String d6 = (String) loc2
-					.itemAtPath("/details[at0001]/items[at0003]/value/value");
-			String d7 = (String) loc2
-					.itemAtPath("/details[at0001]/items[at0004]/value/value");
-			String d8 = (String) loc2
-					.itemAtPath("/details[at0001]/items[at0009]/value/value");
-			assertEquals(d5, "patient2");
-			assertEquals(d6, "F");
-			assertEquals(d7, "1986-08-11T19:20:30+08:00");
-			assertEquals(d8, "lisi");
-			Locatable loc3 = (Locatable) results.get(2);
-			String d9 = (String) loc3.itemAtPath("/uid/value");
-			String d10 = (String) loc3
-					.itemAtPath("/details[at0001]/items[at0003]/value/value");
-			String d11 = (String) loc3
-					.itemAtPath("/details[at0001]/items[at0004]/value/value");
-			String d12 = (String) loc3
-					.itemAtPath("/details[at0001]/items[at0009]/value/value");
-			assertEquals(d9, "patient3");
-			assertEquals(d10, "O");
-			assertEquals(d11, "1988-08-11T19:20:30+08:00");
-			assertEquals(d12, "wangwu");
-		}
-
-		{
-			String query = "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
-					+ "where o#/details[at0001]/items[at0009]/value/value = 'lisi'";
-			List results = s
-					.createQuery(query)
-					.list();
-
-			assertEquals(results.size(), 1);
-			Locatable loc2 = (Locatable) results.get(0);
-			String d5 = (String) loc2.itemAtPath("/uid/value");
-			String d6 = (String) loc2
-					.itemAtPath("/details[at0001]/items[at0003]/value/value");
-			String d7 = (String) loc2
-					.itemAtPath("/details[at0001]/items[at0004]/value/value");
-			String d8 = (String) loc2
-					.itemAtPath("/details[at0001]/items[at0009]/value/value");
-			assertEquals(d5, "patient2");
-			assertEquals(d6, "F");
-			assertEquals(d7, "1986-08-11T19:20:30+08:00");
-			assertEquals(d8, "lisi");
-		}
-
-		{
-			String query = "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
-					+ "where o#/uid/value = 'patient1'";
-			List results = s
-					.createQuery(query)
-					.list();
-
-			assertEquals(results.size(), 1);
-			Locatable loc1 = (Locatable) results.get(0);
-			String d1 = (String) loc1.itemAtPath("/uid/value");
-			String d2 = (String) loc1
-					.itemAtPath("/details[at0001]/items[at0003]/value/value");
-			String d3 = (String) loc1
-					.itemAtPath("/details[at0001]/items[at0004]/value/value");
-			String d4 = (String) loc1
-					.itemAtPath("/details[at0001]/items[at0009]/value/value");
-			assertEquals(d1, "patient1");
-			assertEquals(d2, "M");
-			assertEquals(d3, "1984-08-11T19:20:30+08:00");
-			assertEquals(d4, "zhangsan");
-		}
-
-		s.close();
-		
-		cleanTestBaseData();
-	}
-
-	@Test
-	public void testFromJoin() throws Exception {
-		createTestBaseData();
-
-		Session s = openSession();
-
-		{
-			String query = "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as p, openEHR-EHR-COMPOSITION.visit.v3 as v ";
-			List results = s
-					.createQuery(query)
-					.list();
-
-			assertEquals(results.size(), 9);
-
-			List<Locatable> patients = new ArrayList<Locatable>();
-			List<Locatable> visits = new ArrayList<Locatable>();
-			for (Object arr : results) {
-				if (arr.getClass().isArray()) {
-					for (int i = 0; i < Array.getLength(arr); i++)
-					{
-						Object obj = Array.get(arr, i);
-						if (obj instanceof Locatable) {
-							Locatable loc = (Locatable) obj;			
-							if (loc.getArchetypeNodeId().compareToIgnoreCase("openEHR-DEMOGRAPHIC-PERSON.patient.v1") == 0) {
-								if (!patients.contains(loc)) {
-									patients.add(loc);									
-								}
-							}
-							
-							if (loc.getArchetypeNodeId().compareToIgnoreCase("openEHR-EHR-COMPOSITION.visit.v3") == 0) {
-								if (!visits.contains(loc)) {
-									visits.add(loc);									
-								}
-							}
-						}						
-					}					
-				}
-			}
-
-			assertEquals(patients.size(), 3);
-			assertEquals(visits.size(), 3);
-		}
-
-		{
-			String query = "from openEHR-EHR-COMPOSITION.visit.v3 as v "
-					+ "join v#/context/other_context[at0001]/items[at0015]/value/value as p ";
-			List results = s
-					.createQuery(query)
-					.list();
-
-			assertEquals(results.size(), 3);
-
-			List<Locatable> patients = new ArrayList<Locatable>();
-			List<Locatable> visits = new ArrayList<Locatable>();
-			for (Object arr : results) {
-				if (arr.getClass().isArray()) {
-					for (int i = 0; i < Array.getLength(arr); i++)
-					{
-						Object obj = Array.get(arr, i);
-						if (obj instanceof Locatable) {
-							Locatable loc = (Locatable) obj;			
-							if (loc.getArchetypeNodeId().compareToIgnoreCase("openEHR-DEMOGRAPHIC-PERSON.patient.v1") == 0) {
-								if (!patients.contains(loc)) {
-									patients.add(loc);									
-								}
-							}
-							
-							if (loc.getArchetypeNodeId().compareToIgnoreCase("openEHR-EHR-COMPOSITION.visit.v3") == 0) {
-								if (!visits.contains(loc)) {
-									visits.add(loc);									
-								}
-							}
-						}						
-					}					
-				}
-			}
-
-			assertEquals(patients.size(), 2);
-			assertEquals(visits.size(), 3);
-		}
-
-		{
-			String query = "from openEHR-EHR-COMPOSITION.visit.v3 as v "
-					+ "join v#/context/other_context[at0001]/items[at0015]/value/value ";
-			List results = s
-					.createQuery(query)
-					.list();
-
-			assertEquals(results.size(), 3);
-
-			List<Locatable> patients = new ArrayList<Locatable>();
-			List<Locatable> visits = new ArrayList<Locatable>();
-			for (Object arr : results) {
-				if (arr.getClass().isArray()) {
-					for (int i = 0; i < Array.getLength(arr); i++)
-					{
-						Object obj = Array.get(arr, i);
-						if (obj instanceof Locatable) {
-							Locatable loc = (Locatable) obj;			
-							if (loc.getArchetypeNodeId().compareToIgnoreCase("openEHR-DEMOGRAPHIC-PERSON.patient.v1") == 0) {
-								if (!patients.contains(loc)) {
-									patients.add(loc);									
-								}
-							}
-							
-							if (loc.getArchetypeNodeId().compareToIgnoreCase("openEHR-EHR-COMPOSITION.visit.v3") == 0) {
-								if (!visits.contains(loc)) {
-									visits.add(loc);									
-								}
-							}
-						}						
-					}					
-				}
-			}
-
-			assertEquals(patients.size(), 2);
-			assertEquals(visits.size(), 3);
-		}
-
-		{
-			String query = "from openEHR-EHR-COMPOSITION.visit.v3 as v, openEHR-DEMOGRAPHIC-PERSON.patient.v1 as p "
-					+ "join v#/context/other_context[at0001]/items[at0015]/value/value ";
-			List results = s
-					.createQuery(query)
-					.list();
-
-			assertEquals(results.size(), 9);
-
-			List<Locatable> patients = new ArrayList<Locatable>();
-			List<Locatable> visits = new ArrayList<Locatable>();
-			for (Object arr : results) {
-				if (arr.getClass().isArray()) {
-					for (int i = 0; i < Array.getLength(arr); i++)
-					{
-						Object obj = Array.get(arr, i);
-						if (obj instanceof Locatable) {
-							Locatable loc = (Locatable) obj;			
-							if (loc.getArchetypeNodeId().compareToIgnoreCase("openEHR-DEMOGRAPHIC-PERSON.patient.v1") == 0) {
-								if (!patients.contains(loc)) {
-									patients.add(loc);									
-								}
-							}
-							
-							if (loc.getArchetypeNodeId().compareToIgnoreCase("openEHR-EHR-COMPOSITION.visit.v3") == 0) {
-								if (!visits.contains(loc)) {
-									visits.add(loc);									
-								}
-							}
-						}						
-					}					
-				}
-			}
-
-			assertEquals(patients.size(), 3);
-			assertEquals(visits.size(), 3);
-		}
-
-		{
-			String query = "from openEHR-EHR-COMPOSITION.visit.v3 as v "
-					+ "join fetch v#/context/other_context[at0001]/items[at0015]/value/value as p ";
-			List results = s
-					.createQuery(query)
-					.list();
-
-			assertEquals(results.size(), 3);
-
-			List<Locatable> patients = new ArrayList<Locatable>();
-			List<Locatable> visits = new ArrayList<Locatable>();
-			for (Object obj1 : results) {
-				if (obj1 instanceof Locatable) {
-					Locatable loc1 = (Locatable) obj1;	
-					for (Object obj2 : loc1.getAssociatedObjects().values()) {
-						if (obj2 instanceof Locatable) {
-							Locatable loc2 = (Locatable) obj2;
-							if (!patients.contains(loc2)) {
-								patients.add(loc2);																
-							}
-							
-							visits.add(loc1);
-						}
-					}
-				}
-			}
-
-			assertEquals(patients.size(), 2);
-			assertEquals(visits.size(), 3);
-		}
-
-		s.close();
-		
-		cleanTestBaseData();
-	}
-
-	@Test
-	public void testFromParameterized() throws Exception {
-		createTestBaseData();
-
-		Session s = openSession();
-
-		{
-			String query = "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
-					+ "order by o#/uid/value asc";
-			List results = s
-					.createQuery(query)
-					.list();
-
-			assertEquals(results.size(), 3);
-			Locatable loc1 = (Locatable) results.get(0);
-			String d1 = (String) loc1.itemAtPath("/uid/value");
-			String d2 = (String) loc1
-					.itemAtPath("/details[at0001]/items[at0003]/value/value");
-			String d3 = (String) loc1
-					.itemAtPath("/details[at0001]/items[at0004]/value/value");
-			String d4 = (String) loc1
-					.itemAtPath("/details[at0001]/items[at0009]/value/value");
-			assertEquals(d1, "patient1");
-			assertEquals(d2, "M");
-			assertEquals(d3, "1984-08-11T19:20:30+08:00");
-			assertEquals(d4, "zhangsan");
-			Locatable loc2 = (Locatable) results.get(1);
-			String d5 = (String) loc2.itemAtPath("/uid/value");
-			String d6 = (String) loc2
-					.itemAtPath("/details[at0001]/items[at0003]/value/value");
-			String d7 = (String) loc2
-					.itemAtPath("/details[at0001]/items[at0004]/value/value");
-			String d8 = (String) loc2
-					.itemAtPath("/details[at0001]/items[at0009]/value/value");
-			assertEquals(d5, "patient2");
-			assertEquals(d6, "F");
-			assertEquals(d7, "1986-08-11T19:20:30+08:00");
-			assertEquals(d8, "lisi");
-			Locatable loc3 = (Locatable) results.get(2);
-			String d9 = (String) loc3.itemAtPath("/uid/value");
-			String d10 = (String) loc3
-					.itemAtPath("/details[at0001]/items[at0003]/value/value");
-			String d11 = (String) loc3
-					.itemAtPath("/details[at0001]/items[at0004]/value/value");
-			String d12 = (String) loc3
-					.itemAtPath("/details[at0001]/items[at0009]/value/value");
-			assertEquals(d9, "patient3");
-			assertEquals(d10, "O");
-			assertEquals(d11, "1988-08-11T19:20:30+08:00");
-			assertEquals(d12, "wangwu");
-		}
-
-		{
-			String query = "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
-					+ "where o#/details[at0001]/items[at0009]/value/value = :name";
-			List results = s
-					.createQuery(query)
-					.setParameter("name", "lisi")
-					.list();
-
-			assertEquals(results.size(), 1);
-			Locatable loc2 = (Locatable) results.get(0);
-			String d5 = (String) loc2.itemAtPath("/uid/value");
-			String d6 = (String) loc2
-					.itemAtPath("/details[at0001]/items[at0003]/value/value");
-			String d7 = (String) loc2
-					.itemAtPath("/details[at0001]/items[at0004]/value/value");
-			String d8 = (String) loc2
-					.itemAtPath("/details[at0001]/items[at0009]/value/value");
-			assertEquals(d5, "patient2");
-			assertEquals(d6, "F");
-			assertEquals(d7, "1986-08-11T19:20:30+08:00");
-			assertEquals(d8, "lisi");
-		}
-
-		{
-			String query = "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as o "
-					+ "where o#/uid/value = :name";
-			List results = s
-					.createQuery(query)
-					.setParameter("name", "patient1")
-					.list();
-
-			assertEquals(results.size(), 1);
-			Locatable loc1 = (Locatable) results.get(0);
-			String d1 = (String) loc1.itemAtPath("/uid/value");
-			String d2 = (String) loc1
-					.itemAtPath("/details[at0001]/items[at0003]/value/value");
-			String d3 = (String) loc1
-					.itemAtPath("/details[at0001]/items[at0004]/value/value");
-			String d4 = (String) loc1
-					.itemAtPath("/details[at0001]/items[at0009]/value/value");
-			assertEquals(d1, "patient1");
-			assertEquals(d2, "M");
-			assertEquals(d3, "1984-08-11T19:20:30+08:00");
-			assertEquals(d4, "zhangsan");
-		}
-
-		s.close();
-		
-		cleanTestBaseData();
-	}
-
-	@Test
 	public void testSelect() throws Exception {
 		createTestBaseData();
 
@@ -809,14 +412,14 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 	}
 
 	@Test
-	public void testSelectJoin() throws Exception {
+	public void testSelectJoinCartesian() throws Exception {
 		createTestBaseData();
 
 		Session s = openSession();
 
 		{
-			String query = "select p, v "
-					+ "from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as p, openEHR-EHR-COMPOSITION.visit.v3 as v ";
+			String query = "select p, v " +
+					"from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as p, openEHR-EHR-COMPOSITION.visit.v3 as v ";
 			List results = s
 					.createQuery(query)
 					.list();
@@ -853,73 +456,9 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 		}
 
 		{
-			String query = "select v "
-					+ "from openEHR-EHR-COMPOSITION.visit.v3 as v "
-					+ "join v#/context/other_context[at0001]/items[at0015]/value/value as p ";
-			List results = s
-					.createQuery(query)
-					.list();
-
-			assertEquals(results.size(), 3);
-
-			List<Locatable> patients = new ArrayList<Locatable>();
-			List<Locatable> visits = new ArrayList<Locatable>();
-			for (Object obj1 : results) {
-				if (obj1 instanceof Locatable) {
-					Locatable loc1 = (Locatable) obj1;	
-					for (Object obj2 : loc1.getAssociatedObjects().values()) {
-						if (obj2 instanceof Locatable) {
-							Locatable loc2 = (Locatable) obj2;
-							if (!patients.contains(loc2)) {
-								patients.add(loc2);																
-							}
-							
-							visits.add(loc1);
-						}
-					}
-				}
-			}
-
-			assertEquals(patients.size(), 2);
-			assertEquals(visits.size(), 3);
-		}
-
-		{
-			String query = "select v "
-					+ "from openEHR-EHR-COMPOSITION.visit.v3 as v "
-					+ "join v#/context/other_context[at0001]/items[at0015]/value/value ";
-			List results = s
-					.createQuery(query)
-					.list();
-
-			assertEquals(results.size(), 3);
-
-			List<Locatable> patients = new ArrayList<Locatable>();
-			List<Locatable> visits = new ArrayList<Locatable>();
-			for (Object obj1 : results) {
-				if (obj1 instanceof Locatable) {
-					Locatable loc1 = (Locatable) obj1;	
-					for (Object obj2 : loc1.getAssociatedObjects().values()) {
-						if (obj2 instanceof Locatable) {
-							Locatable loc2 = (Locatable) obj2;
-							if (!patients.contains(loc2)) {
-								patients.add(loc2);																
-							}
-							
-							visits.add(loc1);
-						}
-					}
-				}
-			}
-
-			assertEquals(patients.size(), 2);
-			assertEquals(visits.size(), 3);
-		}
-
-		{
-			String query = "select p, v "
-					+ "from openEHR-EHR-COMPOSITION.visit.v3 as v "
-					+ "join v#/context/other_context[at0001]/items[at0015]/value/value as p ";
+			String query = "select p, v " +
+					"from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as p, openEHR-EHR-COMPOSITION.visit.v3 as v " +
+					"where p#/uid/value = v#/context/other_context[at0001]/items[at0015]/value/value ";
 			List results = s
 					.createQuery(query)
 					.list();
@@ -955,148 +494,365 @@ public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
 			assertEquals(visits.size(), 3);
 		}
 
-		{
-			String query = "select p, v "
-					+ "from openEHR-EHR-COMPOSITION.visit.v3 as v, openEHR-DEMOGRAPHIC-PERSON.patient.v1 as p "
-					+ "join v#/context/other_context[at0001]/items[at0015]/value/value ";
-			List results = s
-					.createQuery(query)
-					.list();
-
-			assertEquals(results.size(), 9);
-
-			List<Locatable> patients = new ArrayList<Locatable>();
-			List<Locatable> visits = new ArrayList<Locatable>();
-			for (Object arr : results) {
-				if (arr.getClass().isArray()) {
-					for (int i = 0; i < Array.getLength(arr); i++)
-					{
-						Object obj = Array.get(arr, i);
-						if (obj instanceof Locatable) {
-							Locatable loc = (Locatable) obj;			
-							if (loc.getArchetypeNodeId().compareToIgnoreCase("openEHR-DEMOGRAPHIC-PERSON.patient.v1") == 0) {
-								if (!patients.contains(loc)) {
-									patients.add(loc);									
-								}
-							}
-							
-							if (loc.getArchetypeNodeId().compareToIgnoreCase("openEHR-EHR-COMPOSITION.visit.v3") == 0) {
-								if (!visits.contains(loc)) {
-									visits.add(loc);									
-								}
-							}
-						}						
-					}					
-				}
-			}
-
-			assertEquals(patients.size(), 3);
-			assertEquals(visits.size(), 3);
-		}
-
-		{
-			String query = "select v "
-					+ "from openEHR-EHR-COMPOSITION.visit.v3 as v "
-					+ "join fetch v#/context/other_context[at0001]/items[at0015]/value/value as p ";
-			List results = s
-					.createQuery(query)
-					.list();
-
-			assertEquals(results.size(), 3);
-
-			List<Locatable> patients = new ArrayList<Locatable>();
-			List<Locatable> visits = new ArrayList<Locatable>();
-			for (Object obj1 : results) {
-				if (obj1 instanceof Locatable) {
-					Locatable loc1 = (Locatable) obj1;	
-					for (Object obj2 : loc1.getAssociatedObjects().values()) {
-						if (obj2 instanceof Locatable) {
-							Locatable loc2 = (Locatable) obj2;
-							if (!patients.contains(loc2)) {
-								patients.add(loc2);																
-							}
-							
-							visits.add(loc1);
-						}
-					}
-				}
-			}
-
-			assertEquals(patients.size(), 2);
-			assertEquals(visits.size(), 3);
-		}
-
-		{
-			String query = "select v "
-					+ "from openEHR-EHR-COMPOSITION.visit.v3 as v "
-					+ "join fetch v#/context/other_context[at0001]/items[at0015]/value/value ";
-			List results = s
-					.createQuery(query)
-					.list();
-
-			assertEquals(results.size(), 3);
-
-			List<Locatable> patients = new ArrayList<Locatable>();
-			List<Locatable> visits = new ArrayList<Locatable>();
-			for (Object obj1 : results) {
-				if (obj1 instanceof Locatable) {
-					Locatable loc1 = (Locatable) obj1;	
-					for (Object obj2 : loc1.getAssociatedObjects().values()) {
-						if (obj2 instanceof Locatable) {
-							Locatable loc2 = (Locatable) obj2;
-							if (!patients.contains(loc2)) {
-								patients.add(loc2);																
-							}
-							
-							visits.add(loc1);
-						}
-					}
-				}
-			}
-
-			assertEquals(patients.size(), 2);
-			assertEquals(visits.size(), 3);
-		}
-
-		{
-			String query = "select p, v "
-					+ "from openEHR-EHR-COMPOSITION.visit.v3 as v, openEHR-DEMOGRAPHIC-PERSON.patient.v1 as p "
-					+ "join fetch v#/context/other_context[at0001]/items[at0015]/value/value ";
-			List results = s
-					.createQuery(query)
-					.list();
-
-			assertEquals(results.size(), 9);
-
-			List<Locatable> patients = new ArrayList<Locatable>();
-			List<Locatable> visits = new ArrayList<Locatable>();
-			for (Object arr : results) {
-				if (arr.getClass().isArray()) {
-					for (int i = 0; i < Array.getLength(arr); i++)
-					{
-						Object obj = Array.get(arr, i);
-						if (obj instanceof Locatable) {
-							Locatable loc = (Locatable) obj;			
-							if (loc.getArchetypeNodeId().compareToIgnoreCase("openEHR-DEMOGRAPHIC-PERSON.patient.v1") == 0) {
-								if (!patients.contains(loc)) {
-									patients.add(loc);									
-								}
-							}
-							
-							if (loc.getArchetypeNodeId().compareToIgnoreCase("openEHR-EHR-COMPOSITION.visit.v3") == 0) {
-								if (!visits.contains(loc)) {
-									visits.add(loc);									
-								}
-							}
-						}						
-					}					
-				}
-			}
-
-			assertEquals(patients.size(), 3);
-			assertEquals(visits.size(), 3);
-		}
+		s.close();
 		
+		cleanTestBaseData();
+	}
+
+	@Test
+	public void testSelectJoinFetchManyToOne() throws Exception {
+		createTestBaseData();
+
+		Session s = openSession();
+
+		{
+			String query = "select v " +
+					"from openEHR-EHR-COMPOSITION.visit.v3 as v " +
+					"join fetch v#/context/other_context[at0001]/items[at0015]/value/value as p ";
+			List results = s
+					.createQuery(query)
+					.list();
+
+			assertEquals(results.size(), 3);
+
+			List<Locatable> patients = new ArrayList<Locatable>();
+			List<Locatable> visits = new ArrayList<Locatable>();
+			for (Object obj1 : results) {
+				if (obj1 instanceof Locatable) {
+					Locatable loc1 = (Locatable) obj1;	
+					if (!visits.contains(loc1)) {
+						visits.add(loc1);																
+					}				
+					for (Object obj2 : loc1.getAssociatedObjects().values()) {
+						if (obj2 instanceof Locatable) {
+							Locatable loc2 = (Locatable) obj2;
+							if (!patients.contains(loc2)) {
+								patients.add(loc2);																
+							}
+						}
+					}
+				}
+			}
+
+			assertEquals(patients.size(), 2);
+			assertEquals(visits.size(), 3);
+		}
+
+		s.close();
+		
+		cleanTestBaseData();
+	}
+
+	@Test
+	public void testSelectJoinFetchOneToMany() throws Exception {
+		createTestBaseData();
+
+		Session s = openSession();
+
+		{
+			String query = "select p " +
+					"from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as p " +
+					"join fetch p#/details[at0001]/items[at0032]/onetomany as v ";
+			List results = s
+					.createQuery(query)
+					.list();
+
+			assertEquals(results.size(), 3);
+
+			List<Locatable> patients = new ArrayList<Locatable>();
+			List<Locatable> visits = new ArrayList<Locatable>();
+			for (Object obj1 : results) {
+				if (obj1 instanceof Locatable) {
+					Locatable loc1 = (Locatable) obj1;	
+					if (!patients.contains(loc1)) {
+						patients.add(loc1);																
+					}		
+					for (Object obj2 : loc1.getAssociatedObjects().values()) {
+						if (obj2 instanceof Locatable) {
+							Locatable loc2 = (Locatable) obj2;
+							if (!visits.contains(loc2)) {
+								visits.add(loc2);																
+							}
+						}
+					}
+				}
+			}
+
+			assertEquals(patients.size(), 2);
+			assertEquals(visits.size(), 3);
+		}
+
+		{
+			String query = "select distinct p " +
+					"from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as p " +
+					"join fetch p#/details[at0001]/items[at0032]/onetomany as v ";
+			List results = s
+					.createQuery(query)
+					.list();
+
+			assertEquals(results.size(), 2);
+
+			List<Locatable> patients = new ArrayList<Locatable>();
+			List<Locatable> visits = new ArrayList<Locatable>();
+			for (Object obj1 : results) {
+				if (obj1 instanceof Locatable) {
+					Locatable loc1 = (Locatable) obj1;	
+					if (!patients.contains(loc1)) {
+						patients.add(loc1);																
+					}		
+					for (Object obj2 : loc1.getAssociatedObjects().values()) {
+						if (obj2 instanceof Locatable) {
+							Locatable loc2 = (Locatable) obj2;
+							if (!visits.contains(loc2)) {
+								visits.add(loc2);																
+							}
+						}
+					}
+				}
+			}
+
+			assertEquals(patients.size(), 2);
+			assertEquals(visits.size(), 3);
+		}
+
+		s.close();
+		
+		cleanTestBaseData();
+	}
+
+	@Test
+	public void testSelectJoinManyToOne() throws Exception {
+		createTestBaseData();
+
+		Session s = openSession();
+
+		{
+			String query = "select v " +
+					"from openEHR-EHR-COMPOSITION.visit.v3 as v " +
+					"join v#/context/other_context[at0001]/items[at0015]/value/value as p ";
+			List results = s
+					.createQuery(query)
+					.list();
+
+			assertEquals(results.size(), 3);
+
+			List<Locatable> patients = new ArrayList<Locatable>();
+			List<Locatable> visits = new ArrayList<Locatable>();
+			for (Object obj1 : results) {
+				if (obj1 instanceof Locatable) {
+					Locatable loc1 = (Locatable) obj1;	
+					if (!visits.contains(loc1)) {
+						visits.add(loc1);																
+					}				
+					for (Object obj2 : loc1.getAssociatedObjects().values()) {
+						if (obj2 instanceof Locatable) {
+							Locatable loc2 = (Locatable) obj2;
+							if (!patients.contains(loc2)) {
+								patients.add(loc2);																
+							}
+						}
+					}
+				}
+			}
+
+			assertEquals(patients.size(), 0);
+			assertEquals(visits.size(), 3);
+		}
+
+		{
+			String query = "select p, v " +
+					"from openEHR-EHR-COMPOSITION.visit.v3 as v " +
+					"join v#/context/other_context[at0001]/items[at0015]/value/value as p ";
+			List results = s
+					.createQuery(query)
+					.list();
+
+			assertEquals(results.size(), 3);
+
+			List<Locatable> patients = new ArrayList<Locatable>();
+			List<Locatable> visits = new ArrayList<Locatable>();
+			for (Object arr : results) {
+				if (arr.getClass().isArray()) {
+					for (int i = 0; i < Array.getLength(arr); i++)
+					{
+						Object obj = Array.get(arr, i);
+						if (obj instanceof Locatable) {
+							Locatable loc = (Locatable) obj;			
+							if (loc.getArchetypeNodeId().compareToIgnoreCase("openEHR-DEMOGRAPHIC-PERSON.patient.v1") == 0) {
+								if (!patients.contains(loc)) {
+									patients.add(loc);									
+								}
+							}
+							
+							if (loc.getArchetypeNodeId().compareToIgnoreCase("openEHR-EHR-COMPOSITION.visit.v3") == 0) {
+								if (!visits.contains(loc)) {
+									visits.add(loc);									
+								}
+							}
+						}						
+					}					
+				}
+			}
+
+			assertEquals(patients.size(), 2);
+			assertEquals(visits.size(), 3);
+		}
+
+		s.close();
+		
+		cleanTestBaseData();
+	}
+
+	@Test
+	public void testSelectJoinOneToMany() throws Exception {
+		createTestBaseData();
+
+		Session s = openSession();
+
+		{
+			String query = "select p " +
+					"from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as p " +
+					"join p#/details[at0001]/items[at0032]/onetomany as v ";
+			List results = s
+					.createQuery(query)
+					.list();
+
+			assertEquals(results.size(), 3);
+
+			List<Locatable> patients = new ArrayList<Locatable>();
+			List<Locatable> visits = new ArrayList<Locatable>();
+			for (Object obj1 : results) {
+				if (obj1 instanceof Locatable) {
+					Locatable loc1 = (Locatable) obj1;	
+					if (!patients.contains(loc1)) {
+						patients.add(loc1);																
+					}		
+					for (Object obj2 : loc1.getAssociatedObjects().values()) {
+						if (obj2 instanceof Locatable) {
+							Locatable loc2 = (Locatable) obj2;
+							if (!visits.contains(loc2)) {
+								visits.add(loc2);																
+							}
+						}
+					}
+				}
+			}
+
+			assertEquals(patients.size(), 2);
+			assertEquals(visits.size(), 0);
+		}
+
+		{
+			String query = "select p, v " +
+					"from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as p " +
+					"join p#/details[at0001]/items[at0032]/onetomany as v ";
+			List results = s
+					.createQuery(query)
+					.list();
+
+			assertEquals(results.size(), 3);
+
+			List<Locatable> patients = new ArrayList<Locatable>();
+			List<Locatable> visits = new ArrayList<Locatable>();
+			for (Object arr : results) {
+				if (arr.getClass().isArray()) {
+					for (int i = 0; i < Array.getLength(arr); i++)
+					{
+						Object obj = Array.get(arr, i);
+						if (obj instanceof Locatable) {
+							Locatable loc = (Locatable) obj;			
+							if (loc.getArchetypeNodeId().compareToIgnoreCase("openEHR-DEMOGRAPHIC-PERSON.patient.v1") == 0) {
+								if (!patients.contains(loc)) {
+									patients.add(loc);									
+								}
+							}
+							
+							if (loc.getArchetypeNodeId().compareToIgnoreCase("openEHR-EHR-COMPOSITION.visit.v3") == 0) {
+								if (!visits.contains(loc)) {
+									visits.add(loc);									
+								}
+							}
+						}						
+					}					
+				}
+			}
+
+			assertEquals(patients.size(), 2);
+			assertEquals(visits.size(), 3);
+		}
+
+		{
+			String query = "select p " +
+					"from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as p " +
+					"left join p#/details[at0001]/items[at0032]/onetomany as v ";
+			List results = s
+					.createQuery(query)
+					.list();
+
+			assertEquals(results.size(), 4);
+
+			List<Locatable> patients = new ArrayList<Locatable>();
+			List<Locatable> visits = new ArrayList<Locatable>();
+			for (Object obj1 : results) {
+				if (obj1 instanceof Locatable) {
+					Locatable loc1 = (Locatable) obj1;	
+					if (!patients.contains(loc1)) {
+						patients.add(loc1);																
+					}		
+					for (Object obj2 : loc1.getAssociatedObjects().values()) {
+						if (obj2 instanceof Locatable) {
+							Locatable loc2 = (Locatable) obj2;
+							if (!visits.contains(loc2)) {
+								visits.add(loc2);																
+							}
+						}
+					}
+				}
+			}
+
+			assertEquals(patients.size(), 3);
+			assertEquals(visits.size(), 0);
+		}
+
+		{
+			String query = "select p, v " +
+					"from openEHR-DEMOGRAPHIC-PERSON.patient.v1 as p " +
+					"left join p#/details[at0001]/items[at0032]/onetomany as v ";
+			List results = s
+					.createQuery(query)
+					.list();
+
+			assertEquals(results.size(), 4);
+
+			List<Locatable> patients = new ArrayList<Locatable>();
+			List<Locatable> visits = new ArrayList<Locatable>();
+			for (Object arr : results) {
+				if (arr.getClass().isArray()) {
+					for (int i = 0; i < Array.getLength(arr); i++)
+					{
+						Object obj = Array.get(arr, i);
+						if (obj instanceof Locatable) {
+							Locatable loc = (Locatable) obj;			
+							if (loc.getArchetypeNodeId().compareToIgnoreCase("openEHR-DEMOGRAPHIC-PERSON.patient.v1") == 0) {
+								if (!patients.contains(loc)) {
+									patients.add(loc);									
+								}
+							}
+							
+							if (loc.getArchetypeNodeId().compareToIgnoreCase("openEHR-EHR-COMPOSITION.visit.v3") == 0) {
+								if (!visits.contains(loc)) {
+									visits.add(loc);									
+								}
+							}
+						}						
+					}					
+				}
+			}
+
+			assertEquals(patients.size(), 3);
+			assertEquals(visits.size(), 3);
+		}
+
 		s.close();
 		
 		cleanTestBaseData();

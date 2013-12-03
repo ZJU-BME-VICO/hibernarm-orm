@@ -969,7 +969,8 @@ public abstract class Loader {
 				rs,
 				session,
 				queryParameters.isReadOnly( session ),
-				afterLoadActions
+				afterLoadActions,
+				results
 		);
 		if ( createSubselects ) {
 			createSubselects( subselectResultKeys, queryParameters, session );
@@ -1065,7 +1066,8 @@ public abstract class Loader {
 				resultSetId,
 				session,
 				readOnly,
-				Collections.<AfterLoadAction>emptyList()
+				Collections.<AfterLoadAction>emptyList(),
+				null
 		);
 	}
 
@@ -1074,7 +1076,8 @@ public abstract class Loader {
 			final Object resultSetId,
 			final SessionImplementor session,
 			final boolean readOnly,
-			List<AfterLoadAction> afterLoadActions) throws HibernateException {
+			List<AfterLoadAction> afterLoadActions, 
+			List results) throws HibernateException {
 
 		final CollectionPersister[] collectionPersisters = getCollectionPersisters();
 		if ( collectionPersisters != null ) {
@@ -1085,7 +1088,7 @@ public abstract class Loader {
 					//during loading
 					//TODO: or we could do this polymorphically, and have two
 					//      different operations implemented differently for arrays
-					endCollectionLoad( resultSetId, session, collectionPersisters[i] );
+					endCollectionLoad( resultSetId, session, collectionPersisters[i], results );
 				}
 			}
 		}
@@ -1118,7 +1121,7 @@ public abstract class Loader {
 					//the entities, since we might call hashCode() on the elements
 					//TODO: or we could do this polymorphically, and have two
 					//      different operations implemented differently for arrays
-					endCollectionLoad( resultSetId, session, collectionPersisters[i] );
+					endCollectionLoad( resultSetId, session, collectionPersisters[i], results );
 				}
 			}
 		}
@@ -1147,12 +1150,13 @@ public abstract class Loader {
 	private void endCollectionLoad(
 			final Object resultSetId,
 			final SessionImplementor session,
-			final CollectionPersister collectionPersister) {
+			final CollectionPersister collectionPersister, 
+			List results) {
 		//this is a query and we are loading multiple instances of the same collection role
 		session.getPersistenceContext()
 				.getLoadContexts()
 				.getCollectionLoadContext( ( ResultSet ) resultSetId )
-				.endLoadingCollections( collectionPersister );
+				.endLoadingCollections( results, collectionPersister );
 	}
 
 	/**

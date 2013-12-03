@@ -30,7 +30,6 @@ import org.hibernate.MappingException;
 import org.hibernate.engine.spi.Mapping;
 import org.hibernate.type.Type;
 import org.openehr.am.archetype.Archetype;
-import org.openehr.build.RMObjectBuilder;
 
 /**
  * A value is anything that is persisted by value, instead of

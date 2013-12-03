@@ -2838,7 +2838,8 @@ public class Configuration implements Serializable {
 				String subselect,
 				boolean isAbstract) {
 
-			name = StringHelper.getTableNameFromArchetypeId(name);			
+			name = StringHelper.getTableNameFromArchetypeId(name);					
+			name = StringHelper.getColumnNameFromArchetypePath(name);
 			name = getObjectNameNormalizer().normalizeIdentifierQuoting( name );
 			schema = getObjectNameNormalizer().normalizeIdentifierQuoting( schema );
 			catalog = getObjectNameNormalizer().normalizeIdentifierQuoting( catalog );

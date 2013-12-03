@@ -1129,11 +1129,11 @@ public final class HbmBinder {
 			if ( column.isUnique() && ManyToOne.class.isInstance( simpleValue ) ) {
 				( (ManyToOne) simpleValue ).markAsLogicalOneToOne();
 			}
-			final String columnName = columnAttribute.getValue();
-			String logicalColumnName = mappings.getNamingStrategy().logicalColumnName(
-					columnName, propertyPath
-			);
-			column.setName( mappings.getNamingStrategy().columnName( columnName ) );
+			String columnName = columnAttribute.getValue();
+			columnName = StringHelper.getTableNameFromArchetypeId(columnName);
+			columnName = StringHelper.getColumnNameFromArchetypePath(columnName);
+			String logicalColumnName = columnAttribute.getValue();
+			column.setName(columnName);
 			if ( table != null ) {
 				table.addColumn( column ); // table=null -> an association - fill
 				                           // it in later
@@ -1757,7 +1757,7 @@ public final class HbmBinder {
 
 	public static void bindOneToMany(Element node, OneToMany oneToMany, Mappings mappings)
 			throws MappingException {
-
+		
 		oneToMany.setReferencedEntityName( getEntityName( node, mappings ) );
 
 		String embed = node.attributeValue( "embed-xml" );

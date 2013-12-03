@@ -75,25 +75,27 @@ public class ASTParserLoadingTestBase extends BaseCoreFunctionalTestCase {
 	@Override
 	protected String[] getAdlFiles() {
 		return new String[] {
-				"../../CDRDocument/knowledge/archetype/ZJU/openEHR-DEMOGRAPHIC-PERSON.patient.v1.adl",
-				"../../CDRDocument/knowledge/archetype/ZJU/openEHR-EHR-COMPOSITION.visit.v3.adl",
-				"../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.adl.v1.adl",
-				"../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.cdr.v1.adl",
-				"../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.gds.v1.adl",
-				"../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.mmse.v1.adl", 
-				"../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.other_cognitions_scale_exams.v1.adl", };
+				"../../document/knowledge/ZJU/archetype/openEHR-DEMOGRAPHIC-PERSON.patient.v1.adl",
+				"../../document/knowledge/ZJU/archetype/openEHR-DEMOGRAPHIC-PERSON.patient.v2.adl",
+				"../../document/knowledge/ZJU/archetype/openEHR-EHR-COMPOSITION.visit.v3.adl",
+				"../../document/knowledge/ZJU/archetype/ad/openEHR-EHR-OBSERVATION.adl.v1.adl",
+				"../../document/knowledge/ZJU/archetype/ad/openEHR-EHR-OBSERVATION.cdr.v1.adl",
+				"../../document/knowledge/ZJU/archetype/ad/openEHR-EHR-OBSERVATION.gds.v1.adl",
+				"../../document/knowledge/ZJU/archetype/ad/openEHR-EHR-OBSERVATION.mmse.v1.adl", 
+				"../../document/knowledge/ZJU/archetype/ad/openEHR-EHR-OBSERVATION.other_cognitions_scale_exams.v1.adl", };
 	}
 
 	@Override
 	protected String[] getArmFiles() {
 		return new String[] {
-				"../../CDRDocument/knowledge/archetype/ZJU/openEHR-DEMOGRAPHIC-PERSON.patient.v1.arm.xml",
-				"../../CDRDocument/knowledge/archetype/ZJU/openEHR-EHR-COMPOSITION.visit.v3.arm.xml",
-				"../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.adl.v1.arm.xml",
-				"../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.cdr.v1.arm.xml",
-				"../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.gds.v1.arm.xml",
-				"../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.mmse.v1.arm.xml", 
-				"../../CDRDocument/knowledge/archetype/ZJU/ad/openEHR-EHR-OBSERVATION.other_cognitions_scale_exams.v1.arm.xml", };
+				"../../document/knowledge/ZJU/archetype/openEHR-DEMOGRAPHIC-PERSON.patient.v1.arm",
+				"../../document/knowledge/ZJU/archetype/openEHR-DEMOGRAPHIC-PERSON.patient.v2.arm",
+				"../../document/knowledge/ZJU/archetype/openEHR-EHR-COMPOSITION.visit.v3.arm",
+				"../../document/knowledge/ZJU/archetype/ad/openEHR-EHR-OBSERVATION.adl.v1.arm",
+				"../../document/knowledge/ZJU/archetype/ad/openEHR-EHR-OBSERVATION.cdr.v1.arm",
+				"../../document/knowledge/ZJU/archetype/ad/openEHR-EHR-OBSERVATION.gds.v1.arm",
+				"../../document/knowledge/ZJU/archetype/ad/openEHR-EHR-OBSERVATION.mmse.v1.arm", 
+				"../../document/knowledge/ZJU/archetype/ad/openEHR-EHR-OBSERVATION.other_cognitions_scale_exams.v1.arm", };
 	}
 
 	protected String[] getArchetypeIds() {
@@ -104,7 +106,8 @@ public class ASTParserLoadingTestBase extends BaseCoreFunctionalTestCase {
 				"openEHR-EHR-OBSERVATION.mmse.v1", 
 				"openEHR-EHR-OBSERVATION.other_cognitions_scale_exams.v1",
 				"openEHR-EHR-COMPOSITION.visit.v3",
-				"openEHR-DEMOGRAPHIC-PERSON.patient.v1", };
+				"openEHR-DEMOGRAPHIC-PERSON.patient.v1",
+				"openEHR-DEMOGRAPHIC-PERSON.patient.v2", };
 	}
 
 	protected List<Map<HashMap<String, Object>, String>> getArchetypeValues() {		

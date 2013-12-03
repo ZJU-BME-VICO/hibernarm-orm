@@ -585,10 +585,8 @@ public final class StringHelper {
 
 	public static String unqualifyEntityName(String entityName) {
 		String result = unqualify(entityName);
-		int slashPos = result.indexOf( '/' );
-		if ( slashPos > 0 ) {
-			result = result.substring( 0, slashPos - 1 );
-		}
+		result = getTableNameFromArchetypeId(result);
+		result = getColumnNameFromArchetypePath(result);
 		return result;
 	}
 	

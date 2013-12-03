@@ -37,11 +37,9 @@ import org.hibernate.engine.spi.Mapping;
 import org.hibernate.internal.FilterConfiguration;
 import org.hibernate.internal.util.ReflectHelper;
 import org.hibernate.internal.util.collections.ArrayHelper;
-import org.hibernate.internal.util.collections.EmptyIterator;
 import org.hibernate.type.CollectionType;
 import org.hibernate.type.Type;
 import org.openehr.am.archetype.Archetype;
-import org.openehr.build.RMObjectBuilder;
 
 /**
  * Mapping for a collection. Subclasses specialize to particular collection styles.

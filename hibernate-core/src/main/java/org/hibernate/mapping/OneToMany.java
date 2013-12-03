@@ -31,7 +31,6 @@ import org.hibernate.engine.spi.Mapping;
 import org.hibernate.type.EntityType;
 import org.hibernate.type.Type;
 import org.openehr.am.archetype.Archetype;
-import org.openehr.build.RMObjectBuilder;
 
 /**
  * A mapping for a one-to-many association
