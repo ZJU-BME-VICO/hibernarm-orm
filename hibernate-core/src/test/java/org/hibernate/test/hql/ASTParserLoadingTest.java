@@ -42,6 +42,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.QueryException;
+import org.hibernate.ScrollMode;
 import org.hibernate.ScrollableResults;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -51,6 +52,7 @@ import org.hibernate.cfg.Environment;
 import org.hibernate.dialect.DB2Dialect;
 import org.hibernate.dialect.H2Dialect;
 import org.hibernate.dialect.HSQLDialect;
+import org.hibernate.dialect.AbstractHANADialect;
 import org.hibernate.dialect.IngresDialect;
 import org.hibernate.dialect.MySQLDialect;
 import org.hibernate.dialect.Oracle8iDialect;
@@ -167,6 +169,47 @@ public class ASTParserLoadingTest extends BaseCoreFunctionalTestCase {
 
 		s.getTransaction().commit();
 		s.close();
+	}
+
+	@Test
+	@TestForIssue( jiraKey = "HHH-8432" )
+	public void testExpandListParameter() {
+		final Object[] namesArray = new Object[] {
+				"ZOO 1", "ZOO 2", "ZOO 3", "ZOO 4", "ZOO 5", "ZOO 6", "ZOO 7",
+				"ZOO 8", "ZOO 9", "ZOO 10", "ZOO 11", "ZOO 12"
+		};
+		final Object[] citiesArray = new Object[] {
+				"City 1", "City 2", "City 3", "City 4", "City 5", "City 6", "City 7",
+				"City 8", "City 9", "City 10", "City 11", "City 12"
+		};
+
+		Session session = openSession();
+
+		session.getTransaction().begin();
+		Address address = new Address();
+		Zoo zoo = new Zoo( "ZOO 1", address );
+		address.setCity( "City 1" );
+		session.save( zoo );
+		session.getTransaction().commit();
+
+		session.clear();
+
+		session.getTransaction().begin();
+		List result = session.createQuery( "FROM Zoo z WHERE z.name IN (?1) and z.address.city IN (?11)" )
+				.setParameterList( "1", namesArray )
+				.setParameterList( "11", citiesArray )
+				.list();
+		assertEquals( 1, result.size() );
+		session.getTransaction().commit();
+
+		session.clear();
+
+		session.getTransaction().begin();
+		zoo = (Zoo) session.get( Zoo.class, zoo.getId() );
+		session.delete( zoo );
+		session.getTransaction().commit();
+
+		session.close();
 	}
 
 	@Test
@@ -713,9 +756,17 @@ public class ASTParserLoadingTest extends BaseCoreFunctionalTestCase {
 		else {
 			s.createQuery( "from Animal where lower(upper('foo') || upper(:bar)) like 'f%'" ).setString( "bar", "xyz" ).list();
 		}
-		if ( ! ( getDialect() instanceof PostgreSQLDialect|| getDialect() instanceof PostgreSQL81Dialect || getDialect() instanceof MySQLDialect ) ) {
-			s.createQuery( "from Animal where abs(cast(1 as float) - cast(:param as float)) = 1.0" ).setLong( "param", 1 ).list();
+		
+		if ( getDialect() instanceof AbstractHANADialect ) {
+			s.createQuery( "from Animal where abs(cast(1 as double) - cast(:param as double)) = 1.0" )
+					.setLong( "param", 1 ).list();
 		}
+		else if ( !( getDialect() instanceof PostgreSQLDialect || getDialect() instanceof PostgreSQL81Dialect
+				|| getDialect() instanceof MySQLDialect ) ) {
+			s.createQuery( "from Animal where abs(cast(1 as float) - cast(:param as float)) = 1.0" )
+					.setLong( "param", 1 ).list();
+		}
+
 		s.getTransaction().commit();
 		s.close();
 	}
@@ -1075,7 +1126,11 @@ public class ASTParserLoadingTest extends BaseCoreFunctionalTestCase {
 		s.createQuery( "from Human h where h.name = ('John', 'X', 'Doe')" ).list();
 		s.createQuery( "from Human h where ('John', 'X', 'Doe') = h.name" ).list();
 		s.createQuery( "from Human h where ('John', 'X', 'Doe') <> h.name" ).list();
-		s.createQuery( "from Human h where ('John', 'X', 'Doe') >= h.name" ).list();
+
+		// HANA only allows '=' and '<>'/'!='
+		if ( ! ( getDialect() instanceof AbstractHANADialect ) ) {
+			s.createQuery( "from Human h where ('John', 'X', 'Doe') >= h.name" ).list();
+		}
 
 		s.createQuery( "from Human h order by h.name" ).list();
 
@@ -1438,7 +1493,13 @@ public class ASTParserLoadingTest extends BaseCoreFunctionalTestCase {
 		// note: simply performing syntax and column/table resolution checking in the db
 		Session s = openSession();
 		s.beginTransaction();
-		s.createQuery( "from Animal where mother = :mother" ).setParameter( "mother", null ).list();
+		if ( getDialect() instanceof AbstractHANADialect ) {
+			s.createQuery( "from Animal where mother is null" ).list();
+		}
+		else {
+			s.createQuery( "from Animal where mother = :mother" ).setParameter( "mother", null ).list();
+		}
+
 		s.getTransaction().commit();
 		s.close();
 	}
@@ -2884,7 +2945,8 @@ public class ASTParserLoadingTest extends BaseCoreFunctionalTestCase {
 		session = openSession();
 
 		ScrollableResults sr = session.createQuery( query )
-	     .setResultTransformer(Transformers.aliasToBean(Animal.class)).scroll();
+			     .setResultTransformer(Transformers.aliasToBean(Animal.class)).scroll();
+
 		assertTrue( "Incorrect result size", sr.next() );
 		assertTrue( "Incorrect return type", sr.get(0) instanceof Animal );
 		assertFalse( session.contains( sr.get( 0 ) ) );
@@ -2947,7 +3009,8 @@ public class ASTParserLoadingTest extends BaseCoreFunctionalTestCase {
 		session = openSession();
 
 		ScrollableResults sr = session.createQuery( query )
-	     .setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).scroll();
+				.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).scroll();
+
 		assertTrue( "Incorrect result size", sr.next() );
 		assertTrue( "Incorrect return type", sr.get(0) instanceof Map );
 		assertFalse( session.contains( sr.get( 0 ) ) );
@@ -3027,17 +3090,20 @@ public class ASTParserLoadingTest extends BaseCoreFunctionalTestCase {
 		 * PostgreSQL >= 8.3.7 typecasts are no longer automatically allowed
 		 * <link>http://www.postgresql.org/docs/current/static/release-8-3.html</link>
 		 */
-		if(getDialect() instanceof PostgreSQLDialect || getDialect() instanceof PostgreSQL81Dialect || getDialect() instanceof HSQLDialect){
+		if ( getDialect() instanceof PostgreSQLDialect || getDialect() instanceof PostgreSQL81Dialect
+				|| getDialect() instanceof HSQLDialect ) {
 			hql = "from Animal a where bit_length(str(a.bodyWeight)) = 24";
 		}
-		else{
+		else {
 			hql = "from Animal a where bit_length(a.bodyWeight) = 24";
 		}
 
 		session.createQuery(hql).list();
-		if(getDialect() instanceof PostgreSQLDialect || getDialect() instanceof PostgreSQL81Dialect || getDialect() instanceof HSQLDialect){
+		if ( getDialect() instanceof PostgreSQLDialect || getDialect() instanceof PostgreSQL81Dialect
+				|| getDialect() instanceof HSQLDialect ) {
 			hql = "select bit_length(str(a.bodyWeight)) from Animal a";
-		}else{
+		}
+		else {
 			hql = "select bit_length(a.bodyWeight) from Animal a";
 		}
 

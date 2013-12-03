@@ -1,7 +1,7 @@
 /*
  * Hibernate, Relational Persistence for Idiomatic Java
  *
- * Copyright (c) 2012, Red Hat Inc. or third-party contributors as
+ * Copyright (c) 2013, Red Hat Inc. or third-party contributors as
  * indicated by the @author tags or express copyright attribution
  * statements applied by the authors.  All third-party contributions are
  * distributed under license by Red Hat Inc.
@@ -23,11 +23,7 @@
  */
 package org.hibernate.loader.plan.spi;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import org.hibernate.engine.spi.SessionFactoryImplementor;
-import org.hibernate.loader.spi.ResultSetProcessingContext;
 import org.hibernate.type.Type;
 
 /**
@@ -37,33 +33,20 @@ import org.hibernate.type.Type;
  * @author Steve Ebersole
  */
 public class ScalarReturn extends AbstractPlanNode implements Return {
+	private final String name;
 	private final Type type;
 
-	public ScalarReturn(SessionFactoryImplementor factory, Type type) {
+	public ScalarReturn(String name, Type type, SessionFactoryImplementor factory) {
 		super( factory );
+		this.name = name;
 		this.type = type;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	public Type getType() {
 		return type;
-	}
-
-	@Override
-	public void hydrate(ResultSet resultSet, ResultSetProcessingContext context) {
-		// nothing to do
-	}
-
-	@Override
-	public void resolve(ResultSet resultSet, ResultSetProcessingContext context) {
-		// nothing to do
-	}
-
-	@Override
-	public Object read(ResultSet resultSet, ResultSetProcessingContext context) throws SQLException {
-		return type.nullSafeGet(
-				resultSet,
-				context.getLoadQueryAliasResolutionContext().resolveScalarReturnAliases( this ),
-				context.getSession(),
-				null );
 	}
 }

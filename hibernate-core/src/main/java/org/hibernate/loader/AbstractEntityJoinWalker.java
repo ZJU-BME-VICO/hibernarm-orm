@@ -23,9 +23,9 @@
  *
  */
 package org.hibernate.loader;
+
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.FetchMode;
@@ -172,9 +172,7 @@ public abstract class AbstractEntityJoinWalker extends JoinWalker {
 				: rootPropertyName;
 		String fetchRole = persister.getEntityName() + "." + relativePropertyPath;
 
-		Iterator profiles = getLoadQueryInfluencers().getEnabledFetchProfileNames().iterator();
-		while ( profiles.hasNext() ) {
-			final String profileName = ( String ) profiles.next();
+		for ( String profileName : getLoadQueryInfluencers().getEnabledFetchProfileNames() ) {
 			final FetchProfile profile = getFactory().getFetchProfile( profileName );
 			final Fetch fetch = profile.getFetchByRole( fetchRole );
 			if ( fetch != null && Fetch.Style.JOIN == fetch.getStyle() ) {

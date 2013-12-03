@@ -30,11 +30,11 @@ import java.lang.reflect.Proxy;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.jboss.logging.Logger;
-
 import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.hibernate.internal.CoreMessageLogger;
 import org.hibernate.internal.util.ClassLoaderHelper;
+
+import org.jboss.logging.Logger;
 
 /**
  * A proxy for a ResultSet delegate, responsible for locally caching the columnName-to-columnIndex resolution that
@@ -96,7 +96,7 @@ public class ResultSetWrapperProxy implements InvocationHandler {
 
 		if ( isFirstArgColumnLabel( method, args ) ) {
 			try {
-				final int columnIndex = findColumn( (String) args[0] );
+				final Integer columnIndex = findColumn( (String) args[0] );
 				return invokeMethod(
 						locateCorrespondingColumnIndexMethod( method ),
 						buildColumnIndexMethodArgs( args, columnIndex )
@@ -122,7 +122,7 @@ public class ResultSetWrapperProxy implements InvocationHandler {
 	 * @return The column index corresponding to the given column name.
 	 * @throws SQLException if the ResultSet object does not contain columnName or a database access error occurs
 	 */
-	private int findColumn(String columnName) throws SQLException {
+	private Integer findColumn(String columnName) throws SQLException {
 		return columnNameCache.getIndexForColumnName( columnName, rs );
 	}
 
@@ -167,7 +167,7 @@ public class ResultSetWrapperProxy implements InvocationHandler {
 		return columnNameMethod.getDeclaringClass().getMethod( columnNameMethod.getName(), actualParameterTypes );
 	}
 
-	private Object[] buildColumnIndexMethodArgs(Object[] incomingArgs, int columnIndex) {
+	private Object[] buildColumnIndexMethodArgs(Object[] incomingArgs, Integer columnIndex) {
 		final Object[] actualArgs = new Object[incomingArgs.length];
 		actualArgs[0] = columnIndex;
 		System.arraycopy( incomingArgs, 1, actualArgs, 1, incomingArgs.length - 1 );

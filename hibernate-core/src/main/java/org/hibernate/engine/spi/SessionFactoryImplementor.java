@@ -28,6 +28,7 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.hibernate.CustomEntityDirtinessStrategy;
+import org.hibernate.EntityNameResolver;
 import org.hibernate.HibernateException;
 import org.hibernate.Interceptor;
 import org.hibernate.MappingException;
@@ -42,6 +43,7 @@ import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.hibernate.dialect.Dialect;
 import org.hibernate.dialect.function.SQLFunctionRegistry;
 import org.hibernate.engine.ResultSetMappingDefinition;
+import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 import org.hibernate.engine.jdbc.spi.JdbcServices;
 import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.hibernate.engine.profile.FetchProfile;
@@ -51,9 +53,7 @@ import org.hibernate.id.IdentifierGenerator;
 import org.hibernate.internal.NamedQueryRepository;
 import org.hibernate.persister.collection.CollectionPersister;
 import org.hibernate.persister.entity.EntityPersister;
-import org.hibernate.procedure.ProcedureCallMemento;
 import org.hibernate.proxy.EntityNotFoundDelegate;
-import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 import org.hibernate.service.spi.ServiceRegistryImplementor;
 import org.hibernate.stat.spi.StatisticsImplementor;
 import org.hibernate.type.Type;
@@ -244,9 +244,8 @@ public interface SessionFactoryImplementor extends Mapping, SessionFactory {
 	 * Retrieves the SqlExceptionHelper in effect for this SessionFactory.
 	 *
 	 * @return The SqlExceptionHelper for this SessionFactory.
-	 *
 	 */
-    public SqlExceptionHelper getSQLExceptionHelper();
+	public SqlExceptionHelper getSQLExceptionHelper();
 
 	public Settings getSettings();
 
@@ -287,7 +286,9 @@ public interface SessionFactoryImplementor extends Mapping, SessionFactory {
 	/**
 	 * Provides access to the named query repository
 	 *
-	 * @return
+	 * @return The repository for named query definitions
 	 */
 	public NamedQueryRepository getNamedQueryRepository();
+
+	Iterable<EntityNameResolver> iterateEntityNameResolvers();
 }

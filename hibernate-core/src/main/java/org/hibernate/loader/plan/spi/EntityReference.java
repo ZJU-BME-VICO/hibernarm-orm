@@ -1,7 +1,7 @@
 /*
  * Hibernate, Relational Persistence for Idiomatic Java
  *
- * Copyright (c) 2012, Red Hat Inc. or third-party contributors as
+ * Copyright (c) 2013, Red Hat Inc. or third-party contributors as
  * indicated by the @author tags or express copyright attribution
  * statements applied by the authors.  All third-party contributions are
  * distributed under license by Red Hat Inc.
@@ -23,8 +23,6 @@
  */
 package org.hibernate.loader.plan.spi;
 
-import org.hibernate.LockMode;
-import org.hibernate.loader.spi.ResultSetProcessingContext;
 import org.hibernate.persister.entity.EntityPersister;
 
 /**
@@ -32,14 +30,15 @@ import org.hibernate.persister.entity.EntityPersister;
  *
  * @author Steve Ebersole
  */
-public interface EntityReference
-		extends IdentifierDescriptionInjectable, ResultSetProcessingContext.EntityKeyResolutionContext {
+public interface EntityReference extends FetchSource {
+
 	/**
-	 * Retrieve the lock mode associated with this return.
+	 * Obtain the UID of the QuerySpace (specifically a {@link EntityQuerySpace}) that this EntityReference
+	 * refers to.
 	 *
-	 * @return The lock mode.
+	 * @return The UID
 	 */
-	public LockMode getLockMode();
+	public String getQuerySpaceUid();
 
 	/**
 	 * Retrieves the EntityPersister describing the entity associated with this Return.
@@ -48,5 +47,10 @@ public interface EntityReference
 	 */
 	public EntityPersister getEntityPersister();
 
-	public IdentifierDescription getIdentifierDescription();
+	/**
+	 * Get the description of this entity's identifier.
+	 *
+	 * @return The identifier description.
+	 */
+	public EntityIdentifierDescription getIdentifierDescription();
 }

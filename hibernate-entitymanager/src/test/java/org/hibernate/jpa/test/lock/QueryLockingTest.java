@@ -23,14 +23,20 @@
  */
 package org.hibernate.jpa.test.lock;
 
+import java.util.List;
 import java.util.Map;
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
+import javax.persistence.Id;
 import javax.persistence.LockModeType;
+import javax.persistence.Query;
+import javax.persistence.Table;
 
 import org.junit.Test;
 
 import org.hibernate.LockMode;
-import org.hibernate.ejb.AvailableSettings;
+import org.hibernate.jpa.AvailableSettings;
+import org.hibernate.jpa.QueryHints;
 import org.hibernate.jpa.internal.QueryImpl;
 import org.hibernate.jpa.test.BaseEntityManagerFunctionalTestCase;
 import org.hibernate.internal.SessionImpl;
@@ -40,6 +46,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * @author Steve Ebersole
@@ -47,7 +54,7 @@ import static org.junit.Assert.assertTrue;
 public class QueryLockingTest extends BaseEntityManagerFunctionalTestCase {
 	@Override
 	protected Class<?>[] getAnnotatedClasses() {
-		return new Class[] { Lockable.class };
+		return new Class[] { Lockable.class, LocalEntity.class };
 	}
 
 	@Override
@@ -89,12 +96,18 @@ public class QueryLockingTest extends BaseEntityManagerFunctionalTestCase {
 		QueryImpl query = em.createNativeQuery( "select * from lockable l" ).unwrap( QueryImpl.class );
 
 		org.hibernate.internal.SQLQueryImpl hibernateQuery = (org.hibernate.internal.SQLQueryImpl) query.getHibernateQuery();
-//		assertEquals( LockMode.NONE, hibernateQuery.getLockOptions().getLockMode() );
-//		assertNull( hibernateQuery.getLockOptions().getAliasSpecificLockMode( "l" ) );
-//		assertEquals( LockMode.NONE, hibernateQuery.getLockOptions().getEffectiveLockMode( "l" ) );
 
+		// the spec disallows calling setLockMode in a native SQL query
+		try {
+			query.setLockMode( LockModeType.READ );
+			fail( "Should have failed" );
+		}
+		catch (IllegalStateException expected) {
+		}
+
+		// however, we should be able to set it using hints
+		query.setHint( QueryHints.HINT_NATIVE_LOCKMODE, LockModeType.READ );
 		// NOTE : LockModeType.READ should map to LockMode.OPTIMISTIC
-		query.setLockMode( LockModeType.READ );
 		assertEquals( LockMode.OPTIMISTIC, hibernateQuery.getLockOptions().getLockMode() );
 		assertNull( hibernateQuery.getLockOptions().getAliasSpecificLockMode( "l" ) );
 		assertEquals( LockMode.OPTIMISTIC, hibernateQuery.getLockOptions().getEffectiveLockMode( "l" ) );
@@ -270,5 +283,74 @@ public class QueryLockingTest extends BaseEntityManagerFunctionalTestCase {
 		em.remove( em.getReference( Lockable.class, reread.getId() ) );
 		em.getTransaction().commit();
 		em.close();
+	}
+
+	/**
+	 * lock some entities via a query and check the resulting lock mode type via EntityManager
+	 */
+	@Test
+	public void testEntityLockModeStateAfterQueryLocking() {
+		// Create some test data
+		EntityManager em = getOrCreateEntityManager();
+		em.getTransaction().begin();
+		em.persist( new LocalEntity( 1, "test" ) );
+		em.getTransaction().commit();
+//		em.close();
+
+		// issue the query with locking
+//		em = getOrCreateEntityManager();
+		em.getTransaction().begin();
+		Query query = em.createQuery( "select l from LocalEntity l" );
+		assertEquals( LockModeType.NONE, query.getLockMode() );
+		query.setLockMode( LockModeType.PESSIMISTIC_READ );
+		assertEquals( LockModeType.PESSIMISTIC_READ, query.getLockMode() );
+		List<LocalEntity> results = query.getResultList();
+
+		// and check the lock mode for each result
+		for ( LocalEntity e : results ) {
+			assertEquals( LockModeType.PESSIMISTIC_READ, em.getLockMode( e ) );
+		}
+
+		em.getTransaction().commit();
+		em.close();
+
+		// clean up test data
+		em = getOrCreateEntityManager();
+		em.getTransaction().begin();
+		em.createQuery( "delete from LocalEntity" ).executeUpdate();
+		em.getTransaction().commit();
+		em.close();
+	}
+
+	@Entity( name = "LocalEntity" )
+	@Table( name = "LocalEntity" )
+	public static class LocalEntity {
+		private Integer id;
+		private String name;
+
+		public LocalEntity() {
+		}
+
+		public LocalEntity(Integer id, String name) {
+			this.id = id;
+			this.name = name;
+		}
+
+		@Id
+		public Integer getId() {
+			return id;
+		}
+
+		public void setId(Integer id) {
+			this.id = id;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
 	}
 }

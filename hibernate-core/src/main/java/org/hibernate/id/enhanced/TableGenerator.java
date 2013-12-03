@@ -33,8 +33,6 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Properties;
 
-import org.jboss.logging.Logger;
-
 import org.hibernate.HibernateException;
 import org.hibernate.LockMode;
 import org.hibernate.LockOptions;
@@ -45,6 +43,7 @@ import org.hibernate.dialect.Dialect;
 import org.hibernate.engine.jdbc.internal.FormatStyle;
 import org.hibernate.engine.jdbc.spi.JdbcServices;
 import org.hibernate.engine.jdbc.spi.SqlStatementLogger;
+import org.hibernate.engine.spi.SessionEventListenerManager;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.id.Configurable;
 import org.hibernate.id.IdentifierGeneratorHelper;
@@ -56,6 +55,8 @@ import org.hibernate.internal.util.config.ConfigurationHelper;
 import org.hibernate.jdbc.AbstractReturningWork;
 import org.hibernate.mapping.Table;
 import org.hibernate.type.Type;
+
+import org.jboss.logging.Logger;
 
 /**
  * An enhanced version of table-based id generation.
@@ -519,13 +520,17 @@ public class TableGenerator implements PersistentIdentifierGenerator, Configurab
 		return "insert into " + tableName + " (" + segmentColumnName + ", " + valueColumnName + ") " + " values (?,?)";
 	}
 
+	private IntegralDataTypeHolder makeValue() {
+		return IdentifierGeneratorHelper.getIntegralDataTypeHolder( identifierType.getReturnedClass() );
+	}
+
 	@Override
-	public synchronized Serializable generate(final SessionImplementor session, Object obj) {
-		final SqlStatementLogger statementLogger = session
-				.getFactory()
-				.getServiceRegistry()
+	public Serializable generate(final SessionImplementor session, final Object obj) {
+		final SqlStatementLogger statementLogger = session.getFactory().getServiceRegistry()
 				.getService( JdbcServices.class )
 				.getSqlStatementLogger();
+		final SessionEventListenerManager statsCollector = session.getEventListenerManager();
+
 		return optimizer.generate(
 				new AccessCallback() {
 					@Override
@@ -534,36 +539,25 @@ public class TableGenerator implements PersistentIdentifierGenerator, Configurab
 								new AbstractReturningWork<IntegralDataTypeHolder>() {
 									@Override
 									public IntegralDataTypeHolder execute(Connection connection) throws SQLException {
-										final IntegralDataTypeHolder value = IdentifierGeneratorHelper.getIntegralDataTypeHolder(
-												identifierType.getReturnedClass()
-										);
+										final IntegralDataTypeHolder value = makeValue();
 										int rows;
 										do {
-											statementLogger.logStatement(
-													selectQuery,
-													FormatStyle.BASIC.getFormatter()
-											);
-											PreparedStatement selectPS = connection.prepareStatement( selectQuery );
+											final PreparedStatement selectPS = prepareStatement( connection, selectQuery, statementLogger, statsCollector );
+
 											try {
 												selectPS.setString( 1, segmentValue );
-												final ResultSet selectRS = selectPS.executeQuery();
+												final ResultSet selectRS = executeQuery( selectPS, statsCollector );
 												if ( !selectRS.next() ) {
 													value.initialize( initialValue );
-													PreparedStatement insertPS = null;
+
+													final PreparedStatement insertPS = prepareStatement( connection, insertQuery, statementLogger, statsCollector );
 													try {
-														statementLogger.logStatement(
-																insertQuery,
-																FormatStyle.BASIC.getFormatter()
-														);
-														insertPS = connection.prepareStatement( insertQuery );
 														insertPS.setString( 1, segmentValue );
 														value.bind( insertPS, 2 );
-														insertPS.execute();
+														executeUpdate( insertPS, statsCollector );
 													}
 													finally {
-														if ( insertPS != null ) {
-															insertPS.close();
-														}
+														insertPS.close();
 													}
 												}
 												else {
@@ -579,11 +573,8 @@ public class TableGenerator implements PersistentIdentifierGenerator, Configurab
 												selectPS.close();
 											}
 
-											statementLogger.logStatement(
-													updateQuery,
-													FormatStyle.BASIC.getFormatter()
-											);
-											final PreparedStatement updatePS = connection.prepareStatement( updateQuery );
+
+											final PreparedStatement updatePS = prepareStatement( connection, updateQuery, statementLogger, statsCollector );
 											try {
 												final IntegralDataTypeHolder updateValue = value.copy();
 												if ( optimizer.applyIncrementSizeToSourceValues() ) {
@@ -595,7 +586,7 @@ public class TableGenerator implements PersistentIdentifierGenerator, Configurab
 												updateValue.bind( updatePS, 1 );
 												value.bind( updatePS, 2 );
 												updatePS.setString( 3, segmentValue );
-												rows = updatePS.executeUpdate();
+												rows = executeUpdate( updatePS, statsCollector );
 											}
 											catch (SQLException e) {
 												LOG.unableToUpdateQueryHiValue( tableName, e );
@@ -622,6 +613,42 @@ public class TableGenerator implements PersistentIdentifierGenerator, Configurab
 					}
 				}
 		);
+	}
+
+	private PreparedStatement prepareStatement(
+			Connection connection,
+			String sql,
+			SqlStatementLogger statementLogger,
+			SessionEventListenerManager statsCollector) throws SQLException {
+		statementLogger.logStatement( sql, FormatStyle.BASIC.getFormatter() );
+		try {
+			statsCollector.jdbcPrepareStatementStart();
+			return connection.prepareStatement( sql );
+		}
+		finally {
+			statsCollector.jdbcPrepareStatementEnd();
+		}
+	}
+
+	private int executeUpdate(PreparedStatement ps, SessionEventListenerManager statsCollector) throws SQLException {
+		try {
+			statsCollector.jdbcExecuteStatementStart();
+			return ps.executeUpdate();
+		}
+		finally {
+			statsCollector.jdbcExecuteStatementEnd();
+		}
+
+	}
+
+	private ResultSet executeQuery(PreparedStatement ps, SessionEventListenerManager statsCollector) throws SQLException {
+		try {
+			statsCollector.jdbcExecuteStatementStart();
+			return ps.executeQuery();
+		}
+		finally {
+			statsCollector.jdbcExecuteStatementEnd();
+		}
 	}
 
 	@Override

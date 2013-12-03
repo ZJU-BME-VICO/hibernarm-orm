@@ -25,7 +25,9 @@ package org.hibernate.tuple.component;
 
 import java.util.Iterator;
 
+import org.hibernate.engine.internal.JoinHelper;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
+import org.hibernate.persister.collection.QueryableCollection;
 import org.hibernate.persister.entity.EntityPersister;
 import org.hibernate.persister.entity.Joinable;
 import org.hibernate.persister.entity.OuterJoinLoadable;
@@ -33,7 +35,6 @@ import org.hibernate.persister.walking.spi.AssociationKey;
 import org.hibernate.persister.walking.spi.AttributeDefinition;
 import org.hibernate.persister.walking.spi.AttributeSource;
 import org.hibernate.persister.walking.spi.CompositionDefinition;
-import org.hibernate.persister.walking.spi.EntityDefinition;
 import org.hibernate.tuple.AbstractNonIdentifierAttribute;
 import org.hibernate.tuple.BaselineAttributeInformation;
 import org.hibernate.type.AssociationType;
@@ -50,16 +51,22 @@ import static org.hibernate.engine.internal.JoinHelper.getRHSColumnNames;
  *
  * @author Steve Ebersole
  */
-public abstract class AbstractCompositionAttribute extends AbstractNonIdentifierAttribute implements
-																						   CompositionDefinition {
+public abstract class AbstractCompositionAttribute
+		extends AbstractNonIdentifierAttribute
+		implements CompositionDefinition {
+
+	private final int columnStartPosition;
+
 	protected AbstractCompositionAttribute(
 			AttributeSource source,
 			SessionFactoryImplementor sessionFactory,
-			int attributeNumber,
+			int entityBasedAttributeNumber,
 			String attributeName,
 			CompositeType attributeType,
+			int columnStartPosition,
 			BaselineAttributeInformation baselineInfo) {
-		super( source, sessionFactory, attributeNumber, attributeName, attributeType, baselineInfo );
+		super( source, sessionFactory, entityBasedAttributeNumber, attributeName, attributeType, baselineInfo );
+		this.columnStartPosition = columnStartPosition;
 	}
 
 	@Override
@@ -74,8 +81,8 @@ public abstract class AbstractCompositionAttribute extends AbstractNonIdentifier
 			public Iterator<AttributeDefinition> iterator() {
 				return new Iterator<AttributeDefinition>() {
 					private final int numberOfAttributes = getType().getSubtypes().length;
-					private int currentSubAttributeNumber = 0;
-					private int currentColumnPosition = 0;
+					private int currentSubAttributeNumber;
+					private int currentColumnPosition = columnStartPosition;
 
 					@Override
 					public boolean hasNext() {
@@ -98,14 +105,15 @@ public abstract class AbstractCompositionAttribute extends AbstractNonIdentifier
 							final AssociationKey associationKey;
 							final AssociationType aType = (AssociationType) type;
 							final Joinable joinable = aType.getAssociatedJoinable( sessionFactory() );
-							if ( aType.getForeignKeyDirection() == ForeignKeyDirection.FOREIGN_KEY_FROM_PARENT ) {
+
+							if ( aType.isAnyType() ) {
 								associationKey = new AssociationKey(
-										getLHSTableName(
+										JoinHelper.getLHSTableName(
 												aType,
 												attributeNumber(),
 												(OuterJoinLoadable) locateOwningPersister()
 										),
-										getLHSColumnNames(
+										JoinHelper.getLHSColumnNames(
 												aType,
 												attributeNumber(),
 												columnPosition,
@@ -114,6 +122,28 @@ public abstract class AbstractCompositionAttribute extends AbstractNonIdentifier
 										)
 								);
 							}
+							else if ( aType.getForeignKeyDirection() == ForeignKeyDirection.FOREIGN_KEY_FROM_PARENT ) {
+								final String lhsTableName;
+								final String[] lhsColumnNames;
+
+								if ( joinable.isCollection() ) {
+									final QueryableCollection collectionPersister = (QueryableCollection) joinable;
+									lhsTableName = collectionPersister.getTableName();
+									lhsColumnNames = collectionPersister.getElementColumnNames();
+								}
+								else {
+									final OuterJoinLoadable entityPersister = (OuterJoinLoadable) locateOwningPersister();
+									lhsTableName = getLHSTableName( aType, attributeNumber(), entityPersister );
+									lhsColumnNames = getLHSColumnNames(
+											aType,
+											attributeNumber(),
+											columnPosition,
+											entityPersister,
+											sessionFactory()
+									);
+								}
+								associationKey = new AssociationKey( lhsTableName, lhsColumnNames );
+							}
 							else {
 								associationKey = new AssociationKey(
 										joinable.getTableName(),
@@ -121,24 +151,29 @@ public abstract class AbstractCompositionAttribute extends AbstractNonIdentifier
 								);
 							}
 
+							final CompositeType cType = getType();
+							final boolean nullable =
+									cType.getPropertyNullability() == null ||
+											cType.getPropertyNullability()[subAttributeNumber];
+
 							return new CompositeBasedAssociationAttribute(
 									AbstractCompositionAttribute.this,
 									sessionFactory(),
-									subAttributeNumber,
+									attributeNumber(),
 									name,
 									(AssociationType) type,
 									new BaselineAttributeInformation.Builder()
 											.setInsertable( AbstractCompositionAttribute.this.isInsertable() )
 											.setUpdateable( AbstractCompositionAttribute.this.isUpdateable() )
-											.setInsertGenerated( AbstractCompositionAttribute.this.isInsertGenerated() )
-											.setUpdateGenerated( AbstractCompositionAttribute.this.isUpdateGenerated() )
-											.setNullable( getType().getPropertyNullability()[subAttributeNumber] )
+											// todo : handle nested ValueGeneration strategies...
+											//		disallow if our strategy != NEVER
+											.setNullable( nullable )
 											.setDirtyCheckable( true )
 											.setVersionable( AbstractCompositionAttribute.this.isVersionable() )
 											.setCascadeStyle( getType().getCascadeStyle( subAttributeNumber ) )
 											.setFetchMode( getType().getFetchMode( subAttributeNumber ) )
 											.createInformation(),
-									AbstractCompositionAttribute.this.attributeNumber(),
+									subAttributeNumber,
 									associationKey
 							);
 						}
@@ -146,14 +181,15 @@ public abstract class AbstractCompositionAttribute extends AbstractNonIdentifier
 							return new CompositionBasedCompositionAttribute(
 									AbstractCompositionAttribute.this,
 									sessionFactory(),
-									subAttributeNumber,
+									attributeNumber(),
 									name,
 									(CompositeType) type,
+									columnPosition,
 									new BaselineAttributeInformation.Builder()
 											.setInsertable( AbstractCompositionAttribute.this.isInsertable() )
 											.setUpdateable( AbstractCompositionAttribute.this.isUpdateable() )
-											.setInsertGenerated( AbstractCompositionAttribute.this.isInsertGenerated() )
-											.setUpdateGenerated( AbstractCompositionAttribute.this.isUpdateGenerated() )
+											// todo : handle nested ValueGeneration strategies...
+											//		disallow if our strategy != NEVER
 											.setNullable( getType().getPropertyNullability()[subAttributeNumber] )
 											.setDirtyCheckable( true )
 											.setVersionable( AbstractCompositionAttribute.this.isVersionable() )
@@ -163,6 +199,9 @@ public abstract class AbstractCompositionAttribute extends AbstractNonIdentifier
 							);
 						}
 						else {
+							final CompositeType cType = getType();
+							final boolean nullable = cType.getPropertyNullability() == null || cType.getPropertyNullability()[subAttributeNumber];
+
 							return new CompositeBasedBasicAttribute(
 									AbstractCompositionAttribute.this,
 									sessionFactory(),
@@ -172,9 +211,9 @@ public abstract class AbstractCompositionAttribute extends AbstractNonIdentifier
 									new BaselineAttributeInformation.Builder()
 											.setInsertable( AbstractCompositionAttribute.this.isInsertable() )
 											.setUpdateable( AbstractCompositionAttribute.this.isUpdateable() )
-											.setInsertGenerated( AbstractCompositionAttribute.this.isInsertGenerated() )
-											.setUpdateGenerated( AbstractCompositionAttribute.this.isUpdateGenerated() )
-											.setNullable( getType().getPropertyNullability()[subAttributeNumber] )
+											// todo : handle nested ValueGeneration strategies...
+											//		disallow if our strategy != NEVER
+											.setNullable( nullable )
 											.setDirtyCheckable( true )
 											.setVersionable( AbstractCompositionAttribute.this.isVersionable() )
 											.setCascadeStyle( getType().getCascadeStyle( subAttributeNumber ) )
@@ -193,14 +232,7 @@ public abstract class AbstractCompositionAttribute extends AbstractNonIdentifier
 		};
 	}
 
-	public EntityPersister locateOwningPersister() {
-		if ( EntityDefinition.class.isInstance( getSource() ) ) {
-			return ( (EntityDefinition) getSource() ).getEntityPersister();
-		}
-		else {
-			return ( (AbstractCompositionAttribute) getSource() ).locateOwningPersister();
-		}
-	}
+	protected abstract EntityPersister locateOwningPersister();
 
 	@Override
 	protected String loggableMetadata() {

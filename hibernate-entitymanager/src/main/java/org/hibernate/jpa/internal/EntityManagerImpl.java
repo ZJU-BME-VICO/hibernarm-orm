@@ -23,15 +23,13 @@
  */
 package org.hibernate.jpa.internal;
 
+import java.util.List;
+import java.util.Map;
 import javax.persistence.EntityGraph;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.PersistenceException;
 import javax.persistence.SynchronizationType;
 import javax.persistence.spi.PersistenceUnitTransactionType;
-import java.util.List;
-import java.util.Map;
-
-import org.jboss.logging.Logger;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Interceptor;
@@ -39,7 +37,6 @@ import org.hibernate.Session;
 import org.hibernate.annotations.common.util.ReflectHelper;
 import org.hibernate.ejb.AbstractEntityManagerImpl;
 import org.hibernate.engine.spi.SessionBuilderImplementor;
-import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.engine.spi.SessionOwner;
 import org.hibernate.jpa.AvailableSettings;
 import org.hibernate.jpa.graph.internal.EntityGraphImpl;
@@ -51,8 +48,7 @@ import org.hibernate.jpa.graph.internal.EntityGraphImpl;
  */
 public class EntityManagerImpl extends AbstractEntityManagerImpl implements SessionOwner {
 
-    public static final EntityManagerMessageLogger LOG = Logger.getMessageLogger(EntityManagerMessageLogger.class,
-                                                                          EntityManagerImpl.class.getName());
+    public static final EntityManagerMessageLogger LOG = HEMLogging.messageLogger( EntityManagerImpl.class.getName() );
 
 	protected Session session;
 	protected boolean open;
@@ -143,9 +139,6 @@ public class EntityManagerImpl extends AbstractEntityManagerImpl implements Sess
 			}
 			sessionBuilder.autoJoinTransactions( getTransactionType() != PersistenceUnitTransactionType.JTA );
 			session = sessionBuilder.openSession();
-			if ( persistenceContextType == PersistenceContextType.TRANSACTION ) {
-				( (SessionImplementor) session ).setAutoClear( true );
-			}
 		}
 		return session;
 	}

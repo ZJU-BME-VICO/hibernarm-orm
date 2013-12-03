@@ -23,12 +23,6 @@
  */
 package org.hibernate.jpa.spi;
 
-import javax.persistence.CacheRetrieveMode;
-import javax.persistence.CacheStoreMode;
-import javax.persistence.FlushModeType;
-import javax.persistence.Parameter;
-import javax.persistence.Query;
-import javax.persistence.TemporalType;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -36,16 +30,23 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import org.jboss.logging.Logger;
+import javax.persistence.CacheRetrieveMode;
+import javax.persistence.CacheStoreMode;
+import javax.persistence.FlushModeType;
+import javax.persistence.LockModeType;
+import javax.persistence.Parameter;
+import javax.persistence.Query;
+import javax.persistence.TemporalType;
 
 import org.hibernate.CacheMode;
 import org.hibernate.FlushMode;
 import org.hibernate.HibernateException;
 import org.hibernate.LockMode;
 import org.hibernate.QueryParameterException;
+import org.hibernate.engine.query.spi.EntityGraphQueryHint;
 import org.hibernate.jpa.AvailableSettings;
 import org.hibernate.jpa.QueryHints;
+import org.hibernate.jpa.graph.internal.EntityGraphImpl;
 import org.hibernate.jpa.internal.EntityManagerMessageLogger;
 import org.hibernate.jpa.internal.util.CacheModeHelper;
 import org.hibernate.jpa.internal.util.ConfigurationHelper;
@@ -53,12 +54,17 @@ import org.hibernate.jpa.internal.util.LockModeTypeHelper;
 import org.hibernate.procedure.NoSuchParameterException;
 import org.hibernate.procedure.ParameterStrategyException;
 
+import org.jboss.logging.Logger;
+
 import static org.hibernate.jpa.QueryHints.HINT_CACHEABLE;
 import static org.hibernate.jpa.QueryHints.HINT_CACHE_MODE;
 import static org.hibernate.jpa.QueryHints.HINT_CACHE_REGION;
 import static org.hibernate.jpa.QueryHints.HINT_COMMENT;
+import static org.hibernate.jpa.QueryHints.HINT_FETCHGRAPH;
 import static org.hibernate.jpa.QueryHints.HINT_FETCH_SIZE;
 import static org.hibernate.jpa.QueryHints.HINT_FLUSH_MODE;
+import static org.hibernate.jpa.QueryHints.HINT_LOADGRAPH;
+import static org.hibernate.jpa.QueryHints.HINT_NATIVE_LOCKMODE;
 import static org.hibernate.jpa.QueryHints.HINT_READONLY;
 import static org.hibernate.jpa.QueryHints.HINT_TIMEOUT;
 import static org.hibernate.jpa.QueryHints.SPEC_HINT_TIMEOUT;
@@ -82,6 +88,7 @@ public abstract class BaseQueryImpl implements Query {
 	private int maxResults = -1;
 	private Map<String, Object> hints;
 
+	private EntityGraphQueryHint entityGraphQueryHint;
 
 	public BaseQueryImpl(HibernateEntityManagerImplementor entityManager) {
 		this.entityManager = entityManager;
@@ -330,6 +337,31 @@ public abstract class BaseQueryImpl implements Query {
 						CacheModeHelper.interpretCacheMode( storeMode, retrieveMode )
 				);
 			}
+			else if ( QueryHints.HINT_NATIVE_LOCKMODE.equals( hintName ) ) {
+				if ( !isNativeSqlQuery() ) {
+					throw new IllegalStateException(
+							"Illegal attempt to set lock mode on non-native query via hint; use Query#setLockMode instead"
+					);
+				}
+				if ( LockMode.class.isInstance( value ) ) {
+					internalApplyLockMode( LockModeTypeHelper.getLockModeType( (LockMode) value ) );
+				}
+				else if ( LockModeType.class.isInstance( value ) ) {
+					internalApplyLockMode( (LockModeType) value );
+				}
+				else {
+					throw new IllegalArgumentException(
+							String.format(
+									"Native lock-mode hint [%s] must specify %s or %s.  Encountered type : %s",
+									HINT_NATIVE_LOCKMODE,
+									LockMode.class.getName(),
+									LockModeType.class.getName(),
+									value.getClass().getName()
+							)
+					);
+				}
+				applied = true;
+			}
 			else if ( hintName.startsWith( AvailableSettings.ALIAS_SPECIFIC_LOCK_MODE ) ) {
 				if ( canApplyAliasSpecificLockModeHints() ) {
 					// extract the alias
@@ -347,6 +379,15 @@ public abstract class BaseQueryImpl implements Query {
 				else {
 					applied = false;
 				}
+			}
+			else if ( HINT_FETCHGRAPH.equals( hintName ) || HINT_LOADGRAPH.equals( hintName ) ) {
+				if (value instanceof EntityGraphImpl) {
+					entityGraphQueryHint = new EntityGraphQueryHint( (EntityGraphImpl) value );
+				}
+				else {
+					LOG.warnf( "The %s hint was set, but the value was not an EntityGraph!", hintName );
+				}
+				applied = true;
 			}
 			else {
 				LOG.ignoringUnrecognizedQueryHint( hintName );
@@ -369,6 +410,21 @@ public abstract class BaseQueryImpl implements Query {
 		return this;
 	}
 
+	/**
+	 * Is the query represented here a native SQL query?
+	 *
+	 * @return {@code true} if it is a native SQL query; {@code false} otherwise
+	 */
+	protected abstract boolean isNativeSqlQuery();
+
+	/**
+	 * Is the query represented here a SELECT query?
+	 *
+	 * @return {@code true} if the query is a SELECT; {@code false} otherwise.
+	 */
+	protected abstract boolean isSelectQuery();
+
+	protected abstract void internalApplyLockMode(javax.persistence.LockModeType lockModeType);
 
 	// FlushMode ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -429,20 +485,49 @@ public abstract class BaseQueryImpl implements Query {
 
 	@SuppressWarnings("unchecked")
 	protected <X> ParameterRegistration<X> findParameterRegistration(String parameterName) {
-		return (ParameterRegistration<X>) getParameter( parameterName );
+		final Integer jpaPositionalParameter = toNumberOrNull( parameterName );
+
+		if ( parameterRegistrations != null ) {
+			for ( ParameterRegistration<?> param : parameterRegistrations ) {
+				if ( parameterName.equals( param.getName() ) ) {
+					return (ParameterRegistration<X>) param;
+				}
+
+				// legacy allowance of the application to access the parameter using the position as a String
+				if ( param.isJpaPositionalParameter() && jpaPositionalParameter != null ) {
+					if ( jpaPositionalParameter.equals( param.getPosition() ) ) {
+						LOG.deprecatedJpaPositionalParameterAccess( jpaPositionalParameter );
+					}
+					return (ParameterRegistration<X>) param;
+				}
+			}
+		}
+		throw new IllegalArgumentException( "Parameter with that name [" + parameterName + "] did not exist" );
+	}
+
+	private Integer toNumberOrNull(String parameterName) {
+		try {
+			return Integer.valueOf( parameterName );
+		}
+		catch (NumberFormatException e) {
+			return null;
+		}
 	}
 
 	@SuppressWarnings("unchecked")
 	protected <X> ParameterRegistration<X> findParameterRegistration(int parameterPosition) {
-		if ( isJpaPositionalParameter( parameterPosition ) ) {
-			return findParameterRegistration( Integer.toString( parameterPosition ) );
+		if ( parameterRegistrations != null ) {
+			for ( ParameterRegistration<?> param : parameterRegistrations ) {
+				if ( param.getPosition() == null ) {
+					continue;
+				}
+				if ( parameterPosition == param.getPosition() ) {
+					return (ParameterRegistration<X>) param;
+				}
+			}
 		}
-		else {
-			return (ParameterRegistration<X>) getParameter( parameterPosition );
-		}
+		throw new IllegalArgumentException( "Parameter with that position [" + parameterPosition + "] did not exist" );
 	}
-
-	protected abstract boolean isJpaPositionalParameter(int position);
 
 	protected static class ParameterBindImpl<T> implements ParameterBind<T> {
 		private final T value;
@@ -664,21 +749,14 @@ public abstract class BaseQueryImpl implements Query {
 	@Override
 	public Parameter<?> getParameter(String name) {
 		checkOpen( false );
-		if ( parameterRegistrations != null ) {
-			for ( ParameterRegistration<?> param : parameterRegistrations ) {
-				if ( name.equals( param.getName() ) ) {
-					return param;
-				}
-			}
-		}
-		throw new IllegalArgumentException( "Parameter with that name [" + name + "] did not exist" );
+		return findParameterRegistration( name );
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> Parameter<T> getParameter(String name, Class<T> type) {
 		checkOpen( false );
-		Parameter param = getParameter( name );
+		Parameter param = findParameterRegistration( name );
 
 		if ( param.getParameterType() != null ) {
 			// we were able to determine the expected type during analysis, so validate it here
@@ -698,21 +776,8 @@ public abstract class BaseQueryImpl implements Query {
 
 	@Override
 	public Parameter<?> getParameter(int position) {
-		if ( isJpaPositionalParameter( position ) ) {
-			return getParameter( Integer.toString( position ) );
-		}
 		checkOpen( false );
-		if ( parameterRegistrations != null ) {
-			for ( ParameterRegistration<?> param : parameterRegistrations ) {
-				if ( param.getPosition() == null ) {
-					continue;
-				}
-				if ( position == param.getPosition() ) {
-					return param;
-				}
-			}
-		}
-		throw new IllegalArgumentException( "Parameter with that position [" + position + "] did not exist" );
+		return findParameterRegistration( position );
 	}
 
 	@Override
@@ -720,7 +785,7 @@ public abstract class BaseQueryImpl implements Query {
 	public <T> Parameter<T> getParameter(int position, Class<T> type) {
 		checkOpen( false );
 
-		Parameter param = getParameter( position );
+		Parameter param = findParameterRegistration( position );
 
 		if ( param.getParameterType() != null ) {
 			// we were able to determine the expected type during analysis, so validate it here
@@ -777,6 +842,10 @@ public abstract class BaseQueryImpl implements Query {
 	public Object getParameterValue(int position) {
 		checkOpen( false );
 		return getParameterValue( getParameter( position ) );
+	}
+	
+	protected EntityGraphQueryHint getEntityGraphQueryHint() {
+		return entityGraphQueryHint;
 	}
 
 

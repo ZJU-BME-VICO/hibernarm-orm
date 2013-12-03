@@ -23,12 +23,12 @@
  */
 package org.hibernate.jpa.criteria.predicate;
 
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Predicate;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Predicate;
 
 import org.hibernate.jpa.criteria.CriteriaBuilderImpl;
 import org.hibernate.jpa.criteria.ParameterContainer;
@@ -48,7 +48,9 @@ public class NegatedPredicateWrapper extends ExpressionImpl<Boolean> implements 
 	public NegatedPredicateWrapper(PredicateImplementor predicate) {
 		super( predicate.criteriaBuilder(), Boolean.class );
 		this.predicate = predicate;
-		this.negatedOperator = CompoundPredicate.reverseOperator( predicate.getOperator() );
+		this.negatedOperator = predicate.isJunction()
+				? CompoundPredicate.reverseOperator( predicate.getOperator() )
+				: predicate.getOperator();
 		this.negatedExpressions = negateCompoundExpressions( predicate.getExpressions(), predicate.criteriaBuilder() );
 	}
 

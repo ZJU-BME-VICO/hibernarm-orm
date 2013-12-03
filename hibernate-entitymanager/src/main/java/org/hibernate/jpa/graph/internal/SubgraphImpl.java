@@ -23,18 +23,19 @@
  */
 package org.hibernate.jpa.graph.internal;
 
+import java.util.List;
 import javax.persistence.AttributeNode;
 import javax.persistence.Subgraph;
 import javax.persistence.metamodel.Attribute;
 import javax.persistence.metamodel.ManagedType;
-import java.util.List;
 
+import org.hibernate.graph.spi.GraphNodeImplementor;
 import org.hibernate.jpa.HibernateEntityManagerFactory;
 
 /**
  * @author Steve Ebersole
  */
-public class SubgraphImpl<T> extends AbstractGraphNode<T> implements Subgraph<T> {
+public class SubgraphImpl<T> extends AbstractGraphNode<T> implements Subgraph<T>, GraphNodeImplementor {
 	private final ManagedType managedType;
 	private final Class<T> subclass;
 

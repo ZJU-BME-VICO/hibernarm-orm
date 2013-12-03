@@ -28,7 +28,10 @@ package org.hibernate.internal.util.type;
  *
  * @author Steve Ebersole
  */
-public class PrimitiveWrapperHelper {
+public final class PrimitiveWrapperHelper {
+	private PrimitiveWrapperHelper() {
+	}
+
 	/**
 	 * Describes a particular primitive/wrapper combo
 	 */
@@ -211,7 +214,10 @@ public class PrimitiveWrapperHelper {
 			return (PrimitiveWrapperDescriptor<X>) DoubleDescriptor.INSTANCE;
 		}
 
-		// most likely void.class, which we can't really handle here
+		if ( void.class == primitiveClazz ) {
+			throw new IllegalArgumentException( "void, as primitive type, has no wrapper equivalent" );
+		}
+
 		throw new IllegalArgumentException( "Unrecognized primitive type class : " + primitiveClazz.getName() );
 	}
 
@@ -265,5 +271,15 @@ public class PrimitiveWrapperHelper {
 		catch (Exception e) {
 			return false;
 		}
+	}
+
+	public static boolean arePrimitiveWrapperEquivalents(Class converterDefinedType, Class propertyType) {
+		if ( converterDefinedType.isPrimitive() ) {
+			return getDescriptorByPrimitiveType( converterDefinedType ).getWrapperClass().equals( propertyType );
+		}
+		else if ( propertyType.isPrimitive() ) {
+			return getDescriptorByPrimitiveType( propertyType ).getWrapperClass().equals( converterDefinedType );
+		}
+		return false;
 	}
 }

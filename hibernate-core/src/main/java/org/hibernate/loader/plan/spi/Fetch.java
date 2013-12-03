@@ -1,7 +1,7 @@
 /*
  * Hibernate, Relational Persistence for Idiomatic Java
  *
- * Copyright (c) 2012, Red Hat Inc. or third-party contributors as
+ * Copyright (c) 2013, Red Hat Inc. or third-party contributors as
  * indicated by the @author tags or express copyright attribution
  * statements applied by the authors.  All third-party contributions are
  * distributed under license by Red Hat Inc.
@@ -23,12 +23,9 @@
  */
 package org.hibernate.loader.plan.spi;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import org.hibernate.engine.FetchStrategy;
 import org.hibernate.loader.PropertyPath;
-import org.hibernate.loader.spi.ResultSetProcessingContext;
+import org.hibernate.type.Type;
 
 /**
  * Contract for associations that are being fetched.
@@ -37,34 +34,20 @@ import org.hibernate.loader.spi.ResultSetProcessingContext;
  *
  * @author Steve Ebersole
  */
-public interface Fetch extends CopyableFetch {
+public interface Fetch {
 	/**
 	 * Obtain the owner of this fetch.
 	 *
 	 * @return The fetch owner.
 	 */
-	public FetchOwner getOwner();
+	public FetchSource getSource();
 
 	/**
-	 * Obtain the name of the property, relative to the owner, being fetched.
+	 * Get the property path to this fetch
 	 *
-	 * @return The fetched property name.
+	 * @return The property path
 	 */
-	public String getOwnerPropertyName();
-
-	/**
-	 * Is this fetch nullable?
-	 *
-	 * @return true, if this fetch is nullable; false, otherwise.
-	 */
-	public boolean isNullable();
-
-	/**
-	 * Generates the SQL select fragments for this fetch.  A select fragment is the column and formula references.
-	 *
-	 * @return the select fragments
-	 */
-	public String[] toSqlSelectFragments(String alias);
+	public PropertyPath getPropertyPath();
 
 	/**
 	 * Gets the fetch strategy for this fetch.
@@ -74,16 +57,29 @@ public interface Fetch extends CopyableFetch {
 	public FetchStrategy getFetchStrategy();
 
 	/**
-	 * Get the property path to this fetch
+	 * Get the Hibernate Type that describes the fetched attribute
 	 *
-	 * @return The property path
+	 * @return The Type of the fetched attribute
 	 */
-	public PropertyPath getPropertyPath();
+	public Type getFetchedType();
 
-	public void hydrate(ResultSet resultSet, ResultSetProcessingContext context) throws SQLException;
+	/**
+	 * Is this fetch nullable?
+	 *
+	 * @return true, if this fetch is nullable; false, otherwise.
+	 */
+	public boolean isNullable();
 
-	public Object resolve(ResultSet resultSet, ResultSetProcessingContext context) throws SQLException;
 
-	@Override
-	public Fetch makeCopy(CopyContext copyContext, FetchOwner fetchOwnerCopy);
+
+	// Hoping to make these go away ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	public String getAdditionalJoinConditions();
+
+	/**
+	 * Generates the SQL select fragments for this fetch.  A select fragment is the column and formula references.
+	 *
+	 * @return the select fragments
+	 */
+	public String[] toSqlSelectFragments(String alias);
 }

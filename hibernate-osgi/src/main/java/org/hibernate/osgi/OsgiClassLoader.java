@@ -33,6 +33,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+import org.hibernate.service.spi.Stoppable;
 import org.osgi.framework.Bundle;
 
 /**
@@ -42,7 +43,7 @@ import org.osgi.framework.Bundle;
  * @author Brett Meyer
  * @author Tim Ward
  */
-public class OsgiClassLoader extends ClassLoader {
+public class OsgiClassLoader extends ClassLoader implements Stoppable {
 	// Leave these as Sets -- addClassLoader or addBundle may be called more
 	// than once if a SF or EMF is closed and re-created.
 	private Set<ClassLoader> classLoaders = new HashSet<ClassLoader>();
@@ -62,35 +63,33 @@ public class OsgiClassLoader extends ClassLoader {
 	@Override
 	@SuppressWarnings("rawtypes")
 	protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
-		synchronized (getClassLoadingLock(name)) {
-			if ( classCache.containsKey( name ) ) {
-				return classCache.get( name );
-			}
-			
-			for ( Bundle bundle : bundles ) {
-				try {
-					final Class clazz = bundle.loadClass( name );
-					if ( clazz != null ) {
-						classCache.put( name, clazz );
-						return clazz;
-					}
-				}
-				catch ( Exception ignore ) {
+		if ( classCache.containsKey( name ) ) {
+			return classCache.get( name );
+		}
+		
+		for ( Bundle bundle : bundles ) {
+			try {
+				final Class clazz = bundle.loadClass( name );
+				if ( clazz != null ) {
+					classCache.put( name, clazz );
+					return clazz;
 				}
 			}
-			
-			for ( ClassLoader classLoader : classLoaders ) {
-				try {
-					final Class clazz = classLoader.loadClass( name );
-					if ( clazz != null ) {
-						classCache.put( name, clazz );
-						return clazz;
-					}
-				}
-				catch ( Exception ignore ) {
+			catch ( Exception ignore ) {
+			}
+		}
+		
+		for ( ClassLoader classLoader : classLoaders ) {
+			try {
+				final Class clazz = classLoader.loadClass( name );
+				if ( clazz != null ) {
+					classCache.put( name, clazz );
+					return clazz;
 				}
 			}
-        }
+			catch ( Exception ignore ) {
+			}
+		}
 
 		throw new ClassNotFoundException( "Could not load requested class : " + name );
 	}
@@ -212,10 +211,10 @@ public class OsgiClassLoader extends ClassLoader {
 		bundles.add( bundle );
 	}
 
-	/**
-	 * Clear all resources.
-	 */
-	public void clear() {
+	@Override
+	public void stop() {
+		classLoaders.clear();
+		bundles.clear();
 		classCache.clear();
 		resourceCache.clear();
 	}

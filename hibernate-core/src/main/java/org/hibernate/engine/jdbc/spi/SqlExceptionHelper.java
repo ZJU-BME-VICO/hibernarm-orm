@@ -28,15 +28,15 @@ import java.sql.SQLException;
 import java.sql.SQLWarning;
 import java.sql.Statement;
 
-import org.jboss.logging.Logger;
-import org.jboss.logging.Logger.Level;
-
 import org.hibernate.JDBCException;
 import org.hibernate.exception.internal.SQLStateConverter;
 import org.hibernate.exception.spi.SQLExceptionConverter;
 import org.hibernate.exception.spi.ViolatedConstraintNameExtracter;
 import org.hibernate.internal.CoreMessageLogger;
 import org.hibernate.internal.util.StringHelper;
+
+import org.jboss.logging.Logger;
+import org.jboss.logging.Logger.Level;
 
 /**
  * Helper for handling SQLExceptions in various manners.
@@ -132,9 +132,7 @@ public class SqlExceptionHelper {
 	 * @param sqlException The exception to log
 	 * @param message The message text to use as a preamble.
 	 */
-	public void logExceptions(
-			SQLException sqlException,
-			String message) {
+	public void logExceptions(SQLException sqlException, String message) {
 		if ( LOG.isEnabled( Level.ERROR ) ) {
 			if ( LOG.isDebugEnabled() ) {
 				message = StringHelper.isNotEmpty( message ) ? message : DEFAULT_EXCEPTION_MSG;

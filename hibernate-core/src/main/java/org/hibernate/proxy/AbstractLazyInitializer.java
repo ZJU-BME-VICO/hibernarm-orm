@@ -24,7 +24,6 @@
 package org.hibernate.proxy;
 
 import java.io.Serializable;
-
 import javax.naming.NamingException;
 
 import org.hibernate.HibernateException;
@@ -37,6 +36,7 @@ import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.internal.SessionFactoryRegistry;
 import org.hibernate.persister.entity.EntityPersister;
+
 import org.jboss.logging.Logger;
 
 /**
@@ -59,7 +59,7 @@ public abstract class AbstractLazyInitializer implements LazyInitializer {
 	private Boolean readOnlyBeforeAttachedToSession;
 
 	private String sessionFactoryUuid;
-	private boolean specjLazyLoad = false;
+	private boolean specjLazyLoad;
 
 	/**
 	 * For serialization from the non-pojo initializers (HHH-3309)

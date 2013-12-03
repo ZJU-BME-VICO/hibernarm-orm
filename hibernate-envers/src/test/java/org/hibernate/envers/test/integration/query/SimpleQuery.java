@@ -23,23 +23,27 @@
  */
 package org.hibernate.envers.test.integration.query;
 
-import javax.persistence.EntityManager;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.envers.RevisionType;
 import org.hibernate.envers.enhanced.SequenceIdRevisionEntity;
 import org.hibernate.envers.query.AuditEntity;
 import org.hibernate.envers.test.BaseEnversJPAFunctionalTestCase;
 import org.hibernate.envers.test.Priority;
 import org.hibernate.envers.test.entities.StrIntTestEntity;
+import org.hibernate.envers.test.entities.ids.EmbId;
+import org.hibernate.envers.test.entities.ids.EmbIdTestEntity;
+import org.hibernate.envers.test.entities.ids.MulId;
+import org.hibernate.envers.test.entities.ids.MulIdTestEntity;
 import org.hibernate.envers.test.tools.TestTools;
-
+import org.hibernate.testing.TestForIssue;
 import org.junit.Assert;
 import org.junit.Test;
-
-import org.hibernate.testing.TestForIssue;
 
 /**
  * @author Adam Warski (adam at warski dot org)
@@ -50,10 +54,12 @@ public class SimpleQuery extends BaseEnversJPAFunctionalTestCase {
 	private Integer id1;
 	private Integer id2;
 	private Integer id3;
+	private MulId mulId1;
+	private EmbId embId1;
 
 	@Override
 	protected Class<?>[] getAnnotatedClasses() {
-		return new Class[] {StrIntTestEntity.class};
+		return new Class[] { StrIntTestEntity.class, MulIdTestEntity.class, EmbIdTestEntity.class };
 	}
 
 	@Test
@@ -80,10 +86,16 @@ public class SimpleQuery extends BaseEnversJPAFunctionalTestCase {
 		// Revision 2
 		em.getTransaction().begin();
 
+		mulId1 = new MulId( 1, 2 );
+		em.persist( new MulIdTestEntity( mulId1.getId1(), mulId1.getId2(), "data" ) );
+
+		embId1 = new EmbId( 3, 4 );
+		em.persist( new EmbIdTestEntity( embId1, "something" ) );
+
 		site1 = em.find( StrIntTestEntity.class, id1 );
 		site2 = em.find( StrIntTestEntity.class, id2 );
 
-		site1.setStr1( "c" );
+		site1.setStr1( "aBc" );
 		site2.setNumber( 20 );
 
 		em.getTransaction().commit();
@@ -174,13 +186,13 @@ public class SimpleQuery extends BaseEnversJPAFunctionalTestCase {
 		);
 		assert new HashSet( ver2 ).equals(
 				TestTools.makeSet(
-						new StrIntTestEntity( "c", 10, id1 ),
+						new StrIntTestEntity( "aBc", 10, id1 ),
 						new StrIntTestEntity( "b", 5, id3 )
 				)
 		);
 		assert new HashSet( ver3 ).equals(
 				TestTools.makeSet(
-						new StrIntTestEntity( "c", 10, id1 ),
+						new StrIntTestEntity( "aBc", 10, id1 ),
 						new StrIntTestEntity( "a", 5, id3 )
 				)
 		);
@@ -224,7 +236,7 @@ public class SimpleQuery extends BaseEnversJPAFunctionalTestCase {
 		assert result.size() == 2;
 
 		assert result.get( 0 ).equals( new StrIntTestEntity( "a", 10, id1 ) );
-		assert result.get( 1 ).equals( new StrIntTestEntity( "c", 10, id1 ) );
+		assert result.get( 1 ).equals( new StrIntTestEntity( "aBc", 10, id1 ) );
 	}
 
 	@Test
@@ -237,7 +249,7 @@ public class SimpleQuery extends BaseEnversJPAFunctionalTestCase {
 		assert result.size() == 3;
 
 		assert ((Object[]) result.get( 0 ))[0].equals( new StrIntTestEntity( "a", 10, id1 ) );
-		assert ((Object[]) result.get( 1 ))[0].equals( new StrIntTestEntity( "c", 10, id1 ) );
+		assert ((Object[]) result.get( 1 ))[0].equals( new StrIntTestEntity( "aBc", 10, id1 ) );
 		assert ((Object[]) result.get( 2 ))[0].equals( new StrIntTestEntity( null, null, id1 ) );
 
 		assert ((SequenceIdRevisionEntity) ((Object[]) result.get( 0 ))[1]).getId() == 1;
@@ -317,7 +329,7 @@ public class SimpleQuery extends BaseEnversJPAFunctionalTestCase {
 
 	@Test
 	public void testEntitiesChangedAtRevision() {
-		StrIntTestEntity site1 = new StrIntTestEntity( "c", 10, id1 );
+		StrIntTestEntity site1 = new StrIntTestEntity( "aBc", 10, id1 );
 		StrIntTestEntity site2 = new StrIntTestEntity( "a", 20, id2 );
 
 		List result = getAuditReader().createQuery()
@@ -384,5 +396,66 @@ public class SimpleQuery extends BaseEnversJPAFunctionalTestCase {
 			int number = entity.getNumber();
 			Assert.assertTrue( (number >= 0 && number <= 5) || (number >= 20 && number <= 100) );
 		}
+	}
+	
+	@Test
+	@TestForIssue(jiraKey = "HHH-8495")
+	public void testIlike() {
+		StrIntTestEntity site1 = new StrIntTestEntity( "aBc", 10, id1 );
+		
+		StrIntTestEntity result = (StrIntTestEntity) getAuditReader().createQuery()
+				.forRevisionsOfEntity( StrIntTestEntity.class, true, true )
+				.add( AuditEntity.property( "str1" ).ilike( "abc" ) )
+				.getSingleResult();
+		
+		Assert.assertEquals( site1, result );
+	}
+	
+	@Test
+	@TestForIssue(jiraKey = "HHH-8495")
+	public void testIlikeWithMatchMode() {
+		StrIntTestEntity site1 = new StrIntTestEntity( "aBc", 10, id1 );
+		
+		StrIntTestEntity result = (StrIntTestEntity) getAuditReader().createQuery()
+				.forRevisionsOfEntity( StrIntTestEntity.class, true, true )
+				.add( AuditEntity.property( "str1" ).ilike( "BC", MatchMode.ANYWHERE ) )
+				.getSingleResult();
+		
+		Assert.assertEquals( site1, result );
+	}
+
+	@Test
+	@TestForIssue(jiraKey = "HHH-8567")
+	public void testIdPropertyRestriction() {
+		StrIntTestEntity ver2 = (StrIntTestEntity) getAuditReader().createQuery()
+				.forEntitiesAtRevision( StrIntTestEntity.class, 2 )
+				.add( AuditEntity.property( "id" ).eq( id2 ) )
+				.getSingleResult();
+
+		Assert.assertEquals( new StrIntTestEntity( "a", 20, id2 ), ver2 );
+	}
+
+	@Test
+	@TestForIssue(jiraKey = "HHH-8567")
+	public void testMultipleIdPropertyRestriction() {
+		MulIdTestEntity ver2 = (MulIdTestEntity) getAuditReader().createQuery()
+				.forEntitiesAtRevision( MulIdTestEntity.class, 2 )
+				.add( AuditEntity.property( "id1" ).eq( mulId1.getId1() ) )
+				.add( AuditEntity.property( "id2" ).eq( mulId1.getId2() ) )
+				.getSingleResult();
+
+		Assert.assertEquals( new MulIdTestEntity( mulId1.getId1(), mulId1.getId2(), "data" ), ver2 );
+	}
+
+	@Test
+	@TestForIssue(jiraKey = "HHH-8567")
+	public void testEmbeddedIdPropertyRestriction() {
+		EmbIdTestEntity ver2 = (EmbIdTestEntity) getAuditReader().createQuery()
+				.forEntitiesAtRevision( EmbIdTestEntity.class, 2 )
+				.add( AuditEntity.property( "id.x" ).eq( embId1.getX() ) )
+				.add( AuditEntity.property( "id.y" ).eq( embId1.getY() ) )
+				.getSingleResult();
+
+		Assert.assertEquals( new EmbIdTestEntity( embId1, "something" ), ver2 );
 	}
 }

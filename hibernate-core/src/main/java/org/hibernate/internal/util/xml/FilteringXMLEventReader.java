@@ -26,7 +26,6 @@ package org.hibernate.internal.util.xml;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
-
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLStreamException;
@@ -46,7 +45,7 @@ import javax.xml.stream.events.XMLEvent;
  */
 public abstract class FilteringXMLEventReader extends BaseXMLEventReader {
 	private final Deque<QName> prunedElements = new LinkedList<QName>();
-	private XMLEvent peekedEvent = null;
+	private XMLEvent peekedEvent;
 
 	public FilteringXMLEventReader(XMLEventReader reader) {
 		super(reader);

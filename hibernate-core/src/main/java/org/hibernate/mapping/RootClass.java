@@ -28,15 +28,14 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.jboss.logging.Logger;
 import org.openehr.am.archetype.Archetype;
-
 import org.hibernate.MappingException;
-import org.hibernate.engine.OptimisticLockStyle;
 import org.hibernate.engine.spi.Mapping;
 import org.hibernate.internal.CoreMessageLogger;
 import org.hibernate.internal.util.ReflectHelper;
 import org.hibernate.internal.util.collections.SingletonIterator;
+
+import org.jboss.logging.Logger;
 
 /**
  * The root class of an inheritance hierarchy
@@ -49,24 +48,24 @@ public class RootClass extends PersistentClass implements TableOwner, ArchetypeO
 	public static final String DEFAULT_IDENTIFIER_COLUMN_NAME = "id";
 	public static final String DEFAULT_DISCRIMINATOR_COLUMN_NAME = "class";
 
-	private Property identifierProperty; //may be final
-	private KeyValue identifier; //may be final
-	private Property version; //may be final
+	private Property identifierProperty;
+	private KeyValue identifier;
+	private Property version;
 	private boolean polymorphic;
 	private String cacheConcurrencyStrategy;
 	private String cacheRegionName;
 	private String naturalIdCacheRegionName;
 	private boolean lazyPropertiesCacheable = true;
-	private Value discriminator; //may be final
+	private Value discriminator;
 	private boolean mutable = true;
-	private boolean embeddedIdentifier = false; // may be final
+	private boolean embeddedIdentifier;
 	private boolean explicitPolymorphism;
 	private Class entityPersisterClass;
-	private boolean forceDiscriminator = false;
+	private boolean forceDiscriminator;
 	private String where;
 	private Table table;
 	private boolean discriminatorInsertable = true;
-	private int nextSubclassId = 0;
+	private int nextSubclassId;
 	private Property declaredIdentifierProperty;
 	private Property declaredVersion;
 	

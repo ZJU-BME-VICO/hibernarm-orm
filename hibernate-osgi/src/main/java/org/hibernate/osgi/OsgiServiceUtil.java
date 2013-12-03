@@ -20,45 +20,90 @@
  */
 package org.hibernate.osgi;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.lang.reflect.Array;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.jboss.logging.Logger;
+import org.hibernate.internal.CoreLogging;
+import org.hibernate.internal.CoreMessageLogger;
+import org.hibernate.service.spi.Stoppable;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
+import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * Utilities for dealing with OSGi environments
- *
+ * 
  * @author Brett Meyer
  */
-public class OsgiServiceUtil {
-	private static final Logger LOG = Logger.getLogger( OsgiServiceUtil.class );
+public class OsgiServiceUtil implements Stoppable {
 
-	/**
-	 * Locate all implementors of the given service contract in the given OSGi buindle context
-	 *
-	 * @param contract The service contract for which to locate implementors
-	 * @param context The OSGi bundle context
-	 * @param <T> The Java type of the service to locate
-	 *
-	 * @return All know implementors
-	 */
-	public static <T> List<T> getServiceImpls(Class<T> contract, BundleContext context) {
-		final List<T> serviceImpls = new ArrayList<T>();
-		try {
-			final Collection<ServiceReference<T>> serviceRefs = context.getServiceReferences( contract, null );
-			for ( ServiceReference<T> serviceRef : serviceRefs ) {
-				serviceImpls.add( context.getService( serviceRef ) );
-			}
-		}
-		catch ( Exception e ) {
-			LOG.warnf( e, "Exception while discovering OSGi service implementations : %s", contract.getName() );
-		}
-		return serviceImpls;
+	private static final CoreMessageLogger LOG = CoreLogging.messageLogger( OsgiServiceUtil.class );
+
+	private BundleContext context;
+
+	private Map<String, ServiceTracker> serviceTrackers = new HashMap<String, ServiceTracker>();
+
+	public OsgiServiceUtil(BundleContext context) {
+		this.context = context;
 	}
 
-	private OsgiServiceUtil() {
+	/**
+	 * Locate all implementors of the given service contract in the given OSGi buindle context. Utilizes
+	 * {@link ServiceTracker} (best practice, automatically handles a lot of boilerplate and error conditions).
+	 * 
+	 * @param contract The service contract for which to locate implementors
+	 * @param context The OSGi bundle context
+	 * @param T[] The Java type of the service to locate
+	 * @return All know implementors
+	 */
+	public <T> T[] getServiceImpls(Class<T> contract) {
+		final ServiceTracker serviceTracker = getServiceTracker( contract.getName() );
+		try {
+			T[] services = (T[]) serviceTracker.getServices();
+			if ( services != null ) {
+				return services;
+			}
+		}
+		catch (Exception e) {
+			LOG.unableToDiscoverOsgiService( contract.getName(), e );
+		}
+		return (T[]) Array.newInstance( contract, 0 );
+	}
+
+	/**
+	 * Locate the single implementor of the given service contract in the given OSGi buindle context. Utilizes
+	 * {@link ServiceTracker#waitForService(long)}
+	 * 
+	 * @param contract The service contract for which to locate implementors
+	 * @param context The OSGi bundle context
+	 * @param T[] The Java type of the service to locate
+	 * @return All know implementors
+	 */
+	public <T> T getServiceImpl(Class<T> contract) {
+		final ServiceTracker serviceTracker = getServiceTracker( contract.getName() );
+		try {
+			return (T) serviceTracker.waitForService( 1000 );
+		}
+		catch (Exception e) {
+			LOG.unableToDiscoverOsgiService( contract.getName(), e );
+			return null;
+		}
+	}
+
+	private <T> ServiceTracker getServiceTracker(String contractClassName) {
+		if ( !serviceTrackers.containsKey( contractClassName ) ) {
+			final ServiceTracker<T, T> serviceTracker = new ServiceTracker<T, T>( context, contractClassName, null );
+			serviceTracker.open();
+			serviceTrackers.put( contractClassName, serviceTracker );
+		}
+		return serviceTrackers.get( contractClassName );
+	}
+
+	@Override
+	public void stop() {
+		for (String key : serviceTrackers.keySet()) {
+			serviceTrackers.get( key ).close();
+		}
+		serviceTrackers.clear();
 	}
 }

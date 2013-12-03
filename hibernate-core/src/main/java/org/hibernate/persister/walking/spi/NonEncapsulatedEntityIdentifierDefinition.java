@@ -23,11 +23,14 @@
  */
 package org.hibernate.persister.walking.spi;
 
+import org.hibernate.type.Type;
+
 /**
  * @author Steve Ebersole
  */
-public interface NonEncapsulatedEntityIdentifierDefinition extends EntityIdentifierDefinition {
-	public Iterable<AttributeDefinition> getAttributes();
+public interface NonEncapsulatedEntityIdentifierDefinition extends EntityIdentifierDefinition, CompositionDefinition {
+
+	public Type getCompositeType();
 
 	public Class getSeparateIdentifierMappingClass();
 }

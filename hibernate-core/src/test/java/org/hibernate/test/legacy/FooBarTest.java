@@ -64,6 +64,7 @@ import org.hibernate.ScrollableResults;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.action.spi.BeforeTransactionCompletionProcess;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
@@ -71,6 +72,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.dialect.DB2Dialect;
 import org.hibernate.dialect.DerbyDialect;
 import org.hibernate.dialect.H2Dialect;
+import org.hibernate.dialect.AbstractHANADialect;
 import org.hibernate.dialect.HSQLDialect;
 import org.hibernate.dialect.InterbaseDialect;
 import org.hibernate.dialect.MckoiDialect;
@@ -84,7 +86,7 @@ import org.hibernate.dialect.Sybase11Dialect;
 import org.hibernate.dialect.SybaseASE15Dialect;
 import org.hibernate.dialect.SybaseDialect;
 import org.hibernate.dialect.TimesTenDialect;
-import org.hibernate.engine.spi.SessionFactoryImplementor;
+import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.event.spi.EventSource;
 import org.hibernate.internal.util.SerializationHelper;
@@ -92,10 +94,11 @@ import org.hibernate.internal.util.collections.JoinedIterator;
 import org.hibernate.jdbc.AbstractReturningWork;
 import org.hibernate.jdbc.AbstractWork;
 import org.hibernate.proxy.HibernateProxy;
-import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 import org.hibernate.testing.DialectChecks;
+import org.hibernate.testing.FailureExpected;
 import org.hibernate.testing.RequiresDialect;
 import org.hibernate.testing.RequiresDialectFeature;
+import org.hibernate.testing.SkipForDialect;
 import org.hibernate.testing.TestForIssue;
 import org.hibernate.testing.env.ConnectionProviderBuilder;
 import org.hibernate.type.StandardBasicTypes;
@@ -2298,7 +2301,7 @@ public class FooBarTest extends LegacyTestCase {
 			s.createQuery( "select count(*) from Baz as baz where 1 in indices(baz.fooArray)" ).list();
 			s.createQuery( "select count(*) from Bar as bar where 'abc' in elements(bar.baz.fooArray)" ).list();
 			s.createQuery( "select count(*) from Bar as bar where 1 in indices(bar.baz.fooArray)" ).list();
-			if ( !(getDialect() instanceof DB2Dialect) &&  !(getDialect() instanceof Oracle8iDialect ) && !( getDialect() instanceof SybaseDialect ) && !( getDialect() instanceof Sybase11Dialect ) && !( getDialect() instanceof SybaseASE15Dialect ) && !( getDialect() instanceof PostgreSQLDialect ) && !(getDialect() instanceof PostgreSQL81Dialect)) {
+			if ( !(getDialect() instanceof DB2Dialect) &&  !(getDialect() instanceof Oracle8iDialect ) && !( getDialect() instanceof SybaseDialect ) && !( getDialect() instanceof Sybase11Dialect ) && !( getDialect() instanceof SybaseASE15Dialect ) && !( getDialect() instanceof PostgreSQLDialect ) && !(getDialect() instanceof PostgreSQL81Dialect) && !(getDialect() instanceof AbstractHANADialect)) {
 				// SybaseAnywhereDialect supports implicit conversions from strings to ints
 				s.createQuery(
 						"select count(*) from Bar as bar, bar.component.glarch.proxyArray as g where g.id in indices(bar.baz.fooArray)"
@@ -2479,8 +2482,8 @@ public class FooBarTest extends LegacyTestCase {
 	public void testPersistCollections() throws Exception {
 		Session s = openSession();
 		Transaction txn = s.beginTransaction();
-		assertEquals( 0, ( (Long) s.createQuery( "select count(*) from Bar" ).iterate().next() ).longValue() );
-		assertTrue( s.createQuery( "select count(*) from Bar b" ).iterate().next().equals( new Long(0) ) );
+		assertEquals( 0l, s.createQuery( "select count(*) from Bar" ).iterate().next() );
+		assertEquals( 0l, s.createQuery( "select count(*) from Bar b" ).iterate().next() );
 		assertFalse( s.createQuery( "from Glarch g" ).iterate().hasNext() );
 
 		Baz baz = new Baz();
@@ -2583,7 +2586,7 @@ public class FooBarTest extends LegacyTestCase {
 		baz.setTopGlarchez( new TreeMap() );
 		GlarchProxy g = new Glarch();
 		s.save(g);
-		baz.getTopGlarchez().put( new Character('G'), g );
+		baz.getTopGlarchez().put( 'G', g );
 		HashMap map = new HashMap();
 		map.put(bar, g);
 		map.put(bar2, g);
@@ -2633,9 +2636,9 @@ public class FooBarTest extends LegacyTestCase {
 		);
 		Glarch g2 = new Glarch();
 		s.save(g2);
-		g = (GlarchProxy) baz.getTopGlarchez().get( new Character('G') );
-		baz.getTopGlarchez().put( new Character('H'), g );
-		baz.getTopGlarchez().put( new Character('G'), g2 );
+		g = (GlarchProxy) baz.getTopGlarchez().get( 'G' );
+		baz.getTopGlarchez().put( 'H', g );
+		baz.getTopGlarchez().put( 'G', g2 );
 		txn.commit();
 		s.close();
 
@@ -2662,8 +2665,8 @@ public class FooBarTest extends LegacyTestCase {
 		baz = (Baz) s3.load(Baz.class, baz.getCode());
 		assertEquals( 3, ((Long) s3.createQuery( "select count(*) from Bar" ).iterate().next()).longValue() );
 		s3.delete(baz);
-		s3.delete( baz.getTopGlarchez().get( Character.valueOf('G') ) );
-		s3.delete( baz.getTopGlarchez().get( Character.valueOf('H') ) );
+		s3.delete( baz.getTopGlarchez().get( 'G' ) );
+		s3.delete( baz.getTopGlarchez().get( 'H' ) );
 		int rows = s3.doReturningWork(
 				new AbstractReturningWork<Integer>() {
 					@Override
@@ -2838,6 +2841,30 @@ public class FooBarTest extends LegacyTestCase {
 		// There is an interbase bug that causes null integers to return as 0, also numeric precision is <= 15
 		assertTrue( "create", foo.equalsFoo( foo2 ) );
 		s.delete(foo2);
+		s.getTransaction().commit();
+		s.close();
+	}
+
+	@Test
+	public void loadFoo() {
+		Session s = openSession();
+		s.beginTransaction();
+		FooProxy foo = new Foo();
+		s.save( foo );
+		s.getTransaction().commit();
+		s.close();
+
+		final String id = ( (Foo) foo ).key;
+
+		s = openSession();
+		s.beginTransaction();
+		foo = (FooProxy) s.load( Foo.class, id );
+		s.getTransaction().commit();
+		s.close();
+
+		s = openSession();
+		s.beginTransaction();
+		s.delete( foo );
 		s.getTransaction().commit();
 		s.close();
 	}
@@ -3991,7 +4018,8 @@ public class FooBarTest extends LegacyTestCase {
 		s.getTransaction().commit();
 		s.close();
 	}
-	
+
+	@SkipForDialect(value = AbstractHANADialect.class, comment = "HANA currently requires specifying table name by 'FOR UPDATE of t1.c1' if there are more than one tables/views/subqueries in the FROM clause")
 	@Test
 	public void testNewSessionLifecycle() throws Exception {
 		Session s = openSession();
@@ -4029,6 +4057,7 @@ public class FooBarTest extends LegacyTestCase {
 		s.beginTransaction();
 		try {
 			Foo f = (Foo) s.load(Foo.class, fid, LockMode.UPGRADE);
+
 			s.delete(f);
 			s.flush();
 			s.getTransaction().commit();
@@ -4269,6 +4298,7 @@ public class FooBarTest extends LegacyTestCase {
 		s.close();
 	}
 
+	@SkipForDialect(value = AbstractHANADialect.class, comment = "HANA currently requires specifying table name by 'FOR UPDATE of t1.c1' if there are more than one tables/views/subqueries in the FROM clause")
 	@Test
 	public void testRefresh() throws Exception {
 		final Session s = openSession();
@@ -4287,11 +4317,11 @@ public class FooBarTest extends LegacyTestCase {
 				}
 		);
 		s.refresh(foo);
-		assertTrue( foo.getLong().longValue() == -3l );
-		assertTrue( s.getCurrentLockMode(foo)==LockMode.READ );
+		assertEquals( Long.valueOf( -3l ), foo.getLong() );
+		assertEquals( LockMode.READ, s.getCurrentLockMode( foo ) );
 		s.refresh(foo, LockMode.UPGRADE);
 		if ( getDialect().supportsOuterJoinForUpdate() ) {
-			assertTrue( s.getCurrentLockMode(foo)==LockMode.UPGRADE );
+			assertEquals( LockMode.UPGRADE, s.getCurrentLockMode( foo ) );
 		}
 		s.delete(foo);
 		s.getTransaction().commit();
@@ -4305,7 +4335,7 @@ public class FooBarTest extends LegacyTestCase {
 		FooProxy foo = new Foo();
 		s.save(foo);
 		assertTrue( "autoflush create", s.createQuery( "from Foo foo" ).list().size()==1 );
-		foo.setChar( new Character('X') );
+		foo.setChar( 'X' );
 		assertTrue( "autoflush update", s.createQuery( "from Foo foo where foo.char='X'" ).list().size()==1 );
 		txn.commit();
 		s.close();
@@ -4778,7 +4808,7 @@ public class FooBarTest extends LegacyTestCase {
 		s.close();
 	}
 
-	@Test
+	@TestForIssue( jiraKey = "HHH-8662" )
 	public void testProxiesInCollections() throws Exception {
 		Session s = openSession();
 		s.beginTransaction();
@@ -4816,7 +4846,8 @@ public class FooBarTest extends LegacyTestCase {
 		BarProxy b1 = (BarProxy) i.next();
 		BarProxy b2 = (BarProxy) i.next();
 		assertTrue( ( b1==barprox && !(b2 instanceof HibernateProxy) ) || ( b2==barprox && !(b1 instanceof HibernateProxy) ) ); //one-to-many
-		assertTrue( baz.getFooArray()[0] instanceof HibernateProxy ); //many-to-many
+		// <many-to-many fetch="select" is deprecated by HHH-8662; so baz.getFooArray()[0] should not be a HibernateProxy.
+		assertFalse( baz.getFooArray()[0] instanceof HibernateProxy ); //many-to-many
 		assertTrue( baz.getFooArray()[1]==bar2prox );
 		if ( !isOuterJoinFetchingDisabled() ) assertTrue( !(baz.getFooBag().iterator().next() instanceof HibernateProxy) ); //many-to-many outer-join="true"
 		assertTrue( !(baz.getFooSet().iterator().next() instanceof HibernateProxy) ); //one-to-many

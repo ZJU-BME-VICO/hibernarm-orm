@@ -35,7 +35,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
 import javax.persistence.CollectionTable;
@@ -135,6 +134,7 @@ import org.hibernate.annotations.Tuplizers;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
 import org.hibernate.annotations.Where;
+import org.hibernate.annotations.common.reflection.ClassLoadingException;
 import org.hibernate.annotations.common.reflection.ReflectionManager;
 import org.hibernate.annotations.common.reflection.XAnnotatedElement;
 import org.hibernate.annotations.common.reflection.XClass;
@@ -159,6 +159,7 @@ import org.hibernate.id.SequenceHiLoGenerator;
 import org.hibernate.id.TableHiLoGenerator;
 import org.hibernate.id.enhanced.SequenceStyleGenerator;
 import org.hibernate.internal.CoreMessageLogger;
+import org.hibernate.loader.PropertyPath;
 import org.hibernate.mapping.Any;
 import org.hibernate.mapping.Component;
 import org.hibernate.mapping.Constraint;
@@ -175,6 +176,7 @@ import org.hibernate.mapping.SingleTableSubclass;
 import org.hibernate.mapping.Subclass;
 import org.hibernate.mapping.ToOne;
 import org.hibernate.mapping.UnionSubclass;
+
 import org.jboss.logging.Logger;
 
 /**
@@ -291,6 +293,10 @@ public final class AnnotationBinder {
 		XPackage pckg;
 		try {
 			pckg = mappings.getReflectionManager().packageForName( packageName );
+		}
+		catch (ClassLoadingException e) {
+			LOG.packageNotFound( packageName );
+			return;
 		}
 		catch ( ClassNotFoundException cnf ) {
 			LOG.packageNotFound( packageName );
@@ -920,7 +926,7 @@ public final class AnnotationBinder {
 			);
 			propertyHolder.setInIdClass( null );
 			inferredData = new PropertyPreloadedData(
-					propertyAccessor, "_identifierMapper", compositeClass
+					propertyAccessor, PropertyPath.IDENTIFIER_MAPPER_PROPERTY, compositeClass
 			);
 			Component mapper = fillComponent(
 					propertyHolder,
@@ -939,12 +945,11 @@ public final class AnnotationBinder {
 			persistentClass.setIdentifierMapper( mapper );
 
 			//If id definition is on a mapped superclass, update the mapping
-			final org.hibernate.mapping.MappedSuperclass superclass =
-					BinderHelper.getMappedSuperclassOrNull(
-							inferredData.getDeclaringClass(),
-							inheritanceStatePerClass,
-							mappings
-					);
+			final org.hibernate.mapping.MappedSuperclass superclass = BinderHelper.getMappedSuperclassOrNull(
+					classWithIdClass,
+					inheritanceStatePerClass,
+					mappings
+			);
 			if ( superclass != null ) {
 				superclass.setDeclaredIdentifierMapper( mapper );
 			}
@@ -954,7 +959,7 @@ public final class AnnotationBinder {
 			}
 
 			Property property = new Property();
-			property.setName( "_identifierMapper" );
+			property.setName( PropertyPath.IDENTIFIER_MAPPER_PROPERTY );
 			property.setNodeName( "id" );
 			property.setUpdateable( false );
 			property.setInsertable( false );
@@ -1654,7 +1659,7 @@ public final class AnnotationBinder {
 				if ( assocTable != null ) {
 					Join join = propertyHolder.addJoin( assocTable, false );
 					for ( Ejb3JoinColumn joinColumn : joinColumns ) {
-						joinColumn.setSecondaryTableName( join.getTable().getName() );
+						joinColumn.setExplicitTableName( join.getTable().getName() );
 					}
 				}
 				final boolean mandatory = !ann.optional() || forcePersist;
@@ -1693,7 +1698,7 @@ public final class AnnotationBinder {
 				if ( assocTable != null ) {
 					Join join = propertyHolder.addJoin( assocTable, false );
 					for ( Ejb3JoinColumn joinColumn : joinColumns ) {
-						joinColumn.setSecondaryTableName( join.getTable().getName() );
+						joinColumn.setExplicitTableName( join.getTable().getName() );
 					}
 				}
 				//MapsId means the columns belong to the pk => not null
@@ -1734,7 +1739,7 @@ public final class AnnotationBinder {
 				if ( assocTable != null ) {
 					Join join = propertyHolder.addJoin( assocTable, false );
 					for ( Ejb3JoinColumn joinColumn : joinColumns ) {
-						joinColumn.setSecondaryTableName( join.getTable().getName() );
+						joinColumn.setExplicitTableName( join.getTable().getName() );
 					}
 				}
 				bindAny(
@@ -2415,9 +2420,17 @@ public final class AnnotationBinder {
 		String subpath = BinderHelper.getPath( propertyHolder, inferredData );
 		LOG.tracev( "Binding component with path: {0}", subpath );
 		PropertyHolder subHolder = PropertyHolderBuilder.buildPropertyHolder(
-				comp, subpath,
-				inferredData, propertyHolder, mappings
+				comp,
+				subpath,
+				inferredData,
+				propertyHolder,
+				mappings
 		);
+
+
+		// propertyHolder here is the owner of the component property.  Tell it we are about to start the component...
+
+		propertyHolder.startingProperty( inferredData.getProperty() );
 
 		final XClass xClassProcessed = inferredData.getPropertyClass();
 		List<PropertyData> classElements = new ArrayList<PropertyData>();
@@ -2599,7 +2612,7 @@ public final class AnnotationBinder {
 			value.setColumns( columns );
 			value.setPersistentClassName( persistentClassName );
 			value.setMappings( mappings );
-			value.setType( inferredData.getProperty(), inferredData.getClassOrElement(), persistentClassName );
+			value.setType( inferredData.getProperty(), inferredData.getClassOrElement(), persistentClassName, null );
 			value.setAccessType( propertyAccessor );
 			id = value.make();
 		}
@@ -2757,7 +2770,7 @@ public final class AnnotationBinder {
 					secondPass
 			);
 		}
-		Ejb3Column.checkPropertyConsistency( columns, propertyHolder.getEntityName() + propertyName );
+		Ejb3Column.checkPropertyConsistency( columns, propertyHolder.getEntityName() + "." + propertyName );
 		//PropertyBinder binder = new PropertyBinder();
 		propertyBinder.setName( propertyName );
 		propertyBinder.setValue( value );

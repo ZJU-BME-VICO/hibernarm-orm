@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.Set;
 
 import org.hibernate.EntityMode;
 import org.hibernate.HibernateException;
@@ -75,6 +76,10 @@ public class CustomPersister implements EntityPersister {
 	@Override
 	public Class getMappedClass() {
 		return Custom.class;
+	}
+
+	@Override
+	public void generateEntityDefinition() {
 	}
 
 	public void postInstantiate() throws MappingException {}
@@ -688,5 +693,15 @@ public class CustomPersister implements EntityPersister {
 	@Override
 	public Iterable<AttributeDefinition> getAttributes() {
 		throw new NotYetImplementedException();
+	}
+
+    @Override
+    public int[] resolveAttributeIndexes(Set<String> attributes) {
+        return null;
+    }
+
+	@Override
+	public boolean canUseReferenceCacheEntries() {
+		return false;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 }

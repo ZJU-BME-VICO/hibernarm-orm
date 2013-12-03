@@ -22,16 +22,17 @@
  * Boston, MA  02110-1301  USA
  */
 package org.hibernate.engine.jdbc.batch.internal;
+
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Map;
-
-import org.jboss.logging.Logger;
 
 import org.hibernate.HibernateException;
 import org.hibernate.engine.jdbc.batch.spi.BatchKey;
 import org.hibernate.engine.jdbc.spi.JdbcCoordinator;
 import org.hibernate.internal.CoreMessageLogger;
+
+import org.jboss.logging.Logger;
 
 /**
  * A {@link org.hibernate.engine.jdbc.batch.spi.Batch} implementation which does bathing based on a given size.  Once
@@ -116,11 +117,19 @@ public class BatchingBatch extends AbstractBatchImpl {
 			for ( Map.Entry<String,PreparedStatement> entry : getStatements().entrySet() ) {
 				try {
 					final PreparedStatement statement = entry.getValue();
-					checkRowCounts( statement.executeBatch(), statement );
+					final int[] rowCounts;
+					try {
+						transactionContext().startBatchExecution();
+						rowCounts = statement.executeBatch();
+					}
+					finally {
+						transactionContext().endBatchExecution();
+					}
+					checkRowCounts( rowCounts, statement );
 				}
 				catch ( SQLException e ) {
-					LOG.debug( "SQLException escaped proxy", e );
-					throw sqlExceptionHelper().convert( e, "could not perform addBatch", entry.getKey() );
+					abortBatch();
+					throw sqlExceptionHelper().convert( e, "could not execute batch", entry.getKey() );
 				}
 			}
 		}

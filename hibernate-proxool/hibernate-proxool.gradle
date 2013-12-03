@@ -12,8 +12,6 @@ def pomDescription() {
     return 'Integration for Proxool Connection pooling into Hibernate O/RM'
 }
 
-jar {
-    manifest {
-        instruction 'Bundle-Description', 'Hibernate ORM Proxool'
-    }
+def osgiDescription() {
+	return pomDescription()
 }

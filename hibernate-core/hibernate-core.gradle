@@ -1,8 +1,11 @@
 apply plugin: 'antlr'
 apply plugin: 'hibernate-matrix-testing'
 
-apply plugin: org.hibernate.build.gradle.inject.InjectionPlugin
+apply plugin: 'version-injection'
 
+versionInjection {
+    into( 'org.hibernate.Version', 'getVersionString' )
+}
 
 dependencies {
     compile( libraries.jta )
@@ -57,13 +60,13 @@ def pomDescription() {
     return 'The core O/RM functionality as provided by Hibernate'
 }
 
-manifest.mainAttributes(
-        'Main-Class': 'org.hibernate.Version'
-)
+def osgiDescription() {
+	return pomDescription()
+}
 
 jar {
     manifest {
-        instruction 'Bundle-Description', 'Hibernate ORM Core'
+        mainAttributes( 'Main-Class': 'org.hibernate.Version' )
 
         instructionFirst 'Import-Package',
             'javax.security.auth;resolution:=optional',
@@ -87,18 +90,20 @@ jar {
 			'org.apache.tools.ant.taskdefs;resolution:=optional',
 			'org.apache.tools.ant.types;resolution:=optional'
 
-        // TODO: Uncomment once EntityManagerFactoryBuilderImpl no longer
-        // uses ClassLoaderServiceImpl.
-        instruction 'Export-Package',
-            'org.hibernate.boot.registry.classloading.internal',
-            '*'
+//        // TODO: Uncomment once EntityManagerFactoryBuilderImpl no longer
+//        // uses ClassLoaderServiceImpl.
+//        instruction 'Export-Package',
+//            'org.hibernate.boot.registry.classloading.internal',
+//            '*'
     }
 }
 
+ext {
+	jaxbTargetDir = file( "${buildDir}/generated-src/jaxb/main" )
+}
+
 sourceSets.main {
-    ext.jaxbTargetDir = file( "${buildDir}/generated-src/jaxb/main" )
     java.srcDir jaxbTargetDir
-	originalJavaSrcDirs = java.srcDirs
 }
 
 // resources inherently exclude sources
@@ -114,9 +119,6 @@ idea {
 
 task jaxb {
 	ext {
-        // output directory
-        jaxbTargetDir = file( "${buildDir}/generated-src/jaxb/main" )
-
         // input schemas
         cfgXsd = file( 'src/main/resources/org/hibernate/hibernate-configuration-4.0.xsd')
         hbmXsd = file( 'src/main/resources/org/hibernate/hibernate-mapping-4.0.xsd' )
@@ -169,12 +171,6 @@ task jaxb {
 
 }
 
-generateMainLoggingClasses.dependsOn jaxb
-generateMainLoggingClasses.dependsOn generateGrammarSource
-
-generateSources.dependsOn jaxb
-generateSources.dependsOn generateGrammarSource
-
-compileJava.dependsOn jaxb
-
+runSourceGenerators.dependsOn jaxb
+runSourceGenerators.dependsOn generateGrammarSource
 

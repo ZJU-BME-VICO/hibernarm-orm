@@ -48,6 +48,7 @@ import org.hibernate.Transaction;
 import org.hibernate.UnresolvableObjectException;
 import org.hibernate.cache.spi.CacheKey;
 import org.hibernate.collection.spi.PersistentCollection;
+import org.hibernate.engine.internal.SessionEventListenerManagerImpl;
 import org.hibernate.engine.internal.StatefulPersistenceContext;
 import org.hibernate.engine.internal.Versioning;
 import org.hibernate.engine.query.spi.HQLQueryPlan;
@@ -55,9 +56,9 @@ import org.hibernate.engine.query.spi.NativeSQLQueryPlan;
 import org.hibernate.engine.query.spi.sql.NativeSQLQuerySpecification;
 import org.hibernate.engine.spi.EntityKey;
 import org.hibernate.engine.spi.LoadQueryInfluencers;
-import org.hibernate.engine.spi.NonFlushedChanges;
 import org.hibernate.engine.spi.PersistenceContext;
 import org.hibernate.engine.spi.QueryParameters;
+import org.hibernate.engine.spi.SessionEventListenerManager;
 import org.hibernate.engine.transaction.internal.TransactionCoordinatorImpl;
 import org.hibernate.engine.transaction.spi.TransactionCoordinator;
 import org.hibernate.engine.transaction.spi.TransactionEnvironment;
@@ -71,6 +72,7 @@ import org.hibernate.persister.entity.OuterJoinLoadable;
 import org.hibernate.pretty.MessageHelper;
 import org.hibernate.proxy.HibernateProxy;
 import org.hibernate.type.Type;
+
 import org.jboss.logging.Logger;
 
 /**
@@ -391,6 +393,40 @@ public class StatelessSessionImpl extends AbstractSessionImpl implements Statele
 	@Override
 	public String onPrepareStatement(String sql) {
 		return sql;
+	}
+
+	private SessionEventListenerManagerImpl sessionEventsManager;
+
+	@Override
+	public SessionEventListenerManager getEventListenerManager() {
+		if ( sessionEventsManager == null ) {
+			sessionEventsManager = new SessionEventListenerManagerImpl();
+		}
+		return sessionEventsManager;
+	}
+
+	@Override
+	public void startPrepareStatement() {
+	}
+
+	@Override
+	public void endPrepareStatement() {
+	}
+
+	@Override
+	public void startStatementExecution() {
+	}
+
+	@Override
+	public void endStatementExecution() {
+	}
+
+	@Override
+	public void startBatchExecution() {
+	}
+
+	@Override
+	public void endBatchExecution() {
 	}
 
 	@Override
@@ -721,16 +757,6 @@ public class StatelessSessionImpl extends AbstractSessionImpl implements Statele
 
 	@Override
 	public void flush() {
-	}
-
-	@Override
-	public NonFlushedChanges getNonFlushedChanges() {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public void applyNonFlushedChanges(NonFlushedChanges nonFlushedChanges) {
-		throw new UnsupportedOperationException();
 	}
 
 	@Override

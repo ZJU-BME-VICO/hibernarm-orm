@@ -31,11 +31,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.EntityResult;
 import javax.persistence.FieldResult;
 import javax.persistence.SqlResultSetMapping;
-
-import org.jboss.logging.Logger;
 
 import org.hibernate.LockMode;
 import org.hibernate.MappingException;
@@ -43,6 +42,7 @@ import org.hibernate.cfg.BinderHelper;
 import org.hibernate.cfg.Mappings;
 import org.hibernate.cfg.QuerySecondPass;
 import org.hibernate.engine.ResultSetMappingDefinition;
+import org.hibernate.engine.query.spi.sql.NativeSQLQueryConstructorReturn;
 import org.hibernate.engine.query.spi.sql.NativeSQLQueryRootReturn;
 import org.hibernate.engine.query.spi.sql.NativeSQLQueryScalarReturn;
 import org.hibernate.internal.CoreMessageLogger;
@@ -52,6 +52,8 @@ import org.hibernate.mapping.PersistentClass;
 import org.hibernate.mapping.Property;
 import org.hibernate.mapping.ToOne;
 import org.hibernate.mapping.Value;
+
+import org.jboss.logging.Logger;
 
 /**
  * @author Emmanuel Bernard
@@ -188,6 +190,21 @@ public class ResultsetMappingSecondPass implements QuerySecondPass {
 							),
 							null
 					)
+			);
+		}
+
+		for ( ConstructorResult constructorResult : ann.classes() ) {
+			List<NativeSQLQueryScalarReturn> columnReturns = new ArrayList<NativeSQLQueryScalarReturn>();
+			for ( ColumnResult columnResult : constructorResult.columns() ) {
+				columnReturns.add(
+						new NativeSQLQueryScalarReturn(
+								mappings.getObjectNameNormalizer().normalizeIdentifierQuoting( columnResult.name() ),
+								null
+						)
+				);
+			}
+			definition.addQueryReturn(
+					new NativeSQLQueryConstructorReturn( constructorResult.targetClass(), columnReturns )
 			);
 		}
 

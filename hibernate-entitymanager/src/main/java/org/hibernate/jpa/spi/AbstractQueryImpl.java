@@ -23,14 +23,15 @@
  */
 package org.hibernate.jpa.spi;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Set;
 import javax.persistence.FlushModeType;
+import javax.persistence.LockModeType;
 import javax.persistence.Parameter;
 import javax.persistence.TemporalType;
 import javax.persistence.TransactionRequiredException;
 import javax.persistence.TypedQuery;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Set;
 
 import org.hibernate.HibernateException;
 import org.hibernate.TypeMismatchException;
@@ -118,22 +119,36 @@ public abstract class AbstractQueryImpl<X> extends BaseQueryImpl implements Type
 	@SuppressWarnings({ "unchecked" })
 	public TypedQuery<X> setLockMode(javax.persistence.LockModeType lockModeType) {
 		checkOpen( true );
-		if (! getEntityManager().isTransactionInProgress()) {
-			throw new TransactionRequiredException( "no transaction is in progress" );
+
+		if ( isNativeSqlQuery() ) {
+			throw new IllegalStateException( "Illegal attempt to set lock mode on a native SQL query" );
 		}
+
+		if ( ! isSelectQuery() ) {
+			throw new IllegalStateException( "Illegal attempt to set lock mode on a non-SELECT query" );
+		}
+
 		if ( ! canApplyAliasSpecificLockModeHints() ) {
 			throw new IllegalStateException( "Not a JPAQL/Criteria query" );
 		}
+
 		this.jpaLockMode = lockModeType;
 		internalApplyLockMode( lockModeType );
 		return this;
 	}
 
-	protected abstract void internalApplyLockMode(javax.persistence.LockModeType lockModeType);
-
 	@Override
 	public javax.persistence.LockModeType getLockMode() {
-		getEntityManager().checkOpen( false );
+		checkOpen( false );
+
+		if ( isNativeSqlQuery() ) {
+			throw new IllegalStateException( "Illegal attempt to set lock mode on a native SQL query" );
+		}
+
+		if ( ! isSelectQuery() ) {
+			throw new IllegalStateException( "Illegal attempt to set lock mode on a non-SELECT query" );
+		}
+
 		return jpaLockMode;
 	}
 
@@ -198,5 +213,13 @@ public abstract class AbstractQueryImpl<X> extends BaseQueryImpl implements Type
 	@SuppressWarnings("unchecked")
 	public AbstractQueryImpl<X> setFlushMode(FlushModeType jpaFlushMode) {
 		return (AbstractQueryImpl<X>) super.setFlushMode( jpaFlushMode );
+	}
+	
+	protected void checkTransaction() {
+		if ( jpaLockMode != null && jpaLockMode != LockModeType.NONE ) {
+			if ( !getEntityManager().isTransactionInProgress() ) {
+				throw new TransactionRequiredException( "no transaction is in progress" );
+			}
+		}
 	}
 }

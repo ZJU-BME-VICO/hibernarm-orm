@@ -23,6 +23,9 @@
  */
 package org.hibernate.jpa.internal;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import javax.persistence.FlushModeType;
 import javax.persistence.LockModeType;
 import javax.persistence.NoResultException;
@@ -34,14 +37,13 @@ import javax.persistence.Query;
 import javax.persistence.StoredProcedureQuery;
 import javax.persistence.TemporalType;
 import javax.persistence.TransactionRequiredException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 import org.hibernate.CacheMode;
 import org.hibernate.FlushMode;
 import org.hibernate.HibernateException;
 import org.hibernate.LockMode;
+import org.hibernate.jpa.spi.BaseQueryImpl;
+import org.hibernate.jpa.spi.HibernateEntityManagerImplementor;
 import org.hibernate.jpa.spi.ParameterBind;
 import org.hibernate.jpa.spi.ParameterRegistration;
 import org.hibernate.procedure.NoSuchParameterException;
@@ -50,11 +52,9 @@ import org.hibernate.procedure.ProcedureCall;
 import org.hibernate.procedure.ProcedureCallMemento;
 import org.hibernate.procedure.ProcedureOutputs;
 import org.hibernate.result.NoMoreReturnsException;
-import org.hibernate.result.ResultSetOutput;
 import org.hibernate.result.Output;
+import org.hibernate.result.ResultSetOutput;
 import org.hibernate.result.UpdateCountOutput;
-import org.hibernate.jpa.spi.BaseQueryImpl;
-import org.hibernate.jpa.spi.HibernateEntityManagerImplementor;
 
 /**
  * @author Steve Ebersole
@@ -385,7 +385,10 @@ public class StoredProcedureQueryImpl extends BaseQueryImpl implements StoredPro
 		else if ( ProcedureOutputs.class.isAssignableFrom( cls ) ) {
 			return (T) outputs();
 		}
-		else if ( BaseQueryImpl.class.isAssignableFrom( cls ) ) {
+		else if ( StoredProcedureQueryImpl.class.isAssignableFrom( cls ) ) {
+			return (T) this;
+		}
+		else if ( StoredProcedureQuery.class.equals( cls ) ) {
 			return (T) this;
 		}
 
@@ -400,6 +403,16 @@ public class StoredProcedureQueryImpl extends BaseQueryImpl implements StoredPro
 	}
 
 	@Override
+	protected boolean isNativeSqlQuery() {
+		return false;
+	}
+
+	@Override
+	protected boolean isSelectQuery() {
+		return false;
+	}
+
+	@Override
 	public Query setLockMode(LockModeType lockMode) {
 		throw new IllegalStateException( "javax.persistence.Query.setLockMode not valid on javax.persistence.StoredProcedureQuery" );
 	}
@@ -411,6 +424,12 @@ public class StoredProcedureQueryImpl extends BaseQueryImpl implements StoredPro
 
 
 	// unsupported hints/calls ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+	@Override
+	protected void internalApplyLockMode(LockModeType lockModeType) {
+		throw new IllegalStateException( "Specifying LockMode not valid on javax.persistence.StoredProcedureQuery" );
+	}
 
 	@Override
 	protected void applyFirstResult(int firstResult) {
@@ -447,11 +466,6 @@ public class StoredProcedureQueryImpl extends BaseQueryImpl implements StoredPro
 
 	// parameters ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-	@Override
-	protected boolean isJpaPositionalParameter(int position) {
-		return false;
-	}
-
 	public ProcedureCall getHibernateProcedureCall() {
 		return procedureCall;
 	}
@@ -482,6 +496,11 @@ public class StoredProcedureQueryImpl extends BaseQueryImpl implements StoredPro
 		@Override
 		public Class<T> getParameterType() {
 			return nativeParamRegistration.getType();
+		}
+
+		@Override
+		public boolean isJpaPositionalParameter() {
+			return getPosition() != null;
 		}
 
 		@Override

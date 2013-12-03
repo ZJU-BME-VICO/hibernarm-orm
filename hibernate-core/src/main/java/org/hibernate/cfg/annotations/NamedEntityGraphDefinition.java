@@ -42,7 +42,12 @@ public class NamedEntityGraphDefinition {
 		this.annotation = annotation;
 		this.jpaEntityName = jpaEntityName;
 		this.entityName = entityName;
-		this.name = StringHelper.isEmpty( annotation.name() ) ? jpaEntityName : annotation.name();
+		this.name = StringHelper.isNotEmpty( annotation.name() )
+				? annotation.name()
+				: jpaEntityName;
+		if ( name == null ) {
+			throw new IllegalArgumentException( "Named entity graph name cannot be null" );
+		}
 	}
 
 	public String getRegisteredName() {

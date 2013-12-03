@@ -25,13 +25,14 @@ package org.hibernate.integrator.internal;
 
 import java.util.LinkedHashSet;
 
-import org.jboss.logging.Logger;
-
+import org.hibernate.boot.registry.classloading.spi.ClassLoaderService;
+import org.hibernate.cache.internal.CollectionCacheInvalidator;
 import org.hibernate.cfg.beanvalidation.BeanValidationIntegrator;
 import org.hibernate.integrator.spi.Integrator;
 import org.hibernate.integrator.spi.IntegratorService;
-import org.hibernate.boot.registry.classloading.spi.ClassLoaderService;
 import org.hibernate.secure.spi.JaccIntegrator;
+
+import org.jboss.logging.Logger;
 
 /**
  * @author Steve Ebersole
@@ -46,6 +47,7 @@ public class IntegratorServiceImpl implements IntegratorService {
 		// separate project/jars.
 		addIntegrator( new BeanValidationIntegrator() );
 		addIntegrator( new JaccIntegrator() );
+		addIntegrator( new CollectionCacheInvalidator() );
 
 		// register provided integrators
 		for ( Integrator integrator : providedIntegrators ) {

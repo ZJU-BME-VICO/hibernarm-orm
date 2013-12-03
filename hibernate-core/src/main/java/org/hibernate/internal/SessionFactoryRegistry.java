@@ -24,7 +24,6 @@
 package org.hibernate.internal;
 
 import java.util.Hashtable;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.naming.Context;
 import javax.naming.Name;
@@ -33,8 +32,6 @@ import javax.naming.event.NamespaceChangeListener;
 import javax.naming.event.NamingEvent;
 import javax.naming.event.NamingExceptionEvent;
 import javax.naming.spi.ObjectFactory;
-
-import org.jboss.logging.Logger;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.engine.jndi.JndiException;
@@ -49,10 +46,7 @@ import org.hibernate.engine.jndi.spi.JndiService;
  * @author Steve Ebersole
  */
 public class SessionFactoryRegistry {
-	private static final CoreMessageLogger LOG = Logger.getMessageLogger(
-			CoreMessageLogger.class,
-			SessionFactoryRegistry.class.getName()
-	);
+	private static final CoreMessageLogger LOG = CoreLogging.messageLogger( SessionFactoryRegistry.class );
 
 	/**
 	 * Singleton access
@@ -109,7 +103,7 @@ public class SessionFactoryRegistry {
 			jndiService.bind( name, instance );
 			LOG.factoryBoundToJndiName( name );
 			try {
-				jndiService.addListener( name, LISTENER );
+				jndiService.addListener( name, listener );
 			}
 			catch (Exception e) {
 				LOG.couldNotBindJndiListener();
@@ -206,7 +200,7 @@ public class SessionFactoryRegistry {
 	 * Implementation of {@literal JNDI} {@link javax.naming.event.NamespaceChangeListener} contract to listener for context events
 	 * and react accordingly if necessary
 	 */
-	private final NamespaceChangeListener LISTENER = new NamespaceChangeListener() {
+	private final NamespaceChangeListener listener = new NamespaceChangeListener() {
 		@Override
 		public void objectAdded(NamingEvent evt) {
 			LOG.debugf("A factory was successfully bound to name: %s", evt.getNewBinding().getName());

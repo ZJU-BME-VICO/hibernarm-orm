@@ -23,16 +23,18 @@
  */
 package org.hibernate.procedure.internal;
 
-import javax.persistence.ParameterMode;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.persistence.ParameterMode;
 
 import org.hibernate.Session;
 import org.hibernate.engine.query.spi.sql.NativeSQLQueryReturn;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.procedure.ProcedureCall;
 import org.hibernate.procedure.ProcedureCallMemento;
+import org.hibernate.procedure.spi.ParameterRegistrationImplementor;
+import org.hibernate.procedure.spi.ParameterStrategy;
 import org.hibernate.type.Type;
 
 /**

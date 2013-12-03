@@ -37,6 +37,7 @@ import org.hibernate.tuple.component.ComponentMetamodel;
 import org.hibernate.usertype.CompositeUserType;
 import org.hibernate.usertype.ParameterizedType;
 import org.hibernate.usertype.UserType;
+
 import org.jboss.logging.Logger;
 
 /**
@@ -518,6 +519,6 @@ public final class TypeFactory implements Serializable {
 	// any type builder ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 	public Type any(Type metaType, Type identifierType) {
-		return new AnyType( metaType, identifierType );
+		return new AnyType( typeScope, metaType, identifierType );
 	}
 }

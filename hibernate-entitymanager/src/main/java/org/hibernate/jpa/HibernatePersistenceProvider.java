@@ -26,7 +26,6 @@ package org.hibernate.jpa;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceException;
 import javax.persistence.spi.LoadState;
@@ -34,14 +33,14 @@ import javax.persistence.spi.PersistenceProvider;
 import javax.persistence.spi.PersistenceUnitInfo;
 import javax.persistence.spi.ProviderUtil;
 
-import org.jboss.logging.Logger;
-
 import org.hibernate.jpa.boot.internal.ParsedPersistenceXmlDescriptor;
 import org.hibernate.jpa.boot.internal.PersistenceXmlParser;
 import org.hibernate.jpa.boot.spi.Bootstrap;
 import org.hibernate.jpa.boot.spi.EntityManagerFactoryBuilder;
 import org.hibernate.jpa.boot.spi.ProviderChecker;
 import org.hibernate.jpa.internal.util.PersistenceUtilHelper;
+
+import org.jboss.logging.Logger;
 
 /**
  * The Hibernate {@link PersistenceProvider} implementation
@@ -64,13 +63,22 @@ public class HibernatePersistenceProvider implements PersistenceProvider {
 	public EntityManagerFactory createEntityManagerFactory(String persistenceUnitName, Map properties) {
 		log.tracef( "Starting createEntityManagerFactory for persistenceUnitName %s", persistenceUnitName );
 
-		final EntityManagerFactoryBuilder builder = getEntityManagerFactoryBuilderOrNull( persistenceUnitName, properties );
-		if ( builder == null ) {
-			log.trace( "Could not obtain matching EntityManagerFactoryBuilder, returning null" );
-			return null;
+		try {
+			final EntityManagerFactoryBuilder builder = getEntityManagerFactoryBuilderOrNull( persistenceUnitName, properties );
+			if ( builder == null ) {
+				log.trace( "Could not obtain matching EntityManagerFactoryBuilder, returning null" );
+				return null;
+			}
+			else {
+				return builder.build();
+			}
 		}
-		else {
-			return builder.build();
+		catch (PersistenceException pe) {
+			throw pe;
+		}
+		catch (Exception e) {
+			log.debug( "Unable to build entity manager factory", e );
+			throw new PersistenceException( "Unable to build entity manager factory", e );
 		}
 	}
 
@@ -85,10 +93,6 @@ public class HibernatePersistenceProvider implements PersistenceProvider {
 		final List<ParsedPersistenceXmlDescriptor> units;
 		try {
 			units = PersistenceXmlParser.locatePersistenceUnits( integration );
-		}
-		catch (RuntimeException e) {
-			log.debug( "Unable to locate persistence units", e );
-			throw e;
 		}
 		catch (Exception e) {
 			log.debug( "Unable to locate persistence units", e );

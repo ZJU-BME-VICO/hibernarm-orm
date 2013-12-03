@@ -1,7 +1,7 @@
 /*
  * Hibernate, Relational Persistence for Idiomatic Java
  *
- * Copyright (c) 2012, Red Hat Inc. or third-party contributors as
+ * Copyright (c) 2013, Red Hat Inc. or third-party contributors as
  * indicated by the @author tags or express copyright attribution
  * statements applied by the authors.  All third-party contributions are
  * distributed under license by Red Hat Inc.
@@ -23,23 +23,22 @@
  */
 package org.hibernate.loader.plan.spi;
 
-import org.hibernate.LockMode;
 import org.hibernate.loader.PropertyPath;
 import org.hibernate.persister.collection.CollectionPersister;
 
 /**
- * Represents a reference to an owned collection either as a return or as a fetch
+ * Represents a reference to a persistent collection either as a Return or as a Fetch
  *
  * @author Steve Ebersole
  */
 public interface CollectionReference {
-
 	/**
-	 * Retrieve the lock mode associated with this return.
+	 * Obtain the UID of the QuerySpace (specifically a {@link CollectionQuerySpace}) that this CollectionReference
+	 * refers to.
 	 *
-	 * @return The lock mode.
+	 * @return The UID
 	 */
-	public LockMode getLockMode();
+	public String getQuerySpaceUid();
 
 	/**
 	 * Retrieves the CollectionPersister describing the collection associated with this Return.
@@ -48,11 +47,34 @@ public interface CollectionReference {
 	 */
 	public CollectionPersister getCollectionPersister();
 
-	public FetchOwner getIndexGraph();
+	/**
+	 * Retrieve the metadata about the index of this collection *as a FetchSource*.  Will return
+	 * {@code null} when:<ul>
+	 *     <li>the collection is not indexed</li>
+	 *     <li>the index is not a composite or entity (cannot act as a FetchSource)</li>
+	 * </ul>
+	 * <p/>
+	 * Works only for map keys, since a List index (int type) cannot act as a FetchSource.
+	 * <p/>
+	 *
+	 * @return The collection index metadata as a FetchSource, or {@code null}.
+	 */
+	public CollectionFetchableIndex getIndexGraph();
 
-	public FetchOwner getElementGraph();
+	/**
+	 * Retrieve the metadata about the elements of this collection *as a FetchSource*.  Will return
+	 * {@code null} when the element is not a composite or entity (cannot act as a FetchSource).
+	 * Works only for map keys, since a List index cannot be anything other than an int which cannot be a FetchSource.
+	 * <p/>
+	 *
+	 * @return The collection element metadata as a FetchSource, or {@code null}.
+	 */
+	public CollectionFetchableElement getElementGraph();
 
+	/**
+	 * Retrieve the PropertyPath to this reference.
+	 *
+	 * @return The PropertyPath
+	 */
 	public PropertyPath getPropertyPath();
-
-	public boolean hasEntityElements();
 }

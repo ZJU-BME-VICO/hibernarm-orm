@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
-
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
@@ -42,8 +41,8 @@ import javax.xml.stream.events.XMLEvent;
  */
 public class BufferedXMLEventReader extends BaseXMLEventReader {
 	private final LinkedList<XMLEvent> eventBuffer = new LinkedList<XMLEvent>();
-	private int eventLimit = 0;
-	private ListIterator<XMLEvent> bufferReader = null;
+	private int eventLimit;
+	private ListIterator<XMLEvent> bufferReader;
 
 	/**
 	 * Create new buffering reader, no buffering is done until {@link #mark(int)} is called.

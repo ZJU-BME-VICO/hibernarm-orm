@@ -25,11 +25,11 @@ package org.hibernate.jpa.boot.spi;
 
 import java.util.Map;
 
-import org.jboss.logging.Logger;
-
 import org.hibernate.ejb.HibernatePersistence;
 import org.hibernate.jpa.AvailableSettings;
 import org.hibernate.jpa.HibernatePersistenceProvider;
+
+import org.jboss.logging.Logger;
 
 /**
  * Helper for handling checks to see whether Hibernate is the requested
@@ -37,7 +37,7 @@ import org.hibernate.jpa.HibernatePersistenceProvider;
  *
  * @author Steve Ebersole
  */
-public class ProviderChecker {
+public final class ProviderChecker {
 	private static final Logger log = Logger.getLogger( ProviderChecker.class );
 
 	@SuppressWarnings("deprecation")
@@ -127,5 +127,8 @@ public class ProviderChecker {
 	private static String extractProviderName(PersistenceUnitDescriptor persistenceUnit) {
 		final String persistenceUnitRequestedProvider = persistenceUnit.getProviderClassName();
 		return persistenceUnitRequestedProvider == null ? null : persistenceUnitRequestedProvider.trim();
+	}
+
+	private ProviderChecker() {
 	}
 }

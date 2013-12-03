@@ -110,4 +110,28 @@ public class QueryHints {
 	 */
 	public static final String TIMEOUT_JPA = "javax.persistence.query.timeout";
 
+	/**
+	 * Available to apply lock mode to a native SQL query since JPA requires that
+	 * {@link javax.persistence.Query#setLockMode} throw an IllegalStateException if called for a native query.
+	 * <p/>
+	 * Accepts a {@link javax.persistence.LockModeType} or a {@link org.hibernate.LockMode}
+	 */
+	public static final String NATIVE_LOCKMODE = "org.hibernate.lockMode";
+	
+	/**
+	 * Hint providing a "fetchgraph" EntityGraph.  Attributes explicitly specified as AttributeNodes are treated as
+	 * FetchType.EAGER (via join fetch or subsequent select).
+	 * 
+	 * Note: Currently, attributes that are not specified are treated as FetchType.LAZY or FetchType.EAGER depending
+	 * on the attribute's definition in metadata, rather than forcing FetchType.LAZY.
+	 */
+	public static final String FETCHGRAPH = "javax.persistence.fetchgraph";
+	
+	/**
+	 * Hint providing a "loadgraph" EntityGraph.  Attributes explicitly specified as AttributeNodes are treated as
+	 * FetchType.EAGER (via join fetch or subsequent select).  Attributes that are not specified are treated as
+	 * FetchType.LAZY or FetchType.EAGER depending on the attribute's definition in metadata
+	 */
+	public static final String LOADGRAPH = "javax.persistence.loadgraph";
+
 }

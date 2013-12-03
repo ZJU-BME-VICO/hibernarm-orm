@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.BitSet;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.StringTokenizer;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -126,7 +127,7 @@ public final class StringHelper {
 		return replace( template, placeholder, replacement, false );
 	}
 
-	public static String[] replace(String templates[], String placeholder, String replacement) {
+	public static String[] replace(String[] templates, String placeholder, String replacement) {
 		String[] result = new String[templates.length];
 		for ( int i =0; i<templates.length; i++ ) {
 			result[i] = replace( templates[i], placeholder, replacement );
@@ -549,7 +550,9 @@ public final class StringHelper {
 	 */
 	private static String generateAliasRoot(String description) {
 		String result = truncate( unqualifyEntityName(description), ALIAS_TRUNCATE_LENGTH )
-				.toLowerCase()
+				// Important to use Locale.ENGLISH.  See HHH-8579.  #toLowerCase() uses the default Locale.  Certain DBs
+				// do not like non-ascii characters in aliases, etc., so ensure consistency/portability here.
+				.toLowerCase(Locale.ENGLISH)
 		        .replace( '/', '_' ) // entityNames may now include slashes for the representations
 				.replace( '$', '_' ); //classname may be an inner class
 		result = cleanAlias( result );
@@ -595,7 +598,9 @@ public final class StringHelper {
 	}
 	
 	public static String toLowerCase(String str) {
-		return str==null ? null : str.toLowerCase();
+		// Important to use Locale.ENGLISH.  See HHH-8579.  #toLowerCase() uses the default Locale.  Certain DBs do not
+		// like non-ascii characters in aliases, etc., so ensure consistency/portability here.
+		return str==null ? null : str.toLowerCase(Locale.ENGLISH);
 	}
 
 	public static String moveAndToBeginning(String filter) {

@@ -34,10 +34,10 @@ import net.sf.ehcache.config.TerracottaConfiguration;
 import net.sf.ehcache.config.TerracottaConfiguration.ValueMode;
 import net.sf.ehcache.config.TimeoutBehaviorConfiguration.TimeoutBehaviorType;
 
-import org.jboss.logging.Logger;
-
 import org.hibernate.cache.CacheException;
 import org.hibernate.cache.ehcache.EhCacheMessageLogger;
+
+import org.jboss.logging.Logger;
 
 
 /**
@@ -68,7 +68,14 @@ public final class HibernateEhcacheUtils {
 	 */
 	public static Configuration loadAndCorrectConfiguration(URL url) {
 		final Configuration config = ConfigurationFactory.parseConfiguration( url );
-		if ( config.getDefaultCacheConfiguration().isTerracottaClustered() ) {
+		
+		// EHC-875 / HHH-6576
+		if ( config == null ) {
+			return null;
+		}
+		
+		if ( config.getDefaultCacheConfiguration() != null
+				&& config.getDefaultCacheConfiguration().isTerracottaClustered() ) {
 			if ( ValueMode.IDENTITY
 					.equals( config.getDefaultCacheConfiguration().getTerracottaConfiguration().getValueMode() ) ) {
 				LOG.incompatibleCacheValueMode();

@@ -25,6 +25,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.Set;
 
 import org.hibernate.EntityMode;
 import org.hibernate.HibernateException;
@@ -113,6 +114,10 @@ public class GoofyPersisterClassProvider implements PersisterClassResolver {
 		@Override
 		public EntityInstrumentationMetadata getInstrumentationMetadata() {
 			return new NonPojoInstrumentationMetadata( null );
+		}
+
+		@Override
+		public void generateEntityDefinition() {
 		}
 
 		@Override
@@ -599,6 +604,16 @@ public class GoofyPersisterClassProvider implements PersisterClassResolver {
 		public Iterable<AttributeDefinition> getAttributes() {
 			throw new NotYetImplementedException();
 		}
+
+        @Override
+        public int[] resolveAttributeIndexes(Set<String> attributes) {
+            return null;
+        }
+
+		@Override
+		public boolean canUseReferenceCacheEntries() {
+			return false;
+		}
 	}
 
 	public static class NoopCollectionPersister implements CollectionPersister {
@@ -848,6 +863,11 @@ public class GoofyPersisterClassProvider implements PersisterClassResolver {
 		@Override
 		public int getBatchSize() {
 			return 0;
+		}
+
+		@Override
+		public String getMappedByProperty() {
+			return null;
 		}
 
 		@Override

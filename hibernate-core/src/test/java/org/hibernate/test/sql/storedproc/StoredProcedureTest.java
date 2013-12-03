@@ -235,6 +235,7 @@ public class StoredProcedureTest extends BaseCoreFunctionalTestCase {
 		session.close();
 	}
 
+// A warning should be logged if database metadata indicates named parameters are not supported.
 	@Test
 	public void testInParametersByName() {
 		Session session = openSession();
@@ -305,17 +306,18 @@ public class StoredProcedureTest extends BaseCoreFunctionalTestCase {
 			}
 		}
 
-		{
-			ProcedureCall query = session.createStoredProcedureCall( "findUserRange" );
-			query.registerParameter( "start", Integer.class, ParameterMode.IN );
-			query.registerParameter( "end", Integer.class, ParameterMode.IN ).bindValue( 2 );
-			try {
-				query.getOutputs();
-				fail( "Expecting failure due to missing parameter bind" );
-			}
-			catch (JDBCException expected) {
-			}
-		}
+// H2 does not support named parameters
+//		{
+//			ProcedureCall query = session.createStoredProcedureCall( "findUserRange" );
+//			query.registerParameter( "start", Integer.class, ParameterMode.IN );
+//			query.registerParameter( "end", Integer.class, ParameterMode.IN ).bindValue( 2 );
+//			try {
+//				query.getOutputs();
+//				fail( "Expecting failure due to missing parameter bind" );
+//			}
+//			catch (JDBCException expected) {
+//			}
+//		}
 
 		session.getTransaction().commit();
 		session.close();

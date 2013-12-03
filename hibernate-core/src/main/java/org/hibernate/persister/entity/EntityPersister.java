@@ -25,6 +25,7 @@ package org.hibernate.persister.entity;
 
 import java.io.Serializable;
 import java.util.Map;
+import java.util.Set;
 
 import org.hibernate.EntityMode;
 import org.hibernate.HibernateException;
@@ -45,7 +46,6 @@ import org.hibernate.id.IdentifierGenerator;
 import org.hibernate.internal.FilterAliasGenerator;
 import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.persister.walking.spi.EntityDefinition;
-import org.hibernate.sql.ordering.antlr.ColumnMapper;
 import org.hibernate.tuple.entity.EntityMetamodel;
 import org.hibernate.tuple.entity.EntityTuplizer;
 import org.hibernate.type.Type;
@@ -71,7 +71,14 @@ public interface EntityPersister extends OptimisticCacheSource, EntityDefinition
 	public static final String ENTITY_ID = "id";
 
 	/**
-	 * Finish the initialization of this object.
+	 * Generate the entity definition for this object. This must be done for all
+	 * entity persisters before calling {@link #postInstantiate()}.
+	 */
+	public void generateEntityDefinition();
+
+	/**
+	 * Finish the initialization of this object. {@link #generateEntityDefinition()}
+	 * must be called for all entity persisters before calling this method.
 	 * <p/>
 	 * Called only once per {@link org.hibernate.SessionFactory} lifecycle,
 	 * after all entity persisters have been instantiated.
@@ -411,12 +418,18 @@ public interface EntityPersister extends OptimisticCacheSource, EntityDefinition
 
 	/**
 	 * Which of the properties of this class are database generated values on insert?
+	 *
+	 * @deprecated Replaced internally with InMemoryValueGenerationStrategy / InDatabaseValueGenerationStrategy
 	 */
+	@Deprecated
 	public ValueInclusion[] getPropertyInsertGenerationInclusions();
 
 	/**
 	 * Which of the properties of this class are database generated values on update?
+	 *
+	 * @deprecated Replaced internally with InMemoryValueGenerationStrategy / InDatabaseValueGenerationStrategy
 	 */
+	@Deprecated
 	public ValueInclusion[] getPropertyUpdateGenerationInclusions();
 
 	/**
@@ -759,4 +772,8 @@ public interface EntityPersister extends OptimisticCacheSource, EntityDefinition
 	public EntityInstrumentationMetadata getInstrumentationMetadata();
 	
 	public FilterAliasGenerator getFilterAliasGenerator(final String rootAlias);
+
+	public int[] resolveAttributeIndexes(Set<String> properties);
+
+	public boolean canUseReferenceCacheEntries();
 }

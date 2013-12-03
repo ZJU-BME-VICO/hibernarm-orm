@@ -22,9 +22,22 @@
  * Boston, MA  02110-1301  USA
  */
 package org.hibernate.jpa;
+
 import java.util.HashSet;
 import java.util.Set;
-import static org.hibernate.annotations.QueryHints.*;
+
+import static org.hibernate.annotations.QueryHints.CACHEABLE;
+import static org.hibernate.annotations.QueryHints.CACHE_MODE;
+import static org.hibernate.annotations.QueryHints.CACHE_REGION;
+import static org.hibernate.annotations.QueryHints.COMMENT;
+import static org.hibernate.annotations.QueryHints.FETCHGRAPH;
+import static org.hibernate.annotations.QueryHints.FETCH_SIZE;
+import static org.hibernate.annotations.QueryHints.FLUSH_MODE;
+import static org.hibernate.annotations.QueryHints.LOADGRAPH;
+import static org.hibernate.annotations.QueryHints.NATIVE_LOCKMODE;
+import static org.hibernate.annotations.QueryHints.READ_ONLY;
+import static org.hibernate.annotations.QueryHints.TIMEOUT_HIBERNATE;
+import static org.hibernate.annotations.QueryHints.TIMEOUT_JPA;
 
 /**
  * Defines the supported JPA query hints
@@ -85,6 +98,24 @@ public class QueryHints {
 	 */
 	public static final String HINT_FLUSH_MODE = FLUSH_MODE;
 
+	public static final String HINT_NATIVE_LOCKMODE = NATIVE_LOCKMODE;
+	
+	/**
+	 * Hint providing a "fetchgraph" EntityGraph.  Attributes explicitly specified as AttributeNodes are treated as
+	 * FetchType.EAGER (via join fetch or subsequent select).
+	 * 
+	 * Note: Currently, attributes that are not specified are treated as FetchType.LAZY or FetchType.EAGER depending
+	 * on the attribute's definition in metadata, rather than forcing FetchType.LAZY.
+	 */
+	public static final String HINT_FETCHGRAPH = FETCHGRAPH;
+	
+	/**
+	 * Hint providing a "loadgraph" EntityGraph.  Attributes explicitly specified as AttributeNodes are treated as
+	 * FetchType.EAGER (via join fetch or subsequent select).  Attributes that are not specified are treated as
+	 * FetchType.LAZY or FetchType.EAGER depending on the attribute's definition in metadata
+	 */
+	public static final String HINT_LOADGRAPH = LOADGRAPH;
+
 	private static final Set<String> HINTS = buildHintsSet();
 
 	private static Set<String> buildHintsSet() {
@@ -98,6 +129,9 @@ public class QueryHints {
 		hints.add( HINT_READONLY );
 		hints.add( HINT_CACHE_MODE );
 		hints.add( HINT_FLUSH_MODE );
+		hints.add( HINT_NATIVE_LOCKMODE );
+		hints.add( HINT_FETCHGRAPH );
+		hints.add( HINT_LOADGRAPH );
 		return java.util.Collections.unmodifiableSet( hints );
 	}
 

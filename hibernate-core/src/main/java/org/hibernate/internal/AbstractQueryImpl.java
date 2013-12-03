@@ -50,6 +50,7 @@ import org.hibernate.Query;
 import org.hibernate.QueryException;
 import org.hibernate.Session;
 import org.hibernate.dialect.Dialect;
+import org.hibernate.engine.query.spi.HQLQueryPlan;
 import org.hibernate.engine.query.spi.ParameterMetadata;
 import org.hibernate.engine.spi.QueryParameters;
 import org.hibernate.engine.spi.RowSelection;
@@ -66,6 +67,7 @@ import org.hibernate.transform.ResultTransformer;
 import org.hibernate.type.SerializableType;
 import org.hibernate.type.StandardBasicTypes;
 import org.hibernate.type.Type;
+
 import org.jboss.logging.Logger;
 
 /**
@@ -109,6 +111,8 @@ public abstract class AbstractQueryImpl implements Query {
 	private Serializable collectionKey;
 	private Boolean readOnly;
 	private ResultTransformer resultTransformer;
+	
+	private HQLQueryPlan queryPlan;
 
 	public AbstractQueryImpl(
 			String queryString,
@@ -855,8 +859,12 @@ public abstract class AbstractQueryImpl implements Query {
 		Iterator iter = vals.iterator();
 		int i = 0;
 		while ( iter.hasNext() ) {
-			String alias = ( isJpaPositionalParam ? 'x' + name : name ) + i++ + '_';
-			namedParamsCopy.put( alias, new TypedValue( type, iter.next() ) );
+			// Variable 'name' can represent a number or contain digit at the end. Surrounding it with
+			// characters to avoid ambiguous definition after concatenating value of 'i' counter.
+			String alias = ( isJpaPositionalParam ? 'x' + name : name ) + '_' + i++ + '_';
+			if ( namedParamsCopy.put( alias, new TypedValue( type, iter.next() ) ) != null ) {
+				throw new HibernateException( "Repeated usage of alias '" + alias + "' while expanding list parameter." );
+			}
 			list.append( ParserHelper.HQL_VARIABLE_PREFIX ).append( alias );
 			if ( iter.hasNext() ) {
 				list.append( ", " );
@@ -983,7 +991,7 @@ public abstract class AbstractQueryImpl implements Query {
 	}
 
 	public QueryParameters getQueryParameters(Map namedParams) {
-		return new QueryParameters(
+		QueryParameters queryParameters = new QueryParameters(
 				typeArray(),
 				valueArray(),
 				namedParams,
@@ -1001,6 +1009,8 @@ public abstract class AbstractQueryImpl implements Query {
 				optionalId,
 				resultTransformer
 		);
+		queryParameters.setQueryPlan( queryPlan );
+		return queryParameters;
 	}
 	
 	protected void before() {
@@ -1023,5 +1033,13 @@ public abstract class AbstractQueryImpl implements Query {
 			getSession().setCacheMode(sessionCacheMode);
 			sessionCacheMode = null;
 		}
+	}
+
+	public HQLQueryPlan getQueryPlan() {
+		return queryPlan;
+	}
+
+	public void setQueryPlan(HQLQueryPlan queryPlan) {
+		this.queryPlan = queryPlan;
 	}
 }

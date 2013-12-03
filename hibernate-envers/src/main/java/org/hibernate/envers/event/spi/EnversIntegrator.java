@@ -23,8 +23,6 @@
  */
 package org.hibernate.envers.event.spi;
 
-import org.jboss.logging.Logger;
-
 import org.hibernate.boot.registry.classloading.spi.ClassLoaderService;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
@@ -36,6 +34,8 @@ import org.hibernate.internal.CoreMessageLogger;
 import org.hibernate.internal.util.config.ConfigurationHelper;
 import org.hibernate.metamodel.source.MetadataImplementor;
 import org.hibernate.service.spi.SessionFactoryServiceRegistry;
+
+import org.jboss.logging.Logger;
 
 /**
  * Provides integration for Envers into Hibernate, which mainly means registering the proper event listeners.
@@ -53,6 +53,7 @@ public class EnversIntegrator implements Integrator {
 	 * should happen or not.  Default is true
 	 */
 	public static final String AUTO_REGISTER = "hibernate.listeners.envers.autoRegister";
+    private AuditConfiguration enversConfiguration;
 
 	@Override
 	public void integrate(
@@ -72,7 +73,7 @@ public class EnversIntegrator implements Integrator {
 		final EventListenerRegistry listenerRegistry = serviceRegistry.getService( EventListenerRegistry.class );
 		listenerRegistry.addDuplicationStrategy( EnversListenerDuplicationStrategy.INSTANCE );
 
-		final AuditConfiguration enversConfiguration = AuditConfiguration.getFor(
+        enversConfiguration = AuditConfiguration.getFor(
 				configuration,
 				serviceRegistry.getService(
 						ClassLoaderService.class
@@ -112,7 +113,9 @@ public class EnversIntegrator implements Integrator {
 
 	@Override
 	public void disintegrate(SessionFactoryImplementor sessionFactory, SessionFactoryServiceRegistry serviceRegistry) {
-		// nothing to do afaik
+		if ( enversConfiguration != null ) {
+			enversConfiguration.destroy();
+		}
 	}
 
 	/**

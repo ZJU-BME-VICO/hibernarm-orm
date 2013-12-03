@@ -37,6 +37,7 @@ import org.junit.Test;
 import org.hibernate.QueryException;
 import org.hibernate.dialect.DB2Dialect;
 import org.hibernate.dialect.H2Dialect;
+import org.hibernate.dialect.AbstractHANADialect;
 import org.hibernate.dialect.HSQLDialect;
 import org.hibernate.dialect.IngresDialect;
 import org.hibernate.dialect.MySQLDialect;
@@ -102,7 +103,7 @@ public class HQLTest extends QueryTranslatorTestCase {
 	protected void prepareTest() throws Exception {
 		super.prepareTest();
 		SelectClause.VERSION2_SQL = true;
-		DotNode.REGRESSION_STYLE_JOIN_SUPPRESSION = true;
+		DotNode.regressionStyleJoinSuppression = true;
 		DotNode.ILLEGAL_COLL_DEREF_EXCP_BUILDER = new DotNode.IllegalCollectionDereferenceExceptionBuilder() {
 			public QueryException buildIllegalCollectionDereferenceException(String propertyName, FromReferenceNode lhs) {
 				throw new QueryException( "illegal syntax near collection: " + propertyName );
@@ -114,7 +115,7 @@ public class HQLTest extends QueryTranslatorTestCase {
 	@Override
 	protected void cleanupTest() throws Exception {
 		SelectClause.VERSION2_SQL = false;
-		DotNode.REGRESSION_STYLE_JOIN_SUPPRESSION = false;
+		DotNode.regressionStyleJoinSuppression = false;
 		DotNode.ILLEGAL_COLL_DEREF_EXCP_BUILDER = DotNode.DEF_ILLEGAL_COLL_DEREF_EXCP_BUILDER;
 		SqlGenerator.REGRESSION_STYLE_CROSS_JOINS = false;
 		super.cleanupTest();
@@ -140,7 +141,7 @@ public class HQLTest extends QueryTranslatorTestCase {
     }
 
 	@Test
-	@SkipForDialect( Oracle8iDialect.class )
+	@SkipForDialect( value = { Oracle8iDialect.class, AbstractHANADialect.class } )
     public void testRowValueConstructorSyntaxInInListBeingTranslated() {
 		QueryTranslatorImpl translator = createNewQueryTranslator("from LineItem l where l.id in (?)");
 		assertInExist("'in' should be translated to 'and'", false, translator);
@@ -356,6 +357,11 @@ public class HQLTest extends QueryTranslatorTestCase {
 			assertTranslation("from Animal where lower(upper('foo') || upper(:bar)) like 'f%'");
 		}
 		if ( getDialect() instanceof PostgreSQLDialect || getDialect() instanceof PostgreSQL81Dialect ) {
+			return;
+		}
+		if ( getDialect() instanceof AbstractHANADialect ) {
+			// HANA returns
+			// ...al0_7_.mammal where [abs(cast(1 as float(19))-cast(? as float(19)))=1.0]
 			return;
 		}
 		assertTranslation("from Animal where abs(cast(1 as float) - cast(:param as float)) = 1.0");
@@ -1529,7 +1535,7 @@ public class HQLTest extends QueryTranslatorTestCase {
 		Map replacements = new HashMap();
 		QueryTranslatorFactory ast = new ASTQueryTranslatorFactory();
 		SessionFactoryImplementor factory = getSessionFactoryImplementor();
-		QueryTranslator newQueryTranslator = ast.createQueryTranslator( hql, hql, Collections.EMPTY_MAP, factory );
+		QueryTranslator newQueryTranslator = ast.createQueryTranslator( hql, hql, Collections.EMPTY_MAP, factory, null );
 		newQueryTranslator.compile( replacements, scalar );
 	}
 

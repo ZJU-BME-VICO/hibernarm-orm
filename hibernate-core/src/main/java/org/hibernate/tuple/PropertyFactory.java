@@ -40,7 +40,6 @@ import org.hibernate.internal.util.ReflectHelper;
 import org.hibernate.mapping.KeyValue;
 import org.hibernate.mapping.PersistentClass;
 import org.hibernate.mapping.Property;
-import org.hibernate.mapping.PropertyGeneration;
 import org.hibernate.metamodel.binding.AbstractPluralAttributeBinding;
 import org.hibernate.metamodel.binding.AssociationAttributeBinding;
 import org.hibernate.metamodel.binding.AttributeBinding;
@@ -67,7 +66,10 @@ import org.hibernate.type.VersionType;
  *
  * @author Steve Ebersole
  */
-public class PropertyFactory {
+public final class PropertyFactory {
+	private PropertyFactory() {
+	}
+
 	/**
 	 * Generates the attribute representation of the identifier for a given entity mapping.
 	 *
@@ -195,8 +197,7 @@ public class PropertyFactory {
 						.setLazy( lazy )
 						.setInsertable( property.isInsertable() )
 						.setUpdateable( property.isUpdateable() )
-						.setInsertGenerated( property.getGeneration() == PropertyGeneration.INSERT || property.getGeneration() == PropertyGeneration.ALWAYS )
-						.setUpdateGenerated( property.getGeneration() == PropertyGeneration.ALWAYS )
+						.setValueGenerationStrategy( property.getValueGenerationStrategy() )
 						.setNullable( property.isOptional() )
 						.setDirtyCheckable( property.isUpdateable() && !lazy )
 						.setVersionable( property.isOptimisticLocked() )
@@ -268,11 +269,7 @@ public class PropertyFactory {
 								.setLazy( lazyAvailable && property.isLazy() )
 								.setInsertable( property.isInsertable() )
 								.setUpdateable( property.isUpdateable() )
-								.setInsertGenerated(
-										property.getGeneration() == PropertyGeneration.INSERT
-												|| property.getGeneration() == PropertyGeneration.ALWAYS
-								)
-								.setUpdateGenerated( property.getGeneration() == PropertyGeneration.ALWAYS )
+								.setValueGenerationStrategy( property.getValueGenerationStrategy() )
 								.setNullable( property.isOptional() )
 								.setDirtyCheckable( alwaysDirtyCheck || property.isUpdateable() )
 								.setVersionable( property.isOptimisticLocked() )
@@ -292,11 +289,7 @@ public class PropertyFactory {
 								.setLazy( lazyAvailable && property.isLazy() )
 								.setInsertable( property.isInsertable() )
 								.setUpdateable( property.isUpdateable() )
-								.setInsertGenerated(
-										property.getGeneration() == PropertyGeneration.INSERT
-												|| property.getGeneration() == PropertyGeneration.ALWAYS
-								)
-								.setUpdateGenerated( property.getGeneration() == PropertyGeneration.ALWAYS )
+								.setValueGenerationStrategy( property.getValueGenerationStrategy() )
 								.setNullable( property.isOptional() )
 								.setDirtyCheckable( alwaysDirtyCheck || property.isUpdateable() )
 								.setVersionable( property.isOptimisticLocked() )
@@ -318,11 +311,7 @@ public class PropertyFactory {
 								.setLazy( lazyAvailable && property.isLazy() )
 								.setInsertable( property.isInsertable() )
 								.setUpdateable( property.isUpdateable() )
-								.setInsertGenerated(
-										property.getGeneration() == PropertyGeneration.INSERT
-												|| property.getGeneration() == PropertyGeneration.ALWAYS
-								)
-								.setUpdateGenerated( property.getGeneration() == PropertyGeneration.ALWAYS )
+								.setValueGenerationStrategy( property.getValueGenerationStrategy() )
 								.setNullable( property.isOptional() )
 								.setDirtyCheckable( alwaysDirtyCheck || property.isUpdateable() )
 								.setVersionable( property.isOptimisticLocked() )
@@ -379,8 +368,7 @@ public class PropertyFactory {
 				lazyAvailable && property.isLazy(),
 				property.isInsertable(),
 				property.isUpdateable(),
-				property.getGeneration() == PropertyGeneration.INSERT || property.getGeneration() == PropertyGeneration.ALWAYS,
-				property.getGeneration() == PropertyGeneration.ALWAYS,
+				property.getValueGenerationStrategy(),
 				property.isOptional(),
 				alwaysDirtyCheck || property.isUpdateable(),
 				property.isOptimisticLocked(),
@@ -426,9 +414,7 @@ public class PropertyFactory {
 					lazyAvailable && singularAttributeBinding.isLazy(),
 					true, // insertable
 					true, // updatable
-					singularAttributeBinding.getGeneration() == PropertyGeneration.INSERT
-							|| singularAttributeBinding.getGeneration() == PropertyGeneration.ALWAYS,
-					singularAttributeBinding.getGeneration() == PropertyGeneration.ALWAYS,
+					null,
 					singularAttributeBinding.isNullable(),
 					alwaysDirtyCheck || areAllValuesIncludedInUpdate( singularAttributeBinding ),
 					singularAttributeBinding.isIncludedInOptimisticLocking(),
@@ -452,8 +438,7 @@ public class PropertyFactory {
 					// TODO: fix this when HHH-6356 is fixed; for now assume AbstractPluralAttributeBinding is updatable and insertable
 					true, // pluralAttributeBinding.isInsertable(),
 					true, //pluralAttributeBinding.isUpdatable(),
-					false,
-					false,
+					null,
 					false, // nullable - not sure what that means for a collection
 					// TODO: fix this when HHH-6356 is fixed; for now assume AbstractPluralAttributeBinding is updatable and insertable
 					//alwaysDirtyCheck || pluralAttributeBinding.isUpdatable(),

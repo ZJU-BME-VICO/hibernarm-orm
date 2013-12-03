@@ -37,9 +37,7 @@ public interface NonIdentifierAttribute extends Attribute, AttributeDefinition {
 
 	public boolean isUpdateable();
 
-	public boolean isInsertGenerated();
-
-	public boolean isUpdateGenerated();
+	public ValueGeneration getValueGenerationStrategy();
 
 	public boolean isNullable();
 

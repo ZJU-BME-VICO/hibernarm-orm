@@ -41,6 +41,7 @@ import org.hibernate.property.Setter;
 /**
  * @author Adam Warski (adam at warski dot org)
  * @author Michal Skowronek (mskowr at o2 dot pl)
+ * @author Lukasz Zuchowski (author at zuchos dot com)
  */
 public class ComponentPropertyMapper implements PropertyMapper, CompositeMapperBuilder {
 	private final PropertyData propertyData;
@@ -49,8 +50,15 @@ public class ComponentPropertyMapper implements PropertyMapper, CompositeMapperB
 
 	public ComponentPropertyMapper(PropertyData propertyData, Class componentClass) {
 		this.propertyData = propertyData;
-		this.delegate = new MultiPropertyMapper();
-		this.componentClass = componentClass;
+		//if class is a map it means that this is dynamic component
+		if ( Map.class.isAssignableFrom( componentClass ) ) {
+			this.delegate = new MultiDynamicComponentMapper( propertyData );
+			this.componentClass = HashMap.class;
+		}
+		else {
+			this.delegate = new MultiPropertyMapper();
+			this.componentClass = componentClass;
+		}
 	}
 
 	@Override
@@ -132,14 +140,14 @@ public class ComponentPropertyMapper implements PropertyMapper, CompositeMapperB
 			if ( data.get(
 					property.getKey()
 							.getName()
-			) != null || !(property.getValue() instanceof SinglePropertyMapper) ) {
+			) != null || !( property.getValue() instanceof SinglePropertyMapper ) ) {
 				allNullAndSingle = false;
 				break;
 			}
 		}
 
 		if ( allNullAndSingle ) {
-			// single property, but default value need not be null, so we'll set it to null anyway 
+			// single property, but default value need not be null, so we'll set it to null anyway
 			setter.set( obj, null, null );
 		}
 		else {
@@ -149,7 +157,7 @@ public class ComponentPropertyMapper implements PropertyMapper, CompositeMapperB
 				setter.set( obj, subObj, null );
 				delegate.mapToEntityFromMap( verCfg, subObj, data, primaryKey, versionsReader, revision );
 			}
-			catch (Exception e) {
+			catch ( Exception e ) {
 				throw new AuditException( e );
 			}
 		}

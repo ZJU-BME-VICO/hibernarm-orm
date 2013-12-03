@@ -23,28 +23,28 @@
  */
 package org.hibernate.jpa.graph.internal;
 
-import javax.persistence.AttributeNode;
-import javax.persistence.Subgraph;
-import javax.persistence.metamodel.Attribute;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.persistence.AttributeNode;
+import javax.persistence.metamodel.Attribute;
 
-import org.jboss.logging.Logger;
-
+import org.hibernate.graph.spi.AttributeNodeImplementor;
+import org.hibernate.graph.spi.GraphNodeImplementor;
 import org.hibernate.internal.util.collections.CollectionHelper;
 import org.hibernate.jpa.HibernateEntityManagerFactory;
-import org.hibernate.jpa.graph.spi.AttributeNodeImplementor;
-import org.hibernate.jpa.graph.spi.GraphNodeImplementor;
+import org.hibernate.jpa.spi.HibernateEntityManagerFactoryAware;
+
+import org.jboss.logging.Logger;
 
 /**
  * Base class for EntityGraph and Subgraph implementations.
  *
  * @author Steve Ebersole
  */
-public abstract class AbstractGraphNode<T> implements GraphNodeImplementor {
+public abstract class AbstractGraphNode<T> implements GraphNodeImplementor, HibernateEntityManagerFactoryAware{
 	private static final Logger log = Logger.getLogger( AbstractGraphNode.class );
 
 	private final HibernateEntityManagerFactory entityManagerFactory;
@@ -80,7 +80,7 @@ public abstract class AbstractGraphNode<T> implements GraphNodeImplementor {
 	}
 
 	@Override
-	public HibernateEntityManagerFactory entityManagerFactory() {
+	public HibernateEntityManagerFactory getFactory() {
 		return entityManagerFactory;
 	}
 
@@ -104,13 +104,13 @@ public abstract class AbstractGraphNode<T> implements GraphNodeImplementor {
 		}
 	}
 
-	protected void addAttributeNodes(String... attributeNames) {
+	public void addAttributeNodes(String... attributeNames) {
 		for ( String attributeName : attributeNames ) {
 			addAttribute( attributeName );
 		}
 	}
 
-	protected AttributeNodeImpl addAttribute(String attributeName) {
+	public AttributeNodeImpl addAttribute(String attributeName) {
 		return addAttributeNode( buildAttributeNode( attributeName ) );
 	}
 

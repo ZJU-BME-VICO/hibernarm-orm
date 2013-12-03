@@ -23,14 +23,14 @@
  */
 package org.hibernate.jpa.criteria.compile;
 
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.ParameterExpression;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.ParameterExpression;
 
 import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.internal.util.StringHelper;
@@ -54,7 +54,12 @@ public class CriteriaCompiler implements Serializable {
 	}
 
 	public Query compile(CompilableCriteria criteria) {
-		criteria.validate();
+		try {
+			criteria.validate();
+		}
+		catch (IllegalStateException ise) {
+			throw new IllegalArgumentException( "Error occurred validating the Criteria", ise );
+		}
 
 		final Map<ParameterExpression<?>, ExplicitParameterInfo<?>> explicitParameterInfoMap =
 				new HashMap<ParameterExpression<?>, ExplicitParameterInfo<?>>();
@@ -62,8 +67,8 @@ public class CriteriaCompiler implements Serializable {
 		final List<ImplicitParameterBinding> implicitParameterBindings = new ArrayList<ImplicitParameterBinding>();
 
 		RenderingContext renderingContext = new RenderingContext() {
-			private int aliasCount = 0;
-			private int explicitParameterCount = 0;
+			private int aliasCount;
+			private int explicitParameterCount;
 
 			public String generateAlias() {
 				return "generatedAlias" + aliasCount++;

@@ -23,8 +23,6 @@
  */
 package org.hibernate.testing.junit4;
 
-import static org.junit.Assert.fail;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -74,8 +72,7 @@ import org.hibernate.testing.cache.CachingRegionFactory;
 import org.junit.After;
 import org.junit.Before;
 
-import se.acode.openehr.parser.ADLParser;
-import se.acode.openehr.parser.ParseException;
+import static org.junit.Assert.fail;
 
 /**
  * Applies functional testing logic for core Hibernate testing on top of {@link BaseUnitTestCase}
@@ -188,7 +185,7 @@ public abstract class BaseCoreFunctionalTestCase extends BaseUnitTestCase {
 		return cfg;
 	}
 
-	private Configuration constructAndConfigureConfiguration() {
+	protected Configuration constructAndConfigureConfiguration() {
 		Configuration cfg = constructConfiguration();
 		configure( cfg );
 		return cfg;
@@ -483,11 +480,7 @@ public abstract class BaseCoreFunctionalTestCase extends BaseUnitTestCase {
 
 	protected void cleanupCache() {
 		if ( sessionFactory != null ) {
-			sessionFactory.getCache().evictCollectionRegions();
-			sessionFactory.getCache().evictDefaultQueryRegion();
-			sessionFactory.getCache().evictEntityRegions();
-			sessionFactory.getCache().evictQueryRegions();
-			sessionFactory.getCache().evictNaturalIdRegions();
+			sessionFactory.getCache().evictAllRegions();
 		}
 	}
 	

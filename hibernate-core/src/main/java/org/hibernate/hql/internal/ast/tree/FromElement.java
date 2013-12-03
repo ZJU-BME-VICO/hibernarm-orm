@@ -27,8 +27,7 @@ package org.hibernate.hql.internal.ast.tree;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import org.jboss.logging.Logger;
+import java.util.Set;
 
 import org.hibernate.QueryException;
 import org.hibernate.engine.internal.JoinSequence;
@@ -38,6 +37,7 @@ import org.hibernate.hql.internal.antlr.SqlTokenTypes;
 import org.hibernate.hql.internal.ast.TypeDiscriminatorMetadata;
 import org.hibernate.hql.internal.ast.util.ASTUtil;
 import org.hibernate.hql.spi.QueryTranslator;
+import org.hibernate.internal.CoreLogging;
 import org.hibernate.internal.CoreMessageLogger;
 import org.hibernate.internal.util.StringHelper;
 import org.hibernate.param.ParameterSpecification;
@@ -62,8 +62,7 @@ import org.hibernate.type.Type;
  * @author josh
  */
 public class FromElement extends HqlSqlWalkerNode implements DisplayableNode, ParameterContainer {
-
-    private static final CoreMessageLogger LOG = Logger.getMessageLogger(CoreMessageLogger.class, FromElement.class.getName());
+    private static final CoreMessageLogger LOG = CoreLogging.messageLogger( FromElement.class );
 
 	private String className;
 	private String classAlias;
@@ -71,21 +70,21 @@ public class FromElement extends HqlSqlWalkerNode implements DisplayableNode, Pa
 	private String collectionTableAlias;
 	private FromClause fromClause;
 	private boolean includeSubclasses = true;
-	private boolean collectionJoin = false;
+	private boolean collectionJoin;
 	private FromElement origin;
 	private String[] columns;
 	private String role;
 	private boolean fetch;
 	private boolean isAllPropertyFetch;
-	private boolean filter = false;
+	private boolean filter;
 	private int sequence = -1;
-	private boolean useFromFragment = false;
-	private boolean initialized = false;
+	private boolean useFromFragment;
+	private boolean initialized;
 	private FromElementType elementType;
 	private boolean useWhereFragment = true;
 	private List destinations = new LinkedList();
-	private boolean manyToMany = false;
-	private String withClauseFragment = null;
+	private boolean manyToMany;
+	private String withClauseFragment;
 	private String withClauseJoinAlias;
 	private boolean dereferencedBySuperclassProperty;
 	private boolean dereferencedBySubclassProperty;
@@ -109,11 +108,13 @@ public class FromElement extends HqlSqlWalkerNode implements DisplayableNode, Pa
 		this.classAlias = alias;
 		this.tableAlias = origin.getTableAlias();
 		super.initialize( fromClause.getWalker() );
+
 	}
 
 	protected void initializeComponentJoin(FromElementType elementType) {
-		this.elementType = elementType;
 		fromClause.registerFromElement( this );
+		elementType.applyTreatAsDeclarations( getWalker().getTreatAsDeclarationsByPath( classAlias ) );
+		this.elementType = elementType;
 		initialized = true;
 	}
 
@@ -368,6 +369,15 @@ public class FromElement extends HqlSqlWalkerNode implements DisplayableNode, Pa
 
 	public void setRole(String role) {
 		this.role = role;
+		applyTreatAsDeclarations( getWalker().getTreatAsDeclarationsByPath( role ) );
+	}
+
+	public void applyTreatAsDeclarations(Set<String> treatAsDeclarationsByPath) {
+		elementType.applyTreatAsDeclarations( treatAsDeclarationsByPath );
+	}
+
+	public String getRole() {
+		return role;
 	}
 
 	public void setQueryableCollection(QueryableCollection queryableCollection) {

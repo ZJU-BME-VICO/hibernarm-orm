@@ -36,40 +36,52 @@ import org.hibernate.persister.entity.EntityPersister;
 import org.hibernate.persister.entity.Joinable;
 import org.hibernate.persister.spi.HydratedCompoundValueHandler;
 import org.hibernate.persister.walking.internal.FetchStrategyHelper;
+import org.hibernate.persister.walking.internal.StandardAnyTypeDefinition;
+import org.hibernate.persister.walking.spi.AnyMappingDefinition;
 import org.hibernate.persister.walking.spi.AssociationAttributeDefinition;
 import org.hibernate.persister.walking.spi.AssociationKey;
 import org.hibernate.persister.walking.spi.CollectionDefinition;
 import org.hibernate.persister.walking.spi.EntityDefinition;
+import org.hibernate.persister.walking.spi.WalkingException;
+import org.hibernate.tuple.AbstractNonIdentifierAttribute;
 import org.hibernate.tuple.BaselineAttributeInformation;
+import org.hibernate.tuple.NonIdentifierAttribute;
+import org.hibernate.type.AnyType;
 import org.hibernate.type.AssociationType;
-import org.hibernate.type.CompositeType;
 
 /**
  * @author Steve Ebersole
  */
 public class CompositeBasedAssociationAttribute
-		extends AbstractCompositeBasedAttribute
-		implements AssociationAttributeDefinition {
+		extends AbstractNonIdentifierAttribute
+		implements NonIdentifierAttribute, AssociationAttributeDefinition {
 
+	private final int subAttributeNumber;
 	private final AssociationKey associationKey;
 	private Joinable joinable;
 
 	public CompositeBasedAssociationAttribute(
 			AbstractCompositionAttribute source,
 			SessionFactoryImplementor factory,
-			int attributeNumber,
+			int entityBasedAttributeNumber,
 			String attributeName,
 			AssociationType attributeType,
 			BaselineAttributeInformation baselineInfo,
-			int ownerAttributeNumber,
+			int subAttributeNumber,
 			AssociationKey associationKey) {
-		super( source, factory, attributeNumber, attributeName, attributeType, baselineInfo, ownerAttributeNumber );
+		super( source, factory, entityBasedAttributeNumber, attributeName, attributeType, baselineInfo );
+		this.subAttributeNumber = subAttributeNumber;
 		this.associationKey = associationKey;
 	}
 
 	@Override
 	public AssociationType getType() {
 		return (AssociationType) super.getType();
+	}
+
+	@Override
+	public AbstractCompositionAttribute getSource() {
+		return (AbstractCompositionAttribute) super.getSource();
 	}
 
 	protected Joinable getJoinable() {
@@ -85,8 +97,39 @@ public class CompositeBasedAssociationAttribute
 	}
 
 	@Override
-	public boolean isCollection() {
-		return getJoinable().isCollection();
+	public AssociationNature getAssociationNature() {
+		if ( getType().isAnyType() ) {
+			return AssociationNature.ANY;
+		}
+		else {
+			if ( getJoinable().isCollection() ) {
+				return AssociationNature.COLLECTION;
+			}
+			else {
+				return AssociationNature.ENTITY;
+			}
+		}
+	}
+
+	private boolean isAnyType() {
+		return getAssociationNature() == AssociationNature.ANY;
+	}
+
+	private boolean isEntityType() {
+		return getAssociationNature() == AssociationNature.ENTITY;
+	}
+
+	private boolean isCollection() {
+		return getAssociationNature() == AssociationNature.COLLECTION;
+	}
+
+	@Override
+	public AnyMappingDefinition toAnyDefinition() {
+		if ( !isAnyType() ) {
+			throw new WalkingException( "Cannot build AnyMappingDefinition from non-any-typed attribute" );
+		}
+		// todo : not sure how lazy is propogated into the component for a subattribute of type any
+		return new StandardAnyTypeDefinition( (AnyType) getType(), false );
 	}
 
 	@Override
@@ -94,48 +137,38 @@ public class CompositeBasedAssociationAttribute
 		if ( isCollection() ) {
 			throw new IllegalStateException( "Cannot treat collection attribute as entity type" );
 		}
+		if ( isAnyType() ) {
+			throw new IllegalStateException( "Cannot treat any-type attribute as entity type" );
+		}
 		return (EntityPersister) getJoinable();
 	}
 
 	@Override
 	public CollectionDefinition toCollectionDefinition() {
-		if ( isCollection() ) {
+		if ( isEntityType() ) {
 			throw new IllegalStateException( "Cannot treat entity attribute as collection type" );
+		}
+		if ( isAnyType() ) {
+			throw new IllegalStateException( "Cannot treat any-type attribute as collection type" );
 		}
 		return (CollectionPersister) getJoinable();
 	}
 
 	@Override
 	public FetchStrategy determineFetchPlan(LoadQueryInfluencers loadQueryInfluencers, PropertyPath propertyPath) {
-		final EntityPersister owningPersister = locateOwningPersister();
+		final EntityPersister owningPersister = getSource().locateOwningPersister();
 
-		FetchStyle style = determineFetchStyleByProfile(
+		FetchStyle style = FetchStrategyHelper.determineFetchStyleByProfile(
 				loadQueryInfluencers,
 				owningPersister,
 				propertyPath,
-				ownerAttributeNumber()
+				attributeNumber()
 		);
 		if ( style == null ) {
-			style = determineFetchStyleByMetadata(
-					getSource().getType().getFetchMode( attributeNumber() ),
-					getType()
-			);
+			style = determineFetchStyleByMetadata( getFetchMode(), getType() );
 		}
 
 		return new FetchStrategy( determineFetchTiming( style ), style );
-	}
-
-	protected FetchStyle determineFetchStyleByProfile(
-			LoadQueryInfluencers loadQueryInfluencers,
-			EntityPersister owningPersister,
-			PropertyPath propertyPath,
-			int ownerAttributeNumber) {
-		return FetchStrategyHelper.determineFetchStyleByProfile(
-				loadQueryInfluencers,
-				owningPersister,
-				propertyPath,
-				ownerAttributeNumber
-		);
 	}
 
 	protected FetchStyle determineFetchStyleByMetadata(FetchMode fetchMode, AssociationType type) {
@@ -146,14 +179,9 @@ public class CompositeBasedAssociationAttribute
 		return FetchStrategyHelper.determineFetchTiming( style, getType(), sessionFactory() );
 	}
 
-	private EntityPersister locateOwningPersister() {
-		return getSource().locateOwningPersister();
-	}
-
 	@Override
 	public CascadeStyle determineCascadeStyle() {
-		final CompositeType compositeType = (CompositeType) locateOwningPersister().getPropertyType( getName() );
-		return compositeType.getCascadeStyle( attributeNumber() );
+		return getCascadeStyle();
 	}
 
 	private HydratedCompoundValueHandler hydratedCompoundValueHandler;
@@ -164,12 +192,12 @@ public class CompositeBasedAssociationAttribute
 			hydratedCompoundValueHandler = new HydratedCompoundValueHandler() {
 				@Override
 				public Object extract(Object hydratedState) {
-					return ( (Object[] ) hydratedState )[ attributeNumber() ];
+					return ( (Object[] ) hydratedState )[ subAttributeNumber ];
 				}
 
 				@Override
 				public void inject(Object hydratedState, Object value) {
-					( (Object[] ) hydratedState )[ attributeNumber() ] = value;
+					( (Object[] ) hydratedState )[ subAttributeNumber ] = value;
 				}
 			};
 		}
