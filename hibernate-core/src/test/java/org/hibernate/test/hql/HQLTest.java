@@ -20,6 +20,8 @@
  * Free Software Foundation, Inc.
  * 51 Franklin Street, Fifth Floor
  * Boston, MA  02110-1301  USA
+ * 
+ * daowangli@gmail.com
  */
 package org.hibernate.test.hql;
 import java.io.PrintWriter;
@@ -60,9 +62,9 @@ import org.hibernate.hql.internal.ast.QuerySyntaxException;
 import org.hibernate.hql.internal.ast.QueryTranslatorImpl;
 import org.hibernate.hql.internal.ast.SqlGenerator;
 import org.hibernate.hql.internal.ast.tree.ConstructorNode;
-import org.hibernate.hql.internal.ast.tree.DotNode;
 import org.hibernate.hql.internal.ast.tree.FromReferenceNode;
 import org.hibernate.hql.internal.ast.tree.IndexNode;
+import org.hibernate.hql.internal.ast.tree.PathSeparatorNode;
 import org.hibernate.hql.internal.ast.tree.QueryNode;
 import org.hibernate.hql.internal.ast.tree.SelectClause;
 import org.hibernate.hql.internal.ast.util.ASTUtil;
@@ -103,8 +105,8 @@ public class HQLTest extends QueryTranslatorTestCase {
 	protected void prepareTest() throws Exception {
 		super.prepareTest();
 		SelectClause.VERSION2_SQL = true;
-		DotNode.regressionStyleJoinSuppression = true;
-		DotNode.ILLEGAL_COLL_DEREF_EXCP_BUILDER = new DotNode.IllegalCollectionDereferenceExceptionBuilder() {
+		PathSeparatorNode.regressionStyleJoinSuppression = true;
+		PathSeparatorNode.ILLEGAL_COLL_DEREF_EXCP_BUILDER = new PathSeparatorNode.IllegalCollectionDereferenceExceptionBuilder() {
 			public QueryException buildIllegalCollectionDereferenceException(String propertyName, FromReferenceNode lhs) {
 				throw new QueryException( "illegal syntax near collection: " + propertyName );
 			}
@@ -115,8 +117,8 @@ public class HQLTest extends QueryTranslatorTestCase {
 	@Override
 	protected void cleanupTest() throws Exception {
 		SelectClause.VERSION2_SQL = false;
-		DotNode.regressionStyleJoinSuppression = false;
-		DotNode.ILLEGAL_COLL_DEREF_EXCP_BUILDER = DotNode.DEF_ILLEGAL_COLL_DEREF_EXCP_BUILDER;
+		PathSeparatorNode.regressionStyleJoinSuppression = false;
+		PathSeparatorNode.ILLEGAL_COLL_DEREF_EXCP_BUILDER = PathSeparatorNode.DEF_ILLEGAL_COLL_DEREF_EXCP_BUILDER;
 		SqlGenerator.REGRESSION_STYLE_CROSS_JOINS = false;
 		super.cleanupTest();
 	}
@@ -312,10 +314,10 @@ public class HQLTest extends QueryTranslatorTestCase {
 
 	@Test
 	public void testImplicitJoinsAlongWithCartesianProduct() {
-		DotNode.useThetaStyleImplicitJoins = true;
+		PathSeparatorNode.useThetaStyleImplicitJoins = true;
 		assertTranslation( "select foo.foo from Foo foo, Foo foo2" );
 		assertTranslation( "select foo.foo.foo from Foo foo, Foo foo2" );
-		DotNode.useThetaStyleImplicitJoins = false;
+		PathSeparatorNode.useThetaStyleImplicitJoins = false;
 	}
 
 	@Test
@@ -511,7 +513,7 @@ public class HQLTest extends QueryTranslatorTestCase {
 
 	@Test
 	public void testCrazyIdFieldNames() {
-		DotNode.useThetaStyleImplicitJoins = true;
+		PathSeparatorNode.useThetaStyleImplicitJoins = true;
 		// only regress against non-scalar forms as there appears to be a bug in the classic translator
 		// in regards to this issue also.  Specifically, it interprets the wrong return type, though it gets
 		// the sql "correct" :/
@@ -522,7 +524,7 @@ public class HQLTest extends QueryTranslatorTestCase {
 	    hql = "select e.heresAnotherCrazyIdFieldName.heresAnotherCrazyIdFieldName from MoreCrazyIdFieldNameStuffEntity e where e.heresAnotherCrazyIdFieldName is not null";
 		assertTranslation( hql, new HashMap(), false, null );
 
-		DotNode.useThetaStyleImplicitJoins = false;
+		PathSeparatorNode.useThetaStyleImplicitJoins = false;
 	}
 
 	@Test
@@ -992,16 +994,16 @@ public class HQLTest extends QueryTranslatorTestCase {
 	@Test
 	public void testImplicitJoinInSelect() {
 		assertTranslation( "select foo, foo.long from Foo foo" );
-		DotNode.useThetaStyleImplicitJoins = true;
+		PathSeparatorNode.useThetaStyleImplicitJoins = true;
 		assertTranslation( "select foo.foo from Foo foo" );
 		assertTranslation( "select foo, foo.foo from Foo foo" );
 		assertTranslation( "select foo.foo from Foo foo where foo.foo is not null" );
-		DotNode.useThetaStyleImplicitJoins = false;
+		PathSeparatorNode.useThetaStyleImplicitJoins = false;
 	}
 
 	@Test
 	public void testSelectExpressions() {
-		DotNode.useThetaStyleImplicitJoins = true;
+		PathSeparatorNode.useThetaStyleImplicitJoins = true;
 		assertTranslation( "select an.mother.mother from Animal an" );
 		assertTranslation( "select an.mother.mother.mother from Animal an" );
 		assertTranslation( "select an.mother.mother.bodyWeight from Animal an" );
@@ -1011,7 +1013,7 @@ public class HQLTest extends QueryTranslatorTestCase {
 		assertTranslation( "select u.human.name.last, u.human.name.first from User u" );
 		assertTranslation( "select bar.baz.name from Bar bar" );
 		assertTranslation( "select bar.baz.name, bar.baz.count from Bar bar" );
-		DotNode.useThetaStyleImplicitJoins = false;
+		PathSeparatorNode.useThetaStyleImplicitJoins = false;
 	}
 
 	@Test
@@ -1067,10 +1069,10 @@ public class HQLTest extends QueryTranslatorTestCase {
 
 	@Test
 	public void testSelectEntityProperty() throws Exception {
-		DotNode.useThetaStyleImplicitJoins = true;
+		PathSeparatorNode.useThetaStyleImplicitJoins = true;
 		assertTranslation( "select an.mother from Animal an" );
 		assertTranslation( "select an, an.mother from Animal an" );
-		DotNode.useThetaStyleImplicitJoins = false;
+		PathSeparatorNode.useThetaStyleImplicitJoins = false;
 	}
 
 	@Test
@@ -1167,9 +1169,9 @@ public class HQLTest extends QueryTranslatorTestCase {
 
 	@Test
 	public void testManyToManyJoinInSubselect() throws Exception {
-		DotNode.useThetaStyleImplicitJoins = true;
+		PathSeparatorNode.useThetaStyleImplicitJoins = true;
 		assertTranslation( "select foo from Foo foo where foo in (select elt from Baz baz join baz.fooArray elt)" );
-		DotNode.useThetaStyleImplicitJoins = false;
+		PathSeparatorNode.useThetaStyleImplicitJoins = false;
 	}
 
 	@Test
@@ -1438,10 +1440,10 @@ public class HQLTest extends QueryTranslatorTestCase {
 	@Test
 	public void testJoinInSubselect() throws Exception {
 		//new parser uses ANSI-style inner join syntax
-		DotNode.useThetaStyleImplicitJoins = true;
+		PathSeparatorNode.useThetaStyleImplicitJoins = true;
 		assertTranslation( "from Animal a where a in (select m from Animal an join an.mother m)" );
 		assertTranslation( "from Animal a where a in (select o from Animal an join an.offspring o)" );
-		DotNode.useThetaStyleImplicitJoins = false;
+		PathSeparatorNode.useThetaStyleImplicitJoins = false;
 	}
 
 	@Test

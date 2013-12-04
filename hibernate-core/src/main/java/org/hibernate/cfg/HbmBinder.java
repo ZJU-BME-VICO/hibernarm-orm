@@ -20,6 +20,8 @@
  * Free Software Foundation, Inc.
  * 51 Franklin Street, Fifth Floor
  * Boston, MA  02110-1301  USA
+ * 
+ * daowangli@gmail.com
  */
 package org.hibernate.cfg;
 
@@ -1768,7 +1770,7 @@ public final class HbmBinder {
 
 	public static void bindOneToMany(Element node, OneToMany oneToMany, Mappings mappings)
 			throws MappingException {
-		
+
 		oneToMany.setReferencedEntityName( getEntityName( node, mappings ) );
 
 		String embed = node.attributeValue( "embed-xml" );

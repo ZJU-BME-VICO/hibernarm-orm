@@ -21,6 +21,7 @@
  * 51 Franklin Street, Fifth Floor
  * Boston, MA  02110-1301  USA
  *
+ * daowangli@gmail.com
  */
 package org.hibernate.hql.internal.ast.tree;
 
@@ -172,8 +173,8 @@ public class MethodNode extends AbstractSelectExpression implements FunctionNode
 				setDataType( fromElement.getPropertyType( propertyName, propertyName ) );
 				selectColumns = fromElement.toColumns( fromElement.getTableAlias(), propertyName, inSelect );
 			}
-			if ( collectionNode instanceof DotNode ) {
-				prepareAnyImplicitJoins( (DotNode) collectionNode );
+			if ( collectionNode instanceof PathSeparatorNode ) {
+				prepareAnyImplicitJoins( (PathSeparatorNode) collectionNode );
 			}
 			if ( !inSelect ) {
 				fromElement.setText( "" );
@@ -191,9 +192,9 @@ public class MethodNode extends AbstractSelectExpression implements FunctionNode
 		}
 	}
 
-	private void prepareAnyImplicitJoins(DotNode dotNode) throws SemanticException {
-		if ( dotNode.getLhs() instanceof DotNode ) {
-			DotNode lhs = (DotNode) dotNode.getLhs();
+	private void prepareAnyImplicitJoins(PathSeparatorNode dotNode) throws SemanticException {
+		if ( dotNode.getLhs() instanceof PathSeparatorNode ) {
+			PathSeparatorNode lhs = (PathSeparatorNode) dotNode.getLhs();
 			FromElement lhsOrigin = lhs.getFromElement();
 			if ( lhsOrigin != null && "".equals( lhsOrigin.getText() ) ) {
 				String lhsOriginText = lhsOrigin.getQueryable().getTableName() +

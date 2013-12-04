@@ -21,6 +21,7 @@
  * 51 Franklin Street, Fifth Floor
  * Boston, MA  02110-1301  USA
  *
+ * daowangli@gmail.com
  */
 package org.hibernate.hql.internal.ast.tree;
 
@@ -216,7 +217,7 @@ public class FromElementFactory implements SqlTokenTypes {
 		}
 
 		// super-duper-classic-parser-regression-testing-mojo-magic...
-		if ( explicitSubqueryFromElement && DotNode.useThetaStyleImplicitJoins ) {
+		if ( explicitSubqueryFromElement && PathSeparatorNode.useThetaStyleImplicitJoins ) {
 			implied = true;
 		}
 
@@ -291,7 +292,7 @@ public class FromElementFactory implements SqlTokenTypes {
 			//          and 'elem' represents an implicit join
 			if ( elem.getFromClause() != elem.getOrigin().getFromClause() ||
 //			        ( implied && DotNode.useThetaStyleImplicitJoins ) ) {
-					DotNode.useThetaStyleImplicitJoins ) {
+					PathSeparatorNode.useThetaStyleImplicitJoins ) {
 				// the "root from-element" in correlated subqueries do need this piece
 				elem.setType( FROM_FRAGMENT );
 				joinSequence.setUseThetaStyle( true );

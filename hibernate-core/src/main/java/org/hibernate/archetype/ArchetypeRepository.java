@@ -1,3 +1,7 @@
+/*
+ * daowangli@gmail.com
+ */
+
 package org.hibernate.archetype;
 
 import java.util.HashMap;

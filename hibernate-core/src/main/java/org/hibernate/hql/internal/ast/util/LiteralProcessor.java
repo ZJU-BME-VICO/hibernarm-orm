@@ -21,6 +21,7 @@
  * 51 Franklin Street, Fifth Floor
  * Boston, MA  02110-1301  USA
  *
+ * daowangli@gmail.com
  */
 package org.hibernate.hql.internal.ast.util;
 
@@ -36,7 +37,6 @@ import org.hibernate.hql.internal.antlr.HqlSqlTokenTypes;
 import org.hibernate.hql.internal.antlr.SqlTokenTypes;
 import org.hibernate.hql.internal.ast.HqlSqlWalker;
 import org.hibernate.hql.internal.ast.InvalidPathException;
-import org.hibernate.hql.internal.ast.tree.DotNode;
 import org.hibernate.hql.internal.ast.tree.FromClause;
 import org.hibernate.hql.internal.ast.tree.IdentNode;
 import org.hibernate.hql.internal.ast.tree.PathSeparatorNode;
@@ -109,7 +109,7 @@ public class LiteralProcessor implements HqlSqlTokenTypes {
 		}
 	}
 
-	public void lookupConstant(DotNode node) throws SemanticException {
+	public void lookupConstant(PathSeparatorNode node) throws SemanticException {
 		String text = ASTUtil.getPathText( node );
 		Queryable persister = walker.getSessionFactoryHelper().findQueryableUsingImports( text );
 		if ( persister != null ) {
@@ -133,26 +133,7 @@ public class LiteralProcessor implements HqlSqlTokenTypes {
 		}
 	}
 
-	public void lookupConstant(PathSeparatorNode node) throws SemanticException {
-		String text = ASTUtil.getPathText( node );
-		Queryable persister = walker.getSessionFactoryHelper().findQueryableUsingImports( text );
-		if ( persister != null ) {
-			// the name of an entity class
-			final String discrim = persister.getDiscriminatorSQLValue();
-			node.setDataType( persister.getDiscriminatorType() );
-            if (InFragment.NULL.equals(discrim) || InFragment.NOT_NULL.equals(discrim)) throw new InvalidPathException(
-                                                                                                                       "subclass test not allowed for null or not null discriminator: '"
-                                                                                                                       + text + "'");
-            setSQLValue(node, text, discrim); // the class discriminator value
-		}
-		else {
-			Object value = ReflectHelper.getConstantValue( text );
-            if (value == null) throw new InvalidPathException("Invalid path: '" + text + "'");
-            setConstantValue(node, text, value);
-		}
-	}
-
-	private void setSQLValue(DotNode node, String text, String value) {
+	private void setSQLValue(PathSeparatorNode node, String text, String value) {
 		LOG.debugf( "setSQLValue() %s -> %s", text, value );
 		// Chop off the rest of the tree.
 		node.setFirstChild( null );
@@ -161,15 +142,7 @@ public class LiteralProcessor implements HqlSqlTokenTypes {
 		node.setResolvedConstant( text );
 	}
 
-	private void setSQLValue(PathSeparatorNode node, String text, String value) {
-		LOG.debugf( "setSQLValue() %s -> %s", text, value );
-		node.setFirstChild( null );	// Chop off the rest of the tree.
-		node.setType( SqlTokenTypes.SQL_TOKEN );
-		node.setText(value);
-		node.setResolvedConstant( text );
-	}
-
-	private void setConstantValue(DotNode node, String text, Object value) {
+	private void setConstantValue(PathSeparatorNode node, String text, Object value) {
 		if ( LOG.isDebugEnabled() ) {
 			LOG.debugf( "setConstantValue() %s -> %s %s", text, value, value.getClass().getName() );
 		}
@@ -221,61 +194,6 @@ public class LiteralProcessor implements HqlSqlTokenTypes {
 			node.setText( literalType.objectToSQLString( value, dialect ) );
 		}
 		catch (Exception e) {
-			throw new QueryException( QueryTranslator.ERROR_CANNOT_FORMAT_LITERAL + node.getText(), e );
-		}
-		node.setDataType( type );
-		node.setResolvedConstant( text );
-	}
-
-	private void setConstantValue(PathSeparatorNode node, String text, Object value) {
-		if ( LOG.isDebugEnabled() ) {
-			LOG.debugf( "setConstantValue() %s -> %s %s", text, value, value.getClass().getName() );
-		}
-		node.setFirstChild( null );	// Chop off the rest of the tree.
-		if ( value instanceof String ) {
-			node.setType( SqlTokenTypes.QUOTED_STRING );
-		}
-		else if ( value instanceof Character ) {
-			node.setType( SqlTokenTypes.QUOTED_STRING );
-		}
-		else if ( value instanceof Byte ) {
-			node.setType( SqlTokenTypes.NUM_INT );
-		}
-		else if ( value instanceof Short ) {
-			node.setType( SqlTokenTypes.NUM_INT );
-		}
-		else if ( value instanceof Integer ) {
-			node.setType( SqlTokenTypes.NUM_INT );
-		}
-		else if ( value instanceof Long ) {
-			node.setType( SqlTokenTypes.NUM_LONG );
-		}
-		else if ( value instanceof Double ) {
-			node.setType( SqlTokenTypes.NUM_DOUBLE );
-		}
-		else if ( value instanceof Float ) {
-			node.setType( SqlTokenTypes.NUM_FLOAT );
-		}
-		else {
-			node.setType( SqlTokenTypes.CONSTANT );
-		}
-		Type type;
-		try {
-			type = walker.getSessionFactoryHelper().getFactory().getTypeResolver().heuristicType( value.getClass().getName() );
-		}
-		catch ( MappingException me ) {
-			throw new QueryException( me );
-		}
-		if ( type == null ) {
-			throw new QueryException( QueryTranslator.ERROR_CANNOT_DETERMINE_TYPE + node.getText() );
-		}
-		try {
-			LiteralType literalType = ( LiteralType ) type;
-			Dialect dialect = walker.getSessionFactoryHelper().getFactory().getDialect();
-			//noinspection unchecked
-			node.setText( literalType.objectToSQLString( value, dialect ) );
-		}
-		catch ( Exception e ) {
 			throw new QueryException( QueryTranslator.ERROR_CANNOT_FORMAT_LITERAL + node.getText(), e );
 		}
 		node.setDataType( type );

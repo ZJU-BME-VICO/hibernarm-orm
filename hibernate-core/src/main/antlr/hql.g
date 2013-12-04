@@ -15,6 +15,8 @@ import org.hibernate.hql.internal.ast.util.*;
  *
  * Text from the original reference BNF is prefixed with '//##'.
  * @author Joshua Davis (pgmjsd@sourceforge.net)
+ * 
+ * daowangli@gmail.com
  */
 class HqlBaseParser extends Parser;
 

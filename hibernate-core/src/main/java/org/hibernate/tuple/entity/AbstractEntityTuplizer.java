@@ -20,6 +20,8 @@
  * Free Software Foundation, Inc.
  * 51 Franklin Street, Fifth Floor
  * Boston, MA  02110-1301  USA
+ * 
+ * daowangli@gmail.com
  */
 package org.hibernate.tuple.entity;
 
@@ -62,6 +64,7 @@ import org.hibernate.type.ComponentType;
 import org.hibernate.type.CompositeType;
 import org.hibernate.type.EntityType;
 import org.hibernate.type.Type;
+
 import org.jboss.logging.Logger;
 
 

@@ -21,6 +21,7 @@
  * 51 Franklin Street, Fifth Floor
  * Boston, MA  02110-1301  USA
  *
+ * daowangli@gmail.com
  */
 package org.hibernate.hql.internal.ast.tree;
 
@@ -68,7 +69,7 @@ public class AssignmentSpecification {
 		// knows about the property-ref path in the correct format; it is either this, or
 		// recurse over the DotNodes constructing the property path just like DotNode does
 		// internally
-		final DotNode lhs = (DotNode) eq.getFirstChild();
+		final PathSeparatorNode lhs = (PathSeparatorNode) eq.getFirstChild();
 		final SqlNode rhs = (SqlNode) lhs.getNextSibling();
 
 		validateLhs( lhs );

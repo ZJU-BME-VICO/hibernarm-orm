@@ -20,6 +20,8 @@
  * Free Software Foundation, Inc.
  * 51 Franklin Street, Fifth Floor
  * Boston, MA  02110-1301  USA
+ * 
+ * daowangli@gmail.com
  */
 package org.hibernate.test.aql;
 
@@ -27,20 +29,11 @@ import static org.junit.Assert.assertEquals;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javassist.expr.Instanceof;
-
 import org.jboss.logging.Logger;
 import org.junit.Test;
-import org.openehr.am.parser.ContentObject;
-import org.openehr.am.parser.DADLParser;
-import org.openehr.rm.binding.DADLBinding;
 import org.openehr.rm.common.archetyped.Locatable;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.hibernate.dialect.CUBRIDDialect;
 import org.hibernate.testing.SkipForDialect;
 import org.hibernate.transform.Transformers;

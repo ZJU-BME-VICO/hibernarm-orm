@@ -21,22 +21,16 @@
  * 51 Franklin Street, Fifth Floor
  * Boston, MA  02110-1301  USA
  *
+ * daowangli@gmail.com
  */
 package org.hibernate.transform;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang.ClassUtils;
 import org.hibernate.archetype.ArchetypeRepository;
 import org.hibernate.internal.util.ReflectHelper;
-import org.hibernate.property.ChainedPropertyAccessor;
-import org.hibernate.property.PropertyAccessor;
-import org.hibernate.property.PropertyAccessorFactory;
-import org.hibernate.property.Setter;
 import org.openehr.am.archetype.Archetype;
-import org.openehr.am.archetype.constraintmodel.CObject;
 import org.openehr.rm.common.archetyped.Locatable;
 import org.openehr.rm.util.GenerationStrategy;
 import org.openehr.rm.util.SkeletonGenerator;

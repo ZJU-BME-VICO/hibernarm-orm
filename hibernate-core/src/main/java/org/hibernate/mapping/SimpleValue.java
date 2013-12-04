@@ -20,6 +20,8 @@
  * Free Software Foundation, Inc.
  * 51 Franklin Street, Fifth Floor
  * Boston, MA  02110-1301  USA
+ * 
+ * daowangli@gmail.com
  */
 package org.hibernate.mapping;
 
@@ -30,8 +32,6 @@ import java.util.List;
 import java.util.Properties;
 import javax.persistence.AttributeConverter;
 import org.openehr.am.archetype.Archetype;
-import org.openehr.build.RMObjectBuilder;
-
 import org.hibernate.FetchMode;
 import org.hibernate.MappingException;
 import org.hibernate.annotations.common.reflection.XProperty;

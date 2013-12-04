@@ -21,6 +21,7 @@
  * 51 Franklin Street, Fifth Floor
  * Boston, MA  02110-1301  USA
  *
+ * daowangli@gmail.com
  */
 package org.hibernate.hql.internal.ast.util;
 
@@ -37,10 +38,10 @@ import org.hibernate.engine.internal.JoinSequence;
 import org.hibernate.engine.spi.LoadQueryInfluencers;
 import org.hibernate.hql.internal.antlr.SqlTokenTypes;
 import org.hibernate.hql.internal.ast.HqlSqlWalker;
-import org.hibernate.hql.internal.ast.tree.DotNode;
 import org.hibernate.hql.internal.ast.tree.FromClause;
 import org.hibernate.hql.internal.ast.tree.FromElement;
 import org.hibernate.hql.internal.ast.tree.ParameterContainer;
+import org.hibernate.hql.internal.ast.tree.PathSeparatorNode;
 import org.hibernate.hql.internal.ast.tree.QueryNode;
 import org.hibernate.hql.internal.classic.ParserHelper;
 import org.hibernate.internal.CoreLogging;
@@ -110,7 +111,7 @@ public class JoinProcessor implements SqlTokenTypes {
 		final FromClause fromClause = query.getFromClause();
 
 		final List fromElements;
-		if ( DotNode.useThetaStyleImplicitJoins ) {
+		if ( PathSeparatorNode.useThetaStyleImplicitJoins ) {
 			// for regression testing against output from the old parser...
 			// found it easiest to simply reorder the FromElements here into ascending order
 			// in terms of injecting them into the resulting sql ast in orders relative to those

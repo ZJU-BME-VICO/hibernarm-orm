@@ -9,6 +9,8 @@ package org.hibernate.hql.internal.antlr;
  * This grammar processes the HQL/SQL AST and produces an SQL string.  The intent is to move dialect-specific
  * code into a sub-class that will override some of the methods, just like the other two grammars in this system.
  * @author Joshua Davis (joshua@hibernate.org)
+ * 
+ * daowangli@gmail.com
  */
 class SqlGeneratorBase extends TreeParser;
 

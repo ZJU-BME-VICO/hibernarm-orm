@@ -17,6 +17,8 @@ import org.jboss.logging.Logger;
  * <i>NOTE:</i> The java class is generated from hql-sql.g by ANTLR.
  * <i>DO NOT EDIT THE GENERATED JAVA SOURCE CODE.</i>
  * @author Joshua Davis (joshua@hibernate.org)
+ * 
+ * daowangli@gmail.com
  */
 class HqlSqlBaseWalker extends TreeParser;
 

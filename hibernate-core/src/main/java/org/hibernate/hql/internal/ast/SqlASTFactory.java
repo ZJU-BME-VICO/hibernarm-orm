@@ -21,6 +21,7 @@
  * 51 Franklin Street, Fifth Floor
  * Boston, MA  02110-1301  USA
  *
+ * daowangli@gmail.com
  */
 package org.hibernate.hql.internal.ast;
 
@@ -38,7 +39,6 @@ import org.hibernate.hql.internal.ast.tree.CollectionFunction;
 import org.hibernate.hql.internal.ast.tree.ConstructorNode;
 import org.hibernate.hql.internal.ast.tree.CountNode;
 import org.hibernate.hql.internal.ast.tree.DeleteStatement;
-import org.hibernate.hql.internal.ast.tree.DotNode;
 import org.hibernate.hql.internal.ast.tree.FromClause;
 import org.hibernate.hql.internal.ast.tree.FromElement;
 import org.hibernate.hql.internal.ast.tree.IdentNode;
@@ -120,8 +120,6 @@ public class SqlASTFactory extends ASTFactory implements HqlSqlTokenTypes {
 				return FromElement.class;
 			case IMPLIED_FROM:
 				return ImpliedFromElement.class;
-			case DOT:
-				return DotNode.class;
 			case INDEX_OP:
 				return IndexNode.class;
 			// Alias references and identifiers use the same node class.
