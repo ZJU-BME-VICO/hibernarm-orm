@@ -30,7 +30,6 @@ import static org.junit.Assert.assertEquals;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-import org.jboss.logging.Logger;
 import org.junit.Test;
 import org.openehr.rm.common.archetyped.Locatable;
 import org.hibernate.Session;
@@ -50,9 +49,7 @@ import org.hibernate.transform.Transformers;
 @SkipForDialect(value = CUBRIDDialect.class, comment = "As of verion 8.4.1 CUBRID doesn't support temporary tables. This test fails with"
 		+ "HibernateException: cannot doAfterTransactionCompletion multi-table deletes using dialect not supporting temp tables")
 public class ASTParserLoadingTest extends ASTParserLoadingTestBase {
-	private static final Logger log = Logger
-			.getLogger(ASTParserLoadingTest.class);
-
+	
 	@Test
 	public void testDelete() throws Exception {
 		createTestBaseData();

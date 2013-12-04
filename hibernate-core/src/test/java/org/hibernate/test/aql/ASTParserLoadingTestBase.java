@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.jboss.logging.Logger;
 import org.openehr.am.archetype.Archetype;
 import org.openehr.rm.common.archetyped.Locatable;
 import org.openehr.rm.util.GenerationStrategy;
@@ -58,9 +57,7 @@ import org.hibernate.testing.junit4.BaseCoreFunctionalTestCase;
 @SkipForDialect(value = CUBRIDDialect.class, comment = "As of verion 8.4.1 CUBRID doesn't support temporary tables. This test fails with"
 		+ "HibernateException: cannot doAfterTransactionCompletion multi-table deletes using dialect not supporting temp tables")
 public class ASTParserLoadingTestBase extends BaseCoreFunctionalTestCase {
-	private static final Logger log = Logger
-			.getLogger(ASTParserLoadingTestBase.class);
-
+	
 	@Override
 	protected boolean isCleanupTestDataRequired() {
 		return false;
