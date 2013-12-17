@@ -6,6 +6,7 @@ package org.hibernate.archetype;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.openehr.am.archetype.Archetype;
 import org.openehr.build.RMObjectBuilder;
@@ -65,6 +66,10 @@ public enum ArchetypeRepository {
 
 	public RMObjectBuilder getRMBuilder() {
 		return rmBuilder;
+	}
+	
+	public Set<String> getArchetypeIds() {
+		return archetypes.keySet();
 	}
 
 }

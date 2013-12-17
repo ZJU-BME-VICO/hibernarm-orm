@@ -556,6 +556,10 @@ public class Configuration implements Serializable {
 			e.printStackTrace();
 		}
 	}
+	
+	public Set<String> getArchetypeIds() {
+		return ArchetypeRepository.INSTANCE.getArchetypeIds();
+	}
 
 	private static boolean isOrmXml(XmlDocument xmlDocument) {
 		return "entity-mappings".equals( xmlDocument.getDocumentTree().getRootElement().getName() );
