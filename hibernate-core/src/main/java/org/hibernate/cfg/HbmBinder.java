@@ -326,11 +326,11 @@ public final class HbmBinder {
 	public static void bindRootClass(Element node, RootClass rootClass, Mappings mappings,
 			java.util.Map inheritedMetas) throws MappingException {
 		bindClass( node, rootClass, mappings, inheritedMetas );
-		Archetype archetype = (Archetype) ArchetypeRepository.getArchetype(rootClass.getEntityName());
+		Archetype archetype = (Archetype) ArchetypeRepository.INSTANCE.getArchetype(rootClass.getEntityName());
 		rootClass.setArchetype(archetype);
 		String rmTypeName = "";
 		rmTypeName = archetype.getDefinition().getRmTypeName();
-		rootClass.setArchetypeClass(ArchetypeRepository.getRMBuilder().retrieveRMType(rmTypeName));
+		rootClass.setArchetypeClass(ArchetypeRepository.INSTANCE.getRMBuilder().retrieveRMType(rmTypeName));
 		inheritedMetas = getMetas( node, inheritedMetas, true ); // get meta's from <class>
 		bindRootPersistentClassCommonValues( node, inheritedMetas, mappings, rootClass );
 	}

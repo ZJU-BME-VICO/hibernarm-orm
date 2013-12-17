@@ -80,7 +80,7 @@ public class AliasToArchetypeResultTransformer extends AliasedTupleSubsetResultT
 	public Object transformTuple(Object[] tuple, String[] aliases) {
 		try {
 			SkeletonGenerator generator = SkeletonGenerator.getInstance();
-			Archetype archetype = ArchetypeRepository.getArchetype(archetypeId);
+			Archetype archetype = ArchetypeRepository.INSTANCE.getArchetype(archetypeId);
 			Object result = generator.create(archetype, GenerationStrategy.MAXIMUM_EMPTY);
 			if (result instanceof Locatable) {
 				Locatable loc = (Locatable) result;

@@ -261,7 +261,7 @@ public final class ReflectHelper {
 		CObject node = patheNodeMap.get(nodePath);
 		String attributePath = name.substring(nodePath.length());
 		String[] attributePathSegments = attributePath.split("/");
-		Class klass = ArchetypeRepository.getRMBuilder().retrieveRMType(node.getRmTypeName());			
+		Class klass = ArchetypeRepository.INSTANCE.getRMBuilder().retrieveRMType(node.getRmTypeName());			
 		if (klass != null) {
 			for (String pathSegment : attributePathSegments) {
 				if (!pathSegment.isEmpty()) {
@@ -446,7 +446,7 @@ public final class ReflectHelper {
 	public static void setArchetypeValue(Locatable loc, String propertyPath, Object propertyValue) 
 			throws InstantiationException, IllegalAccessException {
 
-		Archetype archetype = ArchetypeRepository.getArchetype(loc.getArchetypeNodeId());
+		Archetype archetype = ArchetypeRepository.INSTANCE.getArchetype(loc.getArchetypeNodeId());
 		Map<String, CObject> pathNodeMap = archetype.getPathNodeMap();
 		String nodePath = ReflectHelper.getArchetypeNodePath(archetype, propertyPath);
 		if (nodePath.compareTo(propertyPath) == 0) {
@@ -456,7 +456,7 @@ public final class ReflectHelper {
 			CObject node = pathNodeMap.get(nodePath);
 			Object target = loc.itemAtPath(nodePath);
 			if (target == null) {
-				Class klass = ArchetypeRepository.getRMBuilder().retrieveRMType(node.getRmTypeName());
+				Class klass = ArchetypeRepository.INSTANCE.getRMBuilder().retrieveRMType(node.getRmTypeName());
 				target = klass.newInstance();
 			}
 			

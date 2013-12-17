@@ -234,7 +234,7 @@ public class ASTParserLoadingTestBase extends BaseCoreFunctionalTestCase {
 		for (Map<HashMap<String, Object>, String> archetypeValues : list) {
 			for (HashMap<String, Object> values : archetypeValues.keySet()) {
 				SkeletonGenerator generator = SkeletonGenerator.getInstance();
-				Archetype archetype = ArchetypeRepository
+				Archetype archetype = ArchetypeRepository.INSTANCE
 						.getArchetype(archetypeValues.get(values));
 				Object result = generator.create(archetype,
 						GenerationStrategy.MAXIMUM_EMPTY);

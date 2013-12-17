@@ -58,7 +58,7 @@ public class ArchetypeInstantiator implements Instantiator {
 		Object result = null;
 		try {
 			SkeletonGenerator generator = SkeletonGenerator.getInstance();
-			Archetype archetype = ArchetypeRepository.getArchetype(entityName);
+			Archetype archetype = ArchetypeRepository.INSTANCE.getArchetype(entityName);
 			result = generator.create(archetype, GenerationStrategy.MAXIMUM_EMPTY);			
 		} catch (Exception e) {
 			// TODO: handle exception

@@ -547,7 +547,7 @@ public class Configuration implements Serializable {
 	public void addArchetype(InputStream xmlInputStream) {
 		ADLParser parser = new ADLParser(xmlInputStream, "UTF-8");
 		try {
-			ArchetypeRepository.addArchetype(parser.parse());
+			ArchetypeRepository.INSTANCE.addArchetype(parser.parse());
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

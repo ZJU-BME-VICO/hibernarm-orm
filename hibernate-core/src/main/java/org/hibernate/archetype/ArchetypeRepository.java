@@ -16,18 +16,20 @@ import org.openehr.rm.support.measurement.SimpleMeasurementService;
 import org.openehr.rm.support.terminology.TerminologyService;
 import org.openehr.terminology.SimpleTerminologyService;
 
-public class ArchetypeRepository {
+public enum ArchetypeRepository {
 
-	private static Map<String, Archetype> archetypes = new HashMap<String, Archetype>();
-	private static RMObjectBuilder rmBuilder = null;
+	INSTANCE;
 
-	protected static CodePhrase lang = new CodePhrase("ISO_639-1", "en");
-	protected static CodePhrase charset = new CodePhrase("IANA_character-sets",
+	private Map<String, Archetype> archetypes = new HashMap<String, Archetype>();
+	private RMObjectBuilder rmBuilder = null;
+
+	protected CodePhrase lang = new CodePhrase("ISO_639-1", "en");
+	protected CodePhrase charset = new CodePhrase("IANA_character-sets",
 			"UTF-8");
-	protected static TerminologyService ts;
-	protected static MeasurementService ms;
+	protected TerminologyService ts = null;
+	protected MeasurementService ms = null;
 
-	static {
+	private ArchetypeRepository() {
 		try {
 			ts = SimpleTerminologyService.getInstance();
 			ms = SimpleMeasurementService.getInstance();
@@ -46,22 +48,22 @@ public class ArchetypeRepository {
 		}
 	}
 
-	public static Archetype getArchetype(String key) {
+	public Archetype getArchetype(String key) {
 		return archetypes.get(key);
 	}
 
-	public static void addArchetype(String key, Archetype value) {
-		ArchetypeRepository.archetypes.put(key, value);
+	public void addArchetype(String key, Archetype value) {
+		archetypes.put(key, value);
 	}
 
-	public static void addArchetype(Archetype value) {
+	public void addArchetype(Archetype value) {
 		if (value != null) {
 			String key = value.getArchetypeId().getValue();
-			ArchetypeRepository.archetypes.put(key, value);
+			archetypes.put(key, value);
 		}
 	}
 
-	public static RMObjectBuilder getRMBuilder() {
+	public RMObjectBuilder getRMBuilder() {
 		return rmBuilder;
 	}
 
