@@ -21,31 +21,8 @@
  * 51 Franklin Street, Fifth Floor
  * Boston, MA  02110-1301  USA
  */
-package org.hibernate.loader.plan.spi;
-
-import org.hibernate.engine.spi.SessionFactoryImplementor;
-import org.hibernate.type.Type;
 
 /**
- * Represent a simple scalar return within a query result.  Generally this would be values of basic (String, Integer,
- * etc) or composite types.
- *
- * @author Steve Ebersole
- * @author Gail Badner
+ * Contains the internal implementations used for building a metamodel-driven LoadPlan.
  */
-public interface ScalarReturn extends Return {
-
-	/**
-	 * Gets the name of the scalar return.
-	 *
-	 * @return The name of the scalar return.
-	 */
-	public String getName();
-
-	/**
-	 * Gets the type of the scalar return.
-	 *
-	 * @return The type of the scalar return.
-	 */
-	public Type getType();
-}
+package org.hibernate.loader.plan.build.internal;

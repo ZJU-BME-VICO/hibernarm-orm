@@ -21,49 +21,34 @@
  * 51 Franklin Street, Fifth Floor
  * Boston, MA  02110-1301  USA
  */
-package org.hibernate.loader.plan.exec.spi;
+package org.hibernate.loader.plan.exec.internal;
 
 import org.hibernate.engine.spi.SessionFactoryImplementor;
-import org.hibernate.internal.util.StringHelper;
-import org.hibernate.loader.plan.exec.internal.AliasResolutionContextImpl;
-import org.hibernate.loader.plan.exec.internal.Helper;
 import org.hibernate.loader.plan.exec.query.internal.SelectStatementBuilder;
 import org.hibernate.loader.plan.exec.query.spi.QueryBuildingParameters;
+import org.hibernate.loader.plan.exec.spi.EntityReferenceAliases;
+import org.hibernate.loader.plan.exec.spi.LoadQueryDetails;
 import org.hibernate.loader.plan.spi.CollectionReturn;
+import org.hibernate.loader.plan.spi.EntityReference;
 import org.hibernate.loader.plan.spi.LoadPlan;
 import org.hibernate.persister.entity.OuterJoinLoadable;
 
 /**
  * @author Gail Badner
  */
-public class BasicCollectionLoadQueryDetails extends CollectionLoadQueryDetails {
+public class OneToManyLoadQueryDetails extends AbstractCollectionLoadQueryDetails {
 
 	/**
 	 * Constructs a EntityLoadQueryDetails object from the given inputs.
 	 *
 	 * @param loadPlan The load plan
-	 * @param buildingParameters And influencers that would affect the generated SQL (mostly we are concerned with those
+	 * @param buildingParameters Any influencers that would affect the generated SQL (mostly we are concerned with those
 	 * that add additional joins here)
 	 * @param factory The SessionFactory
 	 *
 	 * @return The EntityLoadQueryDetails
 	 */
-	public static CollectionLoadQueryDetails makeForBatching(
-			LoadPlan loadPlan,
-			QueryBuildingParameters buildingParameters,
-			SessionFactoryImplementor factory) {
-		final CollectionReturn rootReturn = Helper.INSTANCE.extractRootReturn( loadPlan, CollectionReturn.class );
-		final AliasResolutionContextImpl aliasResolutionContext = new AliasResolutionContextImpl( factory );
-		return new BasicCollectionLoadQueryDetails(
-						loadPlan,
-						aliasResolutionContext,
-						rootReturn,
-						buildingParameters,
-						factory
-				);
-	}
-
-	protected BasicCollectionLoadQueryDetails(
+	OneToManyLoadQueryDetails(
 			LoadPlan loadPlan,
 			AliasResolutionContextImpl aliasResolutionContext,
 			CollectionReturn rootReturn,
@@ -81,46 +66,44 @@ public class BasicCollectionLoadQueryDetails extends CollectionLoadQueryDetails 
 
 	@Override
 	protected String getRootTableAlias() {
-		return getCollectionReferenceAliases().getCollectionTableAlias();
+		return getElementEntityReferenceAliases().getTableAlias();
 	}
 
 	@Override
 	protected void applyRootReturnSelectFragments(SelectStatementBuilder selectStatementBuilder) {
+
 		selectStatementBuilder.appendSelectClauseFragment(
-			getQueryableCollection().selectFragment(
-					getCollectionReferenceAliases().getCollectionTableAlias(),
-					getCollectionReferenceAliases().getCollectionColumnAliases().getSuffix()
-			)
+				getQueryableCollection().selectFragment(
+						null,
+						null,
+						//getCollectionReferenceAliases().getCollectionTableAlias(),
+						getElementEntityReferenceAliases().getTableAlias(),
+						getElementEntityReferenceAliases().getColumnAliases().getSuffix(),
+						getCollectionReferenceAliases().getCollectionColumnAliases().getSuffix(),
+						true
+				)
 		);
-		if ( getQueryableCollection().isManyToMany() ) {
-			final OuterJoinLoadable elementPersister = (OuterJoinLoadable) getQueryableCollection().getElementPersister();
-			selectStatementBuilder.appendSelectClauseFragment(
-					elementPersister.selectFragment(
-							getCollectionReferenceAliases().getElementTableAlias(),
-							getCollectionReferenceAliases().getEntityElementColumnAliases().getSuffix()
-					)
-			);
-		}
 		super.applyRootReturnSelectFragments( selectStatementBuilder );
 	}
 
 	@Override
 	protected void applyRootReturnTableFragments(SelectStatementBuilder selectStatementBuilder) {
-		selectStatementBuilder.appendFromClauseFragment(
-				getQueryableCollection().getTableName(),
-				getCollectionReferenceAliases().getCollectionTableAlias()
-		);
+		final OuterJoinLoadable elementOuterJoinLoadable =
+				(OuterJoinLoadable) getElementEntityReference().getEntityPersister();
+		//final String tableAlias = getCollectionReferenceAliases().getCollectionTableAlias();
+		final String tableAlias = getElementEntityReferenceAliases().getTableAlias();
+		final String fragment =
+				elementOuterJoinLoadable.fromTableFragment( tableAlias ) +
+						elementOuterJoinLoadable.fromJoinFragment( tableAlias, true, true);
+		selectStatementBuilder.appendFromClauseFragment( fragment );
 	}
 
-	@Override
-	protected void applyRootReturnOrderByFragments(SelectStatementBuilder selectStatementBuilder) {
-		final String manyToManyOrdering = getQueryableCollection().getManyToManyOrderByString(
-				getCollectionReferenceAliases().getElementTableAlias()
-		);
-		if ( StringHelper.isNotEmpty( manyToManyOrdering ) ) {
-			selectStatementBuilder.appendOrderByFragment( manyToManyOrdering );
-		}
-		super.applyRootReturnOrderByFragments( selectStatementBuilder );
+	private EntityReference getElementEntityReference() {
+		return getRootCollectionReturn().getElementGraph().resolveEntityReference();
+	}
+
+	private EntityReferenceAliases getElementEntityReferenceAliases() {
+		return getAliasResolutionContext().resolveEntityReferenceAliases( getElementEntityReference().getQuerySpaceUid() );
 	}
 
 }

@@ -67,15 +67,21 @@ public class AliasResolutionContextImpl implements AliasResolutionContext {
 	// Used to generate unique table aliases
 	private int currentTableAliasSuffix;
 
+	// Mapping from query space UID to entity reference aliases
 	private Map<String,EntityReferenceAliases> entityReferenceAliasesMap;
+
+	// Mapping from query space UID to collection reference aliases
 	private Map<String,CollectionReferenceAliases> collectionReferenceAliasesMap;
+
+	// Mapping from query space UID to SQL table alias
 	private Map<String,String> querySpaceUidToSqlTableAliasMap;
 
+	// Mapping from composite query space UID to SQL table alias
 	private Map<String,String> compositeQuerySpaceUidToSqlTableAliasMap;
 
 	/**
-	 * Constructs a AliasResolutionContextImpl without any source aliases.  This form is used in
-	 * non-query (HQL, criteria, etc) contexts.
+	 * Constructs a {@link AliasResolutionContextImpl} without any source aliases.  This form is used in
+	 * non-query contexts. Example of query contexts are: HQL, criteria, etc.
 	 *
 	 * @param sessionFactory The session factory
 	 */
@@ -84,12 +90,7 @@ public class AliasResolutionContextImpl implements AliasResolutionContext {
 	}
 
 	/**
-	 * Constructs a AliasResolutionContextImpl without any source aliases.  This form is used in
-	 * non-query (HQL, criteria, etc) contexts.
-	 * <p/>
-	 * See the notes on
-	 * {@link org.hibernate.loader.plan.exec.spi.AliasResolutionContext#getSourceAlias} for discussion of
-	 * "source aliases".  They are not implemented here yet.
+	 * Constructs a AliasResolutionContextImpl with the specified seed for unique alias suffixes.
 	 *
 	 * @param sessionFactory The session factory
 	 * @param suffixSeed The seed value to use for generating the suffix used when generating SQL aliases.
@@ -103,9 +104,40 @@ public class AliasResolutionContextImpl implements AliasResolutionContext {
 		return sessionFactory;
 	}
 
+	/**
+	 * Generate the entity reference aliases for a particular {@link org.hibernate.loader.plan.spi.EntityReference}
+	 * and register the generated value using the query space UID.
+	 * <p/>
+	 * Once generated, there are two methods that can be used to do look ups by the specified
+	 * query space UID:
+	 * <ul>
+	 * <li>
+	 *     {@link #resolveEntityReferenceAliases(String)} can be used to
+	 *     look up the returned entity reference aliases;
+	 * </li>
+	 * <li>
+	 *     {@link #resolveSqlTableAliasFromQuerySpaceUid(String)} can be used to
+	 *     look up SQL table alias.
+	 * </li>
+	 * </ul>
+	 *
+	 * @param uid The query space UID for the entity reference.
+	 * @param entityPersister The entity persister for entity reference.
+	 * @return the generated entity reference aliases.
+	 *
+	 * @see org.hibernate.loader.plan.spi.EntityReference#getQuerySpaceUid()
+	 * @see org.hibernate.loader.plan.spi.EntityReference#getEntityPersister()
+	 */
 	public EntityReferenceAliases generateEntityReferenceAliases(String uid, EntityPersister entityPersister) {
+		return generateEntityReferenceAliases( uid, createTableAlias( entityPersister ), entityPersister );
+	}
+
+	private EntityReferenceAliases generateEntityReferenceAliases(
+			String uid,
+			String tableAlias,
+			EntityPersister entityPersister) {
 		final EntityReferenceAliasesImpl entityReferenceAliases = new EntityReferenceAliasesImpl(
-				createTableAlias( entityPersister ),
+				tableAlias,
 				createEntityAliases( entityPersister )
 		);
 		registerQuerySpaceAliases( uid, entityReferenceAliases );
@@ -128,7 +160,44 @@ public class AliasResolutionContextImpl implements AliasResolutionContext {
 		return Integer.toString( currentAliasSuffix++ ) + '_';
 	}
 
-	public CollectionReferenceAliases generateCollectionReferenceAliases(String uid, CollectionPersister persister) {
+	/**
+	 * Generate the collection reference aliases for a particular {@link org.hibernate.loader.plan.spi.CollectionReference}
+	 * and register the generated value using the query space UID.
+	 * <p/>
+	 * Once generated, there are two methods that can be used to do look ups by the specified
+	 * query space UID:
+	 * <ul>
+	 * <li>
+	 *     {@link ##resolveCollectionReferenceAliases(String)} can be used to
+	 *     look up the returned collection reference aliases;
+	 * </li>
+	 * <li>
+	 *     {@link #resolveSqlTableAliasFromQuerySpaceUid(String)} can be used to
+	 *     look up the SQL collection table alias.
+	 * </li>
+	 * </ul>
+	 *
+	 * @param collectionQuerySpaceUid The query space UID for the collection reference.
+	 * @param persister The collection persister for collection reference.
+	 * @param elementQuerySpaceUid The query space UID for the collection element if
+	 *                             the element is an entity type; null, otherwise.
+	 * @return the generated collection reference aliases.
+	 * @throws IllegalArgumentException if the collection element is an entity type and
+	 *         {@code elementQuerySpaceUid} is null.
+	 *
+	 * @see org.hibernate.loader.plan.spi.CollectionReference#getQuerySpaceUid()
+	 * @see org.hibernate.loader.plan.spi.CollectionReference#getCollectionPersister()
+	 */
+	public CollectionReferenceAliases generateCollectionReferenceAliases(
+			String collectionQuerySpaceUid,
+			CollectionPersister persister,
+			String elementQuerySpaceUid) {
+		if ( persister.getElementType().isEntityType() && elementQuerySpaceUid == null ) {
+			throw new IllegalArgumentException(
+					"elementQuerySpaceUid must be non-null for one-to-many or many-to-many associations."
+			);
+		}
+
 		final String manyToManyTableAlias;
 		final String tableAlias;
 		if ( persister.isManyToMany() ) {
@@ -140,32 +209,40 @@ public class AliasResolutionContextImpl implements AliasResolutionContext {
 			tableAlias = createTableAlias( persister.getRole() );
 		}
 
-		final CollectionReferenceAliasesImpl aliases = new CollectionReferenceAliasesImpl(
+		final CollectionReferenceAliases collectionAliases = new CollectionReferenceAliasesImpl(
 				tableAlias,
 				manyToManyTableAlias,
 				createCollectionAliases( persister ),
-				createCollectionElementAliases( persister )
+				createCollectionElementAliases( persister, tableAlias, elementQuerySpaceUid )
 		);
 
-		registerQuerySpaceAliases( uid, aliases );
-		return aliases;
+		registerQuerySpaceAliases( collectionQuerySpaceUid, collectionAliases );
+		return collectionAliases;
 	}
 
 	private CollectionAliases createCollectionAliases(CollectionPersister collectionPersister) {
 		return new GeneratedCollectionAliases( collectionPersister, createSuffix() );
 	}
 
-	private EntityAliases createCollectionElementAliases(CollectionPersister collectionPersister) {
+	private EntityReferenceAliases createCollectionElementAliases(
+			CollectionPersister collectionPersister,
+			String tableAlias,
+			String elementQuerySpaceUid) {
+
 		if ( !collectionPersister.getElementType().isEntityType() ) {
 			return null;
 		}
 		else {
 			final EntityType entityElementType = (EntityType) collectionPersister.getElementType();
-			return createEntityAliases( (EntityPersister) entityElementType.getAssociatedJoinable( sessionFactory() ) );
+			return generateEntityReferenceAliases(
+					elementQuerySpaceUid,
+					tableAlias,
+					(EntityPersister) entityElementType.getAssociatedJoinable( sessionFactory() )
+			);
 		}
 	}
 
-	public void registerQuerySpaceAliases(String querySpaceUid, EntityReferenceAliases entityReferenceAliases) {
+	private void registerQuerySpaceAliases(String querySpaceUid, EntityReferenceAliases entityReferenceAliases) {
 		if ( entityReferenceAliasesMap == null ) {
 			entityReferenceAliasesMap = new HashMap<String, EntityReferenceAliases>();
 		}
@@ -173,7 +250,7 @@ public class AliasResolutionContextImpl implements AliasResolutionContext {
 		registerSqlTableAliasMapping( querySpaceUid, entityReferenceAliases.getTableAlias() );
 	}
 
-	public void registerSqlTableAliasMapping(String querySpaceUid, String sqlTableAlias) {
+	private void registerSqlTableAliasMapping(String querySpaceUid, String sqlTableAlias) {
 		if ( querySpaceUidToSqlTableAliasMap == null ) {
 			querySpaceUidToSqlTableAliasMap = new HashMap<String, String>();
 		}
@@ -216,7 +293,7 @@ public class AliasResolutionContextImpl implements AliasResolutionContext {
 		return entityReferenceAliasesMap == null ? null : entityReferenceAliasesMap.get( querySpaceUid );
 	}
 
-	public void registerQuerySpaceAliases(String querySpaceUid, CollectionReferenceAliases collectionReferenceAliases) {
+	private void registerQuerySpaceAliases(String querySpaceUid, CollectionReferenceAliases collectionReferenceAliases) {
 		if ( collectionReferenceAliasesMap == null ) {
 			collectionReferenceAliasesMap = new HashMap<String, CollectionReferenceAliases>();
 		}
@@ -300,17 +377,17 @@ public class AliasResolutionContextImpl implements AliasResolutionContext {
 							+ "suffixed key columns - "
 							+ StringHelper.join( ", ", collectionReferenceAliases.getCollectionColumnAliases().getSuffixedKeyAliases() )
 			);
-			final EntityAliases elementAliases = collectionReferenceAliases.getEntityElementColumnAliases();
+			final EntityReferenceAliases elementAliases = collectionReferenceAliases.getEntityElementAliases();
 			if ( elementAliases != null ) {
 				printWriter.println(
 						TreePrinterHelper.INSTANCE.generateNodePrefix( depth+3 )
-								+ "entity-element alias suffix - " + elementAliases.getSuffix()
+								+ "entity-element alias suffix - " + elementAliases.getColumnAliases().getSuffix()
 				);
 				printWriter.println(
 						TreePrinterHelper.INSTANCE.generateNodePrefix( depth+3 )
-								+ elementAliases.getSuffix()
+								+ elementAliases.getColumnAliases().getSuffix()
 								+ "entity-element suffixed key columns - "
-								+ StringHelper.join( ", ", elementAliases.getSuffixedKeyAliases() )
+								+ StringHelper.join( ", ", elementAliases.getColumnAliases().getSuffixedKeyAliases() )
 				);
 			}
 		}

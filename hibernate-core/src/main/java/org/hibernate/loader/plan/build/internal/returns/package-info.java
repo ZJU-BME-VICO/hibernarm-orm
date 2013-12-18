@@ -21,27 +21,11 @@
  * 51 Franklin Street, Fifth Floor
  * Boston, MA  02110-1301  USA
  */
-package org.hibernate.loader.plan.spi;
-
-import org.hibernate.engine.spi.SessionFactoryImplementor;
 
 /**
- * Base class for LoadPlan nodes to hold references to the session factory.
- *
- * @author Steve Ebersole
+ * Contains the internal implementations of the building blocks that make up a metamodel-driven LoadPlan.
+ *.
+ * <p/>
+ * The SPI is defined by org.hibernate.loader.plan.spi.
  */
-public abstract class AbstractPlanNode {
-	private final SessionFactoryImplementor sessionFactory;
-
-	public AbstractPlanNode(SessionFactoryImplementor sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
-
-	public AbstractPlanNode(AbstractPlanNode original) {
-		this( original.sessionFactory() );
-	}
-
-	protected SessionFactoryImplementor sessionFactory() {
-		return sessionFactory;
-	}
-}
+package org.hibernate.loader.plan.build.internal.returns;

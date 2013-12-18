@@ -21,25 +21,25 @@
  * 51 Franklin Street, Fifth Floor
  * Boston, MA  02110-1301  USA
  */
-package org.hibernate.loader.plan.exec.spi;
+package org.hibernate.loader.plan.exec.internal;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.internal.util.StringHelper;
-import org.hibernate.loader.plan.exec.internal.AliasResolutionContextImpl;
-import org.hibernate.loader.plan.exec.internal.EntityReferenceAliasesImpl;
 import org.hibernate.loader.plan.exec.process.internal.CollectionReferenceInitializerImpl;
 import org.hibernate.loader.plan.exec.process.internal.CollectionReturnReader;
 import org.hibernate.loader.plan.exec.process.internal.EntityReferenceInitializerImpl;
 import org.hibernate.loader.plan.exec.process.internal.ResultSetProcessingContextImpl;
-import org.hibernate.loader.plan.exec.process.spi.AbstractRowReader;
+import org.hibernate.loader.plan.exec.process.internal.AbstractRowReader;
 import org.hibernate.loader.plan.exec.process.spi.CollectionReferenceInitializer;
 import org.hibernate.loader.plan.exec.process.spi.ReaderCollector;
 import org.hibernate.loader.plan.exec.process.spi.RowReader;
 import org.hibernate.loader.plan.exec.query.internal.SelectStatementBuilder;
 import org.hibernate.loader.plan.exec.query.spi.QueryBuildingParameters;
+import org.hibernate.loader.plan.exec.spi.CollectionReferenceAliases;
+import org.hibernate.loader.plan.exec.spi.EntityReferenceAliases;
 import org.hibernate.loader.plan.spi.CollectionQuerySpace;
 import org.hibernate.loader.plan.spi.CollectionReturn;
 import org.hibernate.loader.plan.spi.EntityReference;
@@ -55,11 +55,11 @@ import org.hibernate.persister.entity.OuterJoinLoadable;
  *
  * @author Gail Badner
  */
-public abstract class CollectionLoadQueryDetails extends AbstractLoadQueryDetails {
+public abstract class AbstractCollectionLoadQueryDetails extends AbstractLoadQueryDetails {
 	private final CollectionReferenceAliases collectionReferenceAliases;
 	private final ReaderCollector readerCollector;
 
-	protected CollectionLoadQueryDetails(
+	protected AbstractCollectionLoadQueryDetails(
 			LoadPlan loadPlan,
 			AliasResolutionContextImpl aliasResolutionContext,
 			CollectionReturn rootReturn,
@@ -71,15 +71,16 @@ public abstract class CollectionLoadQueryDetails extends AbstractLoadQueryDetail
 				buildingParameters,
 				( (QueryableCollection) rootReturn.getCollectionPersister() ).getKeyColumnNames(),
 				rootReturn,
-//				collectionReferenceAliases.getCollectionTableAlias(),
-//				collectionReferenceAliases.getCollectionColumnAliases().getSuffix(),
-//				loadPlan.getQuerySpaces().getQuerySpaceByUid( rootReturn.getQuerySpaceUid() ),
-//				(OuterJoinLoadable) rootReturn.getCollectionPersister(),
 				factory
 		);
+		final String elementUid = rootReturn.getCollectionPersister().getElementType().isEntityType() ?
+				rootReturn.getElementGraph().getQuerySpaceUid() :
+				null;
+
 		this.collectionReferenceAliases = aliasResolutionContext.generateCollectionReferenceAliases(
 				rootReturn.getQuerySpaceUid(),
-				rootReturn.getCollectionPersister()
+				rootReturn.getCollectionPersister(),
+				elementUid
 		);
 		this.readerCollector = new CollectionLoaderReaderCollectorImpl(
 				new CollectionReturnReader( rootReturn ),
@@ -87,16 +88,8 @@ public abstract class CollectionLoadQueryDetails extends AbstractLoadQueryDetail
 		);
 		if ( rootReturn.getCollectionPersister().getElementType().isEntityType() ) {
 			final EntityReference elementEntityReference = rootReturn.getElementGraph().resolveEntityReference();
-			final EntityReferenceAliases elementEntityReferenceAliases = new EntityReferenceAliasesImpl(
-					collectionReferenceAliases.getElementTableAlias(),
-					collectionReferenceAliases.getEntityElementColumnAliases()
-			);
-			aliasResolutionContext.registerQuerySpaceAliases(
-					elementEntityReference.getQuerySpaceUid(),
-					elementEntityReferenceAliases
-			);
 			readerCollector.add(
-				new EntityReferenceInitializerImpl( elementEntityReference, elementEntityReferenceAliases )
+				new EntityReferenceInitializerImpl( elementEntityReference, collectionReferenceAliases.getEntityElementAliases() )
 			);
 		}
 		if ( rootReturn.getCollectionPersister().hasIndex() &&
@@ -199,7 +192,7 @@ public abstract class CollectionLoadQueryDetails extends AbstractLoadQueryDetail
 		}
 	}
 
-	public static class CollectionLoaderRowReader extends AbstractRowReader {
+	private static class CollectionLoaderRowReader extends AbstractRowReader {
 		private final CollectionReturnReader rootReturnReader;
 
 		public CollectionLoaderRowReader(CollectionLoaderReaderCollectorImpl collectionLoaderReaderCollector) {

@@ -366,6 +366,11 @@ public class HQLTest extends QueryTranslatorTestCase {
 			// ...al0_7_.mammal where [abs(cast(1 as float(19))-cast(? as float(19)))=1.0]
 			return;
 		}
+		if ( getDialect() instanceof AbstractHANADialect ) {
+			// HANA returns
+			// ...al0_7_.mammal where [abs(cast(1 as float(19))-cast(? as float(19)))=1.0]
+			return;
+		}
 		assertTranslation("from Animal where abs(cast(1 as float) - cast(:param as float)) = 1.0");
 	}
 

@@ -25,23 +25,24 @@ package org.hibernate.loader.plan.exec.internal;
 
 import org.hibernate.internal.util.StringHelper;
 import org.hibernate.loader.CollectionAliases;
-import org.hibernate.loader.EntityAliases;
 import org.hibernate.loader.plan.exec.spi.CollectionReferenceAliases;
+import org.hibernate.loader.plan.exec.spi.EntityReferenceAliases;
 
 /**
  * @author Steve Ebersole
+ * @author Gail Badner
  */
 public class CollectionReferenceAliasesImpl implements CollectionReferenceAliases {
 	private final String tableAlias;
 	private final String manyToManyAssociationTableAlias;
 	private final CollectionAliases collectionAliases;
-	private final EntityAliases entityElementAliases;
+	private final EntityReferenceAliases entityElementAliases;
 
 	public CollectionReferenceAliasesImpl(
 			String tableAlias,
 			String manyToManyAssociationTableAlias,
 			CollectionAliases collectionAliases,
-			EntityAliases entityElementAliases) {
+			EntityReferenceAliases entityElementAliases) {
 		this.tableAlias = tableAlias;
 		this.manyToManyAssociationTableAlias = manyToManyAssociationTableAlias;
 		this.collectionAliases = collectionAliases;
@@ -66,7 +67,7 @@ public class CollectionReferenceAliasesImpl implements CollectionReferenceAliase
 	}
 
 	@Override
-	public EntityAliases getEntityElementColumnAliases() {
+	public EntityReferenceAliases getEntityElementAliases() {
 		return entityElementAliases;
 	}
 }
