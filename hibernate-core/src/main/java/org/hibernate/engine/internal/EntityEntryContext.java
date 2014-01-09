@@ -117,15 +117,17 @@ public class EntityEntryContext {
 			if ( wrapper == null ) {
 				wrapper = new ManagedEntityImpl( entity );
 				nonEnhancedEntityXref.put( entity, wrapper );
-				if (entity instanceof Locatable) {
-					Locatable loc = (Locatable) entity;
-					String uid = loc.getUid().getValue();
-					nonEnhancedEntityArchetypeKey.put(uid, entity);
-				}
 				alreadyAssociated = false;
 			}
 			else {
 				alreadyAssociated = true;
+			}
+			
+			if (entity instanceof Locatable) {
+				Locatable loc = (Locatable) entity;
+				if (loc.getUid() != null && !loc.getUid().getValue().isEmpty()) {
+					nonEnhancedEntityArchetypeKey.put(loc.getUid().getValue(), entity);
+				}
 			}
 
 			managedEntity = wrapper;
