@@ -34,6 +34,7 @@ import org.openehr.rm.common.archetyped.Locatable;
 import org.hibernate.EntityMode;
 import org.hibernate.HibernateException;
 import org.hibernate.MappingException;
+import org.hibernate.archetype.ArchetypeRepository;
 import org.hibernate.bytecode.instrumentation.spi.LazyPropertyInitializer;
 import org.hibernate.engine.spi.EntityEntry;
 import org.hibernate.engine.spi.EntityKey;
@@ -64,7 +65,6 @@ import org.hibernate.type.ComponentType;
 import org.hibernate.type.CompositeType;
 import org.hibernate.type.EntityType;
 import org.hibernate.type.Type;
-
 import org.jboss.logging.Logger;
 
 
@@ -385,7 +385,7 @@ public abstract class AbstractEntityTuplizer implements EntityTuplizer {
 			if (entity instanceof Locatable) {
 				Locatable loc = (Locatable) entity;
 				try {		
-					ReflectHelper.setArchetypeValue(loc, idSetter.getMethodName(), id);
+					ReflectHelper.setArchetypeValue(loc, idSetter.getMethodName(), id, ArchetypeRepository.INSTANCE.getArchetype(loc.getArchetypeNodeId()));
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -725,7 +725,7 @@ public abstract class AbstractEntityTuplizer implements EntityTuplizer {
 				if (entity instanceof Locatable) {
 					Locatable loc = (Locatable) entity;
 					try {		
-						ReflectHelper.setArchetypeValue(loc, setters[j].getMethodName(), values[j]);
+						ReflectHelper.setArchetypeValue(loc, setters[j].getMethodName(), values[j], ArchetypeRepository.INSTANCE.getArchetype(loc.getArchetypeNodeId()));
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

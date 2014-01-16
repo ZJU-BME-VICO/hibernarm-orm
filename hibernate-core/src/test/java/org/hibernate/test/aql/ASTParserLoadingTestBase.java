@@ -240,7 +240,7 @@ public class ASTParserLoadingTestBase extends BaseCoreFunctionalTestCase {
 						GenerationStrategy.MAXIMUM_EMPTY);
 				if (result instanceof Locatable) {
 					Locatable loc = (Locatable) result;
-					ReflectHelper.setArchetypeValue(loc, values);
+					ReflectHelper.setArchetypeValues(loc, values, ArchetypeRepository.INSTANCE.getArchetype(loc.getArchetypeNodeId()));
 					s.save(loc);
 				}
 			}

@@ -436,17 +436,21 @@ public final class ReflectHelper {
 		}
 	}
 	
-	public static void setArchetypeValue(Locatable loc, Map<String, Object> values) 
+	public static void setArchetypeValues(Locatable loc, Map<String, Object> values, Archetype archetype) 
 			throws InstantiationException, IllegalAccessException {
 		for (String path : values.keySet()) {
-			setArchetypeValue(loc, path, values.get(path));
+			setArchetypeValue(loc, path, values.get(path), archetype);
 		}
 	}
 	
-	public static void setArchetypeValue(Locatable loc, String propertyPath, Object propertyValue) 
+	public static void setArchetypeValue(Locatable loc, String propertyPath, Object propertyValue, Archetype archetype) 
 			throws InstantiationException, IllegalAccessException {
 
-		Archetype archetype = ArchetypeRepository.INSTANCE.getArchetype(loc.getArchetypeNodeId());
+//		Archetype archetype = ArchetypeRepository.INSTANCE.getArchetype(loc.getArchetypeNodeId());
+		if (archetype == null) {
+			archetype = ArchetypeRepository.INSTANCE.getArchetype(loc.getArchetypeNodeId());
+		}
+		
 		Map<String, CObject> pathNodeMap = archetype.getPathNodeMap();
 		String nodePath = ReflectHelper.getArchetypeNodePath(archetype, propertyPath);
 		if (nodePath.compareTo(propertyPath) == 0) {

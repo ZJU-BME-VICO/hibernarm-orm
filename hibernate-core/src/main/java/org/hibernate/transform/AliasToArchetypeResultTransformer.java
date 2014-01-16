@@ -96,7 +96,7 @@ public class AliasToArchetypeResultTransformer extends AliasedTupleSubsetResultT
 					values.put(aliases[i], tuple[i]);
 				}
 				
-				ReflectHelper.setArchetypeValue(loc, values);
+				ReflectHelper.setArchetypeValues(loc, values, ArchetypeRepository.INSTANCE.getArchetype(loc.getArchetypeNodeId()));
 
 				return loc;				
 			}
