@@ -48,9 +48,11 @@ import org.hibernate.proxy.LazyInitializer;
 import org.hibernate.proxy.archetype.ArchetypeProxy;
 import org.hibernate.type.PrimitiveType;
 import org.hibernate.type.Type;
+import org.joda.time.DateTime;
 import org.openehr.am.archetype.Archetype;
 import org.openehr.am.archetype.constraintmodel.CObject;
 import org.openehr.rm.common.archetyped.Locatable;
+import org.openehr.rm.datatypes.quantity.datetime.DvDateTimeParser;
 
 /**
  * Utility class for various reflection operations.
@@ -455,8 +457,7 @@ public final class ReflectHelper {
 		String nodePath = ReflectHelper.getArchetypeNodePath(archetype, propertyPath);
 		if (nodePath.compareTo(propertyPath) == 0) {
 			loc.set(nodePath, propertyValue);
-		}
-		else {
+		} else {
 			CObject node = pathNodeMap.get(nodePath);
 			Object target = loc.itemAtPath(nodePath);
 			if (target == null) {
@@ -480,23 +481,47 @@ public final class ReflectHelper {
 					Setter setter = propertyAccessor.getSetter(tempTarget.getClass(), pathSegment);
 					Getter getter = propertyAccessor.getGetter(tempTarget.getClass(), pathSegment);
 					if (klass.isPrimitive() || 
-							ClassUtils.wrapperToPrimitive(klass) != null || 
+							ClassUtils.wrapperToPrimitive(klass) != null ||
 							String.class.isAssignableFrom(klass) ||
 							Set.class.isAssignableFrom(klass)) {						
 						if (propertyValue instanceof Locatable) {
 							String uid = ((Locatable) propertyValue).getUid().getValue();
 							setter.set(tempTarget, uid, null);
 							loc.getAssociatedObjects().put(uid, propertyValue);
-						}
-						else if (propertyValue instanceof ArchetypeProxy) {
+						} else if (propertyValue instanceof ArchetypeProxy) {
 							LazyInitializer li = ((ArchetypeProxy) propertyValue).getHibernateLazyInitializer();
 							setter.set(tempTarget, li.getIdentifier(), null);
+						} else {
+							if (propertyValue instanceof String) {
+								if (Short.class.isAssignableFrom(klass)) {
+									setter.set(tempTarget, Short.parseShort((String) propertyValue), null);									
+								}
+								if (Integer.class.isAssignableFrom(klass)) {
+									setter.set(tempTarget, Integer.parseInt((String) propertyValue), null);									
+								}
+								if (Long.class.isAssignableFrom(klass)) {
+									setter.set(tempTarget, Long.parseLong((String) propertyValue), null);									
+								}
+								if (Float.class.isAssignableFrom(klass)) {
+									setter.set(tempTarget, Float.parseFloat((String) propertyValue), null);
+								}
+								if (Double.class.isAssignableFrom(klass)) {
+									setter.set(tempTarget, Double.parseDouble((String) propertyValue), null);
+								}
+								if (Boolean.class.isAssignableFrom(klass)) {
+									setter.set(tempTarget, Boolean.parseBoolean((String) propertyValue), null);
+								}
+								if (DateTime.class.isAssignableFrom(klass)) {
+									setter.set(tempTarget, DvDateTimeParser.parseDateTime((String) propertyValue), null);
+								}
+								if (String.class.isAssignableFrom(klass)) {
+									setter.set(tempTarget, propertyValue, null);
+								}
+							} else {
+								setter.set(tempTarget, propertyValue, null);
+							}
 						}
-						else {
-							setter.set(tempTarget, propertyValue, null);
-						}						
-					} 
-					else {
+					} else {
 						Object value = klass.newInstance();
 						setter.set(tempTarget, value, null);
 						tempTarget = value;								
