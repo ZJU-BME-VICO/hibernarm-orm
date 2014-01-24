@@ -53,6 +53,7 @@ import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
+
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 import javax.persistence.Embeddable;
@@ -155,9 +156,7 @@ import org.hibernate.type.Type;
 import org.hibernate.type.TypeResolver;
 import org.hibernate.usertype.CompositeUserType;
 import org.hibernate.usertype.UserType;
-
 import org.jboss.logging.Logger;
-
 import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -559,6 +558,10 @@ public class Configuration implements Serializable {
 	
 	public Set<String> getArchetypeIds() {
 		return ArchetypeRepository.INSTANCE.getArchetypeIds();
+	}
+	
+	public String getArchetypeString(String archetypeId) {
+		return ArchetypeRepository.INSTANCE.getArchetypeString(archetypeId);
 	}
 
 	private static boolean isOrmXml(XmlDocument xmlDocument) {

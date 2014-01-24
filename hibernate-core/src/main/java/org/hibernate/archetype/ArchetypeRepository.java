@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.openehr.am.archetype.Archetype;
+import org.openehr.am.serialize.ADLSerializer;
 import org.openehr.build.RMObjectBuilder;
 import org.openehr.build.SystemValue;
 import org.openehr.rm.datatypes.text.CodePhrase;
@@ -22,6 +23,7 @@ public enum ArchetypeRepository {
 	INSTANCE;
 
 	private Map<String, Archetype> archetypes = new HashMap<String, Archetype>();
+	private Map<String, String> archetypeStrings = new HashMap<String, String>();
 	private RMObjectBuilder rmBuilder = null;
 
 	protected CodePhrase lang = new CodePhrase("ISO_639-1", "en");
@@ -53,14 +55,15 @@ public enum ArchetypeRepository {
 		return archetypes.get(key);
 	}
 
-	public void addArchetype(String key, Archetype value) {
-		archetypes.put(key, value);
-	}
-
 	public void addArchetype(Archetype value) {
-		if (value != null) {
+		ADLSerializer adlSerializer = new ADLSerializer();
+		String valueString = "";
+		try {
+			valueString = adlSerializer.output(value);
 			String key = value.getArchetypeId().getValue();
 			archetypes.put(key, value);
+			archetypeStrings.put(key, valueString);
+		} catch (Exception e) {
 		}
 	}
 
@@ -70,6 +73,10 @@ public enum ArchetypeRepository {
 	
 	public Set<String> getArchetypeIds() {
 		return archetypes.keySet();
+	}
+	
+	public String getArchetypeString(String archetypeId) {
+		return archetypeStrings.get(archetypeId);
 	}
 
 }
