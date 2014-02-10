@@ -600,7 +600,7 @@ public final class StringHelper {
 	public static String toLowerCase(String str) {
 		// Important to use Locale.ENGLISH.  See HHH-8579.  #toLowerCase() uses the default Locale.  Certain DBs do not
 		// like non-ascii characters in aliases, etc., so ensure consistency/portability here.
-		return str==null ? null : str.toLowerCase(Locale.ENGLISH);
+		return str == null ? null : str.toLowerCase(Locale.ENGLISH);
 	}
 
 	public static String moveAndToBeginning(String filter) {
@@ -618,7 +618,9 @@ public final class StringHelper {
 	 * @return True if the given string starts and ends with '`'; false otherwise.
 	 */
 	public static boolean isQuoted(String name) {
-		return name != null && name.length() != 0 && name.charAt( 0 ) == '`' && name.charAt( name.length() - 1 ) == '`';
+		return name != null && name.length() != 0 
+				&& ( ( name.charAt( 0 ) == '`' && name.charAt( name.length() - 1 ) == '`' )
+						|| ( name.charAt( 0 ) == '"' && name.charAt( name.length() - 1 ) == '"' ) );
 	}
 
 	/**
@@ -632,7 +634,7 @@ public final class StringHelper {
 		if ( isEmpty( name ) || isQuoted( name ) ) {
 			return name;
 		}
-// Convert the JPA2 specific quoting character (double quote) to Hibernate's (back tick)
+		// Convert the JPA2 specific quoting character (double quote) to Hibernate's (back tick)
         else if ( name.startsWith( "\"" ) && name.endsWith( "\"" ) ) {
             name = name.substring( 1, name.length() - 1 );
         }
@@ -664,18 +666,11 @@ public final class StringHelper {
 	 * @return True if quoted, false otherwise
 	 */
 	public static boolean isQuoted(String name, Dialect dialect) {
-		return name != null
-				&&
-					name.length() != 0
-				&& (
-					name.charAt( 0 ) == '`'
-					&&
-					name.charAt( name.length() - 1 ) == '`'
-					||
-					name.charAt( 0 ) == dialect.openQuote()
-					&&
-					name.charAt( name.length() - 1 ) == dialect.closeQuote()
-				);
+		return name != null && name.length() != 0 
+				&& ( ( name.charAt( 0 ) == '`' && name.charAt( name.length() - 1 ) == '`' )
+						|| ( name.charAt( 0 ) == '"' && name.charAt( name.length() - 1 ) == '"' )
+						|| ( name.charAt( 0 ) == dialect.openQuote()
+								&& name.charAt( name.length() - 1 ) == dialect.closeQuote() ) );
 	}
 
 	/**

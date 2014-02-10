@@ -359,9 +359,7 @@ public final class ReflectHelper {
 
 		try {
 			Constructor<T> constructor = clazz.getDeclaredConstructor( NO_PARAM_SIGNATURE );
-			if ( !isPublic( clazz, constructor ) ) {
-				constructor.setAccessible( true );
-			}
+			constructor.setAccessible( true );
 			return constructor;
 		}
 		catch ( NoSuchMethodException nme ) {
@@ -419,9 +417,7 @@ public final class ReflectHelper {
 					}
 				}
 				if ( found ) {
-					if ( !isPublic( clazz, constructor ) ) {
-						constructor.setAccessible( true );
-					}
+					constructor.setAccessible( true );
 					return constructor;
 				}
 			}

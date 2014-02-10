@@ -32,5 +32,12 @@ package org.hibernate.loader.plan.exec.query.spi;
  * @author Steve Ebersole
  */
 public interface NamedParameterContext {
+	/**
+	 * Returns the locations of all occurrences of the named parameter.
+	 *
+	 * @param name The named parameter.
+	 *
+	 * @return the array of locations.
+	 */
 	public int[] getNamedParameterLocations(String name);
 }

@@ -27,14 +27,10 @@
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm/orm_2_1.xsd"
                  version="2.1">
+    <!-- Intended for use in org.hibernate.jpa.test.convert.SimpleXmlOverriddenTest -->
+
     <package>org.hibernate.jpa.test.convert</package>
-    <entity class="org.hibernate.jpa.test.convert.SimpleXmlOverriddenTest$Sub">
-<!--
-        <attributes>
-            <basic name="it">
-                <convert disable-conversion="true" />
-            </basic>
-        </attributes>
--->
+    <entity class="org.hibernate.jpa.test.convert.SimpleXmlOverriddenTest$TheEntity2">
+        <convert attribute-name="it" disable-conversion="true"/>
     </entity>
 </entity-mappings>

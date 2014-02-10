@@ -3404,6 +3404,7 @@ public class Configuration implements Serializable {
 		}
 
 		private Boolean useNewGeneratorMappings;
+
 		@Override
 		public boolean useNewGeneratorMappings() {
 			if ( useNewGeneratorMappings == null ) {
@@ -3413,6 +3414,33 @@ public class Configuration implements Serializable {
 			}
 			return useNewGeneratorMappings;
 		}
+
+
+		private Boolean implicitDiscriminatorColumnForJoinedInheritance;
+
+		@Override
+		public boolean useImplicitDiscriminatorColumnForJoinedInheritance() {
+			if ( implicitDiscriminatorColumnForJoinedInheritance == null ) {
+				final String booleanName = getConfigurationProperties()
+						.getProperty( AvailableSettings.IMPLICIT_DISCRIMINATOR_COLUMNS_FOR_JOINED_SUBCLASS );
+				implicitDiscriminatorColumnForJoinedInheritance = Boolean.valueOf( booleanName );
+			}
+			return implicitDiscriminatorColumnForJoinedInheritance;
+		}
+
+
+		private Boolean ignoreExplicitDiscriminatorColumnForJoinedInheritance;
+
+		@Override
+		public boolean ignoreExplicitDiscriminatorColumnForJoinedInheritance() {
+			if ( ignoreExplicitDiscriminatorColumnForJoinedInheritance == null ) {
+				final String booleanName = getConfigurationProperties()
+						.getProperty( AvailableSettings.IGNORE_EXPLICIT_DISCRIMINATOR_COLUMNS_FOR_JOINED_SUBCLASS );
+				ignoreExplicitDiscriminatorColumnForJoinedInheritance = Boolean.valueOf( booleanName );
+			}
+			return ignoreExplicitDiscriminatorColumnForJoinedInheritance;
+		}
+
 
 		private Boolean useNationalizedCharacterData;
 

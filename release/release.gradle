@@ -27,8 +27,9 @@ task assembleDocumentation(type: Task, dependsOn: [rootProject.project( 'documen
     description = 'Assembles all documentation into the {buildDir}/documentation directory'
 
     doLast {
-        // copy docbook outputs into target/documentation (javadocs are already there).  this is used in
-        // building the dist bundles
+        // copy documentation outputs into target/documentation.
+        // 		* this is used in building the dist bundles
+		//		* it is also used as a base to build a staged directory for documentation upload
         copy {
             from "${rootProject.project( 'documentation' ).buildDir}/docbook/publish"
             into documentationDir
@@ -38,8 +39,8 @@ task assembleDocumentation(type: Task, dependsOn: [rootProject.project( 'documen
             into documentationDir
         }
         copy {
-            from "${rootProject.project( 'documentation' ).buildDir}/javadoc"
-            into documentationDir
+            from "${rootProject.project( 'documentation' ).buildDir}/javadocs"
+            into "${documentationDir}/javadocs"
         }
     }
 }
@@ -253,8 +254,12 @@ task uploadReleaseArtifacts(type: Task, dependsOn: [uploadDocumentation, uploadB
 
 task announce(type: Task) { doFirst { println 'Hear ye, hear ye...' } }
 
-task release(type: Task, dependsOn: [cleanAllSubProjects, buildAllSubProjects, uploadReleaseArtifacts, announce]) {
-    description = "Coordinates all release tasks"
+task release(type: Task, dependsOn: [buildAllSubProjects, uploadReleaseArtifacts, announce]) {
+    description = "Coordinates all release tasks; does not perform a clean first (see cleanAndRelease task)"
+}
+
+task cleanAndRelease(type: Task, dependsOn: [cleanAllSubProjects, release]) {
+	description = "Coordinates all release tasks *including clean*"
 }
 
 
