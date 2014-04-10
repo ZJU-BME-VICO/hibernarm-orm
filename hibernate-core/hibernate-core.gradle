@@ -16,16 +16,16 @@ dependencies {
     compile( libraries.antlr )
     compile( libraries.jandex )
     
-    compile 'openehr:measure-serv:1.0.5.2'
-    compile 'openehr:mini-termserv:1.0.5.2'
-    compile 'openehr:openehr-rm-core:1.0.5.2'
-    compile 'openehr:openehr-rm-domain:1.0.5.2'
-    compile 'openehr:openehr-aom:1.0.5.2'
-    compile 'openehr:openehr-ap:1.0.5.2'
-    compile 'openehr:adl-parser:1.0.5.2'
-    compile 'openehr:rm-builder:1.0.5.2'
-    compile 'openehr:dadl-binding:1.0.5.2'
-    compile 'openehr:rm-skeleton:1.0.5.2'
+    compile( libraries.measureserv )
+    compile( libraries.minitermserv )
+    compile( libraries.openehrrmcore )
+    compile( libraries.openehrrmdomain )
+    compile( libraries.openehraom )
+    compile( libraries.openehrap )
+    compile( libraries.adlparser )
+    compile( libraries.rmbuilder )
+    compile( libraries.dadlbinding )
+    compile( libraries.rmskeleton )
 
     antlr( libraries.antlr )
 
